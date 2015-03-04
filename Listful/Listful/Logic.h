@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <fstream>
 
+
 class Logic {
 public:
 	Logic(void);
