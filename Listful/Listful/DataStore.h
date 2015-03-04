@@ -39,6 +39,10 @@ public:
 	int checkCommand();
 	void executeCommand();
 
+	vector <Entries>  DataStore::getDataBase() {
+	return dataBase;
+}
+
 };
 
 #endif

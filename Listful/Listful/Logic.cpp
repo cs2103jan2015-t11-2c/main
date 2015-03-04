@@ -1,15 +1,16 @@
 #include "Logic.h"
 #include "DataStore.h"
 
+	DataStore data;
 
 Logic::Logic(void) {
-	DataStore gerald;
+	DataStore data;
 }
 
 void Logic::addContent(std::string &fileName, std::string readInLine) {
 	char choice;
 
-	if (!file.empty() && isDuplicate(readInLine)) {
+	if (!data.getDataBase().empty() && isDuplicate(readInLine)) {
 			
 		//Gives user a choice to add the text in the file despite the duplicate
 		std::cin >> choice;
@@ -19,7 +20,7 @@ void Logic::addContent(std::string &fileName, std::string readInLine) {
 		}
 	}
 
-	file.push_back(readInLine);
+	data.getDataBase().push_back(readInLine);
 	updateText(fileName);
 	sprintf_s(messageToUser, MESSAGE_ADD.c_str(), fileName.c_str(), readInLine.c_str());
 	output(messageToUser);
@@ -41,7 +42,7 @@ bool Logic::isDuplicate(std::string &readInLine) {
 
 void Logic::deleteContent(std::string &fileName) {
 	//To check if the index number the user wants to delete is valid
-	if (contentIndex > file.size()) {
+	if (contentIndex > data.getDataBase().size()) {
 		output(ERROR_DELETE);
 		return;
 	}
@@ -50,13 +51,13 @@ void Logic::deleteContent(std::string &fileName) {
 		return;
 	}
 	
-	std::string text = file[contentIndex - 1];
-	file.erase(file.begin() + contentIndex - 1);
+	std::string text = data.getDataBase()[contentIndex - 1];
+	data.getDataBase().erase(data.getDataBase().begin() + contentIndex - 1);
 	updateText(fileName);
 	sprintf_s(messageToUser, MESSAGE_DELETE.c_str(), fileName.c_str(), text.c_str());
 	output(messageToUser);
 
-	if (file.empty()) {
+	if (data.getDataBase().empty()) {
 		sprintf_s(messageToUser, MESSAGE_CLEAR.c_str(), fileName.c_str());
 		output(messageToUser);
 	}
@@ -67,7 +68,7 @@ void Logic::clearFile(std::string &fileName) {
 		return;
 	}
 
-	file.clear();
+	data.getDataBase().clear();
 	updateText(fileName);
 	sprintf_s(messageToUser, MESSAGE_CLEAR.c_str(), fileName.c_str());
 	output(messageToUser);
@@ -179,7 +180,7 @@ void Logic::switchPlaces(int &iter, int &start) {
 			tempItems.push_back(file[count]);
 		}
 	}
-	file = tempItems;
+	data.getDataBase() = tempItems;
 }
 
 //Displays all contents that contains the keywords
