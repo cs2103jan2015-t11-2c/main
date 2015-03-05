@@ -64,13 +64,14 @@
   <ItemGroup>
     <ClInclude Include="DataStore.h" />
     <ClInclude Include="Logic.h" />
-    <ClInclude Include="UI.h" />
+    <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataStore.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="Listful.cpp" />
-    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UI_Main.cpp" />
+    <ClCompile Include="UserInterface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

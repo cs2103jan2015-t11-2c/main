@@ -21,7 +21,7 @@
     <ClInclude Include="DataStore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
+    <ClInclude Include="UserInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,10 +32,13 @@
     <ClCompile Include="DataStore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
+    <ClCompile Include="Listful.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Listful.cpp">
+    <ClCompile Include="UI_Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
