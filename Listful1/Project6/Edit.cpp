@@ -1,5 +1,6 @@
 #include "Edit.h"
 
+//to determine the category to edit
 int Edit::determineCategory(std::string category) {
 	if (category == "date") {
 		return subCategory::DATE;
@@ -20,7 +21,8 @@ int Edit::determineCategory(std::string category) {
 		return subCategory::INVALID;
 	}
 }
-	
+
+//to edit the content
 void Edit::editContent(std::string &fileName, DataStore &data, std::string command, int index, std::string newEntry, int newNum1, int newNum2, int newNum3) {
 	
 	if (data.getDataBaseSize() == 0) {

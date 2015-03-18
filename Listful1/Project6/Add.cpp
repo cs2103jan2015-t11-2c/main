@@ -1,5 +1,5 @@
 #include "Add.h"
-
+//to add content
 void Add::addContent(std::string &fileName, int &index, std::string subject, int startTime, int endTime, int day, int month, int year, std::string impt, std::string category, DataStore &data) {
 	char choice;
 	data.entryType(index, subject, startTime, endTime, day, month, year, impt, category); 
@@ -22,6 +22,7 @@ void Add::addContent(std::string &fileName, int &index, std::string subject, int
 	//output(messageToUser);
 }
 
+//to check if the field added has the same date
 bool Add::isSameDate(DataStore &data, int index, int day, int month, int year) {
 	if (data.getDataBase()[index].year == year && data.getDataBase()[index].month == month && data.getDataBase()[index].day == day) {
 		return true;
@@ -30,6 +31,7 @@ bool Add::isSameDate(DataStore &data, int index, int day, int month, int year) {
 	return false;
 }
 
+//to check if the time added has the same time
 bool Add::isSameTime(DataStore &data, int index, int startTime, int endTime) {
 	if ((data.getDataBase()[index].startTime <= startTime) && (data.getDataBase()[index].endTime >= startTime)) {
 		return true;
@@ -41,6 +43,7 @@ bool Add::isSameTime(DataStore &data, int index, int startTime, int endTime) {
 	return false;
 }
 
+// check for clashes in the current database
 bool Add::isDuplicate(DataStore &data) {
 	
 	//Once a clash is found there is no need to search for further clashes since our program informs the user of any initial clashes already

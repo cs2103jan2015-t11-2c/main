@@ -1,5 +1,6 @@
 #include "Display.h"
 
+//to determine the type of display method
 int Display::determineCategory(std::string command) {
 	if (command == "day") {
 		return subDateCategory::DAY;
@@ -12,6 +13,7 @@ int Display::determineCategory(std::string command) {
 	}
 }
 	
+//to display the content
 void Display::displayContent(std::string &fileName, DataStore &data, std::string command, int date) {
 	if (data.getDataBaseSize() == 0) {
 		std::cout << "File is currently empty.\n";

@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <sstream>
 #include <fstream>
+#include <assert.h>
 
 class DataStore {
 
@@ -59,6 +60,10 @@ public:
 
 	void clearDataBase() {
 		dataBase.clear();
+	}
+
+	std::string getSubject(int index){
+		return dataBase[index].subject;
 	}
 
 	void updateDataBase();

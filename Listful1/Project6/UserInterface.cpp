@@ -1,4 +1,5 @@
 #include "UserInterface.h"
+#include <assert.h>
 
 const std::string UserInterface::MESSAGE_WELCOME = "*** Welcome to Listful ***";
 const std::string UserInterface::MESSAGE_ACTION = "Please choose an action: ";
@@ -74,6 +75,9 @@ void UserInterface::runProgram(char *argv[]) {
 
 	userAction();
 	std::cin >> command;
+
+	assert(!command.empty());
+
 	std::string fileName = argv[1];
 	fileSize = 1;
 

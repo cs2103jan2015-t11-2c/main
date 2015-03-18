@@ -1,5 +1,6 @@
 #include "Delete.h"
 
+//to get the index of the entry 
 int Delete::getContentIndex(DataStore &data, std::string subject) {
 	std::size_t found;
 	
@@ -11,6 +12,7 @@ int Delete::getContentIndex(DataStore &data, std::string subject) {
 	}
 }
 
+//to delete the content
 void Delete::deleteContent(std::string &fileName, DataStore &data, int index) {
 	std::string emptyStr;
 	emptyStr.clear();

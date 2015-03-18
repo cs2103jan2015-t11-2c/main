@@ -1,9 +1,7 @@
 #include "Parser.h"
 
+//determine the command entered
 void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
-	std::string logInput;
-	Log log;
-	
 	switch (command){
 			case 1:{
 				getline(std::cin, userInput);
@@ -17,9 +15,6 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				std::string cat =  userCat();
 
 				add.addContent(fileName, fileSize, sub, ST, ET, DD, MM, YYYY, p, cat, data);
-				logInput = "User added " + sub;
-				log.log(logInput);
-
 				fileSize++;
 				break;
 				   }
@@ -56,8 +51,11 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				}
 				break;
 				}
-			case 5:
+			case 5:{
+				std::cin >>command;
+					sort.sort(fileName, data, command);
 				break;
+				}
 			case 6: {
 					deleteFile.clearFile(fileName, data);
 				break;
@@ -69,11 +67,13 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 		}
 }
 
+//to separate the user content
 std::string Parser::userContent(){
 	std::string userContent = userInput.substr(0, userInput.find_first_of(".,?!"));
 	return userContent;
 }
 
+//to check if date is found
 bool Parser::isDate() {
 	size_t found;
 
@@ -85,6 +85,7 @@ bool Parser::isDate() {
 	return false;
 }
 
+// to check time is found
 bool Parser::isTime() {
 	size_t found;
 
@@ -96,36 +97,42 @@ bool Parser::isTime() {
 	return false;
 }
 
+//to get the field to be deleted
 int Parser::getDelete() {
 	int deleteStr;
 	std::cin >> deleteStr;
 	return deleteStr;
 }
 
+//to get the command for the type of display
 std::string Parser::getDisplay() {
 	std::string displayStr;
 	std::cin >> displayStr;
 	return displayStr;
 }
 
+//to get the category to edit
 std::string Parser::getEditCat() {
 	std::string cat;
 	std::cin >> cat;
 	return cat;
 }
 
+//to get the day to be edited and to convert the string to integer form
 int Parser::editDay(){
 	std::string userDateDay = userInput.substr(0, 2);
 	int dateDay = atoi(userDateDay.c_str());
 	return dateDay;
 }
 
+//to get the month to be edited and to convert the string to integer form
 int Parser::editMonth(){
 	std::string userDateMonth = userInput.substr(3, 2);
 	int dateMonth = atoi(userDateMonth.c_str());
 	return dateMonth;
 }
 
+//to get the year to be edited and to convert the string to integer form
 int Parser::editYear(){
 	std::string userDateYear = userInput.substr(6, 4);
 	int dateYear = atoi(userDateYear.c_str());
@@ -133,6 +140,7 @@ int Parser::editYear(){
 	return dateYear;
 }
 
+//to get the start time to be edited and to convert the string to integer form
 int Parser::editSTime(){
 	std::string userStartTime;
 	int startTime;
@@ -143,6 +151,7 @@ int Parser::editSTime(){
 	return startTime;
 }
 
+//to get the end time to be edited and to convert the string to integer form
 int Parser::editETime(){
 	std::string userEndTime;
 	int endTime;
@@ -153,36 +162,42 @@ int Parser::editETime(){
 	return endTime;
 }
 
+//to parse the user date
 std::string Parser::userDate(){
 	std::string userDate = userInput.substr(userInput.find_first_of(".,?!")+2,10);
 
 	return userDate;
 }
 
+//to parse the date and convert it to integer form
 int Parser::dateDay(){
 	std::string userDateDay = userDate().substr(0, 2);
 	int dateDay = atoi(userDateDay.c_str());
 	return dateDay;
 }
 
+//to parse the month and convert it to integer form
 int Parser::dateMonth(){
 	std::string userDateMonth = userDate().substr(3, 2);
 	int dateMonth = atoi(userDateMonth.c_str());
 	return dateMonth;
 }
 
+//to parse the year and convert it to integer form
 int Parser::dateYear(){
 	std::string userDateYear = userDate().substr(6, 4);
 	int dateYear = atoi(userDateYear.c_str());
 	return dateYear;
 }
 
+//to parse the time
 std::string Parser::userTime(){
 	std::string userTime = userInput.substr(userInput.find_first_of(".,?!")+14, 9);
 
 	return userTime;
 }
 
+//to determine the start time of the event
 int Parser::startTime(){
 	std::string userStartTime;
 	int startTime;
@@ -192,6 +207,7 @@ int Parser::startTime(){
 	return startTime;
 }
 
+//to determine the end time of the event
 int Parser::endTime(){
 	std::string userEndTime;
 	int endTime;
@@ -201,12 +217,14 @@ int Parser::endTime(){
 	return endTime;
 }
 
+//to determine the category
 std::string Parser::userCat(){
 	std::string userCat = userInput.substr(userInput.find_last_of(" ")+1, userInput.size());
 
 	return userCat;
 }
 
+// to determine priority
 std::string Parser::userPriority(){
 //	int lengthPriority = (userInput.size() - userInput.find_first_of(".,?!")-25) - (userInput.size()- userInput.find_last_of(","));
 	int a = userInput.size() - userInput.find_first_of(".,?!")-25;

@@ -1,5 +1,6 @@
 #include "DataStore.h"
 
+//to count the number of digits in the datastore
 int DataStore::countDigit(int &num) {
 	int count = 0;
 	int tNum = num;
@@ -11,14 +12,17 @@ int DataStore::countDigit(int &num) {
 	return count;
 }
 
+//to update the database
 void DataStore::updateDataBase() {
 	dataBase.push_back(tempEntry);
 }
 
+//to delete the database
 void DataStore::deleteDataBase(std::vector <Entries>::iterator iter) {
 	dataBase.erase(iter);
 }
 
+//to access the private data string in the datastore
 std::string DataStore::getDataString(int index) {
 	std::ostringstream dataString;
 
@@ -57,7 +61,7 @@ std::string DataStore::getDataString(int index) {
 }
 
 
-
+//'Auto Save the file'
 void DataStore::updateFile(std::string &fileName) {
 	std::ofstream writeFile;
 
@@ -68,6 +72,7 @@ void DataStore::updateFile(std::string &fileName) {
 	writeFile.close();
 }
 
+//to store the parsed information into a temporary entry object to store into the vector
 void DataStore::entryType(int &index, std::string &subject, int &startTime, int &endTime, int &day, int &month, int &year, std::string &impt, std::string &category) {
 	tempEntry.index = index;
 	tempEntry.subject = subject;
