@@ -1,5 +1,7 @@
 #include "UserInterface.h"
+#include <locale>
 #include <assert.h>
+#include <ctype.h>
 
 const std::string UserInterface::MESSAGE_WELCOME = "*** Welcome to Listful ***";
 const std::string UserInterface::MESSAGE_ACTION = "Please choose an action: ";
@@ -62,7 +64,73 @@ void UserInterface::userAction() {
 	std::cout << "(7) Exit \n" << std::endl;
 }
 
+void UserInterface::homeScreen() {
+	printStarRow();
+	centralizeOutput(MESSAGE_WELCOME);
+	printStarRow();
+
+	addQuote();
+	centralizeOutput(quoteOfTheDay());
+	std::cout << std::endl;
+	
+	centralizeOutput(MESSAGE_ACTION);
+	std::cout << std::endl;
+}
+
 void UserInterface::runProgram(char *argv[]) {
+	userAction();
+	std::string command;
+	Parser parse;
+	Log log;
+	log.clear();
+
+	std::string fileName = argv[1];
+	fileSize = 1;
+	
+	std::cin >> command;
+
+	bool isAlphaCommand;
+
+	if(isAlphaCommand){
+		while (command != "EXIT") {
+			std::string input;
+			getline(std::cin,input);
+			parse.determineCommandAlpha(input,parse.userCommandAlpha(command));
+			log.log("moving to parser");
+
+			userAction();
+			std::cin >> command;
+		}
+	}
+	else {
+		while (command != "7") {				
+		std::string input;
+		getline(std::cin,input);
+		parse.determineCommandNum(input, parse.userCommandNum(command));
+		log.log("moving to parser");
+
+		userAction();
+		std::cin >> command;
+		}
+	}
+
+}
+
+bool isAlphaCommand(std::string command){
+	locale locale;
+	bool isAllAlpha = false;
+	for (std::string::iterator i=command.begin(); i != command.size(); i++){
+		if(isalpha(*i, locale)){
+			isAllAlpha = true;
+		}
+		else {
+			isAllAlpha = false;
+		}
+	}
+	return isAllAlpha;
+}
+
+/*void UserInterface::runProgram(char *argv[]) {
 	DataStore data;
 	Parser parse;
 	Add add;
@@ -94,20 +162,7 @@ void UserInterface::runProgram(char *argv[]) {
 		userAction();
 		std::cin >> command;
 	}
-}
-
-void UserInterface::homeScreen() {
-	printStarRow();
-	centralizeOutput(MESSAGE_WELCOME);
-	printStarRow();
-
-	addQuote();
-	centralizeOutput(quoteOfTheDay());
-	std::cout << std::endl;
-	
-	centralizeOutput(MESSAGE_ACTION);
-	std::cout << std::endl;
-}
+}*/
 
 /*void UserInterface::checkFileCreated(std::string &fileName) {
 	sprintf_s(messageToUser, MESSAGE_WELCOME.c_str(), fileName.c_str());
