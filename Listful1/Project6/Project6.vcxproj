@@ -71,7 +71,6 @@
     <ClInclude Include="Edit.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Parser.h" />
-    <ClInclude Include="Sort.h" />
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +83,6 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="MAIN.cpp" />
-    <ClCompile Include="Sort.cpp" />
     <ClCompile Include="UserInterface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -24,7 +24,8 @@ void Delete::deleteContent(std::string &fileName, DataStore &data, int index) {
 
 	//To check if the index number the user wants to delete is valid
 	if (index != 0 && index > data.getDataBaseSize()) {
-		std::cout << "Index of entry to delete is invalid.\n";
+		throw "Index of entry to delete is invalid.\n";
+		//std::cout << "Index of entry to delete is invalid.\n";
 		return;
 	}
 	

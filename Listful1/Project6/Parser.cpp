@@ -25,7 +25,12 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				   }
 			case 3:{
 				int deleteIndex = getDelete();
-				remove.deleteContent(fileName, data, deleteIndex);
+				try{
+					remove.deleteContent(fileName, data, deleteIndex);
+				}
+				catch (const char *msg){
+					cerr << msg << std::endl;
+				}
 				fileSize--;
 				break;
 				   }
@@ -53,7 +58,7 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				}
 			case 5:{
 				std::cin >>command;
-					sort.sort(fileName, data, command);
+				//	sort.sort(fileName, data, command);
 				break;
 				}
 			case 6: {

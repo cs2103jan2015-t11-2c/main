@@ -1,7 +1,3 @@
 Log sequence: 
-User added  meeting
-moving to parser
-moving to parser
-User added  1st anniversary :)
 moving to parser
 moving to parser
