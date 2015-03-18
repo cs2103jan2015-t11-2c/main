@@ -139,24 +139,25 @@ void UserInterface::runProgram(char *argv[]) {
 	Edit edit;
 	Clear clearFile;
 	Sort sort;
+	Search search;
 	Log log;
 	log.clear();
 
 	userAction();
 	std::cin >> command;
 	
-	assert( command>0 && command <=7);
+	assert( command>0 && command <=8);
 
 	std::string fileName = argv[1];
 	fileSize = 1;
 
 	while (command != 7) {				
-		while (command < 1 || command > 7) {
+		while (command < 1 || command > 8) {
 			std::cout << "Invalid command.\n";
 			std::cin >> command;
 		}
 
-		parse.determineCommand(data, fileName, command, fileSize, add, remove, display, edit, clearFile, sort);
+		parse.determineCommand(data, fileName, command, fileSize, add, remove, display, edit, clearFile, sort, search);
 		log.log("moving to parser");
 
 		userAction();

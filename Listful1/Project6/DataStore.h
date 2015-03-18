@@ -54,6 +54,10 @@ public:
 		return dataBase;
 	}
 
+	std::vector <Entries> getTempDataBase() {
+		return tempDataBase;
+	}
+
 	int getDataBaseSize() {
 		return dataBase.size();
 	}
@@ -78,6 +82,7 @@ public:
 	int getStartTime(int index){
 		return dataBase[index].startTime;
 	}
+	std::string printTempDataBase();
 	void clearTempDataBase();
 	void switchDataBase();
 	void updateTempDataBase( Entries );

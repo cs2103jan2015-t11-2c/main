@@ -1,32 +1,39 @@
 #include "Search.h"
 
 //Displays all contents that contains the keywords
-void Search::searchFile(std::string &fileName, std::string readInLine) {
+void Search::searchFile(std::string &fileName, DataStore &data, std::string readInLine) {
 	
-	if (foundContent(readInLine)) {
-		printContent(fileName);
+	if (foundContent(data, readInLine)) {
+		printSearchedContent(data);
 		return;
 	}
 
 }
 
-bool Search::foundContent(std::string &readInLine) {
-	std::vector <std::string>::iterator iter;
+bool Search::foundContent(DataStore &data, std::string &readInLine) {
+	
 	size_t found;
-	tempItems.clear();
+	data.clearTempDataBase();
 
-	for (iter = file.begin(); iter != file.end(); iter++) {
-		std::string content = *iter;
+	for (int index = 0; index < data.getDataBaseSize(); index++) {
+		std::string content = data.getSubject(index);
 		found = content.find(readInLine);
 		
 		if (found != std::string::npos) {
-			tempItems.push_back(content);
+			data.updateTempDataBase(data.getDataBase()[index]); 
 		}
 	}
 
-	if (tempItems.empty()) {
+	if (data.getTempDataBase().empty()) {
 		return false;
 	}
 	
 	return true;
+}
+
+void Search::printSearchedContent(DataStore &data){
+
+	std::cout << "Results: " << std::endl;
+	std::cout << data.printTempDataBase() << std::endl;
+	
 }

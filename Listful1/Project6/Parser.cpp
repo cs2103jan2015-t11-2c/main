@@ -104,7 +104,7 @@ void Parser::determineCommandNum(std::string input,int commandNumber){
 
 //determine the command entered and run the program
 */
-void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile, Sort &sort){
+void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile, Sort &sort, Search &search){
 
 //void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
 
@@ -178,6 +178,12 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				}
 			case 6: {
 					deleteFile.clearFile(fileName, data);
+				break;
+				}
+			case 8: {
+				string keyword;
+				std::cin>>keyword;
+					search.searchFile(fileName, data, keyword);
 				break;
 				}
 			default:

@@ -83,7 +83,43 @@ void DataStore::updateFile(std::string &fileName) {
 	}
 	writeFile.close();
 }
+//print temporary data base
+std::string DataStore::printTempDataBase(){
+	std::ostringstream print;
 
+	for(int index = 0; index < tempDataBase.size(); index++){
+	int sTime = countDigit(tempDataBase[index].startTime);
+	int eTime = countDigit(tempDataBase[index].endTime);
+	int nDay = countDigit(tempDataBase[index].day);
+	int nMonth = countDigit(tempDataBase[index].month);
+	int nYear = countDigit(tempDataBase[index].year);
+
+	print << tempDataBase[index].index << ". " << tempDataBase[index].subject << "\nTime: ";
+	
+	while (sTime < 4) {
+		print << '0';
+		sTime++;
+	}
+	print << tempDataBase[index].startTime << '-';
+
+	while (eTime < 4) {
+		print << '0';
+		eTime++;
+	}
+	print << tempDataBase[index].endTime << "\t\tDate: ";
+	
+	if (nDay < 2) {
+		print << '0';
+	}
+	print << tempDataBase[index].day << '/';
+	
+	if (nMonth < 2) {
+		print << '0';
+	}
+	print << tempDataBase[index].month << '/' << tempDataBase[index].year << "\tPriority: " << tempDataBase[index].impt << "\tCategory: " << tempDataBase[index].category << '\n';
+	}
+	return print.str();
+}
 //to store the parsed information into a temporary entry object to store into the vector
 void DataStore::entryType(int &index, std::string &subject, int &startTime, int &endTime, int &day, int &month, int &year, std::string &impt, std::string &category) {
 	tempEntry.index = index;

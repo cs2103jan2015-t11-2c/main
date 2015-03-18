@@ -7,8 +7,9 @@ class Search
 {
 public:
 	Search(){};
-	void searchFile(std::string &fileName, std::string readInLine);
-	bool foundContent(std::string &readInLine);
+	void searchFile(std::string &fileName, DataStore &, std::string readInLine);
+	bool foundContent(DataStore &, std::string &readInLine);
+	void printSearchedContent(DataStore &data);
 };
 #endif
 
