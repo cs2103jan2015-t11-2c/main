@@ -77,7 +77,7 @@ void UserInterface::homeScreen() {
 	std::cout << std::endl;
 }
 
-void UserInterface::runProgram(char *argv[]) {
+/*void UserInterface::runProgram(char *argv[]) {
 	userAction();
 	std::string command;
 	Parser parse;
@@ -128,9 +128,9 @@ bool isAlphaCommand(std::string command){
 		}
 	}
 	return isAllAlpha;
-}
+}*/
 
-/*void UserInterface::runProgram(char *argv[]) {
+void UserInterface::runProgram(char *argv[]) {
 	DataStore data;
 	Parser parse;
 	Add add;
@@ -162,7 +162,7 @@ bool isAlphaCommand(std::string command){
 		userAction();
 		std::cin >> command;
 	}
-}*/
+}
 
 /*void UserInterface::checkFileCreated(std::string &fileName) {
 	sprintf_s(messageToUser, MESSAGE_WELCOME.c_str(), fileName.c_str());

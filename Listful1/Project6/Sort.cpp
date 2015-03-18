@@ -27,17 +27,19 @@ void Sort::Switch(int &index, int &start, DataStore &data){
 	
 	for(int i = 0; i <data.getDataBaseSize(); i++){
 	if (i<start){
-		data.getTempDataBase().push_back(data.getDataBase()[i]); 
+		data.updateTempDataBase(data.getDataBase()[i]); 
 		}
 	else if(i == start){
-		data.getTempDataBase().push_back(data.getDataBase()[index]);
-		data.getTempDataBase().push_back(data.getDataBase()[i]); 
+		data.updateTempDataBase(data.getDataBase()[index]); 
+		data.updateTempDataBase(data.getDataBase()[i]); 
 		}
 	else if(i != index){
-		data.getTempDataBase().push_back(data.getDataBase()[i]);
+		data.updateTempDataBase(data.getDataBase()[i]); 
 		}
 	}
-	data.getDataBase() = data.getTempDataBase();
+
+	data.switchDataBase();
+	data.clearTempDataBase();
 };
 //to sort content
 void Sort::sortContent(std::string &fileName, DataStore &data, std::string field){
@@ -54,17 +56,27 @@ void Sort::sortContent(std::string &fileName, DataStore &data, std::string field
 					}
 				}	
 			break;
-
-		case TIME:
-			
-			break;
 		
 		case DATE:
-			
-			break;
-		
-		case IMPT:
-			
+			for(int index = 1; index < data.getDataBaseSize(); index++){
+				for (int start = 0; start < index; start++){
+					if (data.getYear(start) > data.getYear(index)){
+						Switch(index,start,data);
+						}
+					else if (data.getYear(start) == data.getYear(index))
+						if (data.getMonth(start) > data.getMonth(index)){
+							Switch(index,start,data);
+							}
+						else if (data.getMonth(start) == data.getMonth(index))
+							if (data.getDay(start) > data.getDay(index)){
+								Switch(index,start,data);
+								}
+							else if (data.getDay(start) == data.getDay(index))
+								if (data.getStartTime(start) > data.getStartTime(index)){
+									Switch(index,start,data);
+									}
+					}	
+				}	
 			break;
 
 		case CATEGORY:

@@ -53,9 +53,6 @@ public:
 	std::vector <Entries> getDataBase() {
 		return dataBase;
 	}
-	std::vector <Entries> getTempDataBase() {
-		return tempDataBase;
-	}
 
 	int getDataBaseSize() {
 		return dataBase.size();
@@ -72,7 +69,18 @@ public:
 	int getDay(int index){
 		return dataBase[index].day;
 	}
-
+	int getMonth(int index){
+		return dataBase[index].month;
+	}
+	int getYear(int index){
+		return dataBase[index].year;
+	}
+	int getStartTime(int index){
+		return dataBase[index].startTime;
+	}
+	void clearTempDataBase();
+	void switchDataBase();
+	void updateTempDataBase( Entries );
 	void updateDataBase();
 	void deleteDataBase(std::vector <Entries>::iterator);
 	void inputCommand();

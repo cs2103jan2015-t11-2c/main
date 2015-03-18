@@ -17,6 +17,18 @@ void DataStore::updateDataBase() {
 	dataBase.push_back(tempEntry);
 }
 
+//to update the database
+void DataStore::updateTempDataBase(Entries entry) {
+	tempDataBase.push_back(entry);
+}
+
+void DataStore::switchDataBase(){
+	dataBase = tempDataBase;
+}
+void DataStore::clearTempDataBase(){
+	tempDataBase.clear();
+}
+
 //to delete the database
 void DataStore::deleteDataBase(std::vector <Entries>::iterator iter) {
 	dataBase.erase(iter);

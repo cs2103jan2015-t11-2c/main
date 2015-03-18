@@ -1,5 +1,5 @@
 #include "Parser.h"
-
+/*
 Parser::Choice Parser::userCommandAlpha(std::string command){
 	Choice enumCommand;	
 	if (command == "add"){
@@ -103,11 +103,11 @@ void Parser::determineCommandNum(std::string input,int commandNumber){
 }
 
 //determine the command entered and run the program
-<<<<<<< HEAD
+*/
 void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile, Sort &sort){
-=======
-/*void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
->>>>>>> 4cf39fe5503bf7a8da74137fa9628ff0060487a6
+
+//void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
+
 	switch (command){
 			case 1:{
 				getline(std::cin, userInput);
@@ -185,7 +185,7 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				std::cin >> command;
 				break;
 		}
-}*/
+}
 
 //to separate the user content
 std::string Parser::userContent(){
