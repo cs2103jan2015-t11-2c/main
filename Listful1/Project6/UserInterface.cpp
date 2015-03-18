@@ -69,13 +69,14 @@ void UserInterface::runProgram(char *argv[]) {
 	Delete remove;
 	Edit edit;
 	Clear clearFile;
-
+	Log log;
+	log.clear();
 
 	userAction();
 	std::cin >> command;
 	std::string fileName = argv[1];
 	fileSize = 1;
-	
+
 	while (command != 7) {				
 		while (command < 1 || command > 7) {
 			std::cout << "Invalid command.\n";
@@ -83,6 +84,7 @@ void UserInterface::runProgram(char *argv[]) {
 		}
 
 		parse.determineCommand(data, fileName, command, fileSize, add, remove, display, edit, clearFile);
+		log.log("moving to parser");
 
 		userAction();
 		std::cin >> command;

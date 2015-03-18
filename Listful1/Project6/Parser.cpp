@@ -1,6 +1,9 @@
 #include "Parser.h"
 
 void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
+	std::string logInput;
+	Log log;
+	
 	switch (command){
 			case 1:{
 				getline(std::cin, userInput);
@@ -14,6 +17,9 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				std::string cat =  userCat();
 
 				add.addContent(fileName, fileSize, sub, ST, ET, DD, MM, YYYY, p, cat, data);
+				logInput = "User added " + sub;
+				log.log(logInput);
+
 				fileSize++;
 				break;
 				   }

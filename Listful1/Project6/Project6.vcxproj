@@ -69,6 +69,7 @@
     <ClInclude Include="Delete.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Edit.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
@@ -79,6 +80,7 @@
     <ClCompile Include="Delete.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Edit.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="UserInterface.cpp" />
