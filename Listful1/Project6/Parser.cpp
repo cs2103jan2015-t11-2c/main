@@ -1,7 +1,109 @@
 #include "Parser.h"
 
+Parser::Choice Parser::userCommandAlpha(std::string command){
+	Choice enumCommand;	
+	if (command == "add"){
+		enumCommand = ADD;
+	}
+	else if (command == "display"){
+		enumCommand = DISPLAY;
+	}
+	else if (command == "delete"){
+		enumCommand = DELETE;
+	}
+	else if (command == "edit"){
+		enumCommand = EDIT;
+	}
+	else if (command == "search"){
+		enumCommand = SEARCH;
+	}
+	else if (command == "clear"){
+		enumCommand = CLEAR;
+	}
+	else if (command == "exit"){
+		enumCommand = EXIT;
+	}
+	return enumCommand;
+}
+
+int Parser::userCommandNum(std::string command){
+	int commandNumber = atoi(command.c_str());
+	return commandNumber;
+}
+
+
+void Parser::determineCommandAlpha(std::string input, Parser::Choice enumCommand){
+	switch (enumCommand){
+			case ADD:{
+//				addFunction(input);		add function will take in user input as an entire string then break it up in add
+				break;
+				   }
+			case DISPLAY:{
+//				displayFunction(input);
+//				display function will take in user input (if any as user can just type display and 
+//				default will be to display tasks TODAY or something) as entire string then process it
+				break;
+				   }
+			case DELETE:{
+//				deleteFunction(input);		same idea
+				break;
+				   }
+			case EDIT:{
+//				editFunction(input)
+				break;
+				}
+			case SEARCH:{
+//				searchFunction(input)
+				break;
+				}
+			case CLEAR: {
+//				clearFunction();
+				break;
+				}
+			default:{
+				std::cout << "Invalid command.\n";
+				std::cin >> command;
+				break;
+				}
+		}
+}
+
+void Parser::determineCommandNum(std::string input,int commandNumber){
+	switch (commandNumber){
+			case 1:{
+//				addFunction(input);		add function will take in user input as an entire string then break it up in add
+				break;
+				   }
+			case 2:{
+//				displayFunction(input);
+//display function will take in user input (if any as user can just type display and default will be to display tasks TODAY or something) as entire string then process it
+				break;
+				   }
+			case 3:{
+//				deleteFunction(input);		same idea
+				break;
+				   }
+			case 4:{
+//				editFunction(input)
+				break;
+				}
+			case 5:{
+//				searchFunction(input)
+				break;
+				}
+			case 6: {
+//				clearFunction();
+				break;
+				}
+			default:
+				std::cout << "Invalid command.\n";
+				std::cin >> command;
+				break;
+		}
+}
+
 //determine the command entered and run the program
-void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
+/*void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
 	switch (command){
 			case 1:{
 				getline(std::cin, userInput);
@@ -78,7 +180,7 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				std::cin >> command;
 				break;
 		}
-}
+}*/
 
 //to separate the user content
 std::string Parser::userContent(){

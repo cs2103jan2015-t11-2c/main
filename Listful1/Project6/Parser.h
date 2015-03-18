@@ -25,7 +25,15 @@ class Parser {
 			return index;
 		};
 
-		void determineCommand(DataStore &, std::string, int, int &, Add &, Delete &, Display &, Edit &, Clear &);
+//		void determineCommand(DataStore &, std::string, int, int &, Add &, Delete &, Display &, Edit &, Clear &);
+		enum Choice {
+			ADD, DISPLAY, DELETE, EDIT, SEARCH, CLEAR, EXIT
+		};
+		
+		Parser::Choice userCommandAlpha(std::string command);
+		int userCommandNum(std::string command);
+		void determineCommandAlpha(std::string input, Parser::Choice enumCommand);
+		void determineCommandNum(std::string input, int commandNumber);
 
 		int getDelete();
 
