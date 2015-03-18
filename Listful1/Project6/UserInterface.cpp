@@ -70,6 +70,7 @@ void UserInterface::runProgram(char *argv[]) {
 	Delete remove;
 	Edit edit;
 	Clear clearFile;
+	Sort sort;
 	Log log;
 	log.clear();
 

@@ -15,7 +15,7 @@ public:
 	Sort() {};
 	int determineCategory(std::string);
 	void Switch(int &, int &, DataStore &);
-	void sort(std::string &, DataStore &, std::string);
+	void sortContent(std::string &, DataStore &, std::string);
 };
 
 #endif

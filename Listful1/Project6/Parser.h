@@ -7,6 +7,7 @@
 #include "Delete.h"
 #include "Display.h"
 #include "Edit.h"
+#include "Sort.h"
 #include "Log.h"
 
 class Parser {

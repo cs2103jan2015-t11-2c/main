@@ -42,7 +42,7 @@ void Sort::Switch(int &index, int &start, DataStore &data){
 	data.getDataBase() = temp.getDataBase();
 };
 //sorts memory
-void Sort::sort(std::string &fileName, DataStore &data, std::string command){
+void Sort::sortContent(std::string &fileName, DataStore &data, std::string command){
 	
 	category = determineCategory(command);
 	

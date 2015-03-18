@@ -1,11 +1,14 @@
 #include "Parser.h"
 
-//determine the command entered
+//determine the command entered and run the program
 void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
 	switch (command){
 			case 1:{
 				getline(std::cin, userInput);
 				std::string sub = userContent();
+				
+				assert(!userInput.empty());
+
 				int ST = startTime();
 				int ET = endTime();
 				int DD = dateDay();
@@ -20,11 +23,16 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				   }
 			case 2:{
 				std::string displayStr = getDisplay();
+
+				assert(!displayStr.empty());
+
 				display.displayContent(fileName, data, displayStr, 0);
 				break;
 				   }
 			case 3:{
 				int deleteIndex = getDelete();
+
+
 				try{
 					remove.deleteContent(fileName, data, deleteIndex);
 				}
@@ -58,7 +66,7 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				}
 			case 5:{
 				std::cin >>command;
-				//	sort.sort(fileName, data, command);
+				sort.sortContent(fileName, data, command);
 				break;
 				}
 			case 6: {
