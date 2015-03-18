@@ -26,7 +26,7 @@ private:
 	};
 
 	std::vector <Entries> dataBase;
-
+	std::vector <Entries> tempDataBase;
 //	std::ifstream readFile;
 
 	std::vector <Entries>::iterator dataIter;
@@ -53,6 +53,9 @@ public:
 	std::vector <Entries> getDataBase() {
 		return dataBase;
 	}
+	std::vector <Entries> getTempDataBase() {
+		return tempDataBase;
+	}
 
 	int getDataBaseSize() {
 		return dataBase.size();
@@ -64,6 +67,10 @@ public:
 
 	std::string getSubject(int index){
 		return dataBase[index].subject;
+	}
+
+	int getDay(int index){
+		return dataBase[index].day;
 	}
 
 	void updateDataBase();

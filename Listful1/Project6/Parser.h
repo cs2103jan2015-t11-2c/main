@@ -25,7 +25,7 @@ class Parser {
 			return index;
 		};
 
-		void determineCommand(DataStore &, std::string, int, int &, Add &, Delete &, Display &, Edit &, Clear &);
+		void determineCommand(DataStore &, std::string, int, int &, Add &, Delete &, Display &, Edit &, Clear &, Sort &);
 
 		int getDelete();
 

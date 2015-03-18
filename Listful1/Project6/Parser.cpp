@@ -1,7 +1,7 @@
 #include "Parser.h"
 
 //determine the command entered and run the program
-void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile){
+void Parser::determineCommand(DataStore &data, std::string fileName, int command, int &fileSize, Add &add, Delete &remove, Display &display, Edit &edit, Clear &deleteFile, Sort &sort){
 	switch (command){
 			case 1:{
 				getline(std::cin, userInput);
@@ -65,8 +65,9 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				break;
 				}
 			case 5:{
-				std::cin >>command;
-				sort.sortContent(fileName, data, command);
+				string field;
+				std::cin >>field;
+				sort.sortContent(fileName, data, field);
 				break;
 				}
 			case 6: {

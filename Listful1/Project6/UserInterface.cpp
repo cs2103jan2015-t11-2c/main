@@ -88,7 +88,7 @@ void UserInterface::runProgram(char *argv[]) {
 			std::cin >> command;
 		}
 
-		parse.determineCommand(data, fileName, command, fileSize, add, remove, display, edit, clearFile);
+		parse.determineCommand(data, fileName, command, fileSize, add, remove, display, edit, clearFile, sort);
 		log.log("moving to parser");
 
 		userAction();

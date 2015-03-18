@@ -22,29 +22,27 @@ int Sort::determineCategory(std::string category) {
 	}
 }
 
-//sorts memory
+//switches the structures
 void Sort::Switch(int &index, int &start, DataStore &data){
 	
-	DataStore temp;
-
 	for(int i = 0; i <data.getDataBaseSize(); i++){
 	if (i<start){
-		temp.getDataBase()[i] = data.getDataBase()[i]; 
+		data.getTempDataBase().push_back(data.getDataBase()[i]); 
 		}
 	else if(i == start){
-		temp.getDataBase()[i] = data.getDataBase()[index]; 
-		temp.getDataBase()[i+1] = data.getDataBase()[i]; //may have some problems
+		data.getTempDataBase().push_back(data.getDataBase()[index]);
+		data.getTempDataBase().push_back(data.getDataBase()[i]); 
 		}
 	else if(i != index){
-		temp.getDataBase()[i] = data.getDataBase()[i]; 
+		data.getTempDataBase().push_back(data.getDataBase()[i]);
 		}
 	}
-	data.getDataBase() = temp.getDataBase();
+	data.getDataBase() = data.getTempDataBase();
 };
-//sorts memory
-void Sort::sortContent(std::string &fileName, DataStore &data, std::string command){
+//to sort content
+void Sort::sortContent(std::string &fileName, DataStore &data, std::string field){
 	
-	category = determineCategory(command);
+	category = determineCategory(field);
 	
 	switch (category) {
 		case SUBJECT:
@@ -79,8 +77,6 @@ void Sort::sortContent(std::string &fileName, DataStore &data, std::string comma
 	}
 
 	
-		
-
 	std::cout << "Sorted" <<  std::endl;
 	std::cout << std::endl;
 };
