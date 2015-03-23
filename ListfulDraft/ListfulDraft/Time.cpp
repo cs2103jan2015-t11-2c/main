@@ -16,12 +16,12 @@ void Time::changeToLower(std::string &str) {
 
 //Convert to 24 hours format 
 //Assume that all are pm unless specified
-void Time::convertToTFH(std::string line, size_t foundAM, size_t foundAM2, size_t foundPM, size_t foundPM2, int count, int &num) {
+void Time::convertToTFH(size_t foundAM, size_t foundAM2, size_t foundPM, size_t foundPM2, int count, int &num) {
 	if ((foundAM != std::string::npos || foundAM2 != std::string::npos) && count <= 2 && num == 12) {
 		num = 0;
 	}
 	else if ((foundAM != std::string::npos || foundAM2 != std::string::npos) && count <= 2) {
-	num = num * 100;
+		num = num * 100;
 	}
 	else if ((foundPM != std::string::npos || foundPM2 != std::string::npos) && count <= 2) {
 		num = (num * 100) + 1200;
@@ -30,10 +30,9 @@ void Time::convertToTFH(std::string line, size_t foundAM, size_t foundAM2, size_
 		}
 	}
 	else if (foundPM != std::string::npos || foundPM2 != std::string::npos) {
-	num = num + 1200;
+		num = num + 1200;
 	}
 	else if (count <= 2) {
-		
 		num = (num * 100) + 1200;
 	}
 	else if (count < 4) {
@@ -72,11 +71,11 @@ void Time::updateStr(std::string &originalStr, std::string &line, size_t found) 
 	}
 }
 
-bool Time::checkRealTime (std::string &originalStr, std::string &line, int &i, int &count, int &num) {	
-	size_t foundAM = line.find("am");
-	size_t foundAM2 = line.find("a.m");
-	size_t foundPM = line.find("pm");
-	size_t foundPM2 = line.find("p.m");
+bool Time::checkRealTime (std::string &originalStr, std::string &line, int &i, int &count, int &num) {
+	size_t foundAM = line.find("am", i);
+	size_t foundAM2 = line.find("a.m", i);
+	size_t foundPM = line.find("pm", i);
+	size_t foundPM2 = line.find("p.m", i);
 	size_t space;
 	
 	if (count == 0 || count > 4) {
@@ -96,7 +95,7 @@ bool Time::checkRealTime (std::string &originalStr, std::string &line, int &i, i
 		return false;
 	}
 	else {
-		convertToTFH(line, foundAM, foundAM2, foundPM, foundPM2, count, num);
+		convertToTFH(foundAM, foundAM2, foundPM, foundPM2, count, num);
 		if (num == 2400) {
 			num = 0;
 		}
@@ -175,9 +174,13 @@ void Time::updateTime() {
 }
 
 void Time::checkStartEnd() {
+	std::cout << "checkSE" << std::endl;
 	//Assume that a to do task with time entered requires at most 6 hours to complete
 	if ((_endTime - _startTime) > 600 && (_endTime != 0)) {
 		_endTime = _endTime - 1200;
+	}
+	else if ((_endTime > _startTime) && (_startTime >= 1200)) {
+		_startTime = _startTime - 1200;
 	}
 }
 

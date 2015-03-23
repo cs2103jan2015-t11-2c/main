@@ -71,10 +71,9 @@ void Parser::separateWord(Classes listClass, DataStore data) {
 	size_t timeIndex = 0;
 
 	retrieveDate(listClass, data, dateIndex);
-	std::cout << _day << '/' << _month << '/' << _year << std::endl;
-	std::cout << "remain str: " << _information[dateIndex] << std::endl;
+	if (date) std::cout << "extracted date: " << _day << '/' << _month << '/' << _year << std::endl;
 	retrieveTime(listClass, data, timeIndex);
-	std::cout << _sTime << '-' << _eTime << std::endl;
+	if (time) std::cout << "extracted time: " << _sTime << '-' << _eTime << std::endl;
 	std::cout << "final " << timeIndex << std::endl;
 	std::cout << "remaining str: " << _information << std::endl;
 
@@ -102,7 +101,6 @@ void Parser::retrieveDate(Classes listClass, DataStore data, size_t &index) {
 			updateStr(dStr, start, end);
 		}
 		else {
-			std::cout << dStr << std::endl;
 			index = start;
 			joinStr(dStr, start);
 			_day = listClass.date.getDay();
@@ -137,7 +135,7 @@ void Parser::retrieveTime(Classes listClass, DataStore data, size_t &index) {
 		}
 
 		if (count == 2 && noOfWord <= 2) {
-			index = start;
+			index = space;
 			joinStr(tStr, space);
 			listClass.time.checkStartEnd();
 			_sTime = listClass.time.getStart();

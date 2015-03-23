@@ -12,10 +12,10 @@ public:
 	Time();
 	
 	void changeToLower(std::string &);
-	void convertToTFH(std::string, size_t, size_t, size_t, size_t, int, int &);
+	void convertToTFH(size_t, size_t, size_t, size_t, int, int &);
 	bool checkHourValid(int, int &);
 	void updateStr(std::string &, std::string &, size_t);
-	bool checkMinValid(int &, int); 
+	bool checkMinValid(int &, int);
 	bool checkRealTime (std::string &, std::string &, int &, int &, int &);
 	void convertTime (std::string, int &,int &, int &);
 	bool extractTime (std::string &, int);

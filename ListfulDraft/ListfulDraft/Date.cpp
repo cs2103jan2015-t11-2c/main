@@ -45,16 +45,12 @@ int Date::determineMonth(std::string str) {
 }
 
 bool Date::extractNum(std::string &tStr, size_t &start, size_t &end, int &count, int &num) {
-	while (tStr[end] >= '0' && tStr[end] <= '9' && end != std::string::npos) {
+	while (end != std::string::npos && (tStr[end] >= '0' && tStr[end] <= '9')) {
 		if (end == (start + count)) {
 			num = (num * 10) + (tStr[end] - '0');
 			count++;
-			end = tStr.find_first_of("0123456789", end + 1);
-
-			if (end == std::string::npos) {
-				return true;
-			}
 		}
+		end = tStr.find_first_of("0123456789", end + 1);
 	}
 	if (num != 0) {
 		return true;
@@ -67,7 +63,7 @@ void Date::removeNonDateChar(std::string &str) {
 	found = str.find_first_of(" /.-");
 
 	while (found != std::string::npos && found == 0) {
-		str = str.substr(1, str.size() - 1);
+		str = str.substr(1);
 		found = str.find_first_of(" /.-");
 	}
 }
@@ -150,8 +146,6 @@ void Date::isYear(std::string &tStr, std::string &newStr) {
 
 	//add in the condition that you cannot add a year less than the current year
 	if (count != 4) {
-		
-			std::cout << "hello" << std::endl;
 		_year = 2015;
 		tStr = newStr;
 		return;
