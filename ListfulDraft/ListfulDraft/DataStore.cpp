@@ -14,9 +14,9 @@ std::string DataStore::getDataString(int &index) {
 	dataString << _dataBase[index].day << '/';	
 	printDateZero(nMonth, dataString);
 	dataString << _dataBase[index].month << '/' << _dataBase[index].year << "\t\_tTime: ";
-	prin_tTimeZero(sTime, dataString);
+	printTimeZero(sTime, dataString);
 	dataString << _dataBase[index].star_tTime << '-';
-	prin_tTimeZero(eTime, dataString);
+	printTimeZero(eTime, dataString);
 	dataString << _dataBase[index].endTime;
 
 	dataString << "\t\tCategory: " << _dataBase[index].category << '\n';
@@ -36,7 +36,7 @@ int DataStore::countDigit(int &num) {
 	return count;
 }
 
-void DataStore::prin_tTimeZero(int &time, std::ostringstream &dataString) {
+void DataStore::printTimeZero(int &time, std::ostringstream &dataString) {
 	while (time < 4) {
 		dataString << '0';
 		time++;

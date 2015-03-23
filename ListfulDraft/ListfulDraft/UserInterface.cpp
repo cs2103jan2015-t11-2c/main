@@ -72,9 +72,9 @@ void UserInterface::printSpace(int num) {
 void UserInterface::userAction() {
 	centralizePrintToUser(MESSAGE_ACTION);
 
-	std::cout << std::endl << std::setw(13) << "(1) Add" << std::setw(13) << "(2) Display" 
-			  << std::setw(13) << "(3) Edit" << std::setw(13) << "(4) Delete" 
-			  << std::setw(13) << "(5) Clear" << std::setw(13) << "(6) Exit" << std::endl;
+	std::cout << std::endl << std::setw(10) << "(1) Add" << std::setw(10) << "(2) Display" 
+			  << std::setw(10) << "(3) Edit" << std::setw(10) << "(4) Delete" 
+			  << std::setw(10) << "(5) Clear" << std::setw(10) << "(6) Search" << std::setw(10) << "(7) Exit" << std::endl;
 }
 
 void UserInterface::runProgram(char *argv[]) {

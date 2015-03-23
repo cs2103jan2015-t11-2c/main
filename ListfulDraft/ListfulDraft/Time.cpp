@@ -181,14 +181,6 @@ void Time::checkStartEnd() {
 	}
 }
 
-std::string Time::getTime() {
-	std::ostringstream time;
-
-	time << _startTime << "-" << _endTime;
-
-	return time.str();
-}
-
 int Time::getStart() {
 	return _startTime;
 }

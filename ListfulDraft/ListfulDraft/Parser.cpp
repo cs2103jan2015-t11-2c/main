@@ -39,7 +39,7 @@ int Parser::determineCommand() {
 	else if (_userInput == "sort") {
 		return commandType::SORT;
 	}
-	else if (_userInput == "search") {
+	else if (_userInput == "search" || _userInput == "6") {
 		return commandType::SEARCH;
 	}
 	else if (_userInput == "undo") {
@@ -48,10 +48,7 @@ int Parser::determineCommand() {
 	else if (_userInput == "redo") {
 		return commandType::REDO;
 	}
-	else if (_userInput == "search") {
-		return commandType::SEARCH;
-	}
-	else if (_userInput == "exit" || _userInput == "6") {
+	else if (_userInput == "exit" || _userInput == "7") {
 		return commandType::EXIT;
 	}
 	else {
@@ -68,15 +65,19 @@ void Parser::getNextWord (std::string &tStr, size_t &start, size_t &end) {
 }
 
 void Parser::separateWord(Classes listClass, DataStore data) {
-	size_t dateIndex;
-	size_t timeIndex;
+	date = false;
+	time = false;
+	size_t dateIndex = 0;
+	size_t timeIndex = 0;
 
 	retrieveDate(listClass, data, dateIndex);
-	std::cout << listClass.date.getDate() << std::endl;
-		std::cout << "final " << _information[dateIndex] << std::endl;
+	std::cout << _day << '/' << _month << '/' << _year << std::endl;
+	std::cout << "remain str: " << _information[dateIndex] << std::endl;
 	retrieveTime(listClass, data, timeIndex);
-	std::cout << listClass.time.getTime() << std::endl;
-		std::cout << "final " << _information[timeIndex] << std::endl;
+	std::cout << _sTime << '-' << _eTime << std::endl;
+	std::cout << "final " << timeIndex << std::endl;
+	std::cout << "remaining str: " << _information << std::endl;
+
 }
 
 void Parser::carryOutCommand(Classes listClass, DataStore data) {
@@ -99,14 +100,15 @@ void Parser::retrieveDate(Classes listClass, DataStore data, size_t &index) {
 	do {
 		if (!listClass.date.extractDate(dStr)) {
 			updateStr(dStr, start, end);
-			index = start;
-		std::cout << _information[index] << std::endl;
 		}
 		else {
+			std::cout << dStr << std::endl;
+			index = start;
 			joinStr(dStr, start);
 			_day = listClass.date.getDay();
 			_month = listClass.date.getMonth();
-		std::cout << listClass.date.getDay() << std::endl;
+			_year = listClass.date.getYear();
+			date = true;
 			return;
 		}
 	} while (end != std::string::npos);
@@ -135,24 +137,23 @@ void Parser::retrieveTime(Classes listClass, DataStore data, size_t &index) {
 		}
 
 		if (count == 2 && noOfWord <= 2) {
+			index = start;
 			joinStr(tStr, space);
 			listClass.time.checkStartEnd();
 			_sTime = listClass.time.getStart();
 			_eTime = listClass.time.getEnd();
-		std::cout << _sTime << std::endl;
+			time = true;
 			return;
 		}
 		updateStr(tStr, start, end);
-		index = start;
-		std::cout << _information[index] << std::endl;
 	} while (end != std::string::npos);
 
 	if (count == 1) {
+		index = start;
 		listClass.time.updateTime();
 		listClass.time.checkStartEnd();
-			_sTime = listClass.time.getStart();
-			_eTime = listClass.time.getEnd();
-		std::cout << _sTime << std::endl;
+		_sTime = listClass.time.getStart();
+		_eTime = listClass.time.getEnd();
 	}
 }
 

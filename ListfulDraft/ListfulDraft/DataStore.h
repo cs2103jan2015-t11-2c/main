@@ -18,7 +18,7 @@ public:
 
 	std::string getDataString(int &);
 	int countDigit(int &);
-	void prin_tTimeZero(int &, std::ostringstream &);
+	void printTimeZero(int &, std::ostringstream &);
 	void printDateZero(int &, std::ostringstream &);
 	//void entryType(std::string &, int &, int &, int &, int &, int &, std::string &, std::string &);
 	void updateFile(std::string &);

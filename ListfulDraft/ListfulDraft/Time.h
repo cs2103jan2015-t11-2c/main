@@ -21,7 +21,6 @@ public:
 	bool extractTime (std::string &, int);
 	void updateTime();
 	void checkStartEnd();
-	std::string getTime();
 
 	int getStart();
 	int getEnd();

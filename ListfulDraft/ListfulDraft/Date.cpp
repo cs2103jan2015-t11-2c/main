@@ -45,17 +45,21 @@ int Date::determineMonth(std::string str) {
 }
 
 bool Date::extractNum(std::string &tStr, size_t &start, size_t &end, int &count, int &num) {
-	while (tStr[end] >= '0' && tStr[end] <= '9' && end == (start + count)) {
-		if (end != std::string::npos) {
+	while (tStr[end] >= '0' && tStr[end] <= '9' && end != std::string::npos) {
+		if (end == (start + count)) {
 			num = (num * 10) + (tStr[end] - '0');
 			count++;
 			end = tStr.find_first_of("0123456789", end + 1);
-		}
-		else {
-			return false;
+
+			if (end == std::string::npos) {
+				return true;
+			}
 		}
 	}
-	return true;
+	if (num != 0) {
+		return true;
+	}
+	return false;
 }
 
 void Date::removeNonDateChar(std::string &str) {
@@ -139,11 +143,15 @@ void Date::isYear(std::string &tStr, std::string &newStr) {
 	size_t index2 = 0;
 	
 	if (!extractNum(newStr, index1, index2, count, _year)) {
+		_year = 2015;
+		tStr = newStr;
 		return;
 	}
-	
+
 	//add in the condition that you cannot add a year less than the current year
 	if (count != 4) {
+		
+			std::cout << "hello" << std::endl;
 		_year = 2015;
 		tStr = newStr;
 		return;
@@ -163,6 +171,7 @@ bool Date::extractDate(std::string &tStr) {
 	//DD/MM
 	if (isDay(tStr, start, end)) {
 		newStr = tStr.substr(start, tStr.size() - start);
+		removeNonDateChar(newStr);
 		if (!isMonth(newStr, start, end)) {
 			return false;
 		}
@@ -170,6 +179,7 @@ bool Date::extractDate(std::string &tStr) {
 	//MM/DD
 	else if (isMonth (tStr, start, end)) {
 		newStr = tStr.substr(end, tStr.size() - end);
+		removeNonDateChar(newStr);
 		if (!isDay(tStr, start, end)) {
 			return false;
 		}
@@ -182,11 +192,10 @@ bool Date::extractDate(std::string &tStr) {
 		return false;
 	}
 	
-	newStr = newStr.substr(start, newStr.size() - end);
+	newStr = newStr.substr(start, newStr.size() - start);
 	removeNonDateChar(newStr);
-
 	isYear(tStr, newStr);
-	
+
 	return true;
 }
 
@@ -197,14 +206,6 @@ void Date::changeToLower(std::string &str) {
 			str[i] = 'a' + (str[i] - 'A');	
 		}
 	}
-}
-
-std::string Date::getDate() {
-	std::ostringstream date;
-
-	date << _day << "/" << _month << "/" << _year;
-
-	return date.str();
 }
 
 int Date::getDay() {

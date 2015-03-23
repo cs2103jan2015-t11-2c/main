@@ -25,7 +25,6 @@ public:
 	void isYear(std::string &, std::string &);
 	bool extractDate(std::string &);
 	void changeToLower(std::string &);
-	std::string getDate();
 
 	int getDay();
 	int getMonth();

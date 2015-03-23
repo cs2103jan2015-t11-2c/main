@@ -9,6 +9,11 @@ class Parser {
 		enum commandType {
 			ADD, DISPLAY, EDIT, DELETE, CLEAR, EXIT, SORT, SEARCH, UNDO, REDO, INVALID
 		};
+
+		bool date;
+		bool time;
+		bool cat;
+		bool impt;
 	
 		std::string _userInput;
 		std::string _information;
