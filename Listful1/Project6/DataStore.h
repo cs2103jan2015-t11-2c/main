@@ -91,7 +91,10 @@ public:
 	void inputCommand();
 	int checkCommand();
 	void executeCommand();
-	
+
+	void editSubject(std::string, int);
+	void editTime(int , int, int);
+	void editDate(int , int, int, int);
 };
 
 #endif

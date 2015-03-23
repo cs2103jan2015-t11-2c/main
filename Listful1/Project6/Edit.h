@@ -13,6 +13,7 @@ private:
 
 public:
 	Edit(){};
+	void editFunction(std::string &, DataStore &, std::string , std::string, int);
 	void editContent(std::string &, DataStore &, std::string, int, std::string, int = 0, int = 0, int = 0);
 	int determineCategory(std::string);
 	int getContentIndex(DataStore &, std::string);

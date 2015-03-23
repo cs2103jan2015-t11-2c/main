@@ -156,10 +156,12 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				break;
 				   }
 			case 4:{
+				string editCommand;
 				std::cin >> index;
-				std::cin >> command;
+				std::cin >> editCommand;
 				getline(std::cin, userInput);
-				int ST = editSTime();
+					edit.editFunction(fileName, data, editCommand, userInput, index);
+				/*int ST = editSTime();
 				int ET = editETime();
 				int DD = editDay();
 				int MM = editMonth();
@@ -174,7 +176,7 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				}
 				else {
 					edit.editContent(fileName, data, cat, index, userInput);
-				}
+				}*/
 				break;
 				}
 			case 5:{

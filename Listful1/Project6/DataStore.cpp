@@ -22,6 +22,18 @@ void DataStore::updateTempDataBase(Entries entry) {
 	tempDataBase.push_back(entry);
 }
 
+void DataStore::editSubject(std::string newSubject, int index){
+	dataBase[index].subject = newSubject;
+}
+void DataStore::editTime(int sTime, int eTime, int index){
+	dataBase[index].startTime = sTime;
+	dataBase[index].endTime = eTime;
+}
+void DataStore::editDate(int newday, int newmonth, int newyear, int index){
+	dataBase[index].day = newday;
+	dataBase[index].month = newmonth;
+	dataBase[index].year = newyear;
+}
 void DataStore::switchDataBase(){
 	dataBase = tempDataBase;
 }
