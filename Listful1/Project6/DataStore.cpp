@@ -21,22 +21,34 @@ void DataStore::updateDataBase() {
 void DataStore::updateTempDataBase(Entries entry) {
 	tempDataBase.push_back(entry);
 }
-
+//to edit subject
 void DataStore::editSubject(std::string newSubject, int index){
 	dataBase[index].subject = newSubject;
 }
+//to edit time
 void DataStore::editTime(int sTime, int eTime, int index){
 	dataBase[index].startTime = sTime;
 	dataBase[index].endTime = eTime;
 }
-void DataStore::editDate(int newday, int newmonth, int newyear, int index){
-	dataBase[index].day = newday;
-	dataBase[index].month = newmonth;
-	dataBase[index].year = newyear;
+// to edit date
+void DataStore::editDate(int newDay, int newMonth, int newYear, int index){
+	dataBase[index].day = newDay;
+	dataBase[index].month = newMonth;
+	dataBase[index].year = newYear;
 }
+// to edit priority
+void DataStore::editPriority(std::string newPriority, int index){
+	dataBase[index].impt = newPriority;
+}
+// to edit category
+void DataStore::editCategory(std::string newCategory, int index){
+	dataBase[index].impt = newCategory;
+}
+//to update database with temp database
 void DataStore::switchDataBase(){
 	dataBase = tempDataBase;
 }
+//to clear temp data base
 void DataStore::clearTempDataBase(){
 	tempDataBase.clear();
 }
