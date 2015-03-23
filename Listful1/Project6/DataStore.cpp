@@ -17,7 +17,7 @@ void DataStore::updateDataBase() {
 	dataBase.push_back(tempEntry);
 }
 
-//to update the database
+//to update the temp database
 void DataStore::updateTempDataBase(Entries entry) {
 	tempDataBase.push_back(entry);
 }

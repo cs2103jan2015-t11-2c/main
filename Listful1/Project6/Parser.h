@@ -8,6 +8,7 @@
 #include "Display.h"
 #include "Edit.h"
 #include "Sort.h"
+#include "Search.h"
 #include "Log.h"
 
 class Parser {
@@ -26,7 +27,7 @@ class Parser {
 		};
 
 
-		void determineCommand(DataStore &, std::string, int, int &, Add &, Delete &, Display &, Edit &, Clear &, Sort &);
+		void determineCommand(DataStore &, std::string, int, int &, Add &, Delete &, Display &, Edit &, Clear &, Sort &, Search &);
 
 //		void determineCommand(DataStore &, std::string, int, int &, Add &, Delete &, Display &, Edit &, Clear &);
 		enum Choice {

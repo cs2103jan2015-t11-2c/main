@@ -123,8 +123,15 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				std::string p = userPriority();
 				std::string cat =  userCat();
 
-				add.addContent(fileName, fileSize, sub, ST, ET, DD, MM, YYYY, p, cat, data);
-				fileSize++;
+				if(ST > 0 &&ET > 0){
+				
+					add.addContent(fileName, fileSize, sub, ST, ET, DD, MM, YYYY, p, cat, data);
+					fileSize++;
+				}
+				else {
+					add.addFloating(fileName, fileSize, sub, p, cat, data);
+					fileSize++;
+				}
 				break;
 				   }
 			case 2:{

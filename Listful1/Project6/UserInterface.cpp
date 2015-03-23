@@ -146,7 +146,7 @@ void UserInterface::runProgram(char *argv[]) {
 	userAction();
 	std::cin >> command;
 	
-	assert( command>0 && command <=8);
+	assert( command > 0 && command <= 8);
 
 	std::string fileName = argv[1];
 	fileSize = 1;
