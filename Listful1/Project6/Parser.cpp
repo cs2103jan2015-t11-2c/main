@@ -161,22 +161,6 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				std::cin >> editCommand;
 				getline(std::cin, userInput);
 					edit.editFunction(fileName, data, editCommand, userInput, index);
-				/*int ST = editSTime();
-				int ET = editETime();
-				int DD = editDay();
-				int MM = editMonth();
-				int YYYY = editYear();
-				std::string p = userPriority();
-				std::string cat = userCat();
-				if (isDate()) {
-					edit.editContent(fileName, data, userInput, index, userInput, editDay(), editMonth(), editYear());
-				}
-				else if (isTime()) {
-					edit.editContent(fileName, data, cat, index, userInput, editSTime(), editETime());
-				}
-				else {
-					edit.editContent(fileName, data, cat, index, userInput);
-				}*/
 				break;
 				}
 			case 5:{
@@ -244,57 +228,6 @@ std::string Parser::getDisplay() {
 	std::string displayStr;
 	std::cin >> displayStr;
 	return displayStr;
-}
-
-//to get the category to edit
-std::string Parser::getEditCat() {
-	std::string cat;
-	std::cin >> cat;
-	return cat;
-}
-
-//to get the day to be edited and to convert the string to integer form
-int Parser::editDay(){
-	std::string userDateDay = userInput.substr(0, 2);
-	int dateDay = atoi(userDateDay.c_str());
-	return dateDay;
-}
-
-//to get the month to be edited and to convert the string to integer form
-int Parser::editMonth(){
-	std::string userDateMonth = userInput.substr(3, 2);
-	int dateMonth = atoi(userDateMonth.c_str());
-	return dateMonth;
-}
-
-//to get the year to be edited and to convert the string to integer form
-int Parser::editYear(){
-	std::string userDateYear = userInput.substr(6, 4);
-	int dateYear = atoi(userDateYear.c_str());
-	
-	return dateYear;
-}
-
-//to get the start time to be edited and to convert the string to integer form
-int Parser::editSTime(){
-	std::string userStartTime;
-	int startTime;
-
-	userStartTime = userInput.substr(0, 4);
-	startTime = atoi(userStartTime.c_str());
-	
-	return startTime;
-}
-
-//to get the end time to be edited and to convert the string to integer form
-int Parser::editETime(){
-	std::string userEndTime;
-	int endTime;
-
-	userEndTime = userInput.substr(userTime().find_first_of("-")+1, 4);
-	endTime = endTime = atoi(userEndTime.c_str());
-
-	return endTime;
 }
 
 //to parse the user date

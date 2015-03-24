@@ -42,7 +42,7 @@ void DataStore::editPriority(std::string newPriority, int index){
 }
 // to edit category
 void DataStore::editCategory(std::string newCategory, int index){
-	dataBase[index].impt = newCategory;
+	dataBase[index].category = newCategory;
 }
 //to update database with temp database
 void DataStore::switchDataBase(){
