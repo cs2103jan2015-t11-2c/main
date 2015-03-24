@@ -52,7 +52,6 @@ void DataStore::switchDataBase(){
 void DataStore::clearTempDataBase(){
 	tempDataBase.clear();
 }
-
 //to delete the database
 void DataStore::deleteDataBase(std::vector <Entries>::iterator iter) {
 	dataBase.erase(iter);

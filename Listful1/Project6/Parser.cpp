@@ -113,17 +113,17 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				getline(std::cin, userInput);
 				std::string sub = userContent();
 				
-				assert(!userInput.empty());
-
+				assert(!sub.empty());
+				
 				int ST = startTime();
 				int ET = endTime();
 				int DD = dateDay();
 				int MM = dateMonth();
 				int YYYY = dateYear();
 				std::string p = userPriority();
-				std::string cat =  userCat();
+				std::string cat = userCat();
 
-				if(ST > 0 &&ET > 0){
+				if(DD!=0 && MM!=0 && YYYY!=0 && ST!=0 && ET != 0){
 				
 					add.addContent(fileName, fileSize, sub, ST, ET, DD, MM, YYYY, p, cat, data);
 					fileSize++;
@@ -240,21 +240,27 @@ std::string Parser::userDate(){
 //to parse the date and convert it to integer form
 int Parser::dateDay(){
 	std::string userDateDay = userDate().substr(0, 2);
+
 	int dateDay = atoi(userDateDay.c_str());
+	
 	return dateDay;
 }
 
 //to parse the month and convert it to integer form
 int Parser::dateMonth(){
 	std::string userDateMonth = userDate().substr(3, 2);
+	
 	int dateMonth = atoi(userDateMonth.c_str());
+
 	return dateMonth;
 }
 
 //to parse the year and convert it to integer form
 int Parser::dateYear(){
 	std::string userDateYear = userDate().substr(6, 4);
+	
 	int dateYear = atoi(userDateYear.c_str());
+
 	return dateYear;
 }
 
@@ -268,21 +274,20 @@ std::string Parser::userTime(){
 //to determine the start time of the event
 int Parser::startTime(){
 	std::string userStartTime;
-	int startTime;
-
 	userStartTime = userTime().substr(0, 4);
-	startTime = atoi(userStartTime.c_str());
-	return startTime;
+	
+	int ST = atoi(userStartTime.c_str());
+	
+	return ST;
 }
 
 //to determine the end time of the event
 int Parser::endTime(){
 	std::string userEndTime;
-	int endTime;
 
 	userEndTime = userTime().substr(userTime().find_first_of("-")+1, 4);
-	endTime = endTime = atoi(userEndTime.c_str());
-	return endTime;
+	int ET = atoi(userEndTime.c_str());
+	return ET;
 }
 
 //to determine the category
