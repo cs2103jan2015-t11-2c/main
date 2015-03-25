@@ -68,6 +68,7 @@
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Classes.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="Priority.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
@@ -77,6 +78,7 @@
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="MAIN.cpp" />
+    <ClCompile Include="Priority.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="UserInterface.cpp" />
   </ItemGroup>

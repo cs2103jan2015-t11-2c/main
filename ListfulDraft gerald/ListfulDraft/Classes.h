@@ -4,6 +4,7 @@
 #include "Date.h"
 #include "Time.h"
 #include "Add.h"
+#include "Priority.h"
 /*#include "Clear.h"
 #include "Delete.h"
 #include "Display.h"
@@ -22,6 +23,7 @@ public:
 	Sort sortFile;*/
 	Time time;
 	Date date;
+	Priority priority;
 };
 
 #endif
