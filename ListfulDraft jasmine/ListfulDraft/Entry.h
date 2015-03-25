@@ -14,6 +14,8 @@
 #include <cstdlib>
 #include <stdlib.h>
 #include <stddef.h>
+#include <windows.h>
+
 
 class Entry {
 public:

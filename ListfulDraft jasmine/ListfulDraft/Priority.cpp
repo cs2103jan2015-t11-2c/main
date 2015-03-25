@@ -23,7 +23,7 @@ bool Priority::extractPriority(std::string &pStr) {
 		return true;
 	}
 	else if (temp == "MEDIUM" || temp == "MED" || temp == "M") {
-		_priority = "MEDIUM";
+		_priority = "MED";
 		updateStr(pStr, found);
 		return true;
 	}

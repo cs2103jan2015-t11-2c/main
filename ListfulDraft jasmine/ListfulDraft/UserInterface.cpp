@@ -8,10 +8,10 @@ const std::string UserInterface::MESSAGE_DELETE = "deleted from %s: \"%s\"";
 const std::string UserInterface::MESSAGE_CLEAR = "all content deleted from %s";
 const std::string UserInterface::MESSAGE_EMPTY = "%s is empty";
 const std::string UserInterface::MESSAGE_SORT = "%s has been sorted alphabetically";
-const std::string UserInterface::MESSAGE_EDIT;
-const std::string UserInterface::MESSAGE_SEARCH;
-const std::string UserInterface::MESSAGE_UNDO;
-const std::string UserInterface::MESSAGE_REDO;
+const std::string UserInterface::MESSAGE_EDIT = "%s has been edited";
+const std::string UserInterface::MESSAGE_SEARCH = "results of '%s':\n";
+const std::string UserInterface::MESSAGE_UNDO = "undid previous change";
+const std::string UserInterface::MESSAGE_REDO = "redid previous undo";
 
 const std::string UserInterface::ERROR_COMMAND = "invalid command";
 const std::string UserInterface::ERROR_DELETE = "text not found";
@@ -86,6 +86,7 @@ void UserInterface::runProgram(char *argv[]) {
 	Parser parse;
 	DataStore data;
 	Classes listClass;
+	int message = 0;
 
 	homeScreen();
 
@@ -98,7 +99,8 @@ void UserInterface::runProgram(char *argv[]) {
 			homeScreen();
 		}
 		else {
-			parse.carryOutCommand(listClass, data);
+			message = parse.carryOutCommand(listClass, data, fileName);
+
 		}
 	} while (!parse.isRunProgram());
 	return;

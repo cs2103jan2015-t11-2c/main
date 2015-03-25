@@ -18,7 +18,6 @@ bool Category::extractCat(std::string &cStr) {
 
 	if (temp == "PERSONAL" || temp == "PER") {
 		_cat = "PERSONAL";
-	std::cout << _cat << std::endl;
 		updateStr(cStr, found);
 		return true;
 	}

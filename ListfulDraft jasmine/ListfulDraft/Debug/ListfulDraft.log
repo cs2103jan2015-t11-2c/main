@@ -1,4 +1,4 @@
-﻿Build started 25/3/2015 5:15:19 PM.
+﻿Build started 25/3/2015 8:04:30 PM.
      1>Project "D:\Programming\ListfulTimeDate\ListfulDraft\ListfulDraft.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Category.cpp DataStore.cpp Date.cpp Parser.cpp MAIN.cpp Priority.cpp Time.cpp UserInterface.cpp
@@ -9,7 +9,7 @@
          Priority.cpp
          MAIN.cpp
          Parser.cpp
-     1>d:\programming\listfultimedate\listfuldraft\parser.cpp(351): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\programming\listfultimedate\listfuldraft\parser.cpp(343): warning C4018: '<' : signed/unsigned mismatch
          Date.cpp
      1>d:\programming\listfultimedate\listfuldraft\date.cpp(204): warning C4018: '<' : signed/unsigned mismatch
          DataStore.cpp
@@ -31,4 +31,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:22.92
+Time Elapsed 00:00:30.95

@@ -32,7 +32,7 @@ int Parser::determineCommand() {
 		return commandType::ADD;
 	}
 	else if (_userInput == "delete" || _userInput == "4") {
-		return commandType::DELETE;
+		return commandType::REMOVE;
 	}
 	else if (_userInput == "display" || _userInput == "2") {
 		return commandType::DISPLAY;
@@ -63,13 +63,15 @@ int Parser::determineCommand() {
 	}
 }
 
-void Parser::carryOutCommand(Classes listClass, DataStore data) {
+int Parser::carryOutCommand(Classes listClass, DataStore &data, std::string fileName) {
 	int command = determineCommand();
 
 	switch(command) {
 		case ADD:
 			separateWord(listClass, data);
-			listClass.add.
+			if (listClass.add.addContent(data, fileName)) {
+				return commandType::ADD;
+			}
 			break;
 		case DISPLAY:
 			break;
@@ -93,7 +95,7 @@ void Parser::carryOutCommand(Classes listClass, DataStore data) {
 		case INVALID:
 			break;
 	}
-	return;
+	return commandType::INVALID;
 }
 
 void Parser::separateWord(Classes listClass, DataStore &data) {
@@ -107,29 +109,24 @@ void Parser::separateWord(Classes listClass, DataStore &data) {
 		data.get_tempEntry().day = _day; 
 		data.get_tempEntry().month = _month; 
 		data.get_tempEntry().year = _year; 
-		std::cout << "extracted date: " << data.get_tempEntry().day << '/' << data.get_tempEntry().month << '/' << data.get_tempEntry().year << std::endl;
 	}
 
 	retrieveTime(listClass);
 	if (time) {
 		data.get_tempEntry().startTime = _sTime; 
 		data.get_tempEntry().endTime = _eTime; 
-		std::cout << "extracted time: " << data.get_tempEntry().startTime << '-' << data.get_tempEntry().endTime << std::endl;
 	}
 
 	retrievePriority(listClass);
 	if (priority) {
 		data.get_tempEntry().priority = _priority;
-		std::cout << "Priority: " << data.get_tempEntry().priority << std::endl;
 	}
 
 	retrieveCategory(listClass);
 	if (cat) {
 		data.get_tempEntry().category = _cat;
-		std::cout << "category: " << data.get_tempEntry().category << std::endl;
 	}
-
-	data.get_tempEntry.subject = _information;
+	data.get_tempEntry().subject = _information;
 	return;
 }
 
@@ -190,7 +187,6 @@ void Parser::retrievePriority(Classes listClass) {
 	do { 
 		if (!listClass.priority.extractPriority(pStr)) {
 			updateStr(pStr, start, end);
-			std::cout << pStr << std::endl;
 		}
 		else {
 			joinStr(pStr, start);

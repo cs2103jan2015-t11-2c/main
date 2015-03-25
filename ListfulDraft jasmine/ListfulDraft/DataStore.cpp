@@ -2,6 +2,11 @@
 
 std::string DataStore::getDataString(int &index) {
 	std::ostringstream dataString;
+	std::ostringstream time;
+	std::ostringstream date;
+	std::ostringstream cat;
+	std::ostringstream priority;
+
 
 	int sTime = countDigit(_dataBase[index].startTime);
 	int eTime = countDigit(_dataBase[index].endTime);
@@ -9,25 +14,28 @@ std::string DataStore::getDataString(int &index) {
 	int nMonth = countDigit(_dataBase[index].month);
 	int nYear = countDigit(_dataBase[index].year);
 
-	dataString << _dataBase[index].subject << "\nDate: ";
+	dataString << _dataBase[index].subject << "\n" << "Date: " << std::setw(10); 
 	printZero(nDay, dataString, 2);
 	dataString << _dataBase[index].day << '/';	
 	printZero(nMonth, dataString, 2);
-	dataString << _dataBase[index].month << '/' << _dataBase[index].year << "\t\tTime: ";
+	dataString << _dataBase[index].month << '/' << _dataBase[index].year << "Time: " << std::setw(10);
 	printZero(sTime, dataString, 4);
 	dataString << _dataBase[index].startTime << '-';
 	printZero(eTime, dataString, 4);
 	dataString << _dataBase[index].endTime;
 
-	dataString << "\t\tCategory: " << _dataBase[index].category << '\n';
-
+	dataString << "Category: " << std::setw(6) << _dataBase[index].category;
+	dataString << "Priority: " << _dataBase[index].priority << '\n';
 	return dataString.str();
-
 }
 
 int DataStore::countDigit(int &num) {
 	int count = 0;
 	int tNum = num;
+
+	if (num == 0) {
+		return 1;
+	}
 
 	while (tNum > 0) {
 		count++;
@@ -56,13 +64,13 @@ void DataStore::printZero(int &num, std::ostringstream &dataString, int count) {
 	_tempEntry.category = category;
 }*/
 
-void DataStore::updateFile(std::string &fileName) {
+void DataStore::updateFile(std::string fileName) {
 	std::ofstream writeFile;
 
 	savePrevFile();
 	writeFile.open(fileName);
 	for (int index = 0; index != _dataBase.size(); index++) {
-		writeFile << index << ". " << getDataString(index) << "\n";
+		writeFile << (index + 1) << ". " << getDataString(index) << "\n";
 	}
 	writeFile.close();
 	return;
@@ -96,7 +104,7 @@ std::vector <Entry> &DataStore::getData() {
 	return _dataBase;
 }
 
-Entry &DataStore::getEntry(int &index) {
+Entry &DataStore::getEntry(int index) {
 	return _dataBase[index];
 }
 	

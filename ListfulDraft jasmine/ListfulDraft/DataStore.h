@@ -19,13 +19,13 @@ public:
 	int countDigit(int &);
 	void printZero(int &, std::ostringstream &, int);
 	//void entryType(std::string &, int &, int &, int &, int &, int &, std::string &, std::string &);
-	void updateFile(std::string &);
+	void updateFile(std::string);
 	void savePrevFile();
 	void undoData();
 	void redoData();
 
 	std::vector <Entry> &getData();
-	Entry &getEntry(int &);
+	Entry &getEntry(int);
 	Entry &get_tempEntry();
 };
 

@@ -7,7 +7,7 @@
 class Parser {
 	private:
 		enum commandType {
-			ADD, DISPLAY, EDIT, DELETE, CLEAR, EXIT, SORT, SEARCH, UNDO, REDO, INVALID
+			ADD, DISPLAY, EDIT, REMOVE, CLEAR, EXIT, SORT, SEARCH, UNDO, REDO, INVALID
 		};
 
 		bool date;
@@ -33,7 +33,7 @@ class Parser {
 		bool isRunProgram();
 		bool isClearScreen(std::string);
 		int determineCommand();
-		void carryOutCommand(Classes, DataStore);
+		int carryOutCommand(Classes, DataStore &, std::string);
 
 		void separateWord(Classes, DataStore &);
 		void retrieveDate(Classes);

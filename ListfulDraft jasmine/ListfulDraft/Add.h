@@ -7,10 +7,10 @@ class Add {
 public:
 	Add() {};
 
-	void addContent(DataStore &);
-	bool isDuplicate(DataStore &);
-	bool isSameDate(DataStore &, int, int, int, int);
-	bool isSameTime(DataStore &, int, int, int);
+	bool addContent(DataStore &, std::string);
+	bool isDuplicate(DataStore);
+	bool isSameDate(DataStore, int);
+	bool isSameTime(DataStore, int);
 };
 
 #endif
