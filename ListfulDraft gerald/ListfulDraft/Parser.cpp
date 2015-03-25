@@ -56,14 +56,6 @@ int Parser::determineCommand() {
 	}
 }
 
-void Parser::getNextWord (std::string &tStr, size_t &start, size_t &end) {
-	end = tStr.find_first_of(" ,:;?/()[]{}''""!@#$%^&*-_+=|<>`~", start);
-	if (end == std::string::npos) {
-		return;
-	}
-	end = tStr.find_first_not_of(" ,:;?/()[]{}''""!@#$%^&*-_+=|<>`~", end);
-}
-
 void Parser::separateWord(Classes listClass, DataStore data) {
 	date = false;
 	time = false;
@@ -75,6 +67,11 @@ void Parser::separateWord(Classes listClass, DataStore data) {
 	retrieveTime(listClass, data, timeIndex);
 	if (time) std::cout << "extracted time: " << _sTime << '-' << _eTime << std::endl;
 	std::cout << "final " << timeIndex << std::endl;
+	std::cout << "remaining str: " << _information << std::endl;
+	retrievePriority(listClass, data);
+	std::cout << "Priority: " << _priority << std::endl;
+	std::cout << "remaining str: " << _information << std::endl;
+	std::cout << "Category: " << _category << std::endl;
 	std::cout << "remaining str: " << _information << std::endl;
 
 }
@@ -155,12 +152,42 @@ void Parser::retrieveTime(Classes listClass, DataStore data, size_t &index) {
 	}
 }
 
+void Parser::retrievePriority(Classes listClass, DataStore data) {
+	std::string pStr = _information;
+	size_t start = 0;
+	size_t end = 0;
+
+	do { 
+		if (!listClass.priority.checkPriority(pStr)) {
+			updateStr(pStr, start, end);
+		}
+		else {
+			_priority = listClass.priority.getPriority();
+			std::cout << pStr << std::endl;
+			joinStr(pStr, start);
+			priority = true;
+			return;
+			}	
+	} while (end != std::string::npos);
+
+	return;
+}
+
 void Parser::updateStr(std::string &tStr, size_t &start, size_t &end) {
 	getNextWord(_information, start, end);
+	// do you need to check here when its alr checked below?
 	if (end != std::string::npos) {
 		tStr = _information.substr(end);
 		start = end;
 	}
+}
+
+void Parser::getNextWord (std::string &tStr, size_t &start, size_t &end) {
+	end = tStr.find_first_of(" ,:;?/()[]{}''""!@#$%^&*-_+=|<>`~", start);
+	if (end == std::string::npos) {
+		return;
+	}
+	end = tStr.find_first_not_of(" ,:;?/()[]{}''""!@#$%^&*-_+=|<>`~", end);
 }
 
 void Parser::joinStr(std::string &tStr, size_t &start) {

@@ -13,7 +13,7 @@ class Parser {
 		bool date;
 		bool time;
 		bool cat;
-		bool impt;
+		bool priority;
 	
 		std::string _userInput;
 		std::string _information;
@@ -26,6 +26,7 @@ class Parser {
 		std::string _cat;
 		std::string _priority;
 		std::string _subject;
+		std::string _category;
 		
 	public:
 		Parser() {};
@@ -39,6 +40,7 @@ class Parser {
 		void separateWord(Classes, DataStore);
 		void retrieveDate(Classes, DataStore, size_t &);
 		void retrieveTime(Classes, DataStore, size_t &);
+		void retrievePriority(Classes, DataStore);
 		void updateStr(std::string &, size_t &, size_t &);
 		void joinStr(std::string &, size_t &);
 
