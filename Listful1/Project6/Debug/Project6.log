@@ -1,55 +1,12 @@
-<<<<<<< HEAD
-﻿Build started 18/3/2015 6:53:32 PM.
+﻿Build started 24/3/2015 3:44:37 PM.
      1>Project "C:\Users\Theck Yee\Documents\CS Project\Listful1\Project6\Project6.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp DataStore.cpp Delete.cpp Display.cpp Edit.cpp MAIN.cpp Parser.cpp Sort.cpp UserInterface.cpp
-         Sort.cpp
-         Generating Code...
-         Compiling...
-         UserInterface.cpp
-     1>c:\users\theck yee\documents\cs project\listful1\project6\userinterface.cpp(44): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt MAIN.cpp Parser.cpp UserInterface.cpp
          Parser.cpp
-         MAIN.cpp
-=======
-﻿Build started 18/3/2015 7:14:52 PM.
-     1>Project "C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Listful1\Project6\Project6.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Clear.cpp DataStore.cpp Delete.cpp Display.cpp Edit.cpp Log.cpp Parser.cpp MAIN.cpp UserInterface.cpp
-         UserInterface.cpp
-     1>c:\users\yyyueying\documents\visual studio 2012\projects\listful\listful1\project6\userinterface.cpp(46): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\yyyueying\documents\visual studio 2012\projects\listful\listful1\project6\userinterface.cpp(122): error C2678: binary '!=' : no operator found which takes a left-hand operand of type 'std::_String_iterator<_Mystr>' (or there is no acceptable conversion)
-                 with
-                 [
-                     _Mystr=std::_String_val<std::_Simple_types<char>>
-                 ]
-                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\exception(522): could be 'bool std::operator !=(const std::exception_ptr &,const std::exception_ptr &)'
-                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\exception(527): or       'bool std::operator !=(std::nullptr_t,const std::exception_ptr &)'
-                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\exception(532): or       'bool std::operator !=(const std::exception_ptr &,std::nullptr_t)'
-                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\system_error(443): or       'bool std::operator !=(const std::error_code &,const std::error_condition &) throw()'
-                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\system_error(450): or       'bool std::operator !=(const std::error_condition &,const std::error_code &) throw()'
-                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\xstring(218): or       'bool std::_String_const_iterator<_Mystr>::operator !=(const std::_String_const_iterator<_Mystr> &) const'
-                 with
-                 [
-                     _Mystr=std::_String_val<std::_Simple_types<char>>
-                 ]
-                 while trying to match the argument list '(std::_String_iterator<_Mystr>, unsigned int)'
-                 with
-                 [
-                     _Mystr=std::_String_val<std::_Simple_types<char>>
-                 ]
-         MAIN.cpp
-         Parser.cpp
-         Log.cpp
->>>>>>> 4cf39fe5503bf7a8da74137fa9628ff0060487a6
-         Edit.cpp
-         Display.cpp
-         Delete.cpp
-         DataStore.cpp
-         Clear.cpp
-         Add.cpp
          Generating Code...
-<<<<<<< HEAD
-     1>c:\users\theck yee\documents\cs project\listful1\project6\delete.cpp(13): warning C4715: 'Delete::getContentIndex' : not all control paths return a value
+         Skipping... (no relevant changes detected)
+         UserInterface.cpp
+         MAIN.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Theck Yee\Documents\CS Project\Listful1\Debug\Listful.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Theck Yee\Documents\CS Project\Listful1\Debug\Listful.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Theck Yee\Documents\CS Project\Listful1\Debug\Listful.lib" /MACHINE:X86 Debug\Add.obj
          Debug\Clear.obj
@@ -60,19 +17,12 @@
          Debug\Log.obj
          Debug\Parser.obj
          Debug\MAIN.obj
+         Debug\Search.obj
          Debug\Sort.obj
          Debug\UserInterface.obj
          Project6.vcxproj -> C:\Users\Theck Yee\Documents\CS Project\Listful1\Debug\Listful.exe
      1>Done Building Project "C:\Users\Theck Yee\Documents\CS Project\Listful1\Project6\Project6.vcxproj" (Build target(s)).
-=======
-     1>c:\users\yyyueying\documents\visual studio 2012\projects\listful\listful1\project6\delete.cpp(13): warning C4715: 'Delete::getContentIndex' : not all control paths return a value
-     1>Done Building Project "C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Listful1\Project6\Project6.vcxproj" (Build target(s)) -- FAILED.
->>>>>>> 4cf39fe5503bf7a8da74137fa9628ff0060487a6
 
-Build FAILED.
+Build succeeded.
 
-<<<<<<< HEAD
-Time Elapsed 00:00:17.14
-=======
-Time Elapsed 00:00:18.15
->>>>>>> 4cf39fe5503bf7a8da74137fa9628ff0060487a6
+Time Elapsed 00:00:03.17
