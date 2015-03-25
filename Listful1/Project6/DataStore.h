@@ -69,6 +69,12 @@ public:
 	std::string getSubject(int index){
 		return dataBase[index].subject;
 	}
+	std::string getCategory(int index){
+		return dataBase[index].category;
+	}
+	std::string getPriority(int index){
+		return dataBase[index].impt;
+	}
 
 	int getDay(int index){
 		return dataBase[index].day;
@@ -79,6 +85,10 @@ public:
 	int getYear(int index){
 		return dataBase[index].year;
 	}
+
+	std::string getDate(int index);
+	std::string getTime(int index);
+
 	int getStartTime(int index){
 		return dataBase[index].startTime;
 	}

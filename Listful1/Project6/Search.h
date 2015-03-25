@@ -16,6 +16,10 @@ class Search
 	Search(){};
 	void searchFile(std::string &, DataStore &, std::string , std::string );
 	bool foundSubject(DataStore &, std::string &);
+	bool foundCategory(DataStore &, std::string &);
+	bool foundPriority(DataStore &, std::string &);
+	bool foundDate(DataStore &, std::string &);
+	bool foundTime(DataStore &, std::string &);
 	void printSearchedContent(DataStore &);
 	int determineCategory(std::string );
 };

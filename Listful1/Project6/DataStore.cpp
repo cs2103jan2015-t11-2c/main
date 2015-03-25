@@ -57,6 +57,52 @@ void DataStore::deleteDataBase(std::vector <Entries>::iterator iter) {
 	dataBase.erase(iter);
 }
 
+std::string DataStore::getDate(int index){
+	std::ostringstream date;
+	int nDay = countDigit(dataBase[index].day);
+	int nMonth = countDigit(dataBase[index].month);
+	int nYear = countDigit(dataBase[index].year);
+
+	if (nDay < 2) {
+		date << '0';
+	}
+	date << dataBase[index].day << '/';
+	
+	if (nMonth < 2) {
+		date << '0';
+	}
+	date << dataBase[index].month << '/';
+
+	while (nYear < 4) {
+		date<< '0';
+		nYear++;
+	}
+	date << dataBase[index].year;
+
+	return date.str();
+}
+
+std::string DataStore::getTime(int index){
+	std::ostringstream time;
+	int sTime = countDigit(dataBase[index].startTime);
+	int eTime = countDigit(dataBase[index].endTime);
+	
+
+	while (sTime < 4) {
+		time << '0';
+		sTime++;
+	}
+	time << dataBase[index].startTime << '-';
+
+	while (eTime < 4) {
+		time << '0';
+		eTime++;
+	}
+	time << dataBase[index].endTime;
+
+	return time.str();
+}
+
 //to access the private data string in the datastore
 std::string DataStore::getDataString(int index) {
 	std::ostringstream dataString;
