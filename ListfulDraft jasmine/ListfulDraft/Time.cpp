@@ -200,8 +200,6 @@ bool Time::extractTime (std::string &line, int &noOfTime) {
 
 	if (takeTime(str, tStr, noOfTime)) {
 		noOfWord = countWord(str);
-		std::cout << str << std::endl;
-		std::cout << noOfWord << std::endl;
 		if (noOfWord > 2) {
 			line = str;
 			return true;

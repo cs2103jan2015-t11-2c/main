@@ -118,9 +118,7 @@ void Parser::retrieveTime(Classes listClass, DataStore data) {
 				listClass.time.updateTime();
 			}
 			joinStr(tStr, start);
-			std::cout << _information << " - " << start << std::endl;
 			cutExtraWord(start - 1, word);
-			std::cout << _information << " - " << start << std::endl;
 		//	listClass.time.checkStartEnd();
 			_sTime = listClass.time.getStart();
 			_eTime = listClass.time.getEnd();
@@ -202,14 +200,15 @@ bool Parser::extraWord(std::string word, size_t found) {
 	extra.push_back("remind");
 	extra.push_back("me");
 	extra.push_back("the");
+	extra.push_back("check");
+	extra.push_back("up");
 	//extra.push_back("and");
 	changeToLower(word);
-	std::string i;
+
 	size_t find = 0;
 	std::vector <std::string>::iterator iter = extra.begin();
 
 	while (iter != extra.end()) {
-		i = *iter;
 		if (word == (*iter)) {
 			find = _information.find_first_of(" ", found + 1);
 			if (find == std::string::npos) {
@@ -218,7 +217,6 @@ bool Parser::extraWord(std::string word, size_t found) {
 			}
 			word = _information.substr(find);
 			_information = _information.substr(0, found) + word;
-			std::cout << word << std::endl;
 			return true;
 		}
 		iter++;
