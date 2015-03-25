@@ -1,5 +1,2 @@
 Log sequence: 
 moving to parser
-moving to parser
-moving to parser
-moving to parser
