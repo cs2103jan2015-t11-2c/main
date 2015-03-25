@@ -164,9 +164,10 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				break;
 				}
 			case 5:{
-				string field;
-				std::cin >>field;
-				sort.sortContent(fileName, data, field);
+				std::string keyword, type;
+				std::cin >> type;
+				std::cin >> keyword;
+					search.searchFile(fileName, data, keyword, type);
 				break;
 				}
 			case 6: {
@@ -174,9 +175,9 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				break;
 				}
 			case 8: {
-				string keyword;
-				std::cin>>keyword;
-					search.searchFile(fileName, data, keyword);
+				std::string field;
+				std::cin >>field;
+				sort.sortContent(fileName, data, field);
 				break;
 				}
 			default:

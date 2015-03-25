@@ -5,11 +5,19 @@
 
 class Search
 {
-public:
+	private:
+	enum subCategory {
+		SUBJECT, TIME, DATE, IMPT, CATEGORY, INVALID
+	};
+
+	int category;
+
+	public:
 	Search(){};
-	void searchFile(std::string &fileName, DataStore &, std::string readInLine);
-	bool foundContent(DataStore &, std::string &readInLine);
-	void printSearchedContent(DataStore &data);
+	void searchFile(std::string &, DataStore &, std::string , std::string );
+	bool foundSubject(DataStore &, std::string &);
+	void printSearchedContent(DataStore &);
+	int determineCategory(std::string );
 };
 #endif
 
