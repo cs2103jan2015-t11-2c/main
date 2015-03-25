@@ -1,0 +1,24 @@
+﻿Build started 25/3/2015 10:03:39 PM.
+     1>Project "C:\Users\gerald\Documents\Listful1\Project6\Project6.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Edit.cpp
+         Edit.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\gerald\Documents\Listful1\Debug\Listful.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\gerald\Documents\Listful1\Debug\Listful.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\gerald\Documents\Listful1\Debug\Listful.lib" /MACHINE:X86 Debug\Add.obj
+         Debug\Clear.obj
+         Debug\DataStore.obj
+         Debug\Delete.obj
+         Debug\Display.obj
+         Debug\Edit.obj
+         Debug\Log.obj
+         Debug\Parser.obj
+         Debug\MAIN.obj
+         Debug\Search.obj
+         Debug\Sort.obj
+         Debug\UserInterface.obj
+         Project6.vcxproj -> C:\Users\gerald\Documents\Listful1\Debug\Listful.exe
+     1>Done Building Project "C:\Users\gerald\Documents\Listful1\Project6\Project6.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.93
