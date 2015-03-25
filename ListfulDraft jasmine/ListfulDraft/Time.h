@@ -14,7 +14,7 @@ public:
 	void changeToLower(std::string &);
 	bool checkHourValid(int);
 	bool checkMinValid(int);
-	void updateStr(std::string &, std::string &, size_t);
+	void updateStr(std::string &, std::string        &, size_t);
 	bool extractNum (std::string, int &, int &);
 	void updateTime();
 	void removeNonTimeChar(std::string &);

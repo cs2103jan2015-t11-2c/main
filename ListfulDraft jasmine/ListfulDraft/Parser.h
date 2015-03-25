@@ -14,18 +14,17 @@ class Parser {
 		bool time;
 		bool cat;
 		bool priority;
-	
-		std::string _userInput;
-		std::string _information;
-		bool _isEnd;
-		int _sTime;
-		int _eTime;
+		
 		int _day;
 		int _month;
 		int _year;
+		int _sTime;
+		int _eTime;
 		std::string _cat;
 		std::string _priority;
-		std::string _subject;
+		std::string _userInput;
+		std::string _information;
+		bool _isEnd;
 		
 	public:
 		Parser() {};
@@ -36,9 +35,11 @@ class Parser {
 		int determineCommand();
 		void carryOutCommand(Classes, DataStore);
 
-		void separateWord(Classes, DataStore);
-		void retrieveDate(Classes, DataStore);
-		void retrieveTime(Classes, DataStore);
+		void separateWord(Classes, DataStore &);
+		void retrieveDate(Classes);
+		void retrieveTime(Classes);
+		void retrievePriority(Classes);
+		void retrieveCategory(Classes);
 		void getNextWord (std::string &, size_t &, size_t &);
 		void updateStr(std::string &, size_t &, size_t &);
 		void joinStr(std::string &, size_t &);

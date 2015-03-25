@@ -21,9 +21,9 @@ public:
 	int day;
 	int month;
 	int year;
-	int star_tTime;
+	int startTime;
 	int endTime;
-	std::string impt;
+	std::string priority;
 	std::string category;
 	bool completed;
 	bool floating;

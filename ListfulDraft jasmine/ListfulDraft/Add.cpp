@@ -1,10 +1,9 @@
 #include "Add.h"
 
-void Add::addContent(std::string &fileName, int &index, std::string subject, int startTime, int endTime, int day, int month, int year, std::string impt, std::string category, DataStore &data) {
-	//char choice;
-	/*data.entryType(index, subject, startTime, endTime, day, month, year, impt, category); 
+void Add::addContent(DataStore &data) {
+	char choice;
 
-	if (!data.getDataBase().empty() && isDuplicate(data)) {			
+	if (!data.getData().empty() && isDuplicate(data)) {
 		//Gives user a choice to add the text in the file despite the duplicate
 		std::cout << "Y to ignore/N to cancel" << std::endl;
 		std::cin >> choice;
@@ -14,12 +13,13 @@ void Add::addContent(std::string &fileName, int &index, std::string subject, int
 		}
 	}
 
-	data.updateDataBase();
-	data.updateFile(fileName);
+	data.getData().push_back(data.get_tempEntry);
+	std::cout << data.getData()[0].subject << 
+//	data.updateFile(fileName);
 	
-	std::cout << "Entry added successfully in " << fileName << std::endl;
+//	std::cout << "Entry added successfully in " << fileName << std::endl;
 	//sprintf_s(messageToUser, MESSAGE_ADD.c_str(), fileName.c_str(), readInLine.c_str());
-	//output(messageToUser);*/
+	//output(messageToUser);
 }
 
 bool Add::isSameDate(DataStore &data, int index, int day, int month, int year) {

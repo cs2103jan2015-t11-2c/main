@@ -100,7 +100,7 @@ void UserInterface::runProgram(char *argv[]) {
 		else {
 			parse.carryOutCommand(listClass, data);
 		}
-	} while (parse.isRunProgram());
+	} while (!parse.isRunProgram());
 	return;
 }
 

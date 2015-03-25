@@ -63,20 +63,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Add.h" />
+    <ClInclude Include="Category.h" />
     <ClInclude Include="DataStore.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Classes.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="Priority.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Add.cpp" />
+    <ClCompile Include="Category.cpp" />
     <ClCompile Include="DataStore.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="MAIN.cpp" />
+    <ClCompile Include="Priority.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="UserInterface.cpp" />
   </ItemGroup>

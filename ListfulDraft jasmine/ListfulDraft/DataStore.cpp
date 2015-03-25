@@ -3,20 +3,20 @@
 std::string DataStore::getDataString(int &index) {
 	std::ostringstream dataString;
 
-	int sTime = countDigit(_dataBase[index].star_tTime);
+	int sTime = countDigit(_dataBase[index].startTime);
 	int eTime = countDigit(_dataBase[index].endTime);
 	int nDay = countDigit(_dataBase[index].day);
 	int nMonth = countDigit(_dataBase[index].month);
 	int nYear = countDigit(_dataBase[index].year);
 
 	dataString << _dataBase[index].subject << "\nDate: ";
-	printDateZero(nDay, dataString);
+	printZero(nDay, dataString, 2);
 	dataString << _dataBase[index].day << '/';	
-	printDateZero(nMonth, dataString);
+	printZero(nMonth, dataString, 2);
 	dataString << _dataBase[index].month << '/' << _dataBase[index].year << "\t\tTime: ";
-	printTimeZero(sTime, dataString);
-	dataString << _dataBase[index].star_tTime << '-';
-	printTimeZero(eTime, dataString);
+	printZero(sTime, dataString, 4);
+	dataString << _dataBase[index].startTime << '-';
+	printZero(eTime, dataString, 4);
 	dataString << _dataBase[index].endTime;
 
 	dataString << "\t\tCategory: " << _dataBase[index].category << '\n';
@@ -36,17 +36,10 @@ int DataStore::countDigit(int &num) {
 	return count;
 }
 
-void DataStore::printTimeZero(int &time, std::ostringstream &dataString) {
-	while (time < 4) {
+void DataStore::printZero(int &num, std::ostringstream &dataString, int count) {
+	while (num < count) {
 		dataString << '0';
-		time++;
-	}
-	return;
-}
-
-void DataStore::printDateZero(int &date, std::ostringstream &dataString) {
-	if (date < 2) {
-		dataString << '0';
+		num++;
 	}
 	return;
 }
@@ -99,10 +92,14 @@ void DataStore::redoData() {
 	return;
 }
 
-Entry DataStore::getEntry(int &index) {
+std::vector <Entry> &DataStore::getData() {
+	return _dataBase;
+}
+
+Entry &DataStore::getEntry(int &index) {
 	return _dataBase[index];
 }
 	
-Entry DataStore::get_tempEntry() {
+Entry &DataStore::get_tempEntry() {
 	return _tempEntry;
 }

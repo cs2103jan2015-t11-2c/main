@@ -117,8 +117,10 @@ bool Time::takeTime(std::string &originalStr, std::string &line, int &noOfTime) 
 	}
 
 	checkAMPM(originalStr, line, count, time);
-
 	if (time < 100 && count != 4) {
+		return false;
+	}
+	else if (!(checkHourValid(time) && checkMinValid(time))) {
 		return false;
 	}
 	else if (noOfTime == 0) {
@@ -200,7 +202,7 @@ bool Time::extractTime (std::string &line, int &noOfTime) {
 
 	if (takeTime(str, tStr, noOfTime)) {
 		noOfWord = countWord(str);
-		if (noOfWord > 2) {
+		if (noOfWord > 2 || noOfWord == 0) {
 			line = str;
 			return true;
 		}
