@@ -122,16 +122,10 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 				int YYYY = dateYear();
 				std::string p = userPriority();
 				std::string cat = userCat();
-
-				if(DD!=0 && MM!=0 && YYYY!=0 && ST!=0 && ET != 0){
 				
-					add.addContent(fileName, fileSize, sub, ST, ET, DD, MM, YYYY, p, cat, data);
-					fileSize++;
-				}
-				else {
-					add.addFloating(fileName, fileSize, sub, p, cat, data);
-					fileSize++;
-				}
+				add.addContent(fileName, fileSize, sub, ST, ET, DD, MM, YYYY, p, cat, data);
+				fileSize++;
+			
 				break;
 				   }
 			case 2:{
@@ -166,7 +160,7 @@ void Parser::determineCommand(DataStore &data, std::string fileName, int command
 			case 5:{
 				std::string keyword, type;
 				std::cin >> type;
-				std::cin >> keyword;
+				getline(std::cin, keyword);
 					search.searchFile(fileName, data, keyword, type);
 				break;
 				}

@@ -102,7 +102,28 @@ std::string DataStore::getTime(int index){
 
 	return time.str();
 }
+//problem
+std::string DataStore::findAcronym(std::string word){
+	
+	std::ostringstream acronym;
+	size_t index = 0;
 
+	acronym << word[0];
+
+	while(index != std::string::npos){
+	
+		index = word.find_first_of(" ", index);
+		index = word.find_first_not_of(" ", index);
+		word = word.substr(index);
+		acronym << word[0];
+		if (index == std::string::npos) {
+			word = word.substr(index);
+			acronym << word[0];
+		}
+		std::cout << acronym.str() << std::endl;
+	}
+	return acronym.str();
+}
 //to access the private data string in the datastore
 std::string DataStore::getDataString(int index) {
 	std::ostringstream dataString;

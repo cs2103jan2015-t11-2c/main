@@ -79,10 +79,6 @@ void Sort::sortContent(std::string &fileName, DataStore &data, std::string field
 				}	
 			break;
 
-		case CATEGORY:
-			
-			break;
-
 		default:
 			std::cout << "Sort command is invalid.\n";
 			return;

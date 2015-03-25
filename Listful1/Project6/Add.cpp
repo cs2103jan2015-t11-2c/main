@@ -22,31 +22,6 @@ void Add::addContent(std::string &fileName, int &index, std::string subject, int
 	//output(messageToUser);
 }
 
-//add floating
-void Add::addFloating(std::string &fileName, int &index, std::string subject, std::string impt, std::string category, DataStore &data){
-	char choice;
-	int startTime = 0;
-	int endTime = 0;
-	int day = 0;
-	int month = 0;
-	int year = 0; // how to equate to null and dun print
-	data.entryType(index, subject, startTime, endTime, day, month, year, impt, category); 
-
-	if (!data.getDataBase().empty() && isDuplicate(data)) {			
-		//Gives user a choice to add the text in the file despite the duplicate
-		std::cout << "Y to ignore/N to cancel" << std::endl;
-		std::cin >> choice;
-		if (choice == 'N') {
-			std::cout << "\n";
-			return;
-		}
-	}
-
-	data.updateDataBase();
-	data.updateFile(fileName);
-	
-	std::cout << "Floating entry added successfully in " << fileName << std::endl;
-}
 //to check if the field added has the same date
 bool Add::isSameDate(DataStore &data, int index, int day, int month, int year) {
 	if (data.getDataBase()[index].year == year && data.getDataBase()[index].month == month && data.getDataBase()[index].day == day) {

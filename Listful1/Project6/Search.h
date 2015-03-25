@@ -20,6 +20,7 @@ class Search
 	bool foundPriority(DataStore &, std::string &);
 	bool foundDate(DataStore &, std::string &);
 	bool foundTime(DataStore &, std::string &);
+	
 	void printSearchedContent(DataStore &);
 	int determineCategory(std::string );
 };

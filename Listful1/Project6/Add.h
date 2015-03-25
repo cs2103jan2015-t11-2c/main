@@ -9,7 +9,6 @@ private:
 
 public:
 	Add() {};
-	void addFloating(std::string &, int &, std::string, std::string, std::string, DataStore &);
 	void addContent(std::string &, int &, std::string, int, int, int, int, int, std::string, std::string, DataStore &);
 	bool isDuplicate(DataStore &);
 	bool isSameDate(DataStore &, int, int, int, int);

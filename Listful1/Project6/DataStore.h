@@ -107,6 +107,8 @@ public:
 	void editDate(int , int, int, int);
 	void editPriority(std::string, int);
 	void editCategory(std::string, int);
+	
+	std::string findAcronym(std::string );
 };
 
 #endif

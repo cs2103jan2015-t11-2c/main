@@ -61,6 +61,15 @@ void Search::searchFile(std::string &fileName, DataStore &data, std::string keyw
 			break;
 					   }
 		case IMPT: {
+			if (keyword[0] == 'l' || keyword[0] == 'L'){
+				keyword = "Low"; 
+			}
+			else if(keyword[0] == 'h' || keyword[0] == 'H'){
+				keyword = "High";
+			}
+			else if(keyword[0] == 'm' || keyword[0] == 'M'){
+				keyword = "Medium";
+			}
 			if (foundPriority(data, keyword)){
 				printSearchedContent(data);			
 			}	
@@ -163,15 +172,19 @@ bool Search::foundDate(DataStore &data, std::string &keyword) {
 
 bool Search::foundSubject(DataStore &data, std::string &keyword) {
 	
-	size_t found;
+	bool found = false;
 	data.clearTempDataBase();
+	
 
 	for (int index = 0; index < data.getDataBaseSize(); index++) {
+		std::string word = data.getSubject(index);
+		word = word.substr(1);
+		std::string acronym = data.findAcronym(word);
 		std::string content = data.getSubject(index);
-		found = content.find(keyword);
 		
-		if (found != std::string::npos) {
+		if (content == keyword || acronym == keyword) {
 			data.updateTempDataBase(data.getDataBase()[index]); 
+			found = true;
 		}
 	}
 
@@ -179,8 +192,9 @@ bool Search::foundSubject(DataStore &data, std::string &keyword) {
 		return false;
 	}
 	
-	return true;
+	return found;
 }
+
 
 void Search::printSearchedContent(DataStore &data){
 
