@@ -172,27 +172,35 @@ bool Search::foundDate(DataStore &data, std::string &keyword) {
 
 bool Search::foundSubject(DataStore &data, std::string &keyword) {
 	
-	bool found = false;
+	size_t found;
 	data.clearTempDataBase();
 	
-
 	for (int index = 0; index < data.getDataBaseSize(); index++) {
+		std::string content = data.getCategory(index);
+		found = content.find(keyword);
+		
+		if (found != std::string::npos) {
+			data.updateTempDataBase(data.getDataBase()[index]); 
+		}
+	}
+
+	/*for (int index = 0; index < data.getDataBaseSize(); index++) {
 		std::string word = data.getSubject(index);
 		word = word.substr(1);
-		std::string acronym = data.findAcronym(word);
+		//std::string acronym = data.findAcronym(word);
 		std::string content = data.getSubject(index);
-		
-		if (content == keyword || acronym == keyword) {
+		found = content.find(keyword);
+		if (found != std::string::npos/*content == keyword || acronym == keyword) {
 			data.updateTempDataBase(data.getDataBase()[index]); 
 			found = true;
 		}
-	}
+	}*/
 
 	if (data.getTempDataBase().empty()) {
 		return false;
 	}
 	
-	return found;
+	return true;
 }
 
 
