@@ -6,6 +6,7 @@
 #include "Add.h"
 #include "Priority.h"
 #include "Category.h"
+#include "Message.h"
 /*#include "Clear.h"
 #include "Delete.h"
 #include "Display.h"

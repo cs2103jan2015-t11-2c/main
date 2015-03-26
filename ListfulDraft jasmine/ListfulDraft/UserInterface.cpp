@@ -1,27 +1,5 @@
 #include "UserInterface.h"
 
-const std::string UserInterface::MESSAGE_WELCOME = "*** Welcome to Listful ***";
-const std::string UserInterface::MESSAGE_ACTION = "Please choose an action: ";
-
-const std::string UserInterface::MESSAGE_ADD = "added to %s: \"%s\"";
-const std::string UserInterface::MESSAGE_DELETE = "deleted from %s: \"%s\"";
-const std::string UserInterface::MESSAGE_CLEAR = "all content deleted from %s";
-const std::string UserInterface::MESSAGE_EMPTY = "%s is empty";
-const std::string UserInterface::MESSAGE_SORT = "%s has been sorted alphabetically";
-const std::string UserInterface::MESSAGE_EDIT = "%s has been edited";
-const std::string UserInterface::MESSAGE_SEARCH = "results of '%s':\n";
-const std::string UserInterface::MESSAGE_UNDO = "undid previous change";
-const std::string UserInterface::MESSAGE_REDO = "redid previous undo";
-
-const std::string UserInterface::ERROR_COMMAND = "invalid command";
-const std::string UserInterface::ERROR_DELETE = "text not found";
-const std::string UserInterface::ERROR_ADD = "\"%s\" is already inside. y to include; n to exclude";
-const std::string UserInterface::ERROR_SEARCH = "\"%s\" cannot be found in %s";
-const std::string UserInterface::ERROR_EDIT;
-const std::string UserInterface::ERROR_SORT;
-const std::string UserInterface::ERROR_UNDO;
-const std::string UserInterface::ERROR_REDO;
-
 void UserInterface::printStarRow(){
 	for (int i=0; i<80; i++){
 		std::cout << "*" ;
@@ -73,7 +51,8 @@ void UserInterface::printSpace(int num) {
 }
 
 void UserInterface::userAction() {
-	centralizePrintToUser(MESSAGE_ACTION);
+	Message message;
+	centralizePrintToUser(message.chooseMessage(1));
 
 	std::cout << std::endl << std::setw(10) << "(1) Add" << std::setw(10) << "(2) Display" 
 			  << std::setw(10) << "(3) Edit" << std::setw(10) << "(4) Delete" 
@@ -81,12 +60,14 @@ void UserInterface::userAction() {
 	return;
 }
 
-void UserInterface::runProgram(char *argv[]) {
+std::string UserInterface::runProgram(char *argv[]) {
 	std::string fileName = argv[1];
 	Parser parse;
 	DataStore data;
 	Classes listClass;
-	int message = 0;
+	int messageIndex = 0;
+	std::string outputMessage;
+	Message message;
 
 	homeScreen();
 
@@ -99,16 +80,18 @@ void UserInterface::runProgram(char *argv[]) {
 			homeScreen();
 		}
 		else {
-			message = parse.carryOutCommand(listClass, data, fileName);
-
+			messageIndex = parse.carryOutCommand(listClass, data, fileName);
+			outputMessage = message.chooseMessage(messageIndex);
+			return outputMessage;
 		}
 	} while (!parse.isRunProgram());
 	return;
 }
 
 void UserInterface::homeScreen() {
+	Message message;
 	printStarRow();
-	centralizePrintToUser(MESSAGE_WELCOME);
+	centralizePrintToUser(message.chooseMessage(0));
 	printStarRow();
 
 	addQuote();
