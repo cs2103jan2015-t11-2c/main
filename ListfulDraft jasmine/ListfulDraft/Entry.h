@@ -3,15 +3,13 @@
 
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <string>
 #include <iomanip>
 #include <algorithm>
 #include <sstream>
-#include <assert.h>
 #include <fstream>
-#include <ctime>
-#include <cstdlib>
+#include <assert.h>
+#include <time.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <windows.h>

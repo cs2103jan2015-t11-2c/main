@@ -42,6 +42,7 @@ int Date::determineMonth(std::string str) {
 	}
 }
 
+//To return possible time values only
 bool Date::extractNum(std::string tStr, size_t &start, size_t &end, int &count, int &num) {
 	while (end != std::string::npos && (tStr[end] >= '0' && tStr[end] <= '9')) {
 		if (end == (start + count)) {
@@ -67,6 +68,7 @@ void Date::removeNonDateChar(std::string &str) {
 	return;
 }
 
+//To identify a potential day
 bool Date::takeDay(std::string &tStr, size_t &start, size_t &end) {
 	int count = 0;
 
@@ -82,6 +84,7 @@ bool Date::takeDay(std::string &tStr, size_t &start, size_t &end) {
 	}
 }
 
+//To identify a potential month
 bool Date::takeMonth(std::string &tStr, size_t &start, size_t &end) {
 	int count = 0;
 	std::string str;
@@ -116,6 +119,7 @@ bool Date::takeMonth(std::string &tStr, size_t &start, size_t &end) {
 	return true;
 }
 
+//To identify if any year entered, else default year will be the current year
 void Date::takeYear(std::string &tStr, std::string &newStr) {
 	int i = 0;
 	int count = 0;
@@ -153,6 +157,7 @@ bool Date::isDayMonth() {
 	return true;
 }
 
+//To identify if the current first word of the string is a date
 bool Date::extractDate(std::string &tStr) {
 	_day = 0;
 	_month = 0;
@@ -199,6 +204,7 @@ bool Date::extractDate(std::string &tStr) {
 	return true;
 }
 
+//To make entering the month not case-sensitive
 void Date::changeToLower(std::string &str) {
 	int i;
 	for (i = 0; i < str.size(); i++) {

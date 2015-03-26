@@ -33,7 +33,7 @@ class Parser {
 		bool isRunProgram();
 		bool isClearScreen(std::string);
 		int determineCommand();
-		int carryOutCommand(Classes, DataStore &, std::string);
+		int carryOutCommand(Classes, DataStore &);
 
 		void separateWord(Classes, DataStore &);
 		void retrieveDate(Classes);
@@ -43,11 +43,20 @@ class Parser {
 		void getNextWord (std::string &, size_t &, size_t &);
 		void updateStr(std::string &, size_t &, size_t &);
 		void joinStr(std::string &, size_t &);
-		void cutExtraWord(size_t, int);
-		bool extraWord(std::string, size_t);
+		void cutExtraWord(size_t, int, int);
+		bool extraWord(std::string, size_t, int, int);
 		void changeToLower(std::string &);
-		void removeChar(std::string &str);
+		void removeFrontChar(std::string &str);
+		void removeBackChar(std::string &str);
 		//void testParser();
+
+		int &getDay();
+		int &getMonth();
+		int &getYear();
+		int &getSTime();
+		int &getETime();
+		std::string &getCat();
+		std::string &getPriority();
 };
 
 #endif

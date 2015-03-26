@@ -12,6 +12,7 @@ public:
 
 	bool extractPriority(std::string &);
 	void updateStr(std::string &, size_t);
+	void removeEndChar(std::string &);
 
 	std::string getPriority();
 };

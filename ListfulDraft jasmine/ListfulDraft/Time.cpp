@@ -47,6 +47,7 @@ void Time::updateStr(std::string &originalStr, std::string &line, size_t found) 
 bool Time::extractNum (std::string line, int &count, int &num) {
 	size_t start = 0;
 	size_t end = 0;
+	int noOfMin = 0;
 	size_t nonNum = line.find_first_of(".:", start);
 	if (!(nonNum != std::string::npos && nonNum <= (start + 2))) {
 		nonNum = std::string::npos;
@@ -60,10 +61,17 @@ bool Time::extractNum (std::string line, int &count, int &num) {
   		else if (end == (start + count + 1) && nonNum != std::string::npos) {
 			num = (num * 10) + (line[end] - '0');
 			count++;
+			noOfMin++;
 		}
 		end = line.find_first_of("0123456789", end + 1);
 	}
-	if (count <= 4 && count != 0) {
+	if (count == 1 && num == 0) {
+		return false;
+	}
+	else if (nonNum != std::string::npos && noOfMin != 2) {
+		return false;
+	}
+	else if (count <= 4 && count != 0) {
 		return true;
 	}
 	return false;
@@ -115,7 +123,6 @@ bool Time::takeTime(std::string &originalStr, std::string &line, int &noOfTime) 
 	if (!extractNum(line, count, time)) {
 		return false;
 	}
-
 	checkAMPM(originalStr, line, count, time);
 	if (time < 100 && count != 4) {
 		return false;
