@@ -3,6 +3,8 @@
 #include "Add.h"
 #include "Add.cpp"
 #include "DataStore.cpp"
+#include "Edit.h"
+#include "Edit.cpp"
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -37,5 +39,27 @@ namespace UnitTestLogic
 		
 		}
 
+		TEST_METHOD(EditSubject)
+		{
+			DataStore test;
+			Add add;
+			Edit edit;
+	        int index = 1;
+			std::string filename = "file.txt";
+
+			add.addContent(filename, index, "Dinner date", 1800 , 2000, 31, 03, 2015, "Low", "Personal", test);
+			add.addContent(filename, index, "Time to Sleep", 1500 , 1700, 31, 03, 2015, "Low", "Personal", test);
+
+			//edit function takes in the displayed index
+			edit.editFunction(filename, test, "subject", "Time to exercise~!", 2);
+
+			std::string expectedSubject = "Time to exercise~!";
+
+			std::string subject = test.getSubject(1);
+
+			Assert::AreEqual(expectedSubject, subject);
+
+		
+		}
 	};
 }
