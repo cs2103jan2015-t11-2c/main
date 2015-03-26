@@ -1,0 +1,30 @@
+﻿Build started 25/3/2015 9:51:18 PM.
+     1>Project "C:\Users\gerald\Documents\GitHub\main\ListfulDraft jasmine\UnitTest1\UnitTest1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\gerald\Documents\GitHub\main\ListfulDraft jasmine\ListfulDraft" /I"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\UnitTest\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\UnitTest1.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /FC /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(18): error C2039: 'clock_t' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(18): error C2873: 'clock_t' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(20): error C2039: 'asctime' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(20): error C2873: 'asctime' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(20): error C2039: 'clock' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(20): error C2873: 'clock' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(20): error C2039: 'ctime' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(20): error C2873: 'ctime' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(21): error C2039: 'difftime' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(21): error C2873: 'difftime' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(21): error C2039: 'gmtime' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(21): error C2873: 'gmtime' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(21): error C2039: 'localtime' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(21): error C2873: 'localtime' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(22): error C2039: 'mktime' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(22): error C2873: 'mktime' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(22): error C2039: 'strftime' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(22): error C2873: 'strftime' : symbol cannot be used in a using-declaration
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(22): error C2039: 'time' : is not a member of '`global namespace''
+     1>c:\program files (x86)\microsoft visual studio 11.0\vc\include\ctime(22): error C2873: 'time' : symbol cannot be used in a using-declaration
+     1>Done Building Project "C:\Users\gerald\Documents\GitHub\main\ListfulDraft jasmine\UnitTest1\UnitTest1.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.33
