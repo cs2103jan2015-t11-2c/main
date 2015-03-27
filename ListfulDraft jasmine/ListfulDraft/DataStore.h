@@ -7,19 +7,23 @@ class DataStore {
 public:	
 	std::vector <Entry> _dataBase;
 
-	std::queue <std::vector <Entry>> _pastData;
+	std::vector <std::vector <Entry>> _pastData;
 
-	std::queue <std::vector <Entry>> _futureData;
+	std::vector <std::vector <Entry>> _futureData;
 
 	Entry _tempEntry;
 
+	std::string _fileName;
+
 	DataStore () {};
+	DataStore (std::string);
 
 	std::string getDataString(int &);
 	int countDigit(int &);
 	void printZero(int &, std::ostringstream &, int);
+	void printSpace(std::ostringstream &, int);
 	//void entryType(std::string &, int &, int &, int &, int &, int &, std::string &, std::string &);
-	void updateFile(std::string);
+	void updateFile();
 	void savePrevFile();
 	void undoData();
 	void redoData();
