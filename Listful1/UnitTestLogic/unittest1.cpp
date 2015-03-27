@@ -15,8 +15,8 @@ namespace UnitTestLogic
 	{
 	public:
 		
-		TEST_METHOD(AddMethod1)
-		{
+		TEST_METHOD(AddMethod1){
+
 			DataStore test;
 			Add addTest;
 	        int index = 1;
@@ -39,8 +39,8 @@ namespace UnitTestLogic
 		
 		}
 
-		TEST_METHOD(EditSubject)
-		{
+		TEST_METHOD(EditSubject){
+
 			DataStore test;
 			Add add;
 			Edit edit;

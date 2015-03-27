@@ -95,6 +95,7 @@ bool Search::foundPriority(DataStore &data, std::string &keyword) {
 	
 	for (int index = 0; index < data.getDataBaseSize(); index++) {
 		std::string content = data.getPriority(index);
+		std::cout<<content<<std::endl;
 		found = content.find(keyword);
 		
 		if (found != std::string::npos) {
@@ -174,9 +175,10 @@ bool Search::foundSubject(DataStore &data, std::string &keyword) {
 	
 	size_t found;
 	data.clearTempDataBase();
+
 	
 	for (int index = 0; index < data.getDataBaseSize(); index++) {
-		std::string content = data.getCategory(index);
+		std::string content = data.getSubject(index);
 		found = content.find(keyword);
 		
 		if (found != std::string::npos) {
