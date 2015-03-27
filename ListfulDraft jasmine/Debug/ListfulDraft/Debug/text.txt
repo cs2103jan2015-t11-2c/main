@@ -1,0 +1,9 @@
+1. cs2103
+Date: 20/03/2015  Time: 0300-0400   Category: INBOX    Priority: LOW  
+
+2. cs2103
+Date: 20/03/2015  Time: 1100-1200   Category: INBOX    Priority: LOW  
+
+3. hello
+Date: -           Time: 1900-2000   Category: INBOX    Priority: LOW  
+
