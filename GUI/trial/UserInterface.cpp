@@ -3,8 +3,8 @@
 
 std::string UserInterface::getFileName(std::string filename){
 	std::string file = filename; //getting filename from gui
-	_hi = filename;
-	return file;				//return filename in std format to use in code
+	_hi = filename;				//initialise filename from user input
+	return file;				//return filename in string to be outputted by GUI
 }
 
 std::string UserInterface::runProgram(std::string inputLine){

@@ -28,6 +28,7 @@ void Messages::addMessages(){
 }
 
 std::string Messages::chosenMessage(int index){
+	addMessages();
 	std::string chosenMessage = _messages[index];
 	return chosenMessage;
 }

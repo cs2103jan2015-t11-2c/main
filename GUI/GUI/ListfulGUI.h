@@ -207,8 +207,8 @@ namespace GUI {
 
 					 std::string resultInput = listFul.runProgram(inputLine);
 					 String^ feedbacktodisplay = gcnew String(resultInput.c_str());
-					 feedbackbox->Text += feedbacktodisplay;
-
+					 feedbackbox->Text += feedbacktodisplay + "\n";
+					 MessageBox::Show(feedbacktodisplay);
 					 inputTextBox->Clear();
 					 
 				 }
