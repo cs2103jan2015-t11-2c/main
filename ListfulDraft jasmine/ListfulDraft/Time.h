@@ -19,7 +19,7 @@ public:
 	void updateTime();
 	void removeNonTimeChar(std::string &);
 	int countWord(std::string);
-
+	bool checkDate(std::string, int);
 	bool takeTime(std::string &, std::string &, int &);
 	void checkAMPM (std::string &, std::string &, int , int &);
 	bool extractTime (std::string &, int &);

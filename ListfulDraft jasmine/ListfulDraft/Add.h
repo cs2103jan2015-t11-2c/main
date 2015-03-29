@@ -11,6 +11,10 @@ public:
 	bool isDuplicate(DataStore);
 	bool isSameDate(DataStore, int);
 	bool isSameTime(DataStore, int);
+	void insertionAdd(DataStore &);
+	bool sameDayAdd(DataStore &);
+	bool diffDayAdd(DataStore &);
+	void diffDayAdd2(DataStore &);
 };
 
 #endif

@@ -7,6 +7,8 @@ class DataStore {
 public:	
 	std::vector <Entry> _dataBase;
 
+	std::vector <Entry> _tempDataBase;
+
 	std::vector <std::vector <Entry>> _pastData;
 
 	std::vector <std::vector <Entry>> _futureData;
@@ -29,6 +31,7 @@ public:
 	void redoData();
 
 	std::vector <Entry> &getData();
+	std::vector <Entry> &getTempData();
 	Entry &getEntry(int);
 	Entry &get_tempEntry();
 };

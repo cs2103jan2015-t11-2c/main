@@ -10,7 +10,7 @@ void Priority::removeEndChar(std::string &word) {
 }
 
 void Priority::updateStr(std::string &pStr, size_t found) {
-	found = pStr.find_first_not_of(" ,:;?/()[]{}''""!@#$%^&*-_+=|<>`~", found);
+	found = pStr.find_first_not_of(" ", found);
 
 	if (found == std::string::npos) {
 		pStr = "";

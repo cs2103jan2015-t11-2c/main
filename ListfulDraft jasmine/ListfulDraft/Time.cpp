@@ -49,7 +49,7 @@ bool Time::extractNum (std::string line, int &count, int &num) {
 	size_t end = 0;
 	int noOfMin = 0;
 	size_t nonNum = line.find_first_of(".:", start);
-	if (!(nonNum != std::string::npos && nonNum <= (start + 2))) {
+	if (!(nonNum != std::string::npos && nonNum < 2)) {
 		nonNum = std::string::npos;
 	}
 
@@ -89,24 +89,24 @@ void Time::updateTime() {
 
 void Time::removeNonTimeChar(std::string &str) {
 	size_t found;
-	found = str.find_first_of(" /.-");
+	found = str.find_first_of(" -");
 
 	while (found != std::string::npos && found == 0) {
 		str = str.substr(1);
-		found = str.find_first_of(" /.-");
+		found = str.find_first_of(" -");
 	}
 	return;
 }
 
 int Time::countWord(std::string str) {
 	size_t nextTime = str.find_first_of("0123456789");
-	size_t index = str.find_first_of(" ,;.");
+	size_t index = str.find_first_of(" ,");
 	int count = 0;
 
 	while (index != std::string::npos && nextTime != std::string::npos) {
 		if (index < nextTime) {
 			removeNonTimeChar(str);
-			index = str.find_first_of(" ,;.", index + 1);
+			index = str.find_first_of(" ,", index + 1);
 			count++;
 		}
 		else {
@@ -116,11 +116,35 @@ int Time::countWord(std::string str) {
 	return count;
 }
 
+bool Time::checkDate(std::string line, int count) {
+	size_t start = count;
+	changeToLower(line);
+	size_t find = line.find("am");
+	
+	if (line[start] == '/') {
+		return true;
+	}
+	start = line.find_first_of("jfmajsnodJFMAJSNOD", start);
+	if (line[start] != std::string::npos && ((start - count) < 2)) {
+		if (find == std::string::npos) {
+			return true;
+		}
+		else if (find - count >= 2) {
+			return true;
+		}
+	}
+	return false;
+}
+
 bool Time::takeTime(std::string &originalStr, std::string &line, int &noOfTime) {
 	int count = 0;
 	int time = 0;
 
 	if (!extractNum(line, count, time)) {
+		return false;
+	}
+
+	if (checkDate(line, count)) {
 		return false;
 	}
 	checkAMPM(originalStr, line, count, time);
@@ -192,8 +216,9 @@ void Time::checkAMPM (std::string &originalStr, std::string &line, int count, in
 		else if (count < 4) {
 			num = num + 1200;
 		}
-		originalStr = originalStr.substr(count);
+		originalStr = originalStr.substr(count + 1);
 	}
+
 	if (num == 2400) {
 		num = 1200;
 	}
@@ -215,8 +240,8 @@ bool Time::extractTime (std::string &line, int &noOfTime) {
 		}
 		else {
 			while (noOfWord > 0) {
-				index = str.find_first_of(" .,", index);
-				index = str.find_first_not_of(" .,", index);
+				index = str.find_first_of(" ,", index);
+				index = str.find_first_not_of(" ,", index);
 				noOfWord--;
 			}
 			str = str.substr(index);

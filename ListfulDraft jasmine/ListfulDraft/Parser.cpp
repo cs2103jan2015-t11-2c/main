@@ -2,6 +2,11 @@
 
 //Separates the user input to be the command string and information string
 void Parser::init(std::string command) {
+	TIME_DATE = 1;
+	CAT_IMPT = 2;
+	FRONT = 1;
+	BACK = 2;
+
 	size_t start = 0;
 	size_t end;
 	_isEnd = false;
@@ -64,11 +69,33 @@ int Parser::determineCommand() {
 	}
 }
 
-int Parser::carryOutCommand(Classes listClass, DataStore &data) {
+//determine what category user chooses to sort by
+int Parser::determineCategory() {
+	if (_information == "date") {
+		return subCategory::DATE;
+	}
+	else if (_information == "time") {
+		return subCategory::TIME;
+	}
+	else if (_information == "priority" || _information == "impt" || _information == "importance") {
+		return subCategory::PRIORITY;
+	}
+	else if (_information == "category" || _information == "cat") {
+		return subCategory::CATEGORY;
+	}
+	else if (_information == "sub" || _information == "subject" || _information == "alphabetically") {
+		return subCategory::SUBJECT;
+	}
+	else {
+		return subCategory::INVALIDSORT;
+	}
+}
+
+int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 	int command = determineCommand();
 
 	switch(command) {
-		case ADD:
+		case commandType::ADD:
 			separateWord(listClass, data);
 			if (listClass.add.addContent(data)) {
 				return commandType::ADD;
@@ -77,9 +104,9 @@ int Parser::carryOutCommand(Classes listClass, DataStore &data) {
 				return 0; //add error
 			}
 			break;
-		case DISPLAY:
+		case commandType::DISPLAY:
 			break;
-		case CLEAR:
+		case commandType::CLEAR:
 			if (listClass.clearFile.clearFile(data)) {
 				return commandType::CLEAR;
 			}
@@ -87,77 +114,93 @@ int Parser::carryOutCommand(Classes listClass, DataStore &data) {
 				return 0; //clear error
 			}
 			break;
-		case EDIT:
+		case commandType::EDIT:
 			break;
-		case REMOVE:
-			listClass.remove.deleteContent(data, _information);
-			return commandType::REMOVE;
+		case commandType::REMOVE:
+
 			break;
-		case REDO:
+		case commandType::REDO:
 			data.redoData();
 			break;
-		case UNDO:
+		case commandType::UNDO:
 			data.undoData();
 			break;
-		case SEARCH:
+		case commandType::SEARCH:
 			break;
-		case SORT:
+		case commandType::SORT:
+			listClass.sortFile.getSortCat() = determineCategory();
+			if (listClass.sortFile.sortContent(data)) {
+				return commandType::SORT;
+			}
+			else {
+				return 0; //sort error
+			}
 			break;
-		case EXIT:
+		case commandType::EXIT:
 			_isEnd = true;
 			break;
-		case INVALID:
+		case commandType::INVALID:
 			break;
 	}
 	return commandType::INVALID;
 }
 
 //To separate out the information into its time, date, category, priority and subject
-void Parser::separateWord(Classes listClass, DataStore &data) {
+void Parser::separateWord(Classes &listClass, DataStore &data) {
 	date = false;
 	time = false;
 	cat = false;
 	priority = false;
-
-	retrieveDate(listClass);
-	if (date) {
-		data.get_tempEntry().day = _day; 
-		data.get_tempEntry().month = _month; 
-		data.get_tempEntry().year = _year;
-	}
-
+	
 	retrieveTime(listClass);
+	retrieveDate(listClass);
+	retrievePriority(listClass);
+	retrieveCategory(listClass);
+
+	removeFrontChar(_information);
+	removeBackChar(_information);
+	data.get_tempEntry().subject = _information;
+
 	if (time) {
-		data.get_tempEntry().startTime = _sTime; 
-		data.get_tempEntry().endTime = _eTime;
+		data.get_tempEntry().startTime = listClass.time.getStart(); 
+		data.get_tempEntry().endTime = listClass.time.getEnd();
+	}
+	else {
+		data.get_tempEntry().startTime = 0;
+		data.get_tempEntry().endTime = 0;
 	}
 
-	retrievePriority(listClass);
+	if (date) {
+		data.get_tempEntry().day = listClass.date.getDay(); 
+		data.get_tempEntry().month =listClass.date.getMonth(); 
+		data.get_tempEntry().year = listClass.date.getYear(); ;
+		data.get_tempEntry().isFloat = false;
+	}
+	else {
+		data.get_tempEntry().day = 0;
+		data.get_tempEntry().isFloat = true;
+	}
+
 	if (priority) {
 		data.get_tempEntry().priority = _priority;
 	}
 	else {
 		data.get_tempEntry().priority = "LOW  ";
 	}
-	retrieveCategory(listClass);
 	if (cat) {
 		data.get_tempEntry().category = _cat;
 	}
 	else {
 		data.get_tempEntry().category = "INBOX    ";
 	}
-	removeFrontChar(_information);
-	removeBackChar(_information);
-	data.get_tempEntry().subject = _information;
 	return;
 }
 
-void Parser::retrieveDate(Classes listClass) {
+void Parser::retrieveDate(Classes &listClass) {
 	std::string dStr = _information;
 	size_t start = 0;
 	size_t end = 0;
 	int count = 0;
-	int cat = 1;
 
 	do {
 		if (!listClass.date.extractDate(dStr)) {
@@ -166,14 +209,11 @@ void Parser::retrieveDate(Classes listClass) {
 		else {
 			joinStr(dStr, start);
 			if (start == 0) {
-				cutExtraWord(start, count, cat);
+				cutExtraWord(start, count, TIME_DATE);
 			}
 			else {
-				cutExtraWord(start - 1, count, cat);
+				cutExtraWord(start - 1, count, TIME_DATE);
 			}
-			_day = listClass.date.getDay(); 
-			_month = listClass.date.getMonth(); 
-			_year = listClass.date.getYear();
 			date = true;
 			return;
 		}
@@ -181,13 +221,12 @@ void Parser::retrieveDate(Classes listClass) {
 	return;
 }
 
-void Parser::retrieveTime(Classes listClass) {
+void Parser::retrieveTime(Classes &listClass) {
 	std::string tStr = _information;
 	int count = 0;
 	size_t start = 0;
 	size_t end = 0;
 	int word = 0;
-	int cat = 1;
 
 	do {
 		if (listClass.time.extractTime(tStr, count)) {
@@ -196,13 +235,11 @@ void Parser::retrieveTime(Classes listClass) {
 			}
 			joinStr(tStr, start);
 			if (start == 0) {
-				cutExtraWord(start, word, cat);
+				cutExtraWord(start, word, TIME_DATE);
 			}
 			else {
-				cutExtraWord(start - 1, word, cat);
+				cutExtraWord(start - 1, word, TIME_DATE);
 			}
-			_sTime = listClass.time.getStart(); 
-			_eTime = listClass.time.getEnd();
 		//	listClass.time.checkStartEnd();
 			time = true;
 			return;
@@ -212,12 +249,11 @@ void Parser::retrieveTime(Classes listClass) {
 	return;
 }
 
-void Parser::retrievePriority(Classes listClass) {
+void Parser::retrievePriority(Classes &listClass) {
 	std::string pStr = _information;
 	size_t start = 0;
 	size_t end = 0;
 	int word = 0;
-	int cat = 2;
 
 	do { 
 		if (!listClass.priority.extractPriority(pStr)) {
@@ -227,10 +263,10 @@ void Parser::retrievePriority(Classes listClass) {
 			joinStr(pStr, start);
 			_priority = listClass.priority.getPriority();
 			if (start == 0) {
-				cutExtraWord(start, word, cat);
+				cutExtraWord(start, word, CAT_IMPT);
 			}
 			else {
-				cutExtraWord(start - 1, word, cat);
+				cutExtraWord(start - 1, word, CAT_IMPT);
 			}
 			priority = true;
 			return;
@@ -239,12 +275,11 @@ void Parser::retrievePriority(Classes listClass) {
 	return;
 }
 
-void Parser::retrieveCategory(Classes listClass) {
+void Parser::retrieveCategory(Classes &listClass) {
 	std::string pStr = _information;
 	size_t start = 0;
 	size_t end = 0;
 	int word = 0;
-	int cat = 2;
 
 	do { 
 		if (!listClass.category.extractCat(pStr)) {
@@ -254,10 +289,10 @@ void Parser::retrieveCategory(Classes listClass) {
 			joinStr(pStr, start);
 			_cat = listClass.category.getCat();
 			if (start == 0) {
-				cutExtraWord(start, word, cat);
+				cutExtraWord(start, word, CAT_IMPT);
 			}
 			else {
-				cutExtraWord(start - 1, word, cat);
+				cutExtraWord(start - 1, word, CAT_IMPT);
 			}
 			cat = true;
 			return;
@@ -266,53 +301,24 @@ void Parser::retrieveCategory(Classes listClass) {
 	return;
 }
 
-//Returns the index of the next word in the variable 'end'
-void Parser::getNextWord (std::string &tStr, size_t &start, size_t &end) {
-	end = tStr.find_first_of(" ,:;?/()[]{}''""!@#$%^&*-_+=|<>`~", start);
-	if (end == std::string::npos) {
-		return;
-	}
-	end = tStr.find_first_not_of(" ,:;?/()[]{}''""!@#$%^&*-_+=|<>`~", end);
-	return;
-}
-
-//Cuts out the first word so as to check the next word
-void Parser::updateStr(std::string &tStr, size_t &start, size_t &end) {
-	getNextWord(_information, start, end);
-	if (end != std::string::npos) {
-		tStr = _information.substr(end);
-		start = end;
-	}
-	return;
-}
-
-//Updates the information string once a time, date, category or priority is found
-void Parser::joinStr(std::string &tStr, size_t &start) {
-	_information = _information.substr(0, start);
-	_information = _information + tStr;
-	return;
-}
-
 //To remove words keyed in by the user that are not the subject
 //Checks the next word only and up to three previous words
 void Parser::cutExtraWord(size_t found, int count, int cat) {
 	std::string word = "";
 	size_t find = 0;
-	int frontOrBack = 0;
 	
 	//Checks the next word only
 	if (count == 0) {
 		find = _information.find_first_not_of(" ,.?!", found);
 		if (find != std::string::npos) {
-			find = _information.find_first_of(" ,.?!", find);
+			find = _information.find_first_of(" ", find);
 			if (find == std::string::npos) {
 				find = word.size() - 1;
 			}
 			word = _information.substr(found, find - found);
 			removeFrontChar(word);
 			removeBackChar(word);
-			frontOrBack = 2;
-			extraWord(word, found, cat, frontOrBack);
+			extraWord(word, found, cat, BACK);
 		}
 	}
 	
@@ -325,17 +331,16 @@ void Parser::cutExtraWord(size_t found, int count, int cat) {
 	if (find == std::string::npos) {
 		return;
 	}
-	find = _information.find_last_of(" .,?!", find);
+	find = _information.find_last_of(" ", find);
 	if (find == std::string::npos) {
 		find = 0;
 	}
 	word = _information.substr(find, found - find);
 	removeFrontChar(word);
 	removeBackChar(word);
-	frontOrBack = 1;
-
+	
 	//Uses recursion to check up to three previous words
-	if (extraWord(word, find, cat, frontOrBack)) {
+	if (extraWord(word, find, cat, FRONT)) {
 		count++;
 		return cutExtraWord(find, count, cat);
 	}
@@ -348,7 +353,7 @@ void Parser::cutExtraWord(size_t found, int count, int cat) {
 bool Parser::extraWord(std::string word, size_t found, int cat, int frontOrBack) {
 	std::vector <std::string> extra;
 	std::vector <std::string> extraBack;
-	std::vector <std::string> extraCatImpt;
+	std::vector <std::string> extraCAT_IMPT;
 	extra.push_back("from");
 	extra.push_back("now");
 	extra.push_back("until");
@@ -374,33 +379,36 @@ bool Parser::extraWord(std::string word, size_t found, int cat, int frontOrBack)
 	extra.push_back("the");
 	extra.push_back("check");
 	extra.push_back("up");
+	extra.push_back("date");
+	extra.push_back("time");
 
 	extraBack.push_back("onwards");
 	
-	extraCatImpt.push_back("of");
-	extraCatImpt.push_back("category");
-	extraCatImpt.push_back("priority");
-	extraCatImpt.push_back("importance");
-	extraCatImpt.push_back("impt");
-	extraCatImpt.push_back("cat");
-	//extra.push_back("and");
+	extraCAT_IMPT.push_back("of");
+	extraCAT_IMPT.push_back("category");
+	extraCAT_IMPT.push_back("priority");
+	extraCAT_IMPT.push_back("importance");
+	extraCAT_IMPT.push_back("impt");
+	extraCAT_IMPT.push_back("cat");
+
 	changeToLower(word);
+	removeBackChar(word);
 
 	size_t find = 0;
 	std::vector <std::string>::iterator iter;
 	int size = 0;
 
-	if (cat == 1 && frontOrBack == 1) {
+	if (cat == TIME_DATE && frontOrBack == FRONT) {
 		iter = extra.begin();
 		size = extra.size();
 	}
-	else if (cat == 1 && frontOrBack == 2) {
+	else if (TIME_DATE && frontOrBack == BACK) {
 		iter = extraBack.begin();
 		size = extraBack.size();
 	}
 	else {
-		iter = extraCatImpt.begin();
-		size = extraCatImpt.size();
+		iter = extraCAT_IMPT.begin();
+		size = extraCAT_IMPT.size();
 	}
 
 	while (size > 0) {
@@ -432,23 +440,50 @@ void Parser::changeToLower(std::string &str) {
 
 void Parser::removeFrontChar(std::string &str) {
 	size_t found;
-	found = str.find_first_of(" /.-");
+	found = str.find_first_of(" ,.-?!:;");
 
 	while (found != std::string::npos && found == 0) {
 		str = str.substr(1);
-		found = str.find_first_of(" /.-");
+		found = str.find_first_of(" .,-?!:;");
 	}
 	return;
 }
 
 void Parser::removeBackChar(std::string &str) {
 	size_t found;
-	found = str.find_last_of(" /.-");
+	found = str.find_last_of(" ,.-?!:;");
 
 	while (found != std::string::npos && found == str.size() - 1) {
 		str = str.substr(0, str.size() - 1);
-		found = str.find_last_of(" /.-");
+		found = str.find_last_of(" ,.-?!:;");
 	}
+	return;
+}
+
+//Returns the index of the next word in the variable 'end'
+void Parser::getNextWord (std::string &tStr, size_t &start, size_t &end) {
+	end = tStr.find_first_of(" ", start);
+	if (end == std::string::npos) {
+		return;
+	}
+	end = tStr.find_first_not_of(" ", end);
+	return;
+}
+
+//Cuts out the first word so as to check the next word
+void Parser::updateStr(std::string &tStr, size_t &start, size_t &end) {
+	getNextWord(_information, start, end);
+	if (end != std::string::npos) {
+		tStr = _information.substr(end);
+		start = end;
+	}
+	return;
+}
+
+//Updates the information string once a time, date, category or priority is found
+void Parser::joinStr(std::string &tStr, size_t &start) {
+	_information = _information.substr(0, start);
+	_information = _information + tStr;
 	return;
 }
 

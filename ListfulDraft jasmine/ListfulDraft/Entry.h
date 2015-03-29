@@ -11,7 +11,6 @@
 #include <assert.h>
 #include <time.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <stddef.h>
 #include <windows.h>
 
@@ -26,8 +25,8 @@ public:
 	int endTime;
 	std::string priority;
 	std::string category;
-	bool completed;
-	bool floating;
+	bool isComplete;
+	bool isFloat;
 };
 
 #endif

@@ -1,15 +1,19 @@
 #include "Add.h"
 
-//To add
+//To add floating and non-floating where the floating tasks
 //If a clash (subject or time and date) is found, it will still add but a warning message will be output
 bool Add::addContent(DataStore &data) {
 	bool status = true;
+	
+	if (data.get_tempEntry().subject == "") {
+		return false;
+	}
+	
 	if (!data.getData().empty() && isDuplicate(data)) {
 		std::cout << " (undo to remove add)" << std::endl; //put at messages part
 		status = false;
 	}
-
-	data.getData().push_back(data.get_tempEntry());
+	insertionAdd(data);
 	data.updateFile();
 	data.savePrevFile();
 	return status;
@@ -28,7 +32,7 @@ bool Add::isSameTime(DataStore data, int index) {
 	int num1 = 0;
 	int num2 = 0;
 
-	//To take note of '12am' since it is considered 0000 so that we can get the correct duration if it is
+	//To take note of '12am' since it is considered 0 so that we can get the correct duration
 	if (data.getData()[index].endTime == 0) {
 		num1 = 2400;
 	}
@@ -49,12 +53,14 @@ bool Add::isSameTime(DataStore data, int index) {
 	if (data.getData()[index].startTime == data.get_tempEntry().startTime) {
 		return true;
 	}
-	else if (data.getData()[index].startTime <= data.get_tempEntry().startTime) {
+	
+	if (data.getData()[index].startTime <= data.get_tempEntry().startTime) {
 		if ((data.get_tempEntry().startTime - data.getData()[index].startTime) < duration1) {
 			return true;
 		}
 	}
-	else if (data.getData()[index].startTime >= data.get_tempEntry().startTime) {
+	
+	if (data.getData()[index].startTime >= data.get_tempEntry().startTime) {
 		 if ((data.getData()[index].startTime - data.get_tempEntry().startTime) < duration2) {
 			return true;
 		 }
@@ -71,14 +77,75 @@ bool Add::isDuplicate(DataStore data) {
 		if (data.getData()[index].subject == data.get_tempEntry().subject) {
 			std::cout << "subject clash ";
 			if ((isSameDate(data, index)) && (isSameTime(data, index))) {
-			std::cout << "timing clash";
+			std::cout << "timing clash ";
 			}
 			return true;
 		}
 		if ((isSameDate(data, index)) && (isSameTime(data, index))) {
-			std::cout << "timing clash";
+			std::cout << "timing clash ";
 			return true;
 		}
 	}
 	return false;
+}
+
+//Adding non-floating tasks on the same day
+bool Add::sameDayAdd(DataStore &data) {
+	std::vector <Entry>::iterator iter;
+	int index = 0;
+
+	for (iter = data.getData().begin(); iter != data.getData().end(); iter++) {
+		if (isSameDate(data, index) && ((*iter).startTime > data.get_tempEntry().startTime)) {
+			data.getData().insert(iter, data.get_tempEntry());
+			return true;
+		}
+		index++;
+	}
+	return false;
+}
+
+//Adding non-floating tasks on with different dates
+bool Add::diffDayAdd(DataStore &data) {
+	std::vector <Entry>::iterator iter;
+
+	for (iter = data.getData().begin(); iter != data.getData().end(); iter++) {
+		if (((*iter).year == data.get_tempEntry().year) && ((*iter).month == data.get_tempEntry().month) && ((*iter).day > data.get_tempEntry().day)) {
+			data.getData().insert(iter, data.get_tempEntry());
+			return true;
+		}
+		else if (((*iter).year == data.get_tempEntry().year) && ((*iter).month > data.get_tempEntry().month)) {
+			data.getData().insert(iter, data.get_tempEntry());
+			return true;
+		}
+		else if (((*iter).year > data.get_tempEntry().year)) {
+			data.getData().insert(iter, data.get_tempEntry());
+			return true;
+		}
+	}
+	return false;
+}
+
+void Add::diffDayAdd2(DataStore &data) {
+	std::vector <Entry>::iterator iter;
+
+	for (iter = data.getData().begin(); iter != data.getData().end(); iter++) {
+		if ((*iter).isFloat) {
+			data.getData().insert(iter, data.get_tempEntry());
+			return;
+		}
+	}
+	data.getData().push_back(data.get_tempEntry());
+	return;
+}
+
+void Add::insertionAdd(DataStore &data) {
+	if (data.getData().empty() || data.get_tempEntry().isFloat) {
+		data.getData().push_back(data.get_tempEntry());
+		return;
+	}
+
+	if (!sameDayAdd(data) && !diffDayAdd(data)) {
+		diffDayAdd2(data);
+	}
+	return;
 }

@@ -21,18 +21,30 @@ std::string DataStore::getDataString(int &index) {
 	int nYear = countDigit(_dataBase[index].year);
 
 	//Form one whole string from the whole entry with standard sized columns
-	dataString << _dataBase[index].subject << std::endl << "Date: " ; 
-	printZero(nDay, dataString, 2);
-	dataString << _dataBase[index].day << '/';	
-	printZero(nMonth, dataString, 2);
-	dataString << _dataBase[index].month << '/' << _dataBase[index].year;
-	printSpace(dataString, 2);
+	dataString << _dataBase[index].subject << std::endl << "Date: " ;
+	if (_dataBase[index].day == 0) {
+		dataString << "-";
+		printSpace(dataString, 11);
+	}
+	else {
+		printZero(nDay, dataString, 2);
+		dataString << _dataBase[index].day << '/';	
+		printZero(nMonth, dataString, 2);
+		dataString << _dataBase[index].month << '/' << _dataBase[index].year;
+		printSpace(dataString, 2);
+	}
 	dataString << "Time: ";
-	printZero(sTime, dataString, 4);
-	dataString << _dataBase[index].startTime << '-';
-	printZero(eTime, dataString, 4);
-	dataString << _dataBase[index].endTime;
-	printSpace(dataString, 3);
+	if (_dataBase[index].startTime == 0 && _dataBase[index].endTime == 0) {
+		dataString << "-";
+		printSpace(dataString, 11);
+	}
+	else {
+		printZero(sTime, dataString, 4);
+		dataString << _dataBase[index].startTime << '-';
+		printZero(eTime, dataString, 4);
+		dataString << _dataBase[index].endTime;
+		printSpace(dataString, 3);
+	}
 	dataString << "Category: " << _dataBase[index].category;
 	dataString << "Priority: " << _dataBase[index].priority << std::endl;
 	return dataString.str();
@@ -126,6 +138,10 @@ void DataStore::redoData() {
 
 std::vector <Entry> &DataStore::getData() {
 	return _dataBase;
+}
+
+std::vector <Entry> &DataStore::getTempData() {
+	return _tempDataBase;
 }
 
 Entry &DataStore::getEntry(int index) {
