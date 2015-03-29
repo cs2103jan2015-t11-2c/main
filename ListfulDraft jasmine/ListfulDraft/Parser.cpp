@@ -90,8 +90,6 @@ int Parser::carryOutCommand(Classes listClass, DataStore &data) {
 		case EDIT:
 			break;
 		case REMOVE:
-			listClass.remove.deleteContent(data, _information);
-			return commandType::REMOVE;
 			break;
 		case REDO:
 			data.redoData();

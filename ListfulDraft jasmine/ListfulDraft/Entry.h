@@ -11,7 +11,6 @@
 #include <assert.h>
 #include <time.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <stddef.h>
 #include <windows.h>
 
