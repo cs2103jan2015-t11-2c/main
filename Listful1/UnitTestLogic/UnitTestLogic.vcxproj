@@ -52,7 +52,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Listful1\Project6;C:\Users\Theck Yee\Documents\CS Project\Listful1\Project6;C:\Users\Theck Yee\Documents\CS Project\Listful1\Project6\Debug;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Theck Yee\Documents\CSproject\Listful1\Project6;C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Listful1\Project6;C:\Users\Theck Yee\Documents\CS Project\Listful1\Project6;C:\Users\Theck Yee\Documents\CS Project\Listful1\Project6\Debug;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>

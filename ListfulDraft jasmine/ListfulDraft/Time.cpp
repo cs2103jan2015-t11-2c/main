@@ -5,6 +5,7 @@ Time::Time() {
 	_endTime = 0;
 }
 
+//to change case
 void Time::changeToLower(std::string &str) {
 	int i = 0;
 	for (i = 0; i < str.size(); i++) {
@@ -15,6 +16,7 @@ void Time::changeToLower(std::string &str) {
 	return;
 }
 
+//to check validity of hour
 bool Time::checkHourValid(int num) {
 	int time = num/100;
 	if (time > 23) {
@@ -23,6 +25,7 @@ bool Time::checkHourValid(int num) {
 	return true;
 }
 
+//to check validity of minute
 bool Time::checkMinValid(int num) {
 	int min = num%100;
 	if (min > 59) {
@@ -44,6 +47,7 @@ void Time::updateStr(std::string &originalStr, std::string &line, size_t found) 
 	return;
 }
 
+//to extract numbers
 bool Time::extractNum (std::string line, int &count, int &num) {
 	size_t start = 0;
 	size_t end = 0;
@@ -87,6 +91,7 @@ void Time::updateTime() {
 	return;
 }
 
+// to remove characters that are not supposed to be in the time
 void Time::removeNonTimeChar(std::string &str) {
 	size_t found;
 	found = str.find_first_of(" /.-");
@@ -98,6 +103,7 @@ void Time::removeNonTimeChar(std::string &str) {
 	return;
 }
 
+// to count the number of words
 int Time::countWord(std::string str) {
 	size_t nextTime = str.find_first_of("0123456789");
 	size_t index = str.find_first_of(" ,;.");
@@ -116,6 +122,7 @@ int Time::countWord(std::string str) {
 	return count;
 }
 
+// to extract the time
 bool Time::takeTime(std::string &originalStr, std::string &line, int &noOfTime) {
 	int count = 0;
 	int time = 0;
@@ -142,6 +149,7 @@ bool Time::takeTime(std::string &originalStr, std::string &line, int &noOfTime) 
 	return true;
 }
 
+// to check am and  pm
 void Time::checkAMPM (std::string &originalStr, std::string &line, int count, int &num) {
 	changeToLower(line);
 	size_t foundAM = line.find("am");
@@ -201,6 +209,7 @@ void Time::checkAMPM (std::string &originalStr, std::string &line, int count, in
 	return;
 }
 
+//to extract the time
 bool Time::extractTime (std::string &line, int &noOfTime) {
 	std::string str = line;
 	std::string tStr = line;
@@ -243,10 +252,12 @@ bool Time::extractTime (std::string &line, int &noOfTime) {
 	}
 }*/
 
+//to get start time
 int Time::getStart() {
 	return _startTime;
 }
 
+//to get end time
 int Time::getEnd() {
 	return _endTime;
 }

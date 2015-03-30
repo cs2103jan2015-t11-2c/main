@@ -221,4 +221,5 @@ void DataStore::entryType(int &index, std::string &subject, int &startTime, int 
 	tempEntry.year = year;
 	tempEntry.impt = impt;
 	tempEntry.category = category;
+		std::cout<<impt<<std::endl;
 }

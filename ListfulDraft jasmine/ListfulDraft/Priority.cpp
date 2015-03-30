@@ -1,5 +1,6 @@
 #include "Priority.h"
 
+//to remove end character
 void Priority::removeEndChar(std::string &word) {
 	size_t found = word.find_last_of(" .,;:?!'");
 	
