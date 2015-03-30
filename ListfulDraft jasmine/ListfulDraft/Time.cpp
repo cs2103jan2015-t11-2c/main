@@ -122,9 +122,7 @@ int Time::countWord(std::string str) {
 	return count;
 }
 
-<<<<<<< HEAD
 // to extract the time
-=======
 bool Time::checkDate(std::string line, int count) {
 	size_t start = count;
 	changeToLower(line);
@@ -145,7 +143,6 @@ bool Time::checkDate(std::string line, int count) {
 	return false;
 }
 
->>>>>>> f0d9fe138533f1b38904941429ea0dd632159cd6
 bool Time::takeTime(std::string &originalStr, std::string &line, int &noOfTime) {
 	int count = 0;
 	int time = 0;

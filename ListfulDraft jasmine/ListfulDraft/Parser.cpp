@@ -114,8 +114,20 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 				return 0; //clear error
 			}
 			break;
-		case commandType::EDIT:
+		case commandType::EDIT:{
+			int index;
+			std::string userInput, command;
+			std::cin >> index;
+			getline(std::cin, command);
+			getline(std::cin, userInput);
+			if (listClass.edit.editContent(data, command, userInput, index)) {
+				return commandType::EDIT;
+			}
+			else {
+				return 0; //edit error
+			}
 			break;
+							   }
 		case commandType::REMOVE:
 
 			break;

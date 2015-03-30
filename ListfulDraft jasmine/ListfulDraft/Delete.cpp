@@ -28,7 +28,7 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 		data.getData().erase(data.getData().begin()+index-1);
 		data.updateFile();
 		data.savePrevFile();
-		std::cout << "YAY" << std::endl;
+		std::cout << "Deleted" << std::endl;
 	}
 		
 
