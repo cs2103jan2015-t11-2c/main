@@ -1,4 +1,5 @@
 #include "Delete.h"
+
 /*
 //to get the index of the entry 
 int Delete::getContentIndex(DataStore &data, std::string subject) {
@@ -10,14 +11,31 @@ int Delete::getContentIndex(DataStore &data, std::string subject) {
 			return index;
 		}
 	}
-}
+}*/
 
 //to delete the content
-void Delete::deleteContent(DataStore &data, int index) {
-	std::string emptyStr;
-	emptyStr.clear();
+void Delete::deleteContent(DataStore &data, std::string info) {
+	//std::string emptyStr;
+	//emptyStr.clear();
+	std::string temp;
+	temp = info.substr(0, info.find_first_of(" "));
+	// if its by index
+	if (temp == "INDEX" || temp == "Index" || temp == "index") {
+		info = info.substr(info.find_first_of(" ")+1);
+		//convert info to int
+		std::cout << info << std::endl;
+		int index = 1;
+		data.getData().erase(data.getData().begin()+index-1);
+		data.updateFile();
+		data.savePrevFile();
+		std::cout << "YAY" << std::endl;
+	}
+		
 
-	if (data.getDataBaseSize() == 0) {
+	return;
+
+
+	/*if (data.getDataBaseSize() == 0) {
 		std::cout << "File is currently empty.\n";
 		return;
 	}
@@ -40,5 +58,5 @@ void Delete::deleteContent(DataStore &data, int index) {
 		std::cout << "Last entry of is file deleted.\n";
 		//sprintf_s(messageToUser, MESSAGE_CLEAR.c_str(), fileName.c_str());
 		//output(messageToUser);
-	}
-}*/
+	}*/
+}

@@ -25,8 +25,8 @@ public:
 	int endTime;
 	std::string priority;
 	std::string category;
-	bool completed;
-	bool floating;
+	bool isComplete;
+	bool isFloat;
 };
 
 #endif

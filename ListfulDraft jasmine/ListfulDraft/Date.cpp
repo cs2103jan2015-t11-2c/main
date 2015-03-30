@@ -59,11 +59,11 @@ bool Date::extractNum(std::string tStr, size_t &start, size_t &end, int &count, 
 
 void Date::removeNonDateChar(std::string &str) {
 	size_t found;
-	found = str.find_first_of(" /.-");
+	found = str.find_first_of(" /-");
 
 	while (found != std::string::npos && found == 0) {
 		str = str.substr(1);
-		found = str.find_first_of(" /.-");
+		found = str.find_first_of(" /-");
 	}
 	return;
 }
@@ -71,6 +71,8 @@ void Date::removeNonDateChar(std::string &str) {
 //To identify a potential day
 bool Date::takeDay(std::string &tStr, size_t &start, size_t &end) {
 	int count = 0;
+	start = 0;
+	end = 0;
 
 	if (!extractNum(tStr, start, end, count, _day)) {
 		return false;
@@ -104,13 +106,12 @@ bool Date::takeMonth(std::string &tStr, size_t &start, size_t &end) {
 	//If month is in words
 	else {
 		end = tStr.find_first_of(" /.-1234567890");
-		str = tStr.substr(0, end);
-		changeToLower(str);
-		_month = determineMonth(str);
-
 		if (end == std::string::npos) {
 			end = tStr.size();
 		}
+		str = tStr.substr(0, end);
+		changeToLower(str);
+		_month = determineMonth(str);
 		if (_month == 13) {
 			return false;
 		}
@@ -177,7 +178,7 @@ bool Date::extractDate(std::string &tStr) {
 	}
 	//MM/DD
 	else if (takeMonth (tStr, start, end)) {
-		newStr = tStr.substr(end);
+		newStr = tStr.substr(start);
 		removeNonDateChar(newStr);
 		if (!takeDay(newStr, start, end)) {
 			return false;
@@ -195,6 +196,9 @@ bool Date::extractDate(std::string &tStr) {
 	if (!isDayMonth()) {
 		std::cout << "invalid date entered, please re-enter date: ";
 		getline(std::cin, newDate);
+		if (newDate == "") {
+			return	false;
+		}
 		while (!extractDate(newDate)) {
 			std::cout << "invalid date entered, please re-enter date: ";
 			getline(std::cin, newDate);

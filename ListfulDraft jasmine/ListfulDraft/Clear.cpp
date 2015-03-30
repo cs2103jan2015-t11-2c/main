@@ -8,8 +8,6 @@ bool Clear::clearFile(DataStore &data) {
 	}
 
 	data.getData().clear();
-
-	std::cout << data.getData().size() << std::endl;
 	data.updateFile();
 	data.savePrevFile();
 	return true;

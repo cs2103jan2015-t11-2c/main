@@ -9,9 +9,9 @@
 #include "Clear.h"
 #include "Delete.h"
 /*#include "Display.h"
-#include "Edit.h"
+#include "Edit.h"*/
 #include "Sort.h"
-#include "Search.h"*/
+//#include "Search.h"
 
 class Classes {
 public:
@@ -19,8 +19,8 @@ public:
 	Delete remove;
 	/*Display display;
 	Edit edit;
-	Search searchFile;
-	Sort sortFile;*/
+	Search searchFile;*/
+	Sort sortFile;
 	Clear clearFile;
 	Time time;
 	Date date;
