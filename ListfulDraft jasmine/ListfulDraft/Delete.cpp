@@ -20,17 +20,26 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 	std::string temp;
 	temp = info.substr(0, info.find_first_of(" "));
 	// if its by index
-	if (temp == "INDEX" || temp == "Index" || temp == "index") {
-		info = info.substr(info.find_first_of(" ")+1);
-		//convert info to int
+	if (temp == "subject" || temp == "SUBJECT" || temp == "sub" || temp == "SUB") {
+		std::size_t found = info.find(temp);
+		int start = info.find_first_of(" ",found);
+		start = info.find_first_not_of(" ",start);
+		std::string sub = info.substr(start);
+		std::vector<Entry>::size_type sz = data.getData().size();
+		for(unsigned index = 0 ; index < sz; index++) {
+			if (data.getData()[index].subject == sub) {
+				//display function
+			}
+		}
+	} else {
 		std::cout << info << std::endl;
-		int index = 1;
+		int index = atoi(info.c_str());
+		//convert info to int
 		data.getData().erase(data.getData().begin()+index-1);
 		data.updateFile();
 		data.savePrevFile();
 		std::cout << "Deleted" << std::endl;
 	}
-		
 
 	return;
 
