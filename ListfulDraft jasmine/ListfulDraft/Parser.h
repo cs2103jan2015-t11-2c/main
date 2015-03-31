@@ -11,7 +11,7 @@ class Parser {
 		};
 
 		enum subCategory {
-			DATE, SUBJECT, TIME, PRIORITY, CATEGORY, INVALIDSORT
+			DATE, SUBJECT, TIME, PRIORITY, CATEGORY, INVALIDSORT, INVALIDEDIT
 		};
 
 		int TIME_DATE;
@@ -68,6 +68,8 @@ class Parser {
 		int &getETime();
 		std::string &getCat();
 		std::string &getPriority();
+
+		int determineEditCategory(std::string category);
 };
 
 #endif

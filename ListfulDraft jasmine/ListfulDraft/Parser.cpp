@@ -118,9 +118,10 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 			int index;
 			std::string userInput, command;
 			std::cin >> index;
-			getline(std::cin, command);
+			
 			getline(std::cin, userInput);
-			if (listClass.edit.editContent(data, command, userInput, index)) {
+			int category = determineEditCategory(command);
+			if (listClass.edit.editContent(data, command, userInput, index, category)) {
 				return commandType::EDIT;
 			}
 			else {
@@ -525,4 +526,26 @@ std::string &Parser::getCat() {
 
 std::string &Parser::getPriority() {
 	return _priority;
+}
+
+//to determine the category to edit
+int Parser::determineEditCategory(std::string category) {
+	if (category == "date") {
+		return subCategory::DATE;
+	}
+	else if (category == "subject") {
+		return subCategory::SUBJECT;
+	}
+	else if (category == "time") {
+		return subCategory::TIME;
+	}
+	else if (category == "priority") {
+		return subCategory::PRIORITY;
+	}
+	else if (category == "category") {
+		return subCategory::CATEGORY;
+	}
+	else {
+		return subCategory::INVALIDEDIT;
+	}
 }

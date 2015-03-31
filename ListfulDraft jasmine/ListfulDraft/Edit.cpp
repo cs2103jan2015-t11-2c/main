@@ -1,34 +1,12 @@
 #include "Edit.h"
 
-//to determine the category to edit
-int Edit::determineCategory(std::string category) {
-	if (category == "date") {
-		return subCategory::DATE;
-	}
-	else if (category == "subject") {
-		return subCategory::SUBJECT;
-	}
-	else if (category == "time") {
-		return subCategory::TIME;
-	}
-	else if (category == "priority") {
-		return subCategory::IMPT;
-	}
-	else if (category == "category") {
-		return subCategory::CATEGORY;
-	}
-	else {
-		return subCategory::INVALID;
-	}
-}
-
-bool Edit::editContent(DataStore &data, std::string command, std::string userInput, int index){
+bool Edit::editContent(DataStore &data, std::string command, std::string userInput, int index, int category){
 
 	if (data.getData().size() == 0) {
 		std::cout << "File is currently empty.\n";
 		return false;
 	}
-	category = determineCategory(command);
+	
 	switch (category) {
 		case SUBJECT:{
 			data.getData()[index-1].subject= userInput;

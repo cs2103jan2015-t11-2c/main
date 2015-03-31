@@ -9,11 +9,10 @@ private:
 		SUBJECT, TIME, DATE, IMPT, CATEGORY, INVALID
 	};
 
-	int category;
 
 public:
 	Edit(){};
-	bool editContent(DataStore &, std::string , std::string, int);
+	bool editContent(DataStore &, std::string , std::string, int, int);
 	int determineCategory(std::string);
 };
 
