@@ -8,8 +8,8 @@
 #include "Category.h"
 #include "Clear.h"
 #include "Delete.h"
-/*#include "Display.h"
-#include "Edit.h"*/
+/*#include "Display.h"*/
+#include "Edit.h"
 #include "Sort.h"
 //#include "Search.h"
 
@@ -17,8 +17,8 @@ class Classes {
 public:
 	Add add;
 	Delete remove;
-	/*Display display;
-	Edit edit;
+	Edit edit;	
+	/*Display display;	
 	Search searchFile;*/
 	Sort sortFile;
 	Clear clearFile;

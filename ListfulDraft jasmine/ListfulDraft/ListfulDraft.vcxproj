@@ -68,6 +68,7 @@
     <ClInclude Include="DataStore.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Delete.h" />
+    <ClInclude Include="Edit.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Classes.h" />
     <ClInclude Include="Parser.h" />
@@ -83,6 +84,7 @@
     <ClCompile Include="DataStore.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Delete.cpp" />
+    <ClCompile Include="Edit.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="Priority.cpp" />

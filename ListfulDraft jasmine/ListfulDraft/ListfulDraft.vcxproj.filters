@@ -54,6 +54,9 @@
     <ClInclude Include="Delete.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Edit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UserInterface.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Delete.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

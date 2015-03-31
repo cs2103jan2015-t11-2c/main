@@ -87,7 +87,7 @@ int Parser::determineCategory() {
 		return subCategory::SUBJECT;
 	}
 	else {
-		return subCategory::INVALIDSORT;
+		return subCategory::INVALIDCAT;
 	}
 }
 
@@ -114,8 +114,26 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 				return 0; //clear error
 			}
 			break;
-		case commandType::EDIT:
+		case commandType::EDIT:{
+			std::string command, editInput;
+			int index;
+			editInput = _information.substr(2);
+			index = atoi(_information.substr(0).c_str());
+			command = editInput.substr(0, editInput.find_first_of(" ")+1);
+			command = command.substr(0, editInput.find_first_of(" "));
+			int category = determineEditCategory(command);
+			editInput = editInput.substr(editInput.find_first_of(" ")+1);
+
+			std::cout << category << std::endl;
+
+			if (listClass.edit.editContent(data, editInput, index, category)) {
+				return commandType::EDIT;
+			}
+			else {
+				return 0; //edit error
+			}
 			break;
+							   }
 		case commandType::REMOVE:
 
 			break;
@@ -513,4 +531,26 @@ std::string &Parser::getCat() {
 
 std::string &Parser::getPriority() {
 	return _priority;
+}
+
+//to determine the category to edit
+int Parser::determineEditCategory(std::string category) {
+	if (category == "date") {
+		return subCategory::DATE;
+	}
+	else if (category == "subject") {
+		return subCategory::SUBJECT;
+	}
+	else if (category == "time") {
+		return subCategory::TIME;
+	}
+	else if (category == "priority") {
+		return subCategory::PRIORITY;
+	}
+	else if (category == "category") {
+		return subCategory::CATEGORY;
+	}
+	else {
+		return subCategory::INVALIDCAT;
+	}
 }
