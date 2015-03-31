@@ -40,11 +40,6 @@ void UserInterface::centralizePrintToUser(std::string text) {
 	return;
 }
 
-void UserInterface::printToUser(std::string text) {
-	std::cout << text << std::endl;
-	return;
-}
-
 void UserInterface::addQuote() {
 	_quotes.push_back("Mistakes are proof that you are trying");
 	_quotes.push_back("Be kind, for everyone you meet is fighting a harder battle.");
@@ -74,14 +69,15 @@ void UserInterface::printSpace(int num) {
 }
 
 //A list of common commands to increase usability
-void UserInterface::userAction() {
+std::string UserInterface::userAction() {
 	std::cout << std::endl;
 	centralizePrintToUser(MESSAGE_ACTION);
 
-	std::cout << std::endl << std::setw(10) << "(1) Add" << std::setw(10) << "(2) Display" 
-			  << std::setw(10) << "(3) Edit" << std::setw(10) << "(4) Delete" 
-			  << std::setw(10) << "(5) Clear" << std::setw(10) << "(6) Search" << std::setw(10) << "(7) Exit" << std::endl;
-	return;
+/*	std::cout << std::endl << "(1)Add" << std::setw(4) << "(2)Display" 
+			  << std::setw(4) << "(3)Edit" << std::setw(4) << "(4)Delete" 
+			  << std::setw(4) << "(5)Clear" << std::setw(4) << "(6)Search" << std::setw(4) << "(7)Exit" << std::endl;*/
+	std::string userMenu = "(1)Add   (2)Display   (3)Edit   (4)Delete    (5)Clear   (6)Search   (7)Exit";
+	return userMenu;
 }
 
 void UserInterface::runProgram(char *argv[]) {
@@ -104,7 +100,7 @@ void UserInterface::runProgram(char *argv[]) {
 		}
 		else {
 			message = parse.carryOutCommand(listClass, data);
-
+			centralizePrintToUser(userAction());
 		}
 	} while (!parse.isRunProgram());
 	return;
@@ -117,5 +113,6 @@ void UserInterface::homeScreen() {
 
 	addQuote();
 	centralizePrintToUser(quoteOfTheDay());
+	centralizePrintToUser(userAction());
 	return;
 }
