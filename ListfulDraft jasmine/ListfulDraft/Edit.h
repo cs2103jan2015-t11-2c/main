@@ -6,13 +6,13 @@
 class Edit {
 private:
 	enum subCategory {
-		SUBJECT, TIME, DATE, IMPT, CATEGORY, INVALID
+		TIME, SUBJECT, DATE, PRIORITY, CATEGORY, INVALID
 	};
 
 
 public:
 	Edit(){};
-	bool editContent(DataStore &, std::string , std::string, int, int);
+	bool editContent(DataStore &, std::string, int, int);
 	int determineCategory(std::string);
 };
 
