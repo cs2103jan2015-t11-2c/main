@@ -149,3 +149,23 @@ void Add::insertionAdd(DataStore &data) {
 	}
 	return;
 }
+
+//To check if the task the user is currently adding is before today's date or not
+/*bool Add::isDatePassed(DataStore &data, int date, int month, int year, int index){
+	int dday = data.getData[index].day ;
+	int dmonth = data.getData[index].month;
+	int dyear = data.getData[index].year;
+
+	std::stringstream ss;
+
+	ss << dday << ":" << dmonth << ":" << dyear;
+	std::string timeString = ss.str();
+
+	time_t currentTime;
+	time (&currentTime);
+
+	std::istringstream ss1(timeString);
+	ss1 >> std::get_time(&tm, "%H:%M:%S"); 
+	std::time_t time = mktime(&tm);
+
+}*/
