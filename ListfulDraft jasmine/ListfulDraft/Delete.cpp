@@ -13,7 +13,7 @@ int Delete::getContentIndex(DataStore &data, std::string subject) {
 	}
 }*/
 
-//to delete the content
+/*//to delete the content
 void Delete::deleteContent(DataStore &data, std::string info) {
 	//std::string emptyStr;
 	//emptyStr.clear();
@@ -58,5 +58,34 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 		std::cout << "Last entry of is file deleted.\n";
 		//sprintf_s(messageToUser, MESSAGE_CLEAR.c_str(), fileName.c_str());
 		//output(messageToUser);
-	}*/
+	}
+}*/
+
+bool Delete::deleteContent(DataStore &data, int index) {
+	std::string emptyStr;
+	emptyStr.clear();
+
+	if (data.getData().size() == 0) {
+		std::cout << "File is currently empty.\n";
+		return false;
+	}
+
+	//To check if the index number the user wants to delete is valid
+	if (index != 0 && index > data.getData().size() == 0) {
+		std::cout << "Index of entry to delete is invalid.\n";
+		return false;
+	}
+	
+	std::string text = (data.getData())[index].subject;
+	data.getData().erase(data.getData().begin()+index);
+	data.updateFile();
+	std::cout << "Entry successfully deleted.\n";
+
+
+	if (data.getData().empty()) {
+		std::cout << "Last entry of is file deleted.\n";
+		
+	}
+	return true;
 }
+

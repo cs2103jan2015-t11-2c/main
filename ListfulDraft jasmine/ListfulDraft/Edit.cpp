@@ -9,21 +9,23 @@ bool Edit::editContent(DataStore &data, std::string userInput, int index, int ca
 	
 	switch (category) {
 		case DATE:{
-			std::string userDateDay = userInput.substr(1, 3);
+			std::string userDateDay = userInput.substr(0, 2);
 			int dateDay = atoi(userDateDay.c_str());
-			std::string userDateMonth = userInput.substr(4, 3);
+			std::string userDateMonth = userInput.substr(3, 2);
 			int dateMonth = atoi(userDateMonth.c_str());
-			std::string userDateYear = userInput.substr(7, 5);
+			std::string userDateYear = userInput.substr(6, 4);
 			int dateYear = atoi(userDateYear.c_str());
 
-			data.getData()[index-1].day = dateDay;
-			data.getData()[index-1].month = dateMonth;
-			data.getData()[index-1].year = dateYear;
+			std::cout << dateDay << " " <<dateMonth << " " << dateYear <<std::endl;
+
+			data.getData()[index].day = dateDay;
+			data.getData()[index].month = dateMonth;
+			data.getData()[index].year = dateYear;
 			std::cout << "Date edited!" << std::endl;
 			break;
 		          }
 		case SUBJECT:{
-			data.getData()[index-1].subject= userInput;
+			data.getData()[index].subject= userInput;
 			std::cout << "Subject edited!" << std::endl;
 			break;
 		             }
@@ -32,23 +34,24 @@ bool Edit::editContent(DataStore &data, std::string userInput, int index, int ca
 			int startTime;
 			std::string userEndTime;
 			int endTime;
-			userStartTime = userInput.substr(1, 5);
+			userStartTime = userInput.substr(0, 4);
 			startTime = atoi(userStartTime.c_str());
 			userEndTime = userInput.substr(userInput.find_first_of("-")+1, 4);
 			endTime = endTime = atoi(userEndTime.c_str());
 
-			data.getData()[index-1].startTime = startTime;
-			data.getData()[index-1].endTime = endTime;
+			std::cout << startTime << " " << endTime<<std::endl;
+			data.getData()[index].startTime = startTime;
+			data.getData()[index].endTime = endTime;
 			std::cout << "Time edited!" << std::endl;
 			break;
 		          }
 		case PRIORITY:{
-			data.getData()[index-1].priority = userInput;
+			data.getData()[index].priority = userInput;
 			std::cout << "Priority edited!" << std::endl;
 			break;
 				 }
 		case CATEGORY:{
-			data.getData()[index-1].category = userInput;
+			data.getData()[index].category = userInput;
 			std::cout << "Category edited!" << std::endl;
 			break;
 					  }

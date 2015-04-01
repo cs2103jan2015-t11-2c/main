@@ -7,7 +7,7 @@ class Delete {
 public:
 	Delete() {};
 
-	void deleteContent(DataStore &, std::string);
+	bool deleteContent(DataStore &, int);
 	int getContentIndex(DataStore &, std::string);
 };
 

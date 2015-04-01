@@ -6,7 +6,7 @@
 class Edit {
 private:
 	enum subCategory {
-		TIME, SUBJECT, DATE, PRIORITY, CATEGORY, INVALID
+		DATE, SUBJECT, TIME, PRIORITY, CATEGORY, INVALID
 	};
 
 
