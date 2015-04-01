@@ -4,6 +4,7 @@
 #include "FileLocation.h"
 #include "UserMessage.h"
 
+
 class UserInterface {
 	private:
 		std::string _userInput;
