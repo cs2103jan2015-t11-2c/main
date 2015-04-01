@@ -133,6 +133,7 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 			}
 			break;
 							   }
+<<<<<<< HEAD
 		case commandType::REMOVE:{
 			int index;
 			index = atoi(_information.substr(0).c_str());
@@ -143,6 +144,12 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 				return 0; //delete error
 			}
 
+=======
+		case commandType::REMOVE: {
+			listClass.remove.deleteContent(data, _information);
+			return commandType::REMOVE;
+			}
+>>>>>>> 4dfb43ee8728d222b443bcaf02e0b0f9ae646891
 			break;
 								 }
 		case commandType::REDO:

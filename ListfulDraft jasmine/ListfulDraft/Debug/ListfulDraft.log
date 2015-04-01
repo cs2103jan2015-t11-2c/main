@@ -1,20 +1,34 @@
-﻿Build started 30/3/2015 11:49:41 PM.
-     1>Project "C:\Users\Theck Yee\Documents\CSproject\ListfulDraft jasmine\ListfulDraft\ListfulDraft.vcxproj" on node 2 (Build target(s)).
+﻿Build started 1/4/2015 11:42:08 AM.
+     1>Project "C:\Users\gerald\Desktop\ListfulDraft jasmine\ListfulDraft\ListfulDraft.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Delete.cpp Edit.cpp MAIN.cpp Parser.cpp UserInterface.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Category.cpp Clear.cpp DataStore.cpp Date.cpp Delete.cpp Edit.cpp Parser.cpp MAIN.cpp Priority.cpp Sort.cpp Time.cpp UserInterface.cpp
+         UserInterface.cpp
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\userinterface.cpp(52): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+         Time.cpp
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\time.cpp(11): warning C4018: '<' : signed/unsigned mismatch
+         Sort.cpp
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\sort.cpp(5): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\sort.cpp(47): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\sort.cpp(86): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\sort.cpp(109): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\sort.cpp(145): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\sort.cpp(190): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\sort.cpp(226): warning C4018: '<' : signed/unsigned mismatch
+         Priority.cpp
+         MAIN.cpp
          Parser.cpp
-     1>c:\users\theck yee\documents\csproject\listfuldraft jasmine\listfuldraft\parser.cpp(445): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\parser.cpp(453): warning C4018: '<' : signed/unsigned mismatch
          Edit.cpp
          Delete.cpp
-         Generating Code...
-     1>c:\users\theck yee\documents\csproject\listfuldraft jasmine\listfuldraft\edit.cpp(83): warning C4715: 'Edit::editContent' : not all control paths return a value
-         Compiling...
-         UserInterface.cpp
-     1>c:\users\theck yee\documents\csproject\listfuldraft jasmine\listfuldraft\userinterface.cpp(57): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-         MAIN.cpp
+         Date.cpp
+     1>c:\users\gerald\desktop\listfuldraft jasmine\listfuldraft\date.cpp(214): warning C4018: '<' : signed/unsigned mismatch
+         DataStore.cpp
+         Clear.cpp
+         Category.cpp
+         Add.cpp
          Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Theck Yee\Documents\CSproject\ListfulDraft jasmine\Debug\ListfulDraft.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Theck Yee\Documents\CSproject\ListfulDraft jasmine\Debug\ListfulDraft.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Theck Yee\Documents\CSproject\ListfulDraft jasmine\Debug\ListfulDraft.lib" /MACHINE:X86 Debug\Add.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\gerald\Desktop\ListfulDraft jasmine\Debug\ListfulDraft.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\gerald\Desktop\ListfulDraft jasmine\Debug\ListfulDraft.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\gerald\Desktop\ListfulDraft jasmine\Debug\ListfulDraft.lib" /MACHINE:X86 Debug\Add.obj
          Debug\Category.obj
          Debug\Clear.obj
          Debug\DataStore.obj
@@ -27,9 +41,9 @@
          Debug\Sort.obj
          Debug\Time.obj
          Debug\UserInterface.obj
-         ListfulDraft.vcxproj -> C:\Users\Theck Yee\Documents\CSproject\ListfulDraft jasmine\Debug\ListfulDraft.exe
-     1>Done Building Project "C:\Users\Theck Yee\Documents\CSproject\ListfulDraft jasmine\ListfulDraft\ListfulDraft.vcxproj" (Build target(s)).
+         ListfulDraft.vcxproj -> C:\Users\gerald\Desktop\ListfulDraft jasmine\Debug\ListfulDraft.exe
+     1>Done Building Project "C:\Users\gerald\Desktop\ListfulDraft jasmine\ListfulDraft\ListfulDraft.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:18.58
+Time Elapsed 00:00:16.52
