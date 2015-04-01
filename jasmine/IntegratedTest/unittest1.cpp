@@ -17,9 +17,6 @@
 #include "Add.cpp"
 #include "Category.cpp"
 
-
-
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace IntegratedTest
@@ -75,7 +72,7 @@ namespace IntegratedTest
 			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 WORK MED";
 			std::string input2 = "add visit grandma 5th apr 2015 1745-2135";
 			std::string input3 = "IE2100 homework 7 08/04/2015 1900-1300 WORK HIGH";
-			std::string input4 = "delete index 2";
+			std::string input4 = "delete index 1";
 
 			parse.init(input1);
 			parse.carryOutCommand(listClass, data, errMsg);
@@ -86,17 +83,23 @@ namespace IntegratedTest
 			parse.init(input3);
 			parse.carryOutCommand(listClass, data, errMsg);
 
-			parse.init(input4);
-			parse.carryOutCommand(listClass, data, errMsg);
-
 			std::string expectedFirst = "visit grandma";
 			std::string actualFirst = data.getData()[0].subject;
 
-			std::string expectedSecond = "IE2100 homework 7";
+			Assert::AreEqual(expectedFirst, actualFirst);
+
+			std::string expectedSecond = "CS project meeting";
 			std::string actualSecond = data.getData()[1].subject;
 
-			Assert::AreEqual(expectedFirst, actualFirst);
 			Assert::AreEqual(expectedSecond, actualSecond);
+			
+			parse.init(input4);
+			parse.carryOutCommand(listClass, data, errMsg);
+			
+			std::string expectednewFirst = "CS project meeting";
+			std::string actualnewFirst = data.getData()[0].subject;
+
+			Assert::AreEqual(expectednewFirst, actualnewFirst);
 
 		}
 
