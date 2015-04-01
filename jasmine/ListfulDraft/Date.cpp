@@ -139,7 +139,16 @@ void Date::takeYear(std::string &tStr, std::string &newStr) {
 	}
 
 	//add in the condition that you cannot add a year less than the current year
+	tStr = newStr;
 	newStr = newStr.substr(count);
+	removeNonDateChar(newStr);
+	std::cout << newStr << std::endl;
+	for (int i = 0; i < 2; i++) {
+		if (newStr[0] == 'p' || newStr[0] == 'P' || newStr[0] == 'a' || newStr[0] == 'A' || newStr[i] == '-') {
+			_year = 2015;
+			return;
+		}
+	}
 	tStr = newStr;
 	return;
 }

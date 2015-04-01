@@ -19,7 +19,8 @@ bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream
 
 	size_t found = info.find_first_of(" ");
 	if (found == std::string::npos) {
-		return false;
+		int index = atoi(info.c_str());
+		status = deletebyIndex(data,index, errMsg);
 	}
 
 	std::string temp = info.substr(0, found);

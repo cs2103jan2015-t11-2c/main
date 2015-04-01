@@ -12,8 +12,6 @@ private:
 
 	int _category;
 
-	Sort sortFile;
-
 public:
 	Search() {};
 
