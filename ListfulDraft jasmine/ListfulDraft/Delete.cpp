@@ -56,7 +56,7 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 		std::cout << "Last entry of is file deleted.\n";
 		//sprintf_s(messageToUser, MESSAGE_CLEAR.c_str(), fileName.c_str());
 		//output(messageToUser);
-<<<<<<< HEAD
+
 	}
 }*/
 
@@ -88,10 +88,10 @@ bool Delete::deleteContent(DataStore &data, int index) {
 	return true;
 }
 
-=======
-	}*/
-}
 
+	
+
+/*
 void Delete::deletebyIndex(DataStore &data, int index) {
 
 		//convert info to int
@@ -123,4 +123,4 @@ void Delete::deletebySubject(DataStore &data, std::string temp, std::string info
 
 		return;
 }
->>>>>>> 4dfb43ee8728d222b443bcaf02e0b0f9ae646891
+*/
