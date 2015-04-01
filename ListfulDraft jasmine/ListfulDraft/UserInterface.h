@@ -40,7 +40,7 @@ class UserInterface {
 		void printToUser(std::string);
 		void addQuote();
 		std::string quoteOfTheDay();
-		void userAction();
+		std::string userAction();
 		void printSpace(int);
 		void runProgram(char *[]);
 		void homeScreen();
