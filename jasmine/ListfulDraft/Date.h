@@ -21,7 +21,7 @@ public:
 	void removeNonDateChar(std::string &);
 	bool takeDay(std::string&, size_t &, size_t &);
 	bool takeMonth(std::string&, size_t &, size_t &);
-	void takeYear(std::string &, std::string &);
+	void takeYear(std::string &, std::string);
 	bool isDayMonth();
 	bool extractDate(std::string &);
 	void changeToLower(std::string &);

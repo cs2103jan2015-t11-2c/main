@@ -7,8 +7,8 @@ bool Add::addContent(DataStore &data, std::ostringstream &errMsg) {
 		return false;
 	}
 
-	if (!data.getData().empty() && isDuplicate(data, errMsg)) {
-		errMsg << " (undo to remove add)";
+	if (!data.getData().empty()) {
+		checkDuplicate(data, errMsg);
 	}
 	insertionAdd(data);
 	data.updateFile();
@@ -70,25 +70,25 @@ bool Add::isSameTime(DataStore data, int index) {
 }
 
 //Outputs warning message if subject or time and date clashes
-bool Add::isDuplicate(DataStore data, std::ostringstream &errMsg) {
+void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 	int index = 0;
 
 	//Once a clash is found there is no need to search for further clashes since our program informs the user of any initial clashes already
 	for (index = 0; index != data.getData().size(); index++) {
-		errMsg.clear();
 		if (data.getData()[index].subject == data.get_tempEntry().subject) {
 			errMsg << std::endl << "WARNING: subject clash ";
 			if ((isSameDate(data, index)) && (isSameTime(data, index))) {
 				errMsg << "timing clash ";
 			}
-			return true;
+			errMsg << " (undo to remove add)";
+			return;
 		}
 		if ((isSameDate(data, index)) && (isSameTime(data, index))) {
-			errMsg << std::endl << "WARNING: timing clash ";
-			return true;
+			errMsg << std::endl << "WARNING: timing clash (undo to remove add)";
+			return;
 		}
 	}
-	return false;
+	return;
 }
 
 //Adding non-floating tasks on the same day

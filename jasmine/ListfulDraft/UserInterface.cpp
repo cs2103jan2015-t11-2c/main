@@ -42,6 +42,9 @@ void UserInterface::runProgram(char *argv[]) {
 			homeScreen(outputToUser);
 		}
 		else {
+			errMsg.str("");
+			errMsg.clear();
+
 			msg = outputToUser.getCommandMsg()[parse.carryOutCommand(listClass, data, errMsg)];
 			count = std::count(msg.begin(), msg.end(), '%');
 			if (count == 3) {

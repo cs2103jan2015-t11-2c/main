@@ -33,7 +33,7 @@ bool Timing::checkMinValid(int num) {
 
 //Cuts off 'am' and 'pm'
 void Timing::updateStr(std::string &originalStr, std::string &line, size_t found) {
-	size_t space = line.find_first_of(" ", found+2);
+	size_t space = line.find_first_of(" -", found+2);
 	
 	if (space == std::string::npos) {
 		originalStr = "";
@@ -123,24 +123,26 @@ void Timing::countWord(std::string &str, int &noOfWord) {
 bool Timing::checkDate(std::string &line, int count) {
 	size_t start = line.find_first_of("tsnTSN", count);
 	std::string month = "";
+	std::string temp = "";
 	size_t strt = 0;
 	size_t end = 0;
 
 	if (start != std::string::npos && ((start - count) < 2)) {
 		line = line.substr(count + 3);
+		temp = line;
 		if (date.takeMonth(line, strt, end)) {
 			line = line.substr(strt);
 			removeNonTimeChar(line);
+			month = line;
+			date.takeYear(line, line);
+			if (month == line) {
+				line = temp;
+			}
 			return true;
 		}
 	}
 	else if (count != line.size() && line[count] == '/') {
-		line = line.substr(1);
-		if (date.takeMonth(line, strt, end)) {
-			line = line.substr(strt);
-			line = line.substr(1);
-			return true;
-		}
+		return true;
 	}
 	else {
 		start = line.find_first_not_of(" ", count);
@@ -148,10 +150,16 @@ bool Timing::checkDate(std::string &line, int count) {
 			strt = line.find_first_of(" ", start);
 			if (strt != std::string::npos) {
 				month = line.substr(start, strt - start);
+				temp = line.substr(start);
 				changeToLower(month);
 				if (date.determineMonth(month) != 13) {
 					line = line.substr(strt);
 					removeNonTimeChar(line);
+					month = line;
+					date.takeYear(line, line);
+					if (month == line) {
+						line = temp;
+					}
 					return true;
 				}
 			}
@@ -286,8 +294,8 @@ bool Timing::extractTime (std::string &line, int &noOfTime, size_t &start, std::
 			}
 			else {
 				//if (isTimedTask(
-				
-				return false;
+				line = str;
+				return true;
 			}
 		}
 	}
