@@ -34,6 +34,12 @@ public:
 	std::vector <Entry> &getTempData();
 	Entry &getEntry(int);
 	Entry &get_tempEntry();
+	
+	//search function
+	void updateTempDataBase(Entry);
+	std::string printTempDataBase();
+	std::string getDate(Entry);
+    std::string getTime(Entry);
 };
 
 #endif

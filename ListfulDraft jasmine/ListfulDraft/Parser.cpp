@@ -144,7 +144,6 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 				return 0; //delete error
 			}*/
 
-
 		case commandType::REMOVE: 
 			listClass.remove.deleteContent(data, _information);
 			return commandType::REMOVE;
@@ -157,8 +156,23 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 		case commandType::UNDO:
 			data.undoData();
 			break;
-		case commandType::SEARCH:
+		case commandType::SEARCH:{
+			std::string command, keyword;
+			command = _information.substr(0, _information.find_first_of(" "));
+			keyword = _information.substr(_information.find_first_of(" ")+1);
+			keyword = keyword.substr(0, keyword.find_first_of(" "));
+			_information = command;
+			int category = determineCategory();
+			keyword = keyword.substr(keyword.find_first_of(" ")+1);
+		
+			if (listClass.search.searchFile(data, keyword, category)) {
+			return commandType::SEARCH;
+			}
+			else {
+				return 0; //search error
+			}
 			break;
+								 }
 		case commandType::SORT:
 			listClass.sortFile.getSortCat() = determineCategory();
 			if (listClass.sortFile.sortContent(data)) {

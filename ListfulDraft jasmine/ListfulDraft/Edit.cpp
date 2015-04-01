@@ -16,8 +16,6 @@ bool Edit::editContent(DataStore &data, std::string userInput, int index, int ca
 			std::string userDateYear = userInput.substr(6, 4);
 			int dateYear = atoi(userDateYear.c_str());
 
-			std::cout << dateDay << " " <<dateMonth << " " << dateYear <<std::endl;
-
 			data.getData()[index].day = dateDay;
 			data.getData()[index].month = dateMonth;
 			data.getData()[index].year = dateYear;
@@ -39,7 +37,6 @@ bool Edit::editContent(DataStore &data, std::string userInput, int index, int ca
 			userEndTime = userInput.substr(userInput.find_first_of("-")+1, 4);
 			endTime = endTime = atoi(userEndTime.c_str());
 
-			std::cout << startTime << " " << endTime<<std::endl;
 			data.getData()[index].startTime = startTime;
 			data.getData()[index].endTime = endTime;
 			std::cout << "Time edited!" << std::endl;

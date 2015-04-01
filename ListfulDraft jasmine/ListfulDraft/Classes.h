@@ -11,15 +11,15 @@
 /*#include "Display.h"*/
 #include "Edit.h"
 #include "Sort.h"
-//#include "Search.h"
+#include "Search.h"
 
 class Classes {
 public:
 	Add add;
 	Delete remove;
 	Edit edit;	
-	/*Display display;	
-	Search searchFile;*/
+	/*Display display;*/	
+	Search search;
 	Sort sortFile;
 	Clear clearFile;
 	Time time;
