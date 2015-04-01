@@ -103,6 +103,43 @@ namespace IntegratedTest
 
 		}
 
+		TEST_METHOD(addEdit)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			Classes listClass;
+			Parser parse;
+			std::ostringstream errMsg;
+			errMsg << "(undo to remove add)";
+
+			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 WORK MED";
+			std::string input2 = "edit 1 subject IE2130 project meeting";
+
+			parse.init(input1);
+			parse.carryOutCommand(listClass, data, errMsg);
+	
+			parse.init(input2);
+			parse.carryOutCommand(listClass, data, errMsg);
+
+			std::string expectedSubject = "IE2130 project meeting";
+			std::string actualSubject = data.getData()[0].subject;
+
+			Assert::AreEqual(expectedSubject, actualSubject);
+
+			std::string actualDate = std::to_string(data.getData()[0].day) + "/" 
+								   + std::to_string(data.getData()[0].month) + "/"
+								   + std::to_string(data.getData()[0].year);
+			std::string expectedDate = "6/4/2015";
+
+			std::string expectedTime = "1200-1600";
+			std::string actualTime = std::to_string(data.getData()[0].startTime) + "-" + std::to_string(data.getData()[0].endTime);
+
+			Assert::AreEqual(expectedSubject, actualSubject);
+			Assert::AreEqual(expectedDate, actualDate);
+			Assert::AreEqual(expectedTime, actualTime);
+
+		}
+
 /*TEST_METHOD(add)
 		{
 			DataStore data;

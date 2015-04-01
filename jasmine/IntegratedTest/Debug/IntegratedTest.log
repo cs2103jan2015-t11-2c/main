@@ -1,39 +1,9 @@
-﻿Build started 2/4/2015 4:12:23 AM.
-     1>Project "C:\Users\gerald\Desktop\Listful\jasmine\IntegratedTest\IntegratedTest.vcxproj" on node 2 (Rebuild target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\Users\gerald\Desktop\Listful\jasmine\ListfulDraft /I"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\UnitTest\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\IntegratedTest.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /FC /errorReport:prompt stdafx.cpp
-         stdafx.cpp
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\Users\gerald\Desktop\Listful\jasmine\ListfulDraft /I"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\UnitTest\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\IntegratedTest.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /FC /errorReport:prompt unittest1.cpp
-         unittest1.cpp
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\parser.cpp(158): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\parser.cpp(479): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\date.cpp(227): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\search.cpp(36): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\search.cpp(57): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\search.cpp(79): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\search.cpp(98): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\search.cpp(117): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\search.cpp(135): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\sort.cpp(5): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\sort.cpp(47): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\sort.cpp(84): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\sort.cpp(101): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\sort.cpp(120): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\sort.cpp(154): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\sort.cpp(182): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\timing.cpp(10): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\userinterface.cpp(91): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\usermessage.cpp(89): warning C4172: returning address of local variable or temporary
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\delete.cpp(100): warning C4018: '>' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\delete.cpp(121): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\gerald\desktop\listful\jasmine\listfuldraft\delete.cpp(132): warning C4018: '<' : signed/unsigned mismatch
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\gerald\Desktop\Listful\jasmine\Debug\IntegratedTest.dll" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\jasmine\ListfulDraft" /LIBPATH:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\UnitTest\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\gerald\Desktop\Listful\jasmine\Debug\IntegratedTest.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\gerald\Desktop\Listful\jasmine\Debug\IntegratedTest.lib" /MACHINE:X86 /DLL Debug\stdafx.obj
-         Debug\unittest1.obj
-            Creating library C:\Users\gerald\Desktop\Listful\jasmine\Debug\IntegratedTest.lib and object C:\Users\gerald\Desktop\Listful\jasmine\Debug\IntegratedTest.exp
-         IntegratedTest.vcxproj -> C:\Users\gerald\Desktop\Listful\jasmine\Debug\IntegratedTest.dll
-     1>Done Building Project "C:\Users\gerald\Desktop\Listful\jasmine\IntegratedTest\IntegratedTest.vcxproj" (Rebuild target(s)).
+﻿Build started 2/4/2015 4:35:44 AM.
+     1>Project "C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\jasmine\IntegratedTest\IntegratedTest.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         IntegratedTest.vcxproj -> C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\jasmine\Debug\IntegratedTest.dll
+     1>Done Building Project "C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\jasmine\IntegratedTest\IntegratedTest.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.31
+Time Elapsed 00:00:00.16
