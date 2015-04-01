@@ -143,12 +143,6 @@ bool Timing::checkDate(std::string &line, int count) {
 	}
 	else if (count != line.size() && line[count] == '/') {
 		return true;
-		/*line = line.substr(1);
-		if (date.takeMonth(line, strt, end)) {
-			line = line.substr(strt);
-			line = line.substr(1);
-			return true;
-		}*/
 	}
 	else {
 		start = line.find_first_not_of(" ", count);
@@ -159,9 +153,9 @@ bool Timing::checkDate(std::string &line, int count) {
 				temp = line.substr(start);
 				changeToLower(month);
 				if (date.determineMonth(month) != 13) {
-					month = line;
 					line = line.substr(strt);
 					removeNonTimeChar(line);
+					month = line;
 					date.takeYear(line, line);
 					if (month == line) {
 						line = temp;
@@ -300,8 +294,8 @@ bool Timing::extractTime (std::string &line, int &noOfTime, size_t &start, std::
 			}
 			else {
 				//if (isTimedTask(
-				
-				return false;
+				line = str;
+				return true;
 			}
 		}
 	}

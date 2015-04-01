@@ -126,23 +126,22 @@ bool Date::takeMonth(std::string &tStr, size_t &start, size_t &end) {
 }
 
 //To identify if any year entered, else default year will be the current year
-void Date::takeYear(std::string &tStr, std::string &newStr) {
+void Date::takeYear(std::string &tStr, std::string newStr) {
 	int i = 0;
 	int count = 0;
 	size_t index1 = 0;
 	size_t index2 = 0;
 	
+				
 	if (!extractNum(newStr, index1, index2, count, _year) || count != 4) {
 		_year = 2015;
 		tStr = newStr;
 		return;
 	}
 
-	//add in the condition that you cannot add a year less than the current year
 	tStr = newStr;
 	newStr = newStr.substr(count);
-	removeNonDateChar(newStr);
-	std::cout << newStr << std::endl;
+
 	for (int i = 0; i < 2; i++) {
 		if (newStr[0] == 'p' || newStr[0] == 'P' || newStr[0] == 'a' || newStr[0] == 'A' || newStr[i] == '-') {
 			_year = 2015;

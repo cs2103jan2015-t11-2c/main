@@ -8,7 +8,7 @@ public:
 	Add() {};
 
 	bool addContent(DataStore &, std::ostringstream &);
-	bool isDuplicate(DataStore, std::ostringstream &);
+	void checkDuplicate(DataStore, std::ostringstream &);
 	bool isSameDate(DataStore, int);
 	bool isSameTime(DataStore, int);
 	void insertionAdd(DataStore &);
