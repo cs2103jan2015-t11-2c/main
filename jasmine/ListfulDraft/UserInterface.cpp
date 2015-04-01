@@ -42,20 +42,23 @@ void UserInterface::runProgram(char *argv[]) {
 			homeScreen(outputToUser);
 		}
 		else {
-			errMsg.clear();
-
 			msg = outputToUser.getCommandMsg()[parse.carryOutCommand(listClass, data, errMsg)];
 			count = std::count(msg.begin(), msg.end(), '%');
 			if (count == 3) {
 				sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
+				std::cout << msgToUser << "\n";
 			}
 			else if (count == 2) {
 				sprintf_s(msgToUser, msg.c_str(), extName.c_str(), errMsg.str().c_str());
+				std::cout << msgToUser << "\n";
+			}
+			else if (count == 1) {
+				sprintf_s(msgToUser, msg.c_str(), extName.c_str());
+				std::cout << msgToUser << "\n";
 			}
 			else {
-				sprintf_s(msgToUser, msg.c_str(), extName.c_str());
+				std::cout << msg << "\n";
 			}
-			std::cout << msgToUser << "\n";
 		}
 	} while (!parse.isRunProgram());
 	return;

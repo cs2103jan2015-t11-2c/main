@@ -7,18 +7,18 @@
 #include "Category.h"
 #include "Clear.h"
 #include "Delete.h"
-/*#include "Display.h"
-#include "Edit.h"*/
+//#include "Display.h"
+#include "Edit.h"
 #include "Sort.h"
-//#include "Search.h"
+#include "Search.h"
 
 class Classes {
 public:
 	Add add;
 	Delete remove;
-	/*Display display;
+	//Display display;
 	Edit edit;
-	Search searchFile;*/
+	Search searchFile;
 	Sort sortFile;
 	Clear clearFile;
 	Timing time;

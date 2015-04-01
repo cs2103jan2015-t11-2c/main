@@ -9,9 +9,6 @@ private:
 	
 	static const std::string CLEAR_SCREEN;
 
-	static const std::string MESSAGE_EMPTY;
-	static const std::string ERROR_COMMAND;
-
 	static const std::string MESSAGE_FILE_OPENED;
 	static const std::string MESSAGE_FILE_CREATED;
 
@@ -24,6 +21,8 @@ private:
 	static const std::string MESSAGE_SEARCH;
 	static const std::string MESSAGE_UNDO;
 	static const std::string MESSAGE_REDO;
+	static const std::string ERROR_COMMAND;
+	static const std::string MESSAGE_DO_NOTHING;
 	static const std::string ERROR_ADD;
 	static const std::string ERROR_DISPLAY;
 	static const std::string ERROR_DELETE;

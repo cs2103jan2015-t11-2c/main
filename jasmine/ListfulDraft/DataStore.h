@@ -21,7 +21,8 @@ public:
 	DataStore () {};
 	void init (std::string);
 
-	std::string getDataString(int &);
+	std::string getDataString(int);
+	std::string getTempDataString(int);
 	int countDigit(int &);
 	void printZero(int &, std::ostringstream &, int);
 	void printSpace(std::ostringstream &, int);
@@ -35,6 +36,9 @@ public:
 	std::vector <Entry> &getTempData();
 	Entry &getEntry(int);
 	Entry &get_tempEntry();
+	
+	std::string getDate(Entry);
+    std::string getTime(Entry);
 };
 
 #endif

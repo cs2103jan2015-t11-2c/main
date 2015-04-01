@@ -14,26 +14,30 @@ int Delete::getContentIndex(DataStore &data, std::string subject) {
 }*/
 
 //to delete the content
-void Delete::deleteContent(DataStore &data, std::string info) {
-	//std::string emptyStr;
-	//emptyStr.clear();
-	std::string temp;
-	temp = info.substr(0, info.find_first_of(" "));
-	// if its by index
-	if (temp == "INDEX" || temp == "Index" || temp == "index") {
-		info = info.substr(info.find_first_of(" ")+1);
-		//convert info to int
-		std::cout << info << std::endl;
-		int index = 1;
-		data.getData().erase(data.getData().begin()+index-1);
-		data.updateFile();
-		data.savePrevFile();
-		std::cout << "YAY" << std::endl;
+bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg) {
+	bool status = true;
+
+	size_t found = info.find_first_of(" ");
+	if (found == std::string::npos) {
+		return false;
 	}
-		
 
-	return;
+	std::string temp = info.substr(0, found);
 
+	// if its by subject
+	if (temp == "subject" || temp == "SUBJECT" || temp == "sub" || temp == "SUB") {
+		status = deletebySubject(data, temp, info, errMsg);
+	}
+	// if its by index
+	else {
+		info = info.substr(found + 1);
+		int index = atoi(info.c_str());
+		status = deletebyIndex(data,index, errMsg);
+	}
+	data.updateFile();
+	data.savePrevFile();
+	return status;
+}
 
 	/*if (data.getDataBaseSize() == 0) {
 		std::cout << "File is currently empty.\n";
@@ -58,5 +62,77 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 		std::cout << "Last entry of is file deleted.\n";
 		//sprintf_s(messageToUser, MESSAGE_CLEAR.c_str(), fileName.c_str());
 		//output(messageToUser);
-	}*/
+
+	}
+}
+/*
+bool Delete::deleteContent(DataStore &data, int index) {
+	std::string emptyStr;
+	emptyStr.clear();
+
+	if (data.getData().size() == 0) {
+		std::cout << "File is currently empty.\n";
+		return false;
+	}
+
+	//To check if the index number the user wants to delete is valid
+	if (index != 0 && index > data.getData().size() == 0) {
+		std::cout << "Index of entry to delete is invalid.\n";
+		return false;
+	}
+	
+	std::string text = (data.getData())[index].subject;
+	data.getData().erase(data.getData().begin()+index);
+	data.updateFile();
+	std::cout << "Entry successfully deleted.\n";
+
+
+	if (data.getData().empty()) {
+		std::cout << "Last entry of is file deleted.\n";
+		
+	}
+	return true;
+}
+*/
+
+bool Delete::deletebyIndex(DataStore &data, int index, std::ostringstream &errMsg) {
+	if (index > data.getData().size()) {
+		return false;
+	}
+
+	errMsg << data.getData()[index - 1].subject;
+	data.getData().erase(data.getData().begin()+index-1);
+	return true;
+}
+
+
+bool Delete::deletebySubject(DataStore &data, std::string temp, std::string info, std::ostringstream &errMsg) {
+	std::size_t found = info.find(temp);
+	if (found == std::string::npos) {
+		return false;
+	}
+
+	size_t start = info.find_first_of(" ",found);
+	start = info.find_first_not_of(" ",start);
+	std::string sub = info.substr(start);
+	data.getTempData().clear();
+
+	for(int ind = 0 ; ind < data.getData().size(); ind++) {
+		start = data.getData()[ind].subject.find(sub);
+		if (start != std::string::npos) {
+			data.getTempData().push_back(data.getData()[ind]);
+		}
+	}
+
+	if (data.getTempData().empty()) {
+		return false;
+	}
+
+	for (int i = 0; i < data.getTempData().size(); i++) {
+		std::cout << (i + 1) << ". " << data.getTempDataString(i) << std::endl;
+	}
+	//"which entry would you like to delete?
+	int index;
+	std::cin >> index;
+	return deletebyIndex(data,index, errMsg);
 }

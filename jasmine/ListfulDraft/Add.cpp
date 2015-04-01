@@ -6,7 +6,7 @@ bool Add::addContent(DataStore &data, std::ostringstream &errMsg) {
 	if (data.get_tempEntry().subject == "") {
 		return false;
 	}
-	
+
 	if (!data.getData().empty() && isDuplicate(data, errMsg)) {
 		errMsg << " (undo to remove add)";
 	}
@@ -75,10 +75,11 @@ bool Add::isDuplicate(DataStore data, std::ostringstream &errMsg) {
 
 	//Once a clash is found there is no need to search for further clashes since our program informs the user of any initial clashes already
 	for (index = 0; index != data.getData().size(); index++) {
+		errMsg.clear();
 		if (data.getData()[index].subject == data.get_tempEntry().subject) {
 			errMsg << std::endl << "WARNING: subject clash ";
 			if ((isSameDate(data, index)) && (isSameTime(data, index))) {
-			errMsg << "timing clash ";
+				errMsg << "timing clash ";
 			}
 			return true;
 		}

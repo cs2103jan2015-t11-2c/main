@@ -68,11 +68,13 @@
     <ClInclude Include="DataStore.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Delete.h" />
+    <ClInclude Include="Edit.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Classes.h" />
     <ClInclude Include="FileLocation.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Priority.h" />
+    <ClInclude Include="Search.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="Timing.h" />
     <ClInclude Include="UserInterface.h" />
@@ -85,10 +87,12 @@
     <ClCompile Include="DataStore.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Delete.cpp" />
+    <ClCompile Include="Edit.cpp" />
     <ClCompile Include="FileLocation.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="Priority.cpp" />
+    <ClCompile Include="Search.cpp" />
     <ClCompile Include="Sort.cpp" />
     <ClCompile Include="Timing.cpp" />
     <ClCompile Include="UserInterface.cpp" />

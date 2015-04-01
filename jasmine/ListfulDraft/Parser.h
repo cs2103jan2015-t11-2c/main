@@ -7,7 +7,7 @@
 class Parser {
 	private:
 		enum commandType {
-			ADD, DISPLAY, REMOVE, CLEAR, EDIT, SORT, SEARCH, UNDO, REDO, INVALID, EXIT
+			ADD, DISPLAY, REMOVE, CLEAR, EDIT, SORT, SEARCH, UNDO, REDO, INVALID, DO_NOTHING, EXIT
 		};
 
 		enum subCategory {
@@ -58,6 +58,7 @@ class Parser {
 		void joinStr(std::string &, size_t &);
 
 		//void testParser();
+		std::string &getInfo();
 };
 
 #endif

@@ -131,8 +131,6 @@ bool Timing::checkDate(std::string &line, int count) {
 		if (date.takeMonth(line, strt, end)) {
 			line = line.substr(strt);
 			removeNonTimeChar(line);
-			date.takeYear(line, line);
-			removeNonTimeChar(line);
 			return true;
 		}
 	}
@@ -141,8 +139,6 @@ bool Timing::checkDate(std::string &line, int count) {
 		if (date.takeMonth(line, strt, end)) {
 			line = line.substr(strt);
 			line = line.substr(1);
-			date.takeYear(line, line);
-			removeNonTimeChar(line);
 			return true;
 		}
 	}
@@ -155,8 +151,6 @@ bool Timing::checkDate(std::string &line, int count) {
 				changeToLower(month);
 				if (date.determineMonth(month) != 13) {
 					line = line.substr(strt);
-					removeNonTimeChar(line);
-					date.takeYear(line, line);
 					removeNonTimeChar(line);
 					return true;
 				}
@@ -268,6 +262,7 @@ bool Timing::extractTime (std::string &line, int &noOfTime, size_t &start, std::
 	std::string str = line;
 	std::string tStr = line;
 	size_t index = 0;
+	size_t index2 = 0;
 	int noOfWord = 0;
 
 	if (takeTime(str, tStr, noOfTime)) {
@@ -290,6 +285,8 @@ bool Timing::extractTime (std::string &line, int &noOfTime, size_t &start, std::
 				return true;
 			}
 			else {
+				//if (isTimedTask(
+				
 				return false;
 			}
 		}
@@ -304,6 +301,14 @@ bool Timing::extractTime (std::string &line, int &noOfTime, size_t &start, std::
 		_startTime = _startTime - 1200;
 	}
 }*/
+
+bool Timing::isTimedTask(std::string line) {
+	_words.push_back(" due ");
+	_words.push_back(" by ");
+	_words.push_back(" on ");
+	_words.push_back(" before ");
+	return true;
+}
 
 int Timing::getStart() {
 	return _startTime;

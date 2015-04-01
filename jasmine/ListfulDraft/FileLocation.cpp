@@ -15,9 +15,12 @@ int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 
 			//Reads in second line which contains the subCategories (date, time, priority, category)
 			getline(readFile, x);
+			parse.getInfo() = x;
 			parse.separateWord(listClass, data);
 			data.get_tempEntry().subject = subject;
 			data.getData().push_back(data.get_tempEntry());
+
+			getline(readFile, x);
         }	
 		readFile.close();
 		return fileMsg::OPEN;

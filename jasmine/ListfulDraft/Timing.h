@@ -6,6 +6,8 @@
 
 class Timing {
 private:
+	std::vector <std::string> _words;
+
 	int _startTime;
 	int _endTime;
 
@@ -26,6 +28,7 @@ public:
 	bool takeTime(std::string &, std::string &, int &);
 	void checkAMPM (std::string &, std::string &, int , int &);
 	bool extractTime (std::string &, int &, size_t &, std::string);
+	bool isTimedTask(std::string);
 	//void checkStartEnd();
 
 	int getStart();

@@ -16,9 +16,10 @@ const std::string UserMessage::MESSAGE_DELETE = "deleted from %s: \"%s\"";
 const std::string UserMessage::MESSAGE_CLEAR = "all content deleted from %s";
 const std::string UserMessage::MESSAGE_EDIT = "%s has been changed accordingly";
 const std::string UserMessage::MESSAGE_SORT = "%s has been sorted";
-const std::string UserMessage::MESSAGE_SEARCH = "results for searching in %s: \"%s\"";
+const std::string UserMessage::MESSAGE_SEARCH = "results for searching in %s: \"%s\" %s";
 const std::string UserMessage::MESSAGE_UNDO = "undid previous change";
 const std::string UserMessage::MESSAGE_REDO = "redid previous undo";
+const std::string UserMessage::MESSAGE_DO_NOTHING = "";
 const std::string UserMessage::ERROR_COMMAND = "invalid command";
 const std::string UserMessage::ERROR_ADD = "%s";
 const std::string UserMessage::ERROR_DISPLAY = "%s is already empty";
@@ -41,6 +42,7 @@ UserMessage::UserMessage() {
 	_commandMsg.push_back(MESSAGE_UNDO);
 	_commandMsg.push_back(MESSAGE_REDO);
 	_commandMsg.push_back(ERROR_COMMAND);
+	_commandMsg.push_back(MESSAGE_DO_NOTHING);
 	_commandMsg.push_back(ERROR_ADD);
 	_commandMsg.push_back(ERROR_DISPLAY);
 	_commandMsg.push_back(ERROR_DELETE);
@@ -50,7 +52,7 @@ UserMessage::UserMessage() {
 	_commandMsg.push_back(ERROR_SEARCH);
 	_commandMsg.push_back(ERROR_UNDO);
 	_commandMsg.push_back(ERROR_REDO);
-
+																	
 	_progMsg.push_back(MESSAGE_STAR);
 	_progMsg.push_back(MESSAGE_WELCOME);
 	_progMsg.push_back(MESSAGE_STAR);

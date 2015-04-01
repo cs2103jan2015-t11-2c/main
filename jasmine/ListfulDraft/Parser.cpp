@@ -17,6 +17,8 @@ void Parser::init(std::string command) {
 	extra.push_back("at");
 	extra.push_back("to");
 	extra.push_back("up");
+	extra.push_back("after");
+	extra.push_back("before");
 	extra.push_back("till");
 	extra.push_back("this");
 	extra.push_back("complete");
@@ -130,6 +132,7 @@ int Parser::determineCategory(std::string info) {
 
 int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstream &errMsg) {
 	int command = determineCommand();
+	errMsg.clear();
 
 	switch(command) {
 		case ADD:
@@ -138,33 +141,79 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 				return commandType::ADD;
 			}
 			return (commandType::ADD + 11);
+		case DISPLAY: {
+			int i = 0;
+			if (data.getData().empty()) {
+				return (commandType::DISPLAY + 11);
+			}
+
+			while (data.getData()[i].isFloat) {
+				if (i == 0) {
+					std::cout << "floating task(s):" << std::endl;
+				}
+				std::cout << (i + 1) << ". " << data.getDataString(i) << std::endl;
+				i++;
+			}
+			int count = 0;
+			while (i < data.getData().size() && !(data.getData()[i].isFloat)) {
+				if (count == 0) {
+					std::cout << "non-floating task(s):" << std::endl;
+				}
+				std::cout << (i + 1) << ". " << data.getDataString(i) << std::endl;
+				i++;
+				count++;
+			}
 			break;
-		case DISPLAY:
-			break;
+			}																																																																		
 		case CLEAR:
 			if (listClass.clearFile.clearFile(data)) {
 				return commandType::CLEAR;
 			}
 			return (commandType::CLEAR + 11);
-			break;
-		case EDIT:
-			break;
+		case EDIT: {
+			std::string command, editInput;
+			int index;
+			editInput = _information.substr(2);
+			index = atoi(_information.substr(0).c_str());
+			command = editInput.substr(0, editInput.find_first_of(" ")+1);
+			command = command.substr(0, editInput.find_first_of(" "));
+			_information = command;
+			listClass.edit.getCat() = determineCategory(_information);
+			editInput = editInput.substr(editInput.find_first_of(" ")+1);
+
+			if (listClass.edit.editContent(data, editInput, index-1)) {
+				return commandType::EDIT;
+			}
+			return (commandType::EDIT + 11);
+			}
 		case REMOVE:
-			break;
+			if (listClass.remove.deleteContent(data, _information, errMsg)) {
+				return commandType::REMOVE;
+			}
+			return (commandType::REMOVE + 11);
 		case REDO:
 			if (data.redoData()) {
 				return commandType::REDO;
 			}
 			return (commandType::REDO + 11);
-			break;
 		case UNDO:
 			if (data.undoData()) {
 				return commandType::UNDO;
 			}
 			return (commandType::UNDO + 11);
-			break;
-		case SEARCH:
-			break;
+		case SEARCH: {
+			std::string command, keyword;
+			command = _information.substr(0, _information.find_first_of(" "));
+			keyword = _information.substr(_information.find_first_of(" ")+1);
+			keyword = keyword.substr(0, keyword.find_first_of(" "));
+			_information = command;
+			listClass.searchFile.getCat() = determineCategory(_information);
+			keyword = keyword.substr(keyword.find_first_of(" ")+1);
+			if (listClass.searchFile.searchFile(data, keyword, errMsg)) {
+				return commandType::SEARCH;
+			}
+			return (commandType::SEARCH + 11);
+			}
 		case SORT:
 			changeToLower(_information);
 			listClass.sortFile.getSortCat() = determineCategory(_information);
@@ -172,14 +221,13 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 				return commandType::SORT;
 			}
 			return (commandType::SORT + 11);
-			break;
 		case EXIT:
 			_isEnd = true;
 			break;
 		default:
 			return commandType::INVALID;
-			break;
 	}
+	return commandType::DO_NOTHING;
 }
 
 //To separate out the information into its time, date, category, priority and subject
@@ -483,4 +531,9 @@ void Parser::joinStr(std::string &tStr, size_t &start) {
 	_information = _information.substr(0, start);
 	_information = _information + tStr;
 	return;
+}
+
+
+std::string &Parser::getInfo() {
+	return _information;
 }
