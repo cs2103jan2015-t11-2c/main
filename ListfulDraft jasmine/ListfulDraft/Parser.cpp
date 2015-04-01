@@ -134,7 +134,7 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 			break;
 							   }
 
-		case commandType::REMOVE:{
+	/*	case commandType::REMOVE:{
 			int index;
 			index = atoi(_information.substr(0).c_str());
 			if (listClass.remove.deleteContent(data, index-1)) {
@@ -142,19 +142,18 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 			}
 			else {
 				return 0; //delete error
-			}
+			}*/
 
-/*
-		case commandType::REMOVE: {
+
+		case commandType::REMOVE: 
 			listClass.remove.deleteContent(data, _information);
 			return commandType::REMOVE;
-			}
-
 			break;
-								 }*/
+								 
 		case commandType::REDO:
 			data.redoData();
 			break;
+							   
 		case commandType::UNDO:
 			data.undoData();
 			break;
@@ -175,6 +174,8 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data) {
 		case commandType::INVALID:
 			break;
 	}
+	
+
 	return commandType::INVALID;
 }
 
@@ -228,6 +229,7 @@ void Parser::separateWord(Classes &listClass, DataStore &data) {
 	}
 	return;
 }
+
 
 void Parser::retrieveDate(Classes &listClass) {
 	std::string dStr = _information;

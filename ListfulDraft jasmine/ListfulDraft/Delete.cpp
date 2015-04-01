@@ -13,7 +13,7 @@ int Delete::getContentIndex(DataStore &data, std::string subject) {
 	}
 }*/
 
-/*//to delete the content
+//to delete the content
 void Delete::deleteContent(DataStore &data, std::string info) {
 	//std::string emptyStr;
 	//emptyStr.clear();
@@ -31,7 +31,7 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 	}
 
 	return;
-
+}
 
 	/*if (data.getDataBaseSize() == 0) {
 		std::cout << "File is currently empty.\n";
@@ -58,8 +58,8 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 		//output(messageToUser);
 
 	}
-}*/
-
+}
+/*
 bool Delete::deleteContent(DataStore &data, int index) {
 	std::string emptyStr;
 	emptyStr.clear();
@@ -87,11 +87,11 @@ bool Delete::deleteContent(DataStore &data, int index) {
 	}
 	return true;
 }
-
+*/
 
 	
 
-/*
+
 void Delete::deletebyIndex(DataStore &data, int index) {
 
 		//convert info to int
@@ -123,4 +123,3 @@ void Delete::deletebySubject(DataStore &data, std::string temp, std::string info
 
 		return;
 }
-*/

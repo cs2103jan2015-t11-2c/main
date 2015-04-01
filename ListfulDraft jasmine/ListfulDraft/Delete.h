@@ -7,11 +7,11 @@ class Delete {
 public:
 	Delete() {};
 
-	bool deleteContent(DataStore &, int);
+	//bool deleteContent(DataStore &, int);
 
-	//void deleteContent(DataStore &, std::string);
-	//void deletebyIndex(DataStore &, int);
-	//void deletebySubject(DataStore &, std::string, std::string);
+	void deleteContent(DataStore &, std::string);
+	void deletebyIndex(DataStore &, int);
+	void deletebySubject(DataStore &, std::string, std::string);
 
 	int getContentIndex(DataStore &, std::string);
 };
