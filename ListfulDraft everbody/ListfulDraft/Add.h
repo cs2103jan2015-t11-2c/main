@@ -15,6 +15,9 @@ public:
 	bool sameDayAdd(DataStore &);
 	bool diffDayAdd(DataStore &);
 	void diffDayAdd2(DataStore &);
+
+	bool isDatePassed(DataStore &,  int date, int month, int year, int index);
+	struct std::tm tm;
 };
 
 #endif

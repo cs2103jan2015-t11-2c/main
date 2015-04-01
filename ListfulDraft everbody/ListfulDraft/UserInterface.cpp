@@ -73,9 +73,6 @@ std::string UserInterface::userAction() {
 	std::cout << std::endl;
 	centralizePrintToUser(MESSAGE_ACTION);
 
-/*	std::cout << std::endl << "(1)Add" << std::setw(4) << "(2)Display" 
-			  << std::setw(4) << "(3)Edit" << std::setw(4) << "(4)Delete" 
-			  << std::setw(4) << "(5)Clear" << std::setw(4) << "(6)Search" << std::setw(4) << "(7)Exit" << std::endl;*/
 	std::string userMenu = "(1)Add   (2)Display   (3)Edit   (4)Delete    (5)Clear   (6)Search   (7)Exit";
 	return userMenu;
 }

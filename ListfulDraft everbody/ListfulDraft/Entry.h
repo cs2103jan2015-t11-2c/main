@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <windows.h>
+#include <cstdlib>
 
 
 class Entry {
