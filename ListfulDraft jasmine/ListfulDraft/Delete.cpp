@@ -19,26 +19,15 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 	//emptyStr.clear();
 	std::string temp;
 	temp = info.substr(0, info.find_first_of(" "));
-	// if its by index
+	// if its by subject
 	if (temp == "subject" || temp == "SUBJECT" || temp == "sub" || temp == "SUB") {
-		std::size_t found = info.find(temp);
-		int start = info.find_first_of(" ",found);
-		start = info.find_first_not_of(" ",start);
-		std::string sub = info.substr(start);
-		std::vector<Entry>::size_type sz = data.getData().size();
-		for(unsigned index = 0 ; index < sz; index++) {
-			if (data.getData()[index].subject == sub) {
-				//display function
-			}
-		}
-	} else {
+		deletebySubject(data,temp,info);
+	}
+	// if its by index
+	else {
 		std::cout << info << std::endl;
 		int index = atoi(info.c_str());
-		//convert info to int
-		data.getData().erase(data.getData().begin()+index-1);
-		data.updateFile();
-		data.savePrevFile();
-		std::cout << "Deleted" << std::endl;
+		deletebyIndex(data,index);
 	}
 
 	return;
@@ -68,4 +57,36 @@ void Delete::deleteContent(DataStore &data, std::string info) {
 		//sprintf_s(messageToUser, MESSAGE_CLEAR.c_str(), fileName.c_str());
 		//output(messageToUser);
 	}*/
+}
+
+void Delete::deletebyIndex(DataStore &data, int index) {
+
+		//convert info to int
+		data.getData().erase(data.getData().begin()+index-1);
+		data.updateFile();
+		data.savePrevFile();
+		std::cout << "Deleted" << std::endl;
+		
+		return;
+}
+
+
+void Delete::deletebySubject(DataStore &data, std::string temp, std::string info) {
+
+		std::size_t found = info.find(temp);
+		int start = info.find_first_of(" ",found);
+		start = info.find_first_not_of(" ",start);
+		std::string sub = info.substr(start);
+		std::vector<Entry>::size_type sz = data.getData().size();
+		for(unsigned ind = 0 ; ind < sz; ind++) {
+			if (data.getData()[ind].subject == sub) {
+				//display function
+			}
+			//"which entry would you like to delete?
+			int index;
+			std::cin >> index;
+			deletebyIndex(data,index);
+		}
+
+		return;
 }
