@@ -1,6 +1,0 @@
-1.  meeting
-Time: 1900-2300		Date: 23/03/2015	Priority: medium	Category: work
-
-2.  1st anniversary :)
-Time: 00000-2359		Date: 16/04/2015	Priority: HIGH!	Category: <3
-
