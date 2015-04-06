@@ -140,6 +140,38 @@ namespace IntegratedTest
 
 		}
 
+		TEST_METHOD(addSearch)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			Classes listClass;
+			Parser parse;
+			std::ostringstream errMsg;
+			errMsg << "(undo to remove add)";
+
+			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 WORK MED";
+			std::string input2 = "add visit grandma 5th apr 2015 1745-2135";
+			std::string input3 = "IE2100 homework 7 08/04/2015 1900-1300 WORK HIGH";
+			std::string input4 = "search subject project";
+
+			parse.init(input1);
+			parse.carryOutCommand(listClass, data, errMsg);
+	
+			parse.init(input2);
+			parse.carryOutCommand(listClass, data, errMsg);
+
+			parse.init(input3);
+			parse.carryOutCommand(listClass, data, errMsg);
+			
+			parse.init(input4);
+			parse.carryOutCommand(listClass, data, errMsg);
+			
+			std::string expectedSearchedResult = "CS project meeting";
+			std::string actualSearchedResult = data.getTempData()[0].subject;
+
+			Assert::AreEqual(expectedSearchedResult, actualSearchedResult);
+
+		}
 /*TEST_METHOD(add)
 		{
 			DataStore data;

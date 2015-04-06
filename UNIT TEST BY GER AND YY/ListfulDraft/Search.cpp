@@ -45,7 +45,7 @@ bool Search::searchFile(DataStore &data, std::string keyword, std::ostringstream
 bool Search::foundPriority(DataStore &data, std::string &keyword, std::ostringstream &errMsg) {
 	size_t found = 0;
 	data.getTempData().clear();
-
+	assert(!keyword.empty());
 	for (int index = 0; index < data.getData().size(); index++) {
 		std::string content = data.getData()[index].priority;
 		found = content.find(keyword);
@@ -66,6 +66,7 @@ bool Search::foundCategory(DataStore &data, std::string &keyword, std::ostringst
 	size_t found = 0;
 	data.getTempData().clear();
 
+	assert(!keyword.empty());
 	
 	for (int index = 0; index < data.getData().size(); index++) {
 		std::string content = data.getData()[index].category;
@@ -88,11 +89,12 @@ bool Search::foundCategory(DataStore &data, std::string &keyword, std::ostringst
 bool Search::foundTime(DataStore &data, std::string &keyword, std::ostringstream &errMsg) {
 	bool found = false;
 	data.getTempData().clear();
-	std::string time;
 	
+	assert(!keyword.empty());
+
 	for (int index = 0; index < data.getData().size(); index++) {
 		
-		time = data.getTime(data, index);
+		std::string time = data.getTime(data.getData()[index]);
 		if(time == keyword){
 			data.getTempData().push_back(data.getData()[index]);
 			found = true;
@@ -109,7 +111,7 @@ bool Search::foundTime(DataStore &data, std::string &keyword, std::ostringstream
 bool Search::foundDate(DataStore &data, std::string &keyword, std::ostringstream &errMsg) {
 	bool found = false;
 	data.getTempData().clear();
-
+	assert(!keyword.empty());
 
 	for (int index = 0; index < data.getData().size(); index++) {
 		std::string date = data.getDate(data.getData()[index]);
@@ -129,6 +131,7 @@ bool Search::foundDate(DataStore &data, std::string &keyword, std::ostringstream
 bool Search::foundSubject(DataStore &data, std::string &keyword, std::ostringstream &errMsg) {
 	size_t found = 0;
 	data.getTempData().clear();
+	assert(!keyword.empty());
 
 	for (int index = 0; index < data.getData().size(); index++) {
 		std::string content = data.getData()[index].subject;

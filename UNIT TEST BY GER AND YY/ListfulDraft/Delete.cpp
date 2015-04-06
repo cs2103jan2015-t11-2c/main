@@ -97,6 +97,9 @@ bool Delete::deleteContent(DataStore &data, int index) {
 */
 
 bool Delete::deletebyIndex(DataStore &data, int index, std::ostringstream &errMsg) {
+	
+	assert(index > 0);
+
 	if (index > data.getData().size()) {
 		return false;
 	}
@@ -108,6 +111,9 @@ bool Delete::deletebyIndex(DataStore &data, int index, std::ostringstream &errMs
 
 
 bool Delete::deletebySubject(DataStore &data, std::string temp, std::string info, std::ostringstream &errMsg) {
+	
+	assert(!info.empty());
+
 	std::size_t found = info.find(temp);
 	if (found == std::string::npos) {
 		return false;

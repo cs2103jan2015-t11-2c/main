@@ -14,7 +14,6 @@
 #include <stddef.h>
 #include <windows.h>
 
-
 class Entry {
 public:
 	std::string subject;
