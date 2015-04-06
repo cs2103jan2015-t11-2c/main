@@ -10,7 +10,7 @@ void UserInterface::centralizePrintToUser(std::string text, std::ostringstream &
 }
 
 void UserInterface::runProgram(char *argv[]) {
-	char msgToUser[200];
+	char msgToUser[100000];
 	size_t count = 0;
 	std::string msg = "";
 	std::ostringstream errMsg;

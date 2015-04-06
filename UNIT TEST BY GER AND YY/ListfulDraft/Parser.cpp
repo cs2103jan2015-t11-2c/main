@@ -205,10 +205,9 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 			std::string command, keyword;
 			command = _information.substr(0, _information.find_first_of(" "));
 			keyword = _information.substr(_information.find_first_of(" ")+1);
-			keyword = keyword.substr(0, keyword.find_first_of(" "));
+			keyword = keyword.substr(0, keyword.find_last_of(" "));
 			_information = command;
 			listClass.searchFile.getCat() = determineCategory(_information);
-			keyword = keyword.substr(keyword.find_first_of(" ")+1);
 			if (listClass.searchFile.searchFile(data, keyword, errMsg)) {
 				return commandType::SEARCH;
 			}

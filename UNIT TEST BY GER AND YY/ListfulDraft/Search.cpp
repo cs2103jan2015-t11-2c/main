@@ -10,8 +10,21 @@ bool Search::searchFile(DataStore &data, std::string keyword, std::ostringstream
 			return foundDate(data, keyword, errMsg);
 		case TIME:
 			return foundTime(data, keyword, errMsg);
-		case CATEGORY:
+		case CATEGORY:{
+			if (keyword[0] == 'W' || keyword[0] == 'w'){
+				keyword = "WORK"; 
+			}
+			else if(keyword[0] == 'I' || keyword[0] == 'i'){
+				keyword = "INBOX";
+			}
+			else if(keyword[0] == 'P' || keyword[0] == 'p'){
+				keyword = "PERSONAL";
+			}
+			else if(keyword[0] == 'E' || keyword[0] == 'e'){
+				keyword = "ERRAND";
+			}
 			return foundCategory(data, keyword, errMsg);
+			}
 		case PRIORITY: {
 			if (keyword[0] == 'l' || keyword[0] == 'L'){
 				keyword = "LOW"; 
@@ -75,17 +88,19 @@ bool Search::foundCategory(DataStore &data, std::string &keyword, std::ostringst
 bool Search::foundTime(DataStore &data, std::string &keyword, std::ostringstream &errMsg) {
 	bool found = false;
 	data.getTempData().clear();
-
+	std::string time;
+	
 	for (int index = 0; index < data.getData().size(); index++) {
-		std::string time = data.getTime(data.getData()[index]);
+		
+		time = data.getTime(data, index);
 		if(time == keyword){
 			data.getTempData().push_back(data.getData()[index]);
 			found = true;
 		}
 		
-		if (data.getTempData().empty()) {
-			return false;
-		}
+		//if (data.getTempData().empty()) {
+			//return false;
+		//}
 	}
 	printSearchedContent(data, errMsg);
 	return found;
@@ -95,6 +110,7 @@ bool Search::foundDate(DataStore &data, std::string &keyword, std::ostringstream
 	bool found = false;
 	data.getTempData().clear();
 
+
 	for (int index = 0; index < data.getData().size(); index++) {
 		std::string date = data.getDate(data.getData()[index]);
 		if(date == keyword){
@@ -102,9 +118,9 @@ bool Search::foundDate(DataStore &data, std::string &keyword, std::ostringstream
 			found = true;
 		}
 		
-		if (data.getTempData().empty()) {
-			return false;
-		}
+	//	if (data.getTempData().empty()) {
+		//	return false;
+		//}
 	}
 	printSearchedContent(data, errMsg);
 	return found;
