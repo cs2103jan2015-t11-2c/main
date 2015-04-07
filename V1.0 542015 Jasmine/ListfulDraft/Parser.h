@@ -40,8 +40,11 @@ class Parser {
 		bool isRunProgram();
 		bool isClearScreen(std::string);
 		bool isHelp(std::string);
-		int carryOutCommand(Classes &, DataStore &, std::ostringstream &);
+		void errorAddMsg(std::ostringstream &, bool, bool, Classes);
+		int carryOutCommand(Classes &, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 
+		bool getIndex(DataStore &, int &);
+		bool getEditDelete(DataStore &, Classes, int &, int &, std::string);
 		void separateWord(Classes &, DataStore &, bool &, bool &);
 		void retrieveDate(Classes &, bool &);
 		void retrieveTime(Classes &, bool &);
@@ -51,7 +54,7 @@ class Parser {
 		void cutExtraWord(size_t, int, int);
 		bool extraWord(std::string, size_t, int, int, int);
 
-		void getFirstWord(Classes, std::string &, std::string , size_t, size_t &, int &);
+		void getFirstWord(Classes, std::string &, std::string , size_t, size_t &);
 		void changeToLower(std::string &);
 		void removeFrontChar(std::string &str);
 		void removeBackChar(std::string &str);

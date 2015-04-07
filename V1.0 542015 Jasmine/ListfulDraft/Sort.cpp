@@ -7,7 +7,6 @@ void Sort::sortSwitch(int &index, int &start, DataStore &data){
 			data.getTempData().push_back(data.getData()[i]); 
 		}
 		else if(i == start) {
-			
 			data.getTempData().push_back(data.getData()[index]); 
 			data.getTempData().push_back(data.getData()[i]); 
 		}
@@ -17,11 +16,35 @@ void Sort::sortSwitch(int &index, int &start, DataStore &data){
 	}
 	data.getData() = data.getTempData();
 	data.getTempData().clear();
-};
+}
+
+//Sort alphabetically
+void Sort::sortSub(DataStore &data) {
+	std::string line1 = "";
+	std::string lineSize = "";
+	std::string line2 = "";
+
+	for (int iter = 1; iter < data.getData().size(); ++iter) {
+		line2 = data.getData()[iter].subject;
+		for (int start = 0; start < iter; ++start) {
+			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
+				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
+					line1 = data.getData()[start].subject;
+					compareLineSize(line1, line2, lineSize);
+					if (compareWord(line1, line2, lineSize)) {
+						sortSwitch(iter, start, data);
+						line2 = data.getData()[iter].subject;
+					}
+				}
+			}
+		}
+	}
+	return;
+}
 
 void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &lineSize) {
 	if (line1.size() <= line2.size()) {
-			lineSize = line1;
+		lineSize = line1;
 	}
 	else {
 		lineSize = line2;
@@ -75,40 +98,20 @@ bool Sort::compareWord(std::string &line1, std::string &line2, std::string &line
 	return false;
 }
 
-//Sort alphabetically
-void Sort::sortSub(DataStore &data) {
-	std::string line1 = "";
-	std::string lineSize = "";
-	std::string line2 = "";
-
-	for (int iter = 1; iter < data.getData().size(); ++iter) {
-		line2 = data.getData()[iter].subject;
-		for (int start = 0; start < iter; ++start) {
-			if ((!data.getData()[start].isFloat && !data.getData()[iter].isFloat) || (data.getData()[start].isFloat && data.getData()[iter].isFloat)) {
-				line1 = data.getData()[start].subject;
-				compareLineSize(line1, line2, lineSize);
-				if (compareWord(line1, line2, lineSize)) {
-					sortSwitch(iter, start, data);
-					line2 = data.getData()[iter].subject;
-				}
-			}
-		}
-	}
-	return;
-}
-
 void Sort::sortDate(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
-			if (!data.getData()[start].isFloat && !data.getData()[iter].isFloat) {
-				if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month == data.getData()[iter].month && data.getData()[start].day > data.getData()[iter].day) {
-					sortSwitch(iter, start, data);
-				}
-				else if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month > data.getData()[iter].month) {
-					sortSwitch(iter, start, data);
-				}
-				else if (data.getData()[start].year > data.getData()[iter].year) {
-					sortSwitch(iter, start, data);
+			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
+				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
+					if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month == data.getData()[iter].month && data.getData()[start].day > data.getData()[iter].day) {
+						sortSwitch(iter, start, data);
+					}
+					else if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month > data.getData()[iter].month) {
+						sortSwitch(iter, start, data);
+					}
+					else if (data.getData()[start].year > data.getData()[iter].year) {
+						sortSwitch(iter, start, data);
+					}
 				}
 			}
 		}
@@ -119,12 +122,14 @@ void Sort::sortDate(DataStore &data) {
 void Sort::sortTime(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
-			if ((!data.getData()[start].isFloat && !data.getData()[iter].isFloat) || (data.getData()[start].isFloat && data.getData()[iter].isFloat)) {
-				if (data.getData()[start].startTime > data.getData()[iter].startTime) {
-					sortSwitch(iter, start, data);
-				}
-				else if (data.getData()[start].startTime == data.getData()[iter].startTime && data.getData()[start].endTime < data.getData()[iter].endTime) {
-					sortSwitch(iter, start, data);
+			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
+				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
+					if (data.getData()[start].startTime > data.getData()[iter].startTime) {
+						sortSwitch(iter, start, data);
+					}
+					else if (data.getData()[start].startTime == data.getData()[iter].startTime && data.getData()[start].endTime < data.getData()[iter].endTime) {
+						sortSwitch(iter, start, data);
+					}
 				}
 			}
 		}
@@ -153,9 +158,11 @@ int Sort::determineC(std::string word) {
 void Sort::sortCat(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
-			if ((!data.getData()[start].isFloat && !data.getData()[iter].isFloat) || (data.getData()[start].isFloat && data.getData()[iter].isFloat)) {
-				if (determineP(data.getData()[start].category) > determineC(data.getData()[iter].category)) {	
-					sortSwitch(iter, start, data);
+			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
+				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
+						if (determineP(data.getData()[start].category) > determineC(data.getData()[iter].category)) {	
+						sortSwitch(iter, start, data);
+					}
 				}
 			}
 		}
@@ -181,9 +188,11 @@ int Sort::determineP(std::string word) {
 void Sort::sortPriority(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
-			if ((!data.getData()[start].isFloat && !data.getData()[iter].isFloat) || (data.getData()[start].isFloat && data.getData()[iter].isFloat)) {
-				if (determineP(data.getData()[start].priority) > determineP(data.getData()[iter].priority)) {	
-					sortSwitch(iter, start, data);
+			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
+				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
+					if (determineP(data.getData()[start].priority) > determineP(data.getData()[iter].priority)) {	
+						sortSwitch(iter, start, data);
+					}
 				}
 			}
 		}
@@ -211,9 +220,6 @@ bool Sort::sortContent(DataStore &data){
 		default:
 			return false;
 	}
-
-	data.updateFile();
-	data.savePrevFile();
 	return true;
 }
 

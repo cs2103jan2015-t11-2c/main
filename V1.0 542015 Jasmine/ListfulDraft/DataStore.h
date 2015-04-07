@@ -6,37 +6,33 @@
 class DataStore {
 private:
 	std::vector <Entry> _dataBase;
-	std::vector <Entry> _tempDataBase;
 	std::vector <std::vector <Entry>> _pastData;
 	std::vector <std::vector <Entry>> _futureData;
 
+	std::vector <Entry> _tempDataBase;
+
 	Entry _tempEntry;
+	Entry _emptyEntry;
 	std::string _fileName;
 
 public:
 	DataStore () {};
 	void init (std::string);
 
-	std::string getDataString(int);
-	std::string getTempDataString(int);
-	int countDigit(int &);
-	void printZero(int &, std::ostringstream &, int);
-	void printSpace(std::ostringstream &, int);
-
-	void updateFile();
+	void updateFile(DataStore &);
 	void savePrevFile();
-	bool undoData();
-	bool redoData();
-
-	void setColour(int);
+	bool undoData(DataStore &);
+	bool redoData(DataStore &);
 	
 	std::vector <Entry> &getData();
 	std::vector <Entry> &getTempData();
 	Entry &getEntry(int);
 	Entry &get_tempEntry();
-	
+	Entry &get_emptyEntry();
+	/*
 	std::string getDate(Entry);
     std::string getTime(Entry);
+	std::string getTempDataString(int);*/
 };
 
 #endif

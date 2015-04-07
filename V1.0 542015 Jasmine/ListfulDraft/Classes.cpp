@@ -1,19 +1,19 @@
 #include "Classes.h"
 
 int Classes::determineCommand(std::string _userInput) {
-	if (_userInput == "add" || _userInput == "1") {
+	if (_userInput == "add" || _userInput == "1" || _userInput == "addto") {
 		return commandType::ADD;
 	}
-	else if (_userInput == "display" || _userInput == "2") {
+	else if (_userInput == "display" || _userInput == "2" || _userInput == "show") {
 		return commandType::DISPLAY;
 	}
-	else if (_userInput == "delete" || _userInput == "3") {
+	else if (_userInput == "delete" || _userInput == "3" || _userInput == "remove") {
 		return commandType::REMOVE;
 	}
-	else if (_userInput == "clear" || _userInput == "4") {
+	else if (_userInput == "clear" || _userInput == "4" || _userInput == "reset") {
 		return commandType::CLEAR;
 	}
-	else if (_userInput == "edit" || _userInput == "5") {
+	else if (_userInput == "edit" || _userInput == "5" || _userInput == "append") {
 		return commandType::EDIT;
 	}
 	else if (_userInput == "sort" || _userInput == "6") {

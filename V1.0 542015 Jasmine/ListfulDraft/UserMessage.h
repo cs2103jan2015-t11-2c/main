@@ -7,10 +7,10 @@ private:
 	static const std::string MESSAGE_LOGIN;
 	static const std::string MESSAGE_LOGIN2;
 	static const std::string MESSAGE_LINE;
-	static const std::string MESSAGE_ACTION;
+	static const std::string MESSAGE_DISPLAY_FLOATING;
+	static const std::string MESSAGE_DISPLAY_SCHEDULE;
+	static const std::string MESSAGE_DISPLAY_DEADLINE;
 	static const std::string MESSAGE_COMMAND_LIST;
-	
-	static const std::string CLEAR_SCREEN;
 
 	static const std::string MESSAGE_FILE_OPENED;
 	static const std::string MESSAGE_FILE_CREATED;
@@ -37,10 +37,17 @@ private:
 	static const std::string ERROR_SORT;
 	static const std::string ERROR_UNDO;
 	static const std::string ERROR_REDO;
+	
+	static const std::string ERROR_ADD_DATE;
+	static const std::string ERROR_ADD_TIME;
+	static const std::string ERROR_ADD_CLASH_SUBJECT;
+	static const std::string ERROR_ADD_CLASH_TIME;
 
 	std::vector <std::string> _commandMsg;
 
 	std::vector <std::string> _fileMsg;
+	
+	std::vector <std::string> _displayMsg;
 
 	std::vector <std::string> _progMsg;
 
@@ -55,5 +62,5 @@ public:
 	std::vector <std::string> &getCommandMsg();
 	std::vector <std::string> &getFileMsg();
 	std::vector <std::string> &getProgMsg();
-	std::string &getClearScreen();
+	std::vector <std::string> &getDisplayMsg();
 };

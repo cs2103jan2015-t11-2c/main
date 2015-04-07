@@ -25,6 +25,7 @@ public:
 	int endTime;
 	std::string priority;
 	std::string category;
+	bool isTimedTask;
 	bool isComplete;
 	bool isFloat;
 };

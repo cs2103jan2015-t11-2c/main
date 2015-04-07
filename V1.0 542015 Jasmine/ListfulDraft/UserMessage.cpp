@@ -3,19 +3,19 @@
 const std::string UserMessage::MESSAGE_COMMAND_LIST = "  1)Add   2)Display   3)Delete   4)Clear   5)Edit   6)Sort   7)Search   8)Exit  ";
 const std::string UserMessage::MESSAGE_LINE = " ============================================================================== ";
 const std::string UserMessage::MESSAGE_STAR = "********************************************************************************";
-const std::string UserMessage::MESSAGE_WELCOME = "                           *** Welcome to Listful ***                           ";
+const std::string UserMessage::MESSAGE_WELCOME = "                           *** Listful %s ***                           ";
 const std::string UserMessage::MESSAGE_LOGIN = " ~ For help, enter [?] to display the above list of commands available             NOTE: you can [undo] and [redo] actions as well                              ";
-const std::string UserMessage::MESSAGE_LOGIN2 = "Please enter a name (and location if you wish) for your to do list folder:      -> ";
-const std::string UserMessage::MESSAGE_ACTION = "-> ";
-
-const std::string UserMessage::CLEAR_SCREEN = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-
+const std::string UserMessage::MESSAGE_LOGIN2 = "Please enter a file name (and location if you wish) for your your file          -> ";
+const std::string UserMessage::MESSAGE_DISPLAY_FLOATING = "  FLOATING TASK(s)                               | Time      | Category | Done   ================================================|===========|==========|====== ";
+const std::string UserMessage::MESSAGE_DISPLAY_SCHEDULE = "  SCHEDULED TASK(s)                 | Date       | Time      | Category | Done   ===================================|============|===========|==========|====== ";
+const std::string UserMessage::MESSAGE_DISPLAY_DEADLINE = "  DEADLINE TASK(s)                       | Date       | Time | Category | Done   ========================================|============|======|==========|====== ";
+ 
 const std::string UserMessage::MESSAGE_FILE_CREATED = "loading... new %s created and ready for use";
 const std::string UserMessage::MESSAGE_FILE_OPENED = "loading... %s is open and ready for use";
 const std::string UserMessage::MESSAGE_REMINDER = "%s";
 
 const std::string UserMessage::MESSAGE_ADD = "added to %s: \"%s\" %s";
-const std::string UserMessage::MESSAGE_DISPLAY = "[ %s ]%s";
+const std::string UserMessage::MESSAGE_DISPLAY = "%s%s%s%s";
 const std::string UserMessage::MESSAGE_DELETE = "deleted from %s: \"%s\"";
 const std::string UserMessage::MESSAGE_CLEAR = "all content deleted from %s";
 const std::string UserMessage::MESSAGE_EDIT = "%s has been changed accordingly";
@@ -35,6 +35,9 @@ const std::string UserMessage::ERROR_SORT = "%s does not contain the category sp
 const std::string UserMessage::ERROR_SEARCH = "keyword cannot be found in %s";
 const std::string UserMessage::ERROR_UNDO = "no previous changes to undo";
 const std::string UserMessage::ERROR_REDO = "no previous undo to redo";
+
+const std::string UserMessage::ERROR_ADD_DATE = "date entered has already past (undo/edit adviced)";
+const std::string UserMessage::ERROR_ADD_TIME = "end time entered earlier then start time (undo/edit adviced)";
 
 UserMessage::UserMessage() {
 	_commandMsg.push_back(MESSAGE_ADD);
@@ -65,8 +68,11 @@ UserMessage::UserMessage() {
 	_progMsg.push_back(MESSAGE_WELCOME);
 	_progMsg.push_back(MESSAGE_STAR);							
 	_progMsg.push_back(MESSAGE_LOGIN);				
-	_progMsg.push_back(MESSAGE_LOGIN2);	
-	_progMsg.push_back(MESSAGE_ACTION);
+	_progMsg.push_back(MESSAGE_LOGIN2);
+	
+	_displayMsg.push_back(MESSAGE_DISPLAY_FLOATING);
+	_displayMsg.push_back(MESSAGE_DISPLAY_SCHEDULE);
+	_displayMsg.push_back(MESSAGE_DISPLAY_DEADLINE);
 
 	_fileMsg.push_back(MESSAGE_FILE_OPENED);
 	_fileMsg.push_back(MESSAGE_FILE_CREATED);
@@ -86,6 +92,8 @@ UserMessage::UserMessage() {
 	_quotes.push_back("Do not wait to strike till the iron is hot; but make it hot by striking.");
 	_quotes.push_back("Motivation will almost always beat mere talent.");
 	_quotes.push_back("What you do today can improve all your tomorrows.");
+	_quotes.push_back("The gift is the journey.");
+	_quotes.push_back("Everything that can happen will happen.");
 	_quotes.push_back("Step by step and the thing is done.");
 	_quotes.push_back("The will to succeed is important, but what's more important is the will to prepare.");
 }
@@ -106,7 +114,6 @@ std::vector <std::string> &UserMessage::getProgMsg() {
 	return _progMsg;
 }
 
-std::string &UserMessage::getClearScreen() {
-	std::string msg = CLEAR_SCREEN;
-	return msg;
+std::vector <std::string> &UserMessage::getDisplayMsg() {
+	return _displayMsg;
 }

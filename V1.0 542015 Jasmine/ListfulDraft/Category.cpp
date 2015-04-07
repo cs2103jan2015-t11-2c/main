@@ -6,16 +6,16 @@ bool Category::extractCat(int cat, std::string &cStr, size_t found) {
 	
 	switch(cat) {
 		case 0:
-			_cat = "WORK     ";
+			_cat = "WORK    ";
 			break;
 		case 1:
-			_cat = "PERSONAL ";
+			_cat = "PERSONAL";
 			break;
 		case 2:
-			_cat = "ERRAND   ";
+			_cat = "ERRAND  ";
 			break;
 		case 3:
-			_cat = "INBOX    ";
+			_cat = "INBOX   ";
 			break;
 		default:
 			return false;

@@ -5,16 +5,13 @@
 
 class Edit {
 private:
-	enum subCategory {
-		DATE, SUBJECT, TIME, PRIORITY, CATEGORY, INVALID
-	};
-
 	int _category;
+	Entry _editEntry;
 
 public:
 	Edit() {};
 
-	bool editContent(DataStore &, std::string, int);
+	bool editContent(DataStore &, int, std::ostringstream &);
 
 	int &getCat();
 };

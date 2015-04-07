@@ -21,7 +21,7 @@ public:
 	void removeNonTimeChar(std::string &);
 	void countWord(std::string, int &);
 	bool takeTime(std::string &, int &, bool &);
-	void checkAMPM (std::string &, int , int &, bool &);
+	void checkAMPM (std::string &, int , int &, bool &, int);
 	bool extractTime (std::string &, int &, bool &);
 	bool checkStartEnd();
 

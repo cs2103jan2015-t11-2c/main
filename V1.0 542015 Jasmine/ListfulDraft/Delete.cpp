@@ -12,7 +12,7 @@ int Delete::getContentIndex(DataStore &data, std::string subject) {
 		}
 	}
 }*/
-
+/*
 //to delete the content
 bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg) {
 	bool status = true;
@@ -21,7 +21,7 @@ bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream
 	if (found == std::string::npos) {
 		int index = atoi(info.c_str());
 		status = deletebyIndex(data,index, errMsg);
-		data.updateFile();
+		data.updateFile(data);
 		data.savePrevFile();
 		return status;
 	}
@@ -38,7 +38,7 @@ bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream
 		int index = atoi(info.c_str());
 		status = deletebyIndex(data,index, errMsg);
 	}
-	data.updateFile();
+	data.updateFile(data);
 	data.savePrevFile();
 	return status;
 }
@@ -98,14 +98,14 @@ bool Delete::deleteContent(DataStore &data, int index) {
 	return true;
 }
 */
-
+/*
 bool Delete::deletebyIndex(DataStore &data, int index, std::ostringstream &errMsg) {
 	if (index > data.getData().size()) {
 		return false;
 	}
 
 	errMsg << data.getData()[index - 1].subject;
-	data.getData().erase(data.getData().begin()+index-1);
+	data.getData().erase(data.getData().begin() + index - 1);
 	return true;
 }
 
@@ -139,4 +139,4 @@ bool Delete::deletebySubject(DataStore &data, std::string temp, std::string info
 	int index;
 	std::cin >> index;
 	return deletebyIndex(data,index, errMsg);
-}
+}*/

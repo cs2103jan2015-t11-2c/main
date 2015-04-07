@@ -14,9 +14,10 @@ public:
 	bool isSameTime(DataStore, int);
 
 	void insertionAdd(DataStore &);
-	bool sameDayAdd(DataStore &);
-	bool diffDayAdd(DataStore &);
+	bool scheduledAdd(DataStore &);
+	bool deadlineAdd(DataStore &);
 	void floatAdd(DataStore &);
+	bool pushData(DataStore &, std::vector <Entry>::iterator, int);
 };
 
 #endif

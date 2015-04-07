@@ -56,11 +56,11 @@ void Date::changeToLower(std::string &str) {
 
 void Date::removeNonDateChar(std::string &str) {
 	size_t found;
-	found = str.find_first_of(" /");
+	found = str.find_first_of(" ");
 
 	while (found != std::string::npos && found == 0) {
 		str = str.substr(1);
-		found = str.find_first_of(" /");
+		found = str.find_first_of(" ");
 	}
 	return;
 }
@@ -130,7 +130,8 @@ bool Date::takeMonth(std::string &tStr, size_t &start, size_t &end) {
 	start = tStr.find_first_of("0123456789");
 
 	//If month is in numbers
-	if (start != std::string::npos && start == 0) {
+	if (start != std::string::npos && start == 1 && tStr[0] == '/') {
+		tStr = tStr.substr(1);
 		if (!extractNum(tStr, count, _month)) {
 			return false;
 		}
@@ -163,6 +164,7 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 	int count = 0;
 	bool checkTime = false;
 	size_t index = 0;
+	size_t found = originalStr.find(newStr);
 	
 	Timing timer;
 	time_t t = time(0);   
@@ -181,6 +183,15 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 		_year = (now.tm_year + 1900);
 		return;
 	}
+	else if (originalStr[found - 1] == '/' || (originalStr[found - 1] >= 'a' && originalStr[found - 1] <= 'z') || (originalStr[found - 1] >= 'A' && originalStr[found - 1] <= 'Z')) {
+		if (count == newStr.size()) {
+			tStr = "";
+		}
+		else {
+			tStr = newStr.substr(count);
+		}
+		return;
+	}
 	//To check if the number after the month is a year or a time
 	else {
 		timer.removeNonTimeChar(str);
@@ -197,6 +208,9 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 				while (index != std::string::npos && index < start) {
 					noOfTime = 0;
 					index = str.find_first_of(" ", index);
+					if (index == std::string::npos) {
+						break;
+					}
 					index = str.find_first_not_of(" ", index);
 					str = str.substr(index);
 					if (timer.extractTime(str, noOfTime, checkTime)) {
@@ -218,6 +232,10 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 					while (index != std::string::npos) {
 						noOfTime = 0;
 						index = str.find_first_of(" ", index);
+						if (index == std::string::npos) {
+							_year = (now.tm_year + 1900);
+							return;
+						}
 						index = str.find_first_not_of(" ", index);
 						str = str.substr(index);
 						if (timer.extractTime(str, noOfTime, checkTime)) {
@@ -253,7 +271,6 @@ bool Date::isDayMonth(bool &pastDate) {
 		time_t t = time(0);   
 		struct tm now;
 		localtime_s(&now, &t);
-		std::cout << (now.tm_year + 1900) << "-" << (now.tm_mon + 1) << "-" << (now.tm_mday) << std::endl;
 		if (_year < (now.tm_year + 1900)) {
 			pastDate = true;
 		}
@@ -297,10 +314,14 @@ bool Date::extractDate(std::string &tStr, bool &pastDate, std::string originalSt
 	else {
 		return false;
 	}
+
 	newStr = newStr.substr(start);
 	removeNonDateChar(newStr);
+	if (newStr != "" && newStr[0] == '/') {
+		newStr = newStr.substr(1);
+	}
 	takeYear(tStr, newStr, originalStr, index);
-
+	
 	//If user is entering a date but it is wrong due to typo
 	if (!isDayMonth(pastDate)) {
 		std::cout << "invalid date entered, please re-enter date: ";

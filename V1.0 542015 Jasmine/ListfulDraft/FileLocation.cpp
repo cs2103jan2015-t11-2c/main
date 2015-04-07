@@ -62,19 +62,21 @@ int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 		std::ifstream readFile(_fileName.c_str());
 		if (readFile.is_open()) {
 			while (!readFile.eof()) {
-				//Reads in first line which contains subject 
 				getline(readFile, x);
+
 				if (x == "") {
 					readFile.close();
 					return fileMsg::OPEN;
 				}
-				start = x.find_first_of(" ");
-				subject = x.substr(start + 1);
-
-				//Reads in second line which contains the subCategories (date, time, priority, category)
-				getline(readFile, x);
+				
+				start = x.find(" | ");
+				subject = x.substr(3, start - 3);
+				parse.removeBackChar(subject);
+				
+				x = x.substr(start + 2);
 				parse.getInfo() = x;
 				parse.separateWord(listClass, data, ignore, ignore);
+
 				data.get_tempEntry().subject = subject;
 				data.getData().push_back(data.get_tempEntry());
 

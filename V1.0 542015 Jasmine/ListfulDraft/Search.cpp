@@ -1,6 +1,6 @@
 #include "Search.h"
 
-
+/*
 //Displays all contents that contains the keywords
 bool Search::searchFile(DataStore &data, std::string keyword, std::ostringstream &errMsg) {
 	switch (_category) {
@@ -139,4 +139,4 @@ void Search::printSearchedContent(DataStore &data, std::ostringstream &errMsg){
 
 int &Search::getCat() {
 	return _category;
-}
+}*/

@@ -161,9 +161,9 @@ bool Timing::takeTime(std::string &line, int &noOfTime, bool &checkTime) {
 		return false;
 	}
 
-	checkAMPM(line, count, time, checkTime);
+	checkAMPM(line, count, time, checkTime, noOfTime);
 
-	if (time < 100 && count < 4) {
+	if (!checkTime && time < 100 && count < 4) {
 		return false;
 	}
 	else if (!(isTimeValid(time))) {
@@ -181,13 +181,15 @@ bool Timing::takeTime(std::string &line, int &noOfTime, bool &checkTime) {
 	return true;
 }
 
-void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &checkTime) {
+void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &checkTime, int noOfTime) {
 	std::string line = originalStr; 
 	changeToLower(line);
 	size_t foundAM = line.find("am");
 	size_t foundAM2 = line.find("a.m");
 	size_t foundPM = line.find("pm");
 	size_t foundPM2 = line.find("p.m");
+	size_t i = line.find("-");
+	size_t j = line.find("to");
 
 	if (foundAM != std::string::npos && ((foundAM - count) <= 2)) {
 		if (count <= 2 && num == 12) {
@@ -232,9 +234,23 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		updateStr(originalStr, line, foundPM2);
 		checkTime = true;
 	}
+	//assume pm if not indicated
 	else {
 		if (count > 2 && count < 4) {
 			num = num + 1200;
+		}
+		else if (count <= 2) {
+			if (i != std::string::npos || j != std::string::npos || noOfTime == 1) {
+				if ((i - count) <= 1 || (j - count) <= 1 || noOfTime == 1) {
+					if (num == 12) {
+						num = num * 100;
+					}
+					else {
+						num = (num * 100) + 1200;
+						checkTime = true;
+					}
+				}
+			}
 		}
 
 		if (count != line.size()) {

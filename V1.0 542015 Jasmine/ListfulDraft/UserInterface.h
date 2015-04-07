@@ -4,7 +4,7 @@
 #include "FileLocation.h"
 #include "UserMessage.h"
 
-#define MAX 400
+#define MAX 1000
 
 class UserInterface {
 	private:
@@ -21,11 +21,12 @@ class UserInterface {
 
 		void centralizePrintToUser(std::string, std::ostringstream &);
 		void runProgram();
-		std::string getOutputToUser(DataStore, std::string, std::string, std::ostringstream &);
-		void extractFileName(std::string &, std::string &);
+		void readFileName(std::string &, UserMessage);
+		std::string getOutputToUser(DataStore, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage);
+		void extractFileName(std::string &, std::string &, FileLocation &);
 		std::string getPath();
-		void userAction(UserMessage);
 		std::string quoteOfTheDay(UserMessage);
+		std::string getCurrentDate();
 		void outputCommand(UserMessage);
 		void homeScreen(UserMessage);
 };

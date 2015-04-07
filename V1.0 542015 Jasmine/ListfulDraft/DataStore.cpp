@@ -1,78 +1,11 @@
 #include "DataStore.h"
+#include "Display.h"
 
 void DataStore::init(std::string fileName) {
 	_fileName = fileName;
 	savePrevFile();
 }
-
-//To output one whole entry by itself
-std::string DataStore::getDataString(int index) {
-	std::ostringstream dataString;
-	std::ostringstream time;
-	std::ostringstream date;
-	std::ostringstream cat;
-	std::ostringstream priority;
-
-	//Gets the number of digits for each entry variable
-	int sTime = countDigit(_dataBase[index].startTime);
-	int eTime = countDigit(_dataBase[index].endTime);
-	int nDay = countDigit(_dataBase[index].day);
-	int nMonth = countDigit(_dataBase[index].month);
-	int nYear = countDigit(_dataBase[index].year);
-
-	//Form one whole string from the whole entry with standard sized columns with colour coding
-	if (_dataBase[index].priority == "HIGH ") {
-		setColour(12);
-	}
-	else if (_dataBase[index].priority == "MED  ") {
-		setColour(14);
-	}
-	dataString << _dataBase[index].subject << std::endl;
-	setColour(7);
-
-	dataString << "Date: " ;
-	if (_dataBase[index].day == 0) {
-		dataString << "-";
-		printSpace(dataString, 11);
-	}
-	else {
-		printZero(nDay, dataString, 2);
-		dataString << _dataBase[index].day << '/';	
-		printZero(nMonth, dataString, 2);
-		dataString << _dataBase[index].month << '/' << _dataBase[index].year;
-		printSpace(dataString, 2);
-	}
-	
-	if (_dataBase[index].startTime == 0 && _dataBase[index].endTime == 0) {
-		dataString << "Time: ";
-		dataString << "-";
-		printSpace(dataString, 11);
-	}
-	//else if (_dataBase[index].startTime != 0 && _dataBase[index].endTime == _dataBase[index].startTime) {
-	//	dataString << "Due Time: ";
-	//	printZero(sTime, dataString, 4);
-	//	dataString << _dataBase[index].startTime << "    ";
-	//}
-	else {
-		dataString << "Time: ";
-		printZero(sTime, dataString, 4);
-		dataString << _dataBase[index].startTime << '-';
-		printZero(eTime, dataString, 4);
-		dataString << _dataBase[index].endTime;
-		printSpace(dataString, 3);
-	}
-	dataString << "Category: " << _dataBase[index].category;
-	
-	dataString << "Completed: ";
-	if (_dataBase[index].isComplete) {
-		dataString << "yes ";
-	}
-	else {
-		dataString << "no  ";
-	}
-	return dataString.str();
-}
-
+/*
 std::string DataStore::getTempDataString(int index) {
 	std::ostringstream dataString;
 	std::ostringstream time;
@@ -132,48 +65,20 @@ std::string DataStore::getTempDataString(int index) {
 	}
 	return dataString.str();
 }
-
-int DataStore::countDigit(int &num) {
-	int count = 0;
-	int tNum = num;
-
-	if (num == 0) {
-		return 1;
-	}
-
-	while (tNum > 0) {
-		count++;
-		tNum = tNum/10;
-	}
-	return count;
-}
-
-//To ensure that the no of digits for time and date are 4 and 2 respectively
-void DataStore::printZero(int &num, std::ostringstream &dataString, int count) {
-	while (num < count) {
-		dataString << '0';
-		num++;
-	}
-	return;
-}
-
-//To equalize the columns of each output entry
-void DataStore::printSpace(std::ostringstream &dataString, int count) {
-	while (count > 0) {
-		dataString << " ";
-		count--;
-	}
-}
+*/
 
 //To update the text file in the computer
-void DataStore::updateFile() {
+void DataStore::updateFile(DataStore &data) {
+	bool updateFile = true;
+	Display display;
+
 	std::ofstream writeFile(_fileName);
 	for (int index = 0; index != _dataBase.size(); index++) {
 		if (index != _dataBase.size() - 1) {
-			writeFile << (index + 1) << ". " << getDataString(index) << "Priority: " << _dataBase[index].priority << "\n\n";
+			writeFile << (index + 1) << ". " << display.getDataString(data, index, updateFile) << " | Priority: " << _dataBase[index].priority << "\n\n";
 		}
 		else {
-			writeFile << (index + 1) << ". " << getDataString(index) << "Priority: " << _dataBase[index].priority;
+			writeFile << (index + 1) << ". " << display.getDataString(data, index, updateFile) << " | Priority: " << _dataBase[index].priority;
 		}
 	}
 	writeFile.close();
@@ -191,32 +96,28 @@ void DataStore::savePrevFile() {
 	return;
 }
 
-bool DataStore::undoData() {
+bool DataStore::undoData(DataStore &data) {
 	if (_pastData.empty()) {
 		return false;
 	}
 
 	_futureData.push_back(_dataBase);
 	_pastData.pop_back();
-	_dataBase = _pastData[_pastData.size() - 1];
-	updateFile();
+	_dataBase = _pastData.back();
+	updateFile(data);
 	return true;
 }
 
-bool DataStore::redoData() {
+bool DataStore::redoData(DataStore &data) {
 	if (_futureData.empty()) {
 		return false;
 	}
 	
-	_dataBase = _futureData[_futureData.size() - 1];
-	_pastData.push_back(_dataBase);
-	updateFile();
+	_dataBase = _futureData.back();
 	_futureData.pop_back();
+	_pastData.push_back(_dataBase);
+	updateFile(data);
 	return true;
-}
-
-void DataStore::setColour(int value){
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
 }
 
 std::vector <Entry> &DataStore::getData() {
@@ -235,6 +136,10 @@ Entry &DataStore::get_tempEntry() {
 	return _tempEntry;
 }
 
+Entry &DataStore::get_emptyEntry() {
+	return _emptyEntry;
+}
+/*
 std::string DataStore::getDate(Entry task) {
 	std::ostringstream dataString;
 
@@ -256,7 +161,8 @@ std::string DataStore::getDate(Entry task) {
 	}
 	return dataString.str();
 }
-   
+   */
+/*
 std::string DataStore::getTime(Entry task) {
 	std::ostringstream dataString;
 
@@ -278,3 +184,4 @@ std::string DataStore::getTime(Entry task) {
 	}
 	return dataString.str();
 }
+*/

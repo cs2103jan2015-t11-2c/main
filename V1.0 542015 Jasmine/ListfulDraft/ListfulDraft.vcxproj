@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>..\Debug</IntDir>
-    <OutDir>D:\Programming\ListfulTimeDate\</OutDir>
+    <OutDir>..</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -71,6 +71,7 @@
     <ClInclude Include="DataStore.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Delete.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="Edit.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Classes.h" />
@@ -98,6 +99,7 @@
     <ClCompile Include="Search.cpp" />
     <ClCompile Include="Sort.cpp" />
     <ClCompile Include="Classes.cpp" />
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="Timing.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="UserMessage.cpp" />

@@ -8,7 +8,7 @@
 #include "Category.h"
 #include "Clear.h"
 #include "Delete.h"
-//#include "Display.h"
+#include "Display.h"
 #include "Edit.h"
 #include "Sort.h"
 #include "Search.h"
@@ -20,7 +20,7 @@ public:
 	};
 
 	enum subCategory {
-		DATE, SUBJECT, TIME, PRIORITY, CATEGORY, INVALIDCAT
+		SUBJECT, DATE, TIME, PRIORITY, CATEGORY, INVALIDCAT
 	};
 
 	enum priorityType {
@@ -33,7 +33,7 @@ public:
 
 	Add add;
 	Delete remove;
-	//Display display;
+	Display display;
 	Edit edit;
 	Search searchFile;
 	Sort sortFile;

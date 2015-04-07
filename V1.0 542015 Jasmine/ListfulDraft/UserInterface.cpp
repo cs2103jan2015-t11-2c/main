@@ -12,9 +12,14 @@ void UserInterface::centralizePrintToUser(std::string text, std::ostringstream &
 
 void UserInterface::runProgram() {
 	std::string msg = "";
+	std::string fileName = "";
 	std::string extName = "";
 	std::ostringstream errMsg;
-	std::string fileName = "";
+	std::ostringstream floating;
+	std::ostringstream scheduled;
+	std::ostringstream deadline;
+
+	int i = 0;
 
 	Classes listClass;
 	Parser parse;
@@ -22,28 +27,27 @@ void UserInterface::runProgram() {
 	UserMessage outputToUser;
 	FileLocation file;
 
-	homeScreen(outputToUser);
-
-	//If user does not key in .txt
-	getline(std::cin, fileName);
-	size_t found = fileName.find(".txt");
-	if (found == std::string::npos) {
-		fileName = fileName + ".txt";
-	}
-
-	extractFileName(fileName, extName);
-	file.getName() = fileName;
-	msg = outputToUser.getFileMsg()[file.openFile(data, parse, listClass)];
-	std::cout << getOutputToUser(data, msg, extName, errMsg) << "\n\n";
-	data.init(file.getName());
 	do {
-		userAction(outputToUser);
-		getline(std::cin, _userInput);
-		parse.init(_userInput);
-		
+		homeScreen(outputToUser);
+		if (i == 0) {
+			readFileName(fileName, outputToUser);
+			extractFileName(fileName, extName, file);
+
+			msg = outputToUser.getFileMsg()[file.openFile(data, parse, listClass)];
+			std::cout << "\n" << getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) << "\n\n";
+			
+			data.init(file.getName());
+			
+			outputCommand(outputToUser);
+			std::cout << outputToUser.getProgMsg()[5] << "\n";
+		}
+		i = 1;
 		if (parse.isClearScreen(_userInput)) {
-			std::cout << outputToUser.getClearScreen();
-			homeScreen(outputToUser);
+			msg = outputToUser.getFileMsg()[file.openFile(data, parse, listClass)];
+			std::cout << getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) << "\n\n";
+			
+			outputCommand(outputToUser);
+			std::cout << outputToUser.getProgMsg()[5] << "\n";
 		}
 		else if (parse.isHelp(_userInput)) {
 			outputCommand(outputToUser);
@@ -51,18 +55,45 @@ void UserInterface::runProgram() {
 		else {
 			errMsg.str("");
 			errMsg.clear();
-
-			msg = outputToUser.getCommandMsg()[parse.carryOutCommand(listClass, data, errMsg)];
-			std::cout << getOutputToUser(data, msg, extName, errMsg) << "\n\n";
+			floating.str("");
+			floating.clear();
+			scheduled.str("");
+			scheduled.clear();
+			deadline.str("");
+			deadline.clear();
+			msg = outputToUser.getCommandMsg()[parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline)];
+			if (getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) != "") {
+				std::cout << getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) << "\n\n";
+			}
 		}
+		getline(std::cin, _userInput);
+		parse.init(_userInput);
+		system("CLS");
 	} while (!parse.isRunProgram());
 	return;
 }
 
-std::string UserInterface::getOutputToUser(DataStore data, std::string msg, std::string extName, std::ostringstream &errMsg) {
-	size_t count = std::count(msg.begin(), msg.end(), '%');
+void UserInterface::readFileName(std::string &fileName, UserMessage outputToUser) {
+	std::cout << outputToUser.getProgMsg()[6];
+	
+	//If user does not key in .txt
+	getline(std::cin, fileName);
+	size_t found = fileName.find(".txt");
+	if (found == std::string::npos) {
+		fileName = fileName + ".txt";
+	}
+	return;
+}
 
-	if (count == 3) {
+std::string UserInterface::getOutputToUser(DataStore data, std::string msg, std::string extName, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser) {
+	size_t count = std::count(msg.begin(), msg.end(), '%');
+	std::ostringstream oss;
+	
+	if (count > 3) {
+		oss << outputToUser.getDisplayMsg()[0] << floating.str() << outputToUser.getDisplayMsg()[1] << scheduled.str() << outputToUser.getDisplayMsg()[2] << deadline.str();
+		return oss.str();
+	}
+	else if (count == 3) {
 		sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
 		return msgToUser;
 	}
@@ -77,8 +108,9 @@ std::string UserInterface::getOutputToUser(DataStore data, std::string msg, std:
 	return msg;
 }
 
-void UserInterface::extractFileName(std::string &fileName, std::string &name) {
+void UserInterface::extractFileName(std::string &fileName, std::string &name, FileLocation &file) {
 	size_t found = fileName.find_last_of("\\");
+	
 	if (found == std::string::npos) {
 		name = fileName;
 		fileName = getPath() + "\\" + fileName;
@@ -86,19 +118,17 @@ void UserInterface::extractFileName(std::string &fileName, std::string &name) {
 	else {
 		name = fileName.substr(found + 1);
 	}
+	file.getName() = fileName;
 	return;
 }
 
 //If user does not key in directory path
 std::string UserInterface::getPath() {
     char buffer[MAX_PATH];
-    GetModuleFileName(NULL, buffer, MAX_PATH);
+    
+	GetModuleFileName(NULL, buffer, MAX_PATH);
     std::string::size_type pos = std::string(buffer).find_last_of("\\/");
     return std::string(buffer).substr(0, pos);
-}
-
-void UserInterface::userAction(UserMessage outputToUser) {
-	std::cout << outputToUser.getProgMsg()[7];
 }
 
 std::string UserInterface::quoteOfTheDay(UserMessage outputToUser) {
@@ -106,6 +136,21 @@ std::string UserInterface::quoteOfTheDay(UserMessage outputToUser) {
 	srand(time(NULL));
 	randNum = rand() % outputToUser.getQuote().size();
 	return outputToUser.getQuote()[randNum];
+}
+
+std::string UserInterface::getCurrentDate() {
+	Timing timer;
+	time_t t = time(0);   
+	struct tm now;
+	localtime_s(&now, &t);
+	std::ostringstream oss;
+	Display show;
+
+	show.printZero(show.countDigit(now.tm_mday), oss, 2);
+	oss << (now.tm_mday) << "-";
+	show.printZero(show.countDigit(now.tm_mon + 1), oss, 2);
+	oss << (now.tm_mon + 1) << "-" << (now.tm_year + 1900);
+	return oss.str();
 }
 
 void UserInterface::outputCommand(UserMessage outputToUser) {
@@ -116,17 +161,17 @@ void UserInterface::homeScreen(UserMessage outputToUser) {
 	std::ostringstream printSpace;
 	std::string quote = "";
 
-	for (i = 2; i < 7; i++) {
-		if (i == 5) {
-			quote = quoteOfTheDay(outputToUser);
-			centralizePrintToUser(quote, printSpace);
-			std::cout << printSpace.str() << (quote + "\n\n");
-			outputCommand(outputToUser);
-			std::cout << (outputToUser.getProgMsg()[i] + "\n");
+	for (i = 2; i < 5; i++) {
+		if (i == 3) {
+			sprintf_s(msgToUser, outputToUser.getProgMsg()[i].c_str(), getCurrentDate().c_str());
+			std::cout << msgToUser;
 		}
 		else {
 			std::cout << outputToUser.getProgMsg()[i];
 		}
 	}
+	quote = quoteOfTheDay(outputToUser);
+	centralizePrintToUser(quote, printSpace);
+	std::cout << printSpace.str() << (quote + "\n\n");
 	return;
 }

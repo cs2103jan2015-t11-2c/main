@@ -14,7 +14,7 @@ private:
 
 public:
 	Search() {};
-
+	/*
 	bool searchFile(DataStore &, std::string, std::ostringstream &);
 	bool foundSubject(DataStore &, std::string &, std::ostringstream &);
 	bool foundCategory(DataStore &, std::string &, std::ostringstream &);
@@ -23,7 +23,7 @@ public:
 	bool foundTime(DataStore &, std::string &, std::ostringstream &);
 	
 	void printSearchedContent(DataStore &, std::ostringstream &);
-
+	*/
 	int &getCat();
 };
 #endif

@@ -44,6 +44,7 @@ void Parser::init(std::string command) {
 
 	extraBack.push_back("onwards");
 	extraBack.push_back("hours");
+	extraBack.push_back("on");
 	
 	extraCatImpt.push_back("of");
 	extraCatImpt.push_back("category");
@@ -90,91 +91,97 @@ bool Parser::isHelp(std::string input) {
 	return false;
 }
 
-int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstream &errMsg) {
+void Parser::errorAddMsg(std::ostringstream &errMsg, bool pastDate, bool checkTime, Classes listClass) {
+	if (pastDate) {
+		errMsg << std::endl << "date entered has already past (undo/edit adviced)";
+	}
+	if (checkTime && listClass.time.getEnd() != listClass.time.getStart()) {
+		errMsg << std::endl << "end time entered earlier then start time (undo/edit adviced)";
+	}
+	return;
+}
+
+int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	int command = listClass.determineCommand(_userInput);
+	int returnValue = 0;
+	int index = 0;
+	std::string str = "";
+	data.get_tempEntry() = data.get_emptyEntry();
 	bool pastDate = false;
 	bool checkTime = false;
 	
 	switch(command) {
 		case listClass.ADD:
 			separateWord(listClass, data, pastDate, checkTime);
-			if (pastDate) {
-				errMsg << std::endl << "date entered has past (undo/edit adviced)";
-			}
-			if (checkTime && listClass.time.getEnd() != listClass.time.getStart()) {
-				errMsg << std::endl << "end time entered earlier then start time (undo/edit adviced)";
-			}
+			errorAddMsg(errMsg, pastDate, checkTime, listClass);
 			if (listClass.add.addContent(data, errMsg)) {
-				return listClass.commandType::ADD;
+				returnValue = listClass.commandType::ADD;
 			}
-			return (listClass.commandType::ADD + 12);
-
-		case listClass.DISPLAY: {
-			int i = 0;
-			if (data.getData().empty()) {
-				return (listClass.commandType::DISPLAY + 12);
-			}
-
-			while (data.getData()[i].isFloat) {
-				if (i == 0) {
-					std::cout << "floating task(s):" << std::endl;
-				}
-				std::cout << (i + 1) << ". " << data.getData()[i].subject << std::endl;
-				i++;
-			}
-			int count = 0;
-			while (i < data.getData().size() && !(data.getData()[i].isFloat)) {
-				if (count == 0) {
-					std::cout << "non-floating task(s):" << std::endl;
-				}
-				std::cout << (i + 1) << ". " << data.getDataString(i) << std::endl;
-				i++;
-				count++;
+			else {
+				returnValue = (listClass.commandType::ADD + 12);
 			}
 			break;
+
+		case listClass.DISPLAY: 
+			if (listClass.display.getDisplay(data, floating, scheduled, deadline)) {
+				returnValue = listClass.commandType::DISPLAY;
 			}
+			else {
+				returnValue = (listClass.commandType::DISPLAY + 12);
+			}
+			break;
 
 		case listClass.CLEAR:
 			if (listClass.clearFile.clearFile(data)) {
-				return listClass.commandType::CLEAR;
+				returnValue = listClass.commandType::CLEAR;
 			}
-			return (listClass.commandType::CLEAR + 12);
-		case listClass.EDIT: {
-			std::string command, editInput;
-			int index;
-			editInput = _information.substr(2);
-			index = atoi(_information.substr(0).c_str());
-			command = editInput.substr(0, editInput.find_first_of(" ")+1);
-			command = command.substr(0, editInput.find_first_of(" "));
-			_information = command;
-			listClass.edit.getCat() = listClass.determineSubCat(_information);
-			editInput = editInput.substr(editInput.find_first_of(" ")+1);
+			else {
+				returnValue = (listClass.commandType::CLEAR + 12);
+			}
+			break;
 
-			if (listClass.edit.editContent(data, editInput, index-1)) {
-				return listClass.commandType::EDIT;
+		case listClass.EDIT: 
+			str = _information;
+			separateWord(listClass, data, pastDate, checkTime);
+			if (!getEditDelete(data, listClass, index, listClass.edit.getCat(), str)) {
+				returnValue = listClass.commandType::INVALID;
 			}
-			return (listClass.commandType::EDIT + 12);
+			else {
+				if (listClass.edit.editContent(data, index - 1, errMsg)) {
+					std::cout << "index: " << listClass.edit.getCat() << std::endl;
+					std::cout << "sub: " << data.get_tempEntry().subject << std::endl;
+					std::cout << "time: " << data.get_tempEntry().startTime << "-" << data.get_tempEntry().endTime << std::endl;
+					std::cout << "date: " << data.get_tempEntry().day << "/" << data.get_tempEntry().month << std::endl;
+					std::cout << "priority: " << data.get_tempEntry().priority << std::endl;
+					std::cout << "category: " << data.get_tempEntry().category << std::endl;
+					returnValue = listClass.commandType::EDIT;
+				}
+				else {
+					returnValue = (listClass.commandType::EDIT + 12);
+				}
 			}
+			break;
 
 		case listClass.REMOVE:
-			if (listClass.remove.deleteContent(data, _information, errMsg)) {
+			/*if (listClass.remove.deleteContent(data, _information, errMsg)) {
 				return listClass.commandType::REMOVE;
 			}
-			return (listClass.commandType::REMOVE + 12);
+			return (listClass.commandType::REMOVE + 12);*/
+			break;
 
 		case listClass.REDO:
-			if (data.redoData()) {
+			if (data.redoData(data)) {
 				return listClass.commandType::REDO;
 			}
 			return (listClass.commandType::REDO + 12);
 
 		case listClass.UNDO:
-			if (data.undoData()) {
+			if (data.undoData(data)) {
 				return listClass.commandType::UNDO;
 			}
 			return (listClass.commandType::UNDO + 12);
 
-		case listClass.SEARCH: {
+		case listClass.SEARCH: /*{
 			std::string command, keyword;
 			command = _information.substr(0, _information.find_first_of(" "));
 			keyword = _information.substr(_information.find_first_of(" ")+1);
@@ -186,24 +193,81 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 				return listClass.commandType::SEARCH;
 			}
 			return (listClass.commandType::SEARCH + 12);
-			}
+			}*/
+			break;
 
 		case listClass.SORT:
 			changeToLower(_information);
 			listClass.sortFile.getSortCat() = listClass.determineSubCat(_information);
 			if (listClass.sortFile.sortContent(data)) {
-				return listClass.commandType::SORT;
+				returnValue = listClass.commandType::SORT;
 			}
-			return (listClass.commandType::SORT + 12);
+			else {
+				returnValue = (listClass.commandType::SORT + 12);
+			}
+			break;
 
 		case listClass.EXIT:
 			_isEnd = true;
 			return listClass.commandType::EXIT;
 
 		default:
+			if (_information == "") {
+				return listClass.commandType::DO_NOTHING;
+			}
 			return listClass.commandType::INVALID;
 	}
-	return listClass.commandType::DO_NOTHING;
+	data.updateFile(data);
+	data.savePrevFile();
+	return returnValue;
+}
+
+bool Parser::getIndex(DataStore &data, int &index) {
+	size_t found = _information.find_first_of("0123456789");
+	size_t found2 = _information.find_first_not_of("0123456789", found);
+	
+	if (found == std::string::npos) {
+		return false;
+	}
+	if (found2 == std::string::npos) {
+		found2 = _information.size();
+	}
+	std::string str = data.get_tempEntry().subject.substr(found, found2 - found);
+	data.get_tempEntry().subject = data.get_tempEntry().subject.substr(0, found) + data.get_tempEntry().subject.substr(found2);
+	removeFrontChar(data.get_tempEntry().subject);
+	index = atoi(str.c_str());
+	return true;
+}
+
+bool Parser::getEditDelete(DataStore &data, Classes listClass, int &index, int &cat, std::string str) {
+	if (!getIndex(data, index)) {
+		return false;
+	}
+	std::string word = "";
+	size_t found = 0;
+	size_t found2 = 0;
+
+	while (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
+		found = str.find_first_not_of(" ", found2);
+		if (found == std::string::npos) {
+			return false;
+		}
+		found2 = str.find_first_of(" ", found);
+		if (found2 == std::string::npos) {
+			found2 = str.size();
+		}
+		word = str.substr(found, found2 - found);
+	}
+
+	if (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
+		return false;
+	}
+	found = data.get_tempEntry().subject.find(word);
+	if (found != std::string::npos) {
+		data.get_tempEntry().subject = data.get_tempEntry().subject.substr(0, found) + data.get_tempEntry().subject.substr(found + word.size());
+	}
+	cat = listClass.determineSubCat(word);
+	return true;
 }
 
 //To separate out the information into its time, date, category, priority and subject
@@ -226,18 +290,25 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 		data.get_tempEntry().year = 0;
 		data.get_tempEntry().isFloat = true;
 	}
-	std::cout << "1 " << _information << "|" << std::endl;
+	std::cout << "1 " << _information << std::endl;
 
 	retrieveTime(listClass, checkTime);
 	if (time) {
 		data.get_tempEntry().startTime = listClass.time.getStart(); 
 		data.get_tempEntry().endTime = listClass.time.getEnd();
+		if (data.get_tempEntry().startTime == data.get_tempEntry().endTime) {
+			data.get_tempEntry().isTimedTask = false;
+		}
+		else {
+			data.get_tempEntry().isTimedTask = true;
+		}
 	}
 	else {
 		data.get_tempEntry().startTime = 0;
 		data.get_tempEntry().endTime = 0;
+		data.get_tempEntry().isTimedTask = false;
 	}
-	std::cout << "2 " << _information <<  "|" << std::endl;
+	std::cout << "2 " << _information << std::endl;
 	
 	retrievePriority(listClass);
 	if (priority) {
@@ -246,26 +317,25 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 	else {
 		data.get_tempEntry().priority = "LOW";
 	}
-	std::cout << "3 " << _information <<  "|" << std::endl;
+	std::cout << "3 " << _information << std::endl;
 
 	retrieveCategory(listClass);
 	if (cat) {
 		data.get_tempEntry().category = listClass.category.getCat();
 	}
 	else {
-		data.get_tempEntry().category = "INBOX    ";
+		data.get_tempEntry().category = "INBOX   ";
 	}
-	std::cout << "4 " << _information <<  "|" << std::endl;
+	std::cout << "4 " << _information << std::endl;
 
-	size_t found = _information.find("Completed: ");
-	found = _information.find("yes", found);
+	size_t found = _information.find(" | yes ");
 	if (found != std::string::npos) {
 		data.get_tempEntry().isComplete = true;
 	}
 	else {
 		data.get_tempEntry().isComplete = false;
 	}
-
+	
 	removeFrontChar(_information);
 	removeBackChar(_information);
 	data.get_tempEntry().subject = _information;
@@ -335,7 +405,8 @@ void Parser::retrievePriority(Classes &listClass) {
 	size_t found = 0;
 
 	do {
-		getFirstWord(listClass, str, pStr, start, found, impt);
+		getFirstWord(listClass, str, pStr, start, found);
+		impt = listClass.determineP(str);
 		if (!listClass.priority.extractPriority(impt, pStr, found)) {
 			updateStr(pStr, start, end);
 		}
@@ -364,7 +435,8 @@ void Parser::retrieveCategory(Classes &listClass) {
 	int catNum = 0;
 
 	do {
-		getFirstWord(listClass, str, pStr, start, found, catNum);
+		getFirstWord(listClass, str, pStr, start, found);
+		catNum = listClass.determineC(str);
 		if (!listClass.category.extractCat(catNum, pStr, found)) {
 			updateStr(pStr, start, end);
 		}
@@ -430,21 +502,20 @@ void Parser::cutExtraWord(size_t found, int count, int cat) {
 	removeBackChar(word);
 	
 	//Uses recursion to check up to three previous words
-	if (check < find && extraWord(word, find, cat, FRONT, count)) {
+	if (check > find && extraWord(word, find, cat, FRONT, count)) {
 		count++;
 		return cutExtraWord(find, count, cat);
 	}
 	return;
 }
 
-void Parser::getFirstWord(Classes listClass, std::string &str, std::string pStr, size_t start, size_t &found, int &num) {
+void Parser::getFirstWord(Classes listClass, std::string &str, std::string pStr, size_t start, size_t &found) {
 	found = _information.find_first_of(" ", start);
 	removeBackChar(pStr);
 	if (found == std::string::npos) {
 		found = _information.size();
 	}
 	str = _information.substr(start, found - start);
-	num = listClass.determineC(str);
 	found = pStr.find(str) + str.size();
 	return;
 }
@@ -554,7 +625,6 @@ void Parser::joinStr(std::string &tStr, size_t &start) {
 	_information = _information + tStr;
 	return;
 }
-
 
 std::string &Parser::getInfo() {
 	return _information;

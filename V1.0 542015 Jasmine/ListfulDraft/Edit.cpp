@@ -1,63 +1,63 @@
 #include "Edit.h"
-#include "Sort.h"
+#include "Add.h"
 
-bool Edit::editContent(DataStore &data, std::string userInput, int index){
+bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg){
 	if (data.getData().size() == 0) {
 		return false;
 	}
-
-	Sort sort;
+	Add add;
 	
 	switch (_category) {
-		case DATE:{
-			std::string userDateDay = userInput.substr(0, 2);
-			int dateDay = atoi(userDateDay.c_str());
-			std::string userDateMonth = userInput.substr(3, 2);
-			int dateMonth = atoi(userDateMonth.c_str());
-			std::string userDateYear = userInput.substr(6, 4);
-			int dateYear = atoi(userDateYear.c_str());
-
-			data.getData()[index].day = dateDay;
-			data.getData()[index].month = dateMonth;
-			data.getData()[index].year = dateYear;
-			sort.sortDate(data);
+		case 0:
+			std::cout << "sub!!!!" << std::endl;
+			data.getData()[index].subject= data.get_tempEntry().subject;
 			break;
-		    }
-		case SUBJECT:{
-			data.getData()[index].subject= userInput;
-			sort.sortSub(data);
-			break;
-		    }
-		case TIME:{
-			std::string userStartTime;
-			int startTime;
-			std::string userEndTime;
-			int endTime;
-			userStartTime = userInput.substr(0, 4);
-			startTime = atoi(userStartTime.c_str());
-			userEndTime = userInput.substr(userInput.find_first_of("-")+1, 4);
-			endTime = endTime = atoi(userEndTime.c_str());
-
-			data.getData()[index].startTime = startTime;
-			data.getData()[index].endTime = endTime;
-			sort.sortTime(data);
-			break;
-		    }
-		case PRIORITY:{
-			data.getData()[index].priority = userInput;
-			sort.sortPriority(data);
-			break;
+		case 1:
+			std::cout << "date!!!!" << std::endl;
+			_editEntry = data.getData()[index];
+			if (data.get_tempEntry().day == 0) {
+				_editEntry.isFloat = true;
 			}
-		case CATEGORY:{
-			data.getData()[index].category = userInput;
-			sort.sortCat(data);
+			_editEntry.day = data.get_tempEntry().day;
+			_editEntry.month = data.get_tempEntry().month;
+			_editEntry.year = data.get_tempEntry().year;
+
+			data.getData().erase(data.getData().begin() + index - 1);
+			data.get_tempEntry() = _editEntry;
+			add.addContent(data, errMsg);
 			break;
+		
+		case 2:
+			std::cout << "time!!!!" << std::endl;
+			_editEntry = data.getData()[index];
+			if (data.get_tempEntry().startTime == data.get_tempEntry().endTime) {
+				_editEntry.isTimedTask = false;
 			}
+			else {
+				_editEntry.isTimedTask = true;
+			}
+
+			_editEntry.startTime = data.get_tempEntry().startTime;
+			_editEntry.endTime = data.get_tempEntry().endTime;
+
+			data.getData().erase(data.getData().begin() + index - 1);
+			data.get_tempEntry() = _editEntry;
+			add.addContent(data, errMsg);
+			break;
+		    
+		case 3:
+			std::cout << "priority!!!!" << std::endl;
+			data.getData()[index].priority = data.get_tempEntry().priority;
+			break;
+			
+		case 4:
+			std::cout << "cat!!!!" << std::endl;
+			data.getData()[index].category = data.get_tempEntry().category;
+			break;
+
 		default:
 			return false;
 	}
-	data.updateFile();
-	data.savePrevFile();
 	return true;
 }
 
