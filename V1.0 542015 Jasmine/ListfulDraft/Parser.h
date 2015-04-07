@@ -38,7 +38,6 @@ class Parser {
 		
 		void init(std::string);
 		bool isRunProgram();
-		bool isClearScreen(std::string);
 		bool isHelp(std::string);
 		void errorAddMsg(std::ostringstream &, bool, bool, Classes);
 		int carryOutCommand(Classes &, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
@@ -50,6 +49,7 @@ class Parser {
 		void retrieveTime(Classes &, bool &);
 		void retrievePriority(Classes &);
 		void retrieveCategory(Classes &);
+		void retrieveComplete(Classes &, DataStore &);
 		void takeFirstWord(int &, size_t &, std::string &);
 		void cutExtraWord(size_t, int, int);
 		bool extraWord(std::string, size_t, int, int, int);

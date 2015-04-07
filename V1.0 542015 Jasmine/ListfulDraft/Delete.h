@@ -2,18 +2,23 @@
 #define DELETE_H
 
 #include "DataStore.h"
+#include "Add.h"
 
 class Delete {
+	int _index;
+
+	std::vector <std::vector <Entry>::iterator> _indexList;
+
 public:
 	Delete() {};
-/*
-	//bool deleteContent(DataStore &, int);
 
-	bool deleteContent(DataStore &, std::string, std::ostringstream &);
-	bool deletebyIndex(DataStore &, int, std::ostringstream &);
-	bool deletebySubject(DataStore &, std::string, std::string, std::ostringstream &);
+	bool deleteContent(DataStore &, std::string, std::ostringstream &, bool &);
+	bool deleteByIndex(DataStore &, int, std::ostringstream &);
+	bool deleteBySubject(DataStore &, std::string, std::ostringstream &, bool &);
+	bool deleteMore(DataStore &, std::string, std::ostringstream &);
+	void checkDataBaseEmpty(DataStore &, std::ostringstream &);
 
-	//int getContentIndex(DataStore &, std::string);*/
+	int &getIndex();
 };
 
 #endif

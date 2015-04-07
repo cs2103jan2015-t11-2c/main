@@ -1,8 +1,62 @@
 #include "Display.h"
 
 const int Display::FLOAT_SUB_SIZE = 44;
-const int Display::SCHEDULE_SUB_SIZE = 31;
-const int Display::DEADLINE_SUB_SIZE = 36;
+const int Display::NON_FLOAT_SUB_SIZE = 31;
+
+void Display::getReminder(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	int i = 0;
+	int j = 0;
+	bool updateFile = false;
+	time_t t = time(0);   
+	struct tm now;
+	localtime_s(&now, &t);
+	
+	while (i < data.getData().size() && data.getData()[i].isFloat) {
+		if (data.getData()[i].year == (now.tm_year + 1900) && data.getData()[i].month == (now.tm_mon + 1) && (data.getData()[i].day - (now.tm_mday) < 3)) {
+			floating << " " << (j + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+			j++;
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && data.getData()[i].isTimedTask) {
+		if (data.getData()[i].year == (now.tm_year + 1900) && data.getData()[i].month == (now.tm_mon + 1) && (data.getData()[i].day - (now.tm_mday) < 3)) {
+			scheduled << " " << (j + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+			j++;
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && !data.getData()[i].isTimedTask) {
+		if (data.getData()[i].year == (now.tm_year + 1900) && data.getData()[i].month == (now.tm_mon + 1) && (data.getData()[i].day - (now.tm_mday) < 3)) {
+			deadline << " " << (j + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+			j++;
+		}
+		i++;
+	}
+	return;
+}
+
+void Display::getDeleteDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	int i = 0;
+	bool updateFile = false;
+	
+	while (i < data.getTempData().size() && data.getData()[i].isFloat) {
+		floating << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+		i++;
+	}
+
+	while (i < data.getTempData().size() && data.getData()[i].isTimedTask) {
+		scheduled << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+		i++;
+	}
+
+	while (i < data.getTempData().size() && !data.getData()[i].isTimedTask) {
+		deadline << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+		i++;
+	}
+	return;
+}
 
 bool Display::getDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	if (data.getData().empty()) {
@@ -16,13 +70,11 @@ bool Display::getDisplay(DataStore &data, std::ostringstream &floating, std::ost
 		floating << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
 		i++;
 	}
-	floating << std::endl;
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask) {
 		scheduled << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
 		i++;
 	}
-	scheduled << std::endl;
 
 	while (i < data.getData().size() && !data.getData()[i].isTimedTask) {
 		deadline << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
@@ -38,12 +90,8 @@ std::string Display::getDataString(DataStore &data, int index, bool updateFile) 
 	if (data.getData()[index].isFloat) {
 		printSub(data, dataString, FLOAT_SUB_SIZE, index, updateFile);
 	}
-	else if (data.getData()[index].isTimedTask) {
-		printSub(data, dataString, SCHEDULE_SUB_SIZE, index, updateFile);
-		printDate(data, dataString, index);
-	}
 	else {
-		printSub(data, dataString, DEADLINE_SUB_SIZE, index, updateFile);
+		printSub(data, dataString, NON_FLOAT_SUB_SIZE, index, updateFile);
 		printDate(data, dataString, index);
 	}
 
@@ -83,34 +131,19 @@ void Display::printTime(DataStore &data, std::ostringstream &dataString, int ind
 	int sTime = countDigit(data.getData()[index].startTime);
 	int eTime = countDigit(data.getData()[index].endTime);
 
-	if (data.getData()[index].isTimedTask) {
+	if (data.getData()[index].startTime == 0 && (data.getData()[index].startTime == data.getData()[index].endTime)) {
+		printSpace(dataString, 9);
+	}
+	else if (data.getData()[index].startTime == data.getData()[index].endTime) {
+		printZero(sTime, dataString, 4);
+		dataString << data.getData()[index].startTime;
+		printSpace(dataString, 5);
+	}
+	else {
 		printZero(sTime, dataString, 4);
 		dataString << data.getData()[index].startTime << '-';
 		printZero(eTime, dataString, 4);
 		dataString << data.getData()[index].endTime;
-	}
-	else if (data.getData()[index].isFloat) {
-		if (data.getData()[index].startTime != data.getData()[index].endTime) {
-			printZero(sTime, dataString, 4);
-			dataString << data.getData()[index].startTime << '-';
-			printZero(eTime, dataString, 4);
-			dataString << data.getData()[index].endTime;
-		}
-		else if (data.getData()[index].startTime != 0) {
-			printZero(sTime, dataString, 4);
-			dataString << data.getData()[index].startTime;
-			printSpace(dataString, 5);
-		}
-		else {
-			printSpace(dataString, 9);
-		}
-	}
-	else if (data.getData()[index].startTime != 0) {
-		printZero(sTime, dataString, 4);
-		dataString << data.getData()[index].startTime;
-	}
-	else {
-		printSpace(dataString, 4);
 	}
 	dataString << " | ";
 	return;

@@ -66,6 +66,7 @@ int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 
 				if (x == "") {
 					data.updateFile(data);
+					data.savePrevFile();
 					readFile.close();
 					return fileMsg::OPEN;
 				}
@@ -85,6 +86,7 @@ int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 				getline(readFile, x);
 			}
 			data.updateFile(data);
+			data.savePrevFile();
 			readFile.close();
 			return fileMsg::OPEN;
 		}

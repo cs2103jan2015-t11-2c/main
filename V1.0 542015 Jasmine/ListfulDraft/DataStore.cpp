@@ -94,18 +94,14 @@ void DataStore::savePrevFile() {
 }
 
 bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
-	std::cout << "oi" << std::endl;
-	if (_pastData.empty()) {
-		std::cout << "empty!" << std::endl;
+	if (_pastData.size() <= 1) {
 		return false;
 	}
 	
-	std::cout << "whut!" << std::endl;
 	errMsg << _pastActionLog.back();
 	_futureActionLog.push_back(_pastActionLog.back());
 	_pastActionLog.pop_back();
 	
-	std::cout << "zzzz!" << std::endl;
 	_futureData.push_back(_dataBase);
 	_pastData.pop_back();
 	_dataBase = _pastData.back();
@@ -127,6 +123,15 @@ bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
 	_pastData.push_back(_dataBase);
 	updateFile(data);
 	return true;
+}
+
+void DataStore::savePrevAction(std::string msg) {
+	_pastActionLog.push_back(msg);
+			
+	if (_pastActionLog.size() > 12) {
+		_pastActionLog.erase(_pastActionLog.begin());
+	}
+	return;
 }
 
 std::string &DataStore::getFileName() {

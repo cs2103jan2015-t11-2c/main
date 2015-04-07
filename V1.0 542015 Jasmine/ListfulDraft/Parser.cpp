@@ -65,6 +65,7 @@ void Parser::init(std::string command) {
 	getNextWord(command, start, end);
 	if (end == std::string::npos) {
 		_userInput = command;
+		_information = "";
 		return;
 	}
 
@@ -75,13 +76,6 @@ void Parser::init(std::string command) {
 
 bool Parser::isRunProgram() {
 	return _isEnd;
-}
-
-bool Parser::isClearScreen(std::string input) {
-	if (input == "clear screen") {
-		return true;
-	}
-	return false;
 }
 
 bool Parser::isHelp(std::string input) {
@@ -106,15 +100,16 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 	int returnValue = 0;
 	int index = 0;
 	std::string str = "";
-	data.get_tempEntry() = data.get_emptyEntry();
 	bool pastDate = false;
 	bool checkTime = false;
+	bool isTemp = false;
+	bool isDelete = false;
 	
 	switch(command) {
 		case listClass.ADD:
 			separateWord(listClass, data, pastDate, checkTime);
 			errorAddMsg(errMsg, pastDate, checkTime, listClass);
-			if (listClass.add.addContent(data, errMsg)) {
+			if (listClass.add.addContent(data, errMsg, isTemp)) {
 				returnValue = listClass.commandType::ADD;
 			}
 			else {
@@ -122,11 +117,16 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 			}
 			break;
 
-		case listClass.DISPLAY: 
-			if (listClass.display.getDisplay(data, floating, scheduled, deadline)) {
-				return listClass.commandType::DISPLAY;
+		case listClass.DISPLAY:
+			if (_information == "") {
+				if (listClass.display.getDisplay(data, floating, scheduled, deadline)) {
+					return listClass.commandType::DISPLAY;
+				}
+				return (listClass.commandType::DISPLAY + 12);
 			}
-			return (listClass.commandType::DISPLAY + 12);
+			else {
+
+			}
 
 		case listClass.CLEAR:
 			if (listClass.clearFile.clearFile(data)) {
@@ -145,12 +145,6 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 			}
 			else {
 				if (listClass.edit.editContent(data, index - 1, errMsg)) {
-					std::cout << "index: " << listClass.edit.getCat() << std::endl;
-					std::cout << "sub: " << data.get_tempEntry().subject << std::endl;
-					std::cout << "time: " << data.get_tempEntry().startTime << "-" << data.get_tempEntry().endTime << std::endl;
-					std::cout << "date: " << data.get_tempEntry().day << "/" << data.get_tempEntry().month << std::endl;
-					std::cout << "priority: " << data.get_tempEntry().priority << std::endl;
-					std::cout << "category: " << data.get_tempEntry().category << std::endl;
 					returnValue = listClass.commandType::EDIT;
 				}
 				else {
@@ -160,11 +154,14 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 			break;
 
 		case listClass.REMOVE:
-			/*if (listClass.remove.deleteContent(data, _information, errMsg)) {
+			if (listClass.remove.deleteContent(data, _information, errMsg, isDelete)) {
 				return listClass.commandType::REMOVE;
 			}
-			return (listClass.commandType::REMOVE + 12);*/
-			break;
+			else if (!isDelete) {
+				listClass.display.getDeleteDisplay(data, floating, scheduled, deadline);
+				return (listClass.commandType::REMOVE + 15);
+			}
+			return (listClass.commandType::REMOVE + 12);
 
 		case listClass.REDO:
 			if (data.redoData(data, errMsg)) {
@@ -190,7 +187,14 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 				return listClass.commandType::SEARCH;
 			}
 			return (listClass.commandType::SEARCH + 12);
-			}*/
+			}
+			std::cout << "index: " << listClass.edit.getCat() << std::endl;
+			std::cout << "sub: " << data.get_tempEntry().subject << std::endl;
+			std::cout << "time: " << data.get_tempEntry().startTime << "-" << data.get_tempEntry().endTime << std::endl;
+			std::cout << "date: " << data.get_tempEntry().day << "/" << data.get_tempEntry().month << std::endl;
+			std::cout << "priority: " << data.get_tempEntry().priority << std::endl;
+			std::cout << "category: " << data.get_tempEntry().category << std::endl;
+			*/
 			break;
 
 		case listClass.SORT:
@@ -209,7 +213,7 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 			return listClass.commandType::EXIT;
 
 		default:
-			if (_information == "") {
+			if (_userInput == "") {
 				return listClass.commandType::DO_NOTHING;
 			}
 			return listClass.commandType::INVALID;
@@ -276,21 +280,13 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 	priority = false;
 	
 	retrieveDate(listClass, pastDate);
-	if (date) {
-		data.get_tempEntry().day = listClass.date.getDay(); 
-		data.get_tempEntry().month = listClass.date.getMonth(); 
-		data.get_tempEntry().year = listClass.date.getYear();
-		data.get_tempEntry().isFloat = false;
-	}
-	else {
-		data.get_tempEntry().day = 0;
-		data.get_tempEntry().month = 0; 
-		data.get_tempEntry().year = 0;
-		data.get_tempEntry().isFloat = true;
-	}
 	std::cout << "1 " << _information << std::endl;
-
 	retrieveTime(listClass, checkTime);
+	std::cout << "2 " << _information << std::endl;
+	retrievePriority(listClass);
+	retrieveCategory(listClass);
+	retrieveComplete(listClass, data);
+	
 	if (time) {
 		data.get_tempEntry().startTime = listClass.time.getStart(); 
 		data.get_tempEntry().endTime = listClass.time.getEnd();
@@ -306,37 +302,54 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 		data.get_tempEntry().endTime = 0;
 		data.get_tempEntry().isTimedTask = false;
 	}
-	std::cout << "2 " << _information << std::endl;
+	std::cout << "2 " << data.get_tempEntry().startTime << '-' << data.get_tempEntry().endTime << std::endl;
 	
-	retrievePriority(listClass);
+	if (date) {
+		data.get_tempEntry().day = listClass.date.getDay(); 
+		data.get_tempEntry().month = listClass.date.getMonth(); 
+		data.get_tempEntry().year = listClass.date.getYear();
+		data.get_tempEntry().isFloat = false;
+		if (!data.get_tempEntry().isTimedTask && data.get_tempEntry().startTime == 0 && data.get_tempEntry().endTime == 0) {
+			data.get_tempEntry().startTime == 2359;
+		}
+	}
+	else {
+		data.get_tempEntry().day = 0;
+		data.get_tempEntry().month = 0; 
+		data.get_tempEntry().year = 0;
+		data.get_tempEntry().isFloat = true;
+	}
+	std::cout << "1 " << data.get_tempEntry().day << '/' << data.get_tempEntry().month << std::endl;
+
 	if (priority) {
 		data.get_tempEntry().priority = listClass.priority.getPriority();
 	}
 	else {
 		data.get_tempEntry().priority = "LOW";
 	}
-	std::cout << "3 " << _information << std::endl;
 
-	retrieveCategory(listClass);
 	if (cat) {
 		data.get_tempEntry().category = listClass.category.getCat();
 	}
 	else {
 		data.get_tempEntry().category = "INBOX   ";
 	}
-	std::cout << "4 " << _information << std::endl;
+	
+	removeFrontChar(_information);
+	removeBackChar(_information);
+	data.get_tempEntry().subject = _information;
+	return;
+}
 
+void Parser::retrieveComplete(Classes &listClass, DataStore &data) {
 	size_t found = _information.find(" | yes ");
+	
 	if (found != std::string::npos) {
 		data.get_tempEntry().isComplete = true;
 	}
 	else {
 		data.get_tempEntry().isComplete = false;
 	}
-	
-	removeFrontChar(_information);
-	removeBackChar(_information);
-	data.get_tempEntry().subject = _information;
 	return;
 }
 

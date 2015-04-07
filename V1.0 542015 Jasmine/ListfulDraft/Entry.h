@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <windows.h>
-
+#include <wchar.h>
 
 class Entry {
 public:

@@ -16,7 +16,7 @@
 class Classes {
 public:
 	enum commandType {
-		ADD, DISPLAY, REMOVE, CLEAR, EDIT, SORT, SEARCH, UNDO, REDO, INVALID, DO_NOTHING, EXIT
+		ADD, DISPLAY, CLEAR, EDIT, SORT, SEARCH, REMOVE, UNDO, REDO, INVALID, DO_NOTHING, EXIT
 	};
 
 	enum subCategory {

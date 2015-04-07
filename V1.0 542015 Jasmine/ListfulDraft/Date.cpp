@@ -115,7 +115,7 @@ bool Date::dateInLetter(std::string &str) {
 	localtime_s(&now, &t);
 	changeToLower(dateWord);
 	
-	if (dateWord == "today" || dateWord == "tdy") {
+	if (dateWord == "today" || dateWord == "tdy" || dateWord == "tday") {
 		_day = (now.tm_mday);
 	}
 	else if (dateWord == "tomorrow" || dateWord == "tmr" || dateWord == "tomoro" || dateWord == "tmrw") {
@@ -131,7 +131,13 @@ bool Date::dateInLetter(std::string &str) {
 		_day = 1;
 		_month++;
 	}
-	str = str.substr(end + 1);
+
+	if (end == std::string::npos) {
+		str = "";
+	}
+	else {
+		str = str.substr(end + 1);
+	}
 	return true;
 }
 
@@ -229,7 +235,6 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 		}
 		return;
 	}
-	//To check if the number after the month is a year or a time
 	else {
 		if (index != std::string::npos) {
 			std::string findTime = originalStr.substr((originalStr.find(newStr) + 4), index - (originalStr.find(newStr) + 4));
@@ -241,8 +246,8 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 			}
 		}
 
+		//To check if the number after the month is a year or a time
 		timer.removeNonTimeChar(str);
-		//If _year is a potential time
 		if (timer.extractTime(str, noOfTime, checkTime)) {
 			index = 0;
 			//If any time is found before this '_year' then _year is a real year
@@ -314,10 +319,10 @@ bool Date::isDayMonth(bool &pastDate) {
 		if (_year < (now.tm_year + 1900)) {
 			pastDate = true;
 		}
-		else if (_month < (now.tm_mon + 1)) {
+		else if (_year == (now.tm_year + 1900) && _month < (now.tm_mon + 1)) {
 			pastDate = true;
 		}
-		else if (_day < (now.tm_mday)) {
+		else if (_year == (now.tm_year + 1900) && _month == (now.tm_mon + 1) && _day < (now.tm_mday)) {
 			pastDate = true;
 		}
 	}

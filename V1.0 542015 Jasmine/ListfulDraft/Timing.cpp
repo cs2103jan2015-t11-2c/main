@@ -190,8 +190,9 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 	size_t foundPM2 = line.find("p.m");
 	size_t i = line.find("-");
 	size_t j = line.find("to");
-
-	if (foundAM != std::string::npos && ((foundAM - count) <= 2)) {
+	checkTime = false;
+	
+	if (foundAM != std::string::npos && ((foundAM - count) < 2)) {
 		if (count <= 2 && num == 12) {
 			num = 0;
 		}
@@ -204,7 +205,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		updateStr(originalStr, line, foundAM);
 		checkTime = true;
 	}
-	else if (foundAM2 != std::string::npos && ((foundAM2 - count) <= 2)) {
+	else if (foundAM2 != std::string::npos && ((foundAM2 - count) < 2)) {
 		if (count <= 2 && num == 12) {
 			num = 0;
 		}
@@ -214,7 +215,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		updateStr(originalStr, line, foundAM2);
 		checkTime = true;
 	}
-	else if (foundPM != std::string::npos && ((foundPM - count) <= 2)) {
+	else if (foundPM != std::string::npos && ((foundPM - count) < 2)) {
 		if (count <= 2) {
 			num = (num * 100) + 1200;
 		}
@@ -224,7 +225,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		updateStr(originalStr, line, foundPM);
 		checkTime = true;
 	}
-	else if (foundPM2 != std::string::npos && ((foundPM2 - count) <= 2)) {
+	else if (foundPM2 != std::string::npos && ((foundPM2 - count) < 2)) {
 		if (count <= 2) {
 			num = (num * 100) + 1200;
 		}

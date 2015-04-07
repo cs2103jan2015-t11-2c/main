@@ -6,12 +6,13 @@
 class Display {
 private:
 	static const int FLOAT_SUB_SIZE;
-	static const int SCHEDULE_SUB_SIZE;
-	static const int DEADLINE_SUB_SIZE;
+	static const int NON_FLOAT_SUB_SIZE;
 
 public:
 	Display() {};
 
+	void getReminder(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+	void getDeleteDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	bool getDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	std::string getDataString(DataStore &, int, bool);
 	void printSub(DataStore &, std::ostringstream &, int, int, bool);

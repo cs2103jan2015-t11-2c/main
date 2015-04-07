@@ -23,6 +23,7 @@ public:
 
 	void updateFile(DataStore &);
 	void savePrevFile();
+	void savePrevAction(std::string);
 	bool undoData(DataStore &, std::ostringstream &);
 	bool redoData(DataStore &, std::ostringstream &);
 	
