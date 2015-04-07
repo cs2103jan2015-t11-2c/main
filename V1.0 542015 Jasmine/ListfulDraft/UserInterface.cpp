@@ -34,26 +34,14 @@ void UserInterface::runProgram() {
 	do {
 		homeScreen(outputToUser, listClass, quote);
 		isReminder = false;
-
-		errMsg.str("");
-		errMsg.clear();
-		floating.str("");
-		floating.clear();
-		scheduled.str("");
-		scheduled.clear();
-		deadline.str("");
-		deadline.clear();
-		data.get_tempEntry() = data.get_emptyEntry();
+		clearData(data, errMsg, floating, scheduled, deadline);
 
 		if (i == 0) {
 			startUpScreen(data, listClass, file, parse, msg, extName, outputToUser, errMsg, floating, scheduled, deadline, isReminder);
 		}
 
 		i = 1;
-		if (parse.isHelp(_userInput)) {
-			outputCommand(outputToUser);
-		}
-		else if (_userInput == "remind" || _userInput == "reminder") {
+		if (_userInput == "remind" || _userInput == "reminder") {
 			isReminder = true;
 			showReminder(data, listClass, msg, floating, scheduled, deadline, outputToUser, isReminder);
 		}
@@ -63,23 +51,46 @@ void UserInterface::runProgram() {
 			if (getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder) != "") {
 				determineOutput(data, getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder), output);
 			}
-
-			if (output == (listClass.commandType::REMOVE + 13)) {
+			
+			if (output == (listClass.commandType::REMOVE + 15)) {
+				listClass.display.getDeleteDisplay(data, floating, scheduled, deadline);
 				getline(std::cin, _userInput);
-				while (!listClass.remove.deleteMore(data, _userInput, errMsg)) {
-					std::cout << "\n" << errMsg << "\n\n";
-					errMsg.str("");
-					errMsg.clear();
-					getline(std::cin, _userInput);
+				if (_userInput != "") {
+					if (listClass.remove.deleteMore(data, _userInput, errMsg)) {
+						std::cout << "\n" << errMsg << "\n\n";
+					}
+					else {
+						std::cout << "\n" << errMsg << "\n\n";
+					}
 				}
-				std::cout << "\n" << errMsg << "\n\n";
 			}
 		}
 		std::cout << " ";
 		getline(std::cin, _userInput);
 		parse.init(_userInput);
+
+		if (parse.isHelp(_userInput)) {
+			outputCommand(outputToUser);
+			std::cout << " ";
+			getline(std::cin, _userInput);
+			parse.init(_userInput);
+		}
+
 		system("CLS");
 	} while (!parse.isRunProgram());
+	return;
+}
+
+void UserInterface::clearData(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	errMsg.str("");
+	errMsg.clear();
+	floating.str("");
+	floating.clear();
+	scheduled.str("");
+	scheduled.clear();
+	deadline.str("");
+	deadline.clear();
+	data.get_tempEntry() = data.get_emptyEntry();
 	return;
 }
 

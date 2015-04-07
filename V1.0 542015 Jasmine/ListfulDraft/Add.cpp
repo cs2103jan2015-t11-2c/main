@@ -84,16 +84,25 @@ void Add::insertionAdd(DataStore &data, bool isTemp) {
 	if (data.getData().empty() && !isTemp) {
 		data.getData().push_back(data.get_tempEntry());
 	}
+	else if (data.getTempData().empty() && isTemp) {
+		data.getTempData().push_back(data.get_tempEntry());
+	}
 	else if (data.get_tempEntry().isFloat) {
 		floatAdd(data, isTemp);
 	}
 	else if (data.get_tempEntry().isTimedTask) {
-		if (!scheduledAdd(data, isTemp)) {
+		if (!scheduledAdd(data, isTemp) && !isTemp) {
 			data.getData().push_back(data.get_tempEntry());
 		}
+		else if (!scheduledAdd(data, isTemp) && isTemp) {
+			data.getTempData().push_back(data.get_tempEntry());
+		}
 	}
-	else if (!deadlineAdd(data, isTemp)) {
+	else if (!deadlineAdd(data, isTemp) && !isTemp) {
 		data.getData().push_back(data.get_tempEntry());
+	}
+	else if (!deadlineAdd(data, isTemp) && isTemp) {
+		data.getTempData().push_back(data.get_tempEntry());
 	}
 	return;
 }

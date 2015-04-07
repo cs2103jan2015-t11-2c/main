@@ -21,6 +21,7 @@ class UserInterface {
 
 		void centralizePrintToUser(std::string, std::ostringstream &);
 		void runProgram();
+		void clearData(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void readFileName(std::string &, UserMessage);
 		void showReminder(DataStore, Classes &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool);
 		std::string getOutputToUser(DataStore, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool);

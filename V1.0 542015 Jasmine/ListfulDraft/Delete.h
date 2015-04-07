@@ -13,7 +13,7 @@ public:
 	Delete() {};
 
 	bool deleteContent(DataStore &, std::string, std::ostringstream &, bool &);
-	bool deleteByIndex(DataStore &, int, std::ostringstream &);
+	bool deleteByIndex(DataStore &, std::string, std::ostringstream &);
 	bool deleteBySubject(DataStore &, std::string, std::ostringstream &, bool &);
 	bool deleteMore(DataStore &, std::string, std::ostringstream &);
 	void checkDataBaseEmpty(DataStore &, std::ostringstream &);

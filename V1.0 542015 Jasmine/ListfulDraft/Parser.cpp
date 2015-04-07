@@ -87,10 +87,10 @@ bool Parser::isHelp(std::string input) {
 
 void Parser::errorAddMsg(std::ostringstream &errMsg, bool pastDate, bool checkTime, Classes listClass) {
 	if (pastDate) {
-		errMsg << std::endl << "date entered has already past (undo/edit adviced)";
+		errMsg << std::endl << " date entered has already past (undo/edit adviced)";
 	}
 	if (checkTime && listClass.time.getEnd() != listClass.time.getStart()) {
-		errMsg << std::endl << "end time entered earlier then start time (undo/edit adviced)";
+		errMsg << std::endl << " end time entered earlier then start time (undo/edit adviced)";
 	}
 	return;
 }
@@ -280,9 +280,7 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 	priority = false;
 	
 	retrieveDate(listClass, pastDate);
-	std::cout << "1 " << _information << std::endl;
 	retrieveTime(listClass, checkTime);
-	std::cout << "2 " << _information << std::endl;
 	retrievePriority(listClass);
 	retrieveCategory(listClass);
 	retrieveComplete(listClass, data);
@@ -302,7 +300,6 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 		data.get_tempEntry().endTime = 0;
 		data.get_tempEntry().isTimedTask = false;
 	}
-	std::cout << "2 " << data.get_tempEntry().startTime << '-' << data.get_tempEntry().endTime << std::endl;
 	
 	if (date) {
 		data.get_tempEntry().day = listClass.date.getDay(); 
@@ -319,7 +316,6 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 		data.get_tempEntry().year = 0;
 		data.get_tempEntry().isFloat = true;
 	}
-	std::cout << "1 " << data.get_tempEntry().day << '/' << data.get_tempEntry().month << std::endl;
 
 	if (priority) {
 		data.get_tempEntry().priority = listClass.priority.getPriority();

@@ -103,7 +103,7 @@ std::string Display::getDataString(DataStore &data, int index, bool updateFile) 
 
 void Display::printSub(DataStore &data, std::ostringstream &dataString, int count, int index, bool updateFile) {
 	if (data.getData()[index].subject.size() > count && !updateFile) {
-		std::string cutOff = data.getData()[index].subject.substr(0, count);
+		std::string cutOff = data.getData()[index].subject.substr(0, count - 2);
 		dataString << cutOff << ".. | ";
 	}
 	else {

@@ -1,22 +1,41 @@
 #include "Delete.h"
 
 bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg, bool &isDelete) {
-	size_t found = info.find_first_of(" ");
-	if (found == std::string::npos) {
-		int index = atoi(info.c_str());
-		return deleteByIndex(data, index - 1, errMsg);
+	if (info[0] >= '0' && info[0] <= '9') {
+		return deleteByIndex(data, info, errMsg);
 	}
 	
 	return  deleteBySubject(data, info, errMsg, isDelete);
 }
 
-bool Delete::deleteByIndex(DataStore &data, int index, std::ostringstream &errMsg) {
-	if (index > data.getData().size()) {
-		return false;
+bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream &errMsg) {
+	size_t found = info.find_first_of(" ");
+	std::string list = info;
+	int index = 0;
+	int count = 0;
+
+	while (!info.empty()) {
+		if (found == std::string::npos) {
+			found = info.size();
+		}
+		index = atoi(info.substr(0, found).c_str());
+		if (index > data.getData().size()) {
+			return false;
+		}
+		data.get_tempEntry().subject = data.getData()[index - 1].subject;
+		data.getData().erase(data.getData().begin() + (index - 1));
+		count++;
+		if (found == info.size()) {
+			info.clear();
+			break;
+		}
+		info = info.substr(found);
+		found = info.find_first_of(" ");
 	}
 
-	data.get_tempEntry().subject = data.getData()[index].subject;
-	data.getData().erase(data.getData().begin() + index);
+	if (count > 1) {
+		data.get_tempEntry().subject = " multiple entries [ " + list + " ] deleted";
+	}
 
 	checkDataBaseEmpty(data, errMsg);
 	data.updateFile(data);
@@ -41,7 +60,7 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 			_indexList.push_back(iter);
 		}
 	}
-
+	std::cout << data.getTempData().size() << std::endl;
 	if (data.getTempData().empty()) {
 		return false;
 	}
