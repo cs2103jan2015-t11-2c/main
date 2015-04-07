@@ -20,6 +20,7 @@ void UserInterface::runProgram() {
 	std::ostringstream deadline;
 
 	int i = 0;
+	int output = 0;
 
 	Classes listClass;
 	Parser parse;
@@ -27,16 +28,21 @@ void UserInterface::runProgram() {
 	UserMessage outputToUser;
 	FileLocation file;
 
+	msg = quoteOfTheDay(outputToUser);
+	centralizePrintToUser(msg, errMsg);
+	
 	do {
 		homeScreen(outputToUser);
 		if (i == 0) {
+			std::cout << errMsg.str() << msg << "\n\n";
+
 			readFileName(fileName, outputToUser);
 			extractFileName(fileName, extName, file);
 
 			msg = outputToUser.getFileMsg()[file.openFile(data, parse, listClass)];
 			std::cout << "\n" << getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) << "\n\n";
 			
-			data.init(file.getName());
+			data.getFileName() = file.getName();
 			
 			outputCommand(outputToUser);
 			std::cout << outputToUser.getProgMsg()[5] << "\n";
@@ -61,11 +67,25 @@ void UserInterface::runProgram() {
 			scheduled.clear();
 			deadline.str("");
 			deadline.clear();
-			msg = outputToUser.getCommandMsg()[parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline)];
+			output = parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			msg = outputToUser.getCommandMsg()[output];
 			if (getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) != "") {
-				std::cout << getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) << "\n\n";
+				if (output == 1) {
+					std::cout << getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) << "\n";
+				}
+				else {
+					std::cout << getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser) << "\n\n";
+				}
+				if (output < 9 && output != 1) {
+					data.getPastActionLog().push_back(getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser));
+					
+					if (data.getPastActionLog().size() > 12) {
+						data.getPastActionLog().erase(data.getPastActionLog().begin());
+					}
+				}
 			}
 		}
+		std::cout << " ";
 		getline(std::cin, _userInput);
 		parse.init(_userInput);
 		system("CLS");
@@ -158,9 +178,6 @@ void UserInterface::outputCommand(UserMessage outputToUser) {
 }
 
 void UserInterface::homeScreen(UserMessage outputToUser) {
-	std::ostringstream printSpace;
-	std::string quote = "";
-
 	for (i = 2; i < 5; i++) {
 		if (i == 3) {
 			sprintf_s(msgToUser, outputToUser.getProgMsg()[i].c_str(), getCurrentDate().c_str());
@@ -170,8 +187,5 @@ void UserInterface::homeScreen(UserMessage outputToUser) {
 			std::cout << outputToUser.getProgMsg()[i];
 		}
 	}
-	quote = quoteOfTheDay(outputToUser);
-	centralizePrintToUser(quote, printSpace);
-	std::cout << printSpace.str() << (quote + "\n\n");
 	return;
 }

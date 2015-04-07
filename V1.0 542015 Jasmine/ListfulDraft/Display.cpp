@@ -1,8 +1,8 @@
 #include "Display.h"
 
-const int Display::FLOAT_SUB_SIZE = 45;
-const int Display::SCHEDULE_SUB_SIZE = 32;
-const int Display::DEADLINE_SUB_SIZE = 37;
+const int Display::FLOAT_SUB_SIZE = 44;
+const int Display::SCHEDULE_SUB_SIZE = 31;
+const int Display::DEADLINE_SUB_SIZE = 36;
 
 bool Display::getDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	if (data.getData().empty()) {
@@ -13,19 +13,19 @@ bool Display::getDisplay(DataStore &data, std::ostringstream &floating, std::ost
 	bool updateFile = false;
 	
 	while (i < data.getData().size() && data.getData()[i].isFloat) {
-		floating << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+		floating << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
 		i++;
 	}
 	floating << std::endl;
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask) {
-		scheduled << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+		scheduled << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
 		i++;
 	}
 	scheduled << std::endl;
 
 	while (i < data.getData().size() && !data.getData()[i].isTimedTask) {
-		deadline << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
+		deadline << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
 		i++;
 	}
 	return true;

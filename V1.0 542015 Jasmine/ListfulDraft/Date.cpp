@@ -106,6 +106,35 @@ void Date::removeExtraLetters(std::string str, int &count) {
 	return;
 }
 
+bool Date::dateInLetter(std::string &str) {
+	size_t end = str.find_first_of(" ");
+	std::string dateWord = str.substr(0, end);
+	bool pastDate = false;
+	time_t t = time(0);   
+	struct tm now;
+	localtime_s(&now, &t);
+	changeToLower(dateWord);
+	
+	if (dateWord == "today" || dateWord == "tdy") {
+		_day = (now.tm_mday);
+	}
+	else if (dateWord == "tomorrow" || dateWord == "tmr" || dateWord == "tomoro" || dateWord == "tmrw") {
+		_day = (now.tm_mday) + 1;
+	}
+	else {
+		return false;
+	}
+	_month = (now.tm_mon + 1);
+	_year = (now.tm_year + 1900);
+
+	if (!isDayMonth(pastDate)) {
+		_day = 1;
+		_month++;
+	}
+	str = str.substr(end + 1);
+	return true;
+}
+
 //To identify a potential day
 bool Date::takeDay(std::string &tStr, size_t &start) {
 	int count = 0;
@@ -163,8 +192,7 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 	std::string str = newStr;
 	int count = 0;
 	bool checkTime = false;
-	size_t index = 0;
-	size_t found = originalStr.find(newStr);
+	size_t index = originalStr.find_first_of(" ", (originalStr.find(newStr) + 5));
 	
 	Timing timer;
 	time_t t = time(0);   
@@ -183,7 +211,16 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 		_year = (now.tm_year + 1900);
 		return;
 	}
-	else if (originalStr[found - 1] == '/' || (originalStr[found - 1] >= 'a' && originalStr[found - 1] <= 'z') || (originalStr[found - 1] >= 'A' && originalStr[found - 1] <= 'Z')) {
+	else if (_year >= (now.tm_year + 1900) && _year <= (now.tm_year + 1900) + 5) {
+		if (count == newStr.size()) {
+			tStr = "";
+		}
+		else {
+			tStr = newStr.substr(count);
+		}
+		return;
+	}
+	else if (originalStr[originalStr.find(newStr) - 1] == '/') {
 		if (count == newStr.size()) {
 			tStr = "";
 		}
@@ -194,54 +231,57 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 	}
 	//To check if the number after the month is a year or a time
 	else {
-		timer.removeNonTimeChar(str);
-		//If _year is a potential time
-		if (timer.extractTime(str, noOfTime, checkTime)) {
-			//If a timed task timing or 1000am is found at the current '_year', then _year is not a real year
-			if (noOfTime == 2 || checkTime) {
+		if (index != std::string::npos) {
+			std::string findTime = originalStr.substr((originalStr.find(newStr) + 4), index - (originalStr.find(newStr) + 4));
+			changeToLower(findTime);
+			removeNonDateChar(findTime);
+			if (findTime[0] == '-' || findTime == "to" ||  findTime == "am" || findTime == "pm" || findTime == "a.m" || findTime == "p.m" || findTime == "a.m." || findTime == "p.m.") {
 				_year = (now.tm_year + 1900);
 				return;
 			}
-			else {
-				//If any time is found before this '_year' then _year is a real year
-				str = originalStr.substr(0, originalStr.find_last_of(" ", start));
-				while (index != std::string::npos && index < start) {
-					noOfTime = 0;
-					index = str.find_first_of(" ", index);
-					if (index == std::string::npos) {
-						break;
-					}
+		}
+
+		timer.removeNonTimeChar(str);
+		//If _year is a potential time
+		if (timer.extractTime(str, noOfTime, checkTime)) {
+			index = 0;
+			//If any time is found before this '_year' then _year is a real year
+			str = originalStr.substr(0, originalStr.find_last_of(" ", start));
+			std::cout << str << std::endl;
+			while (index != std::string::npos && index < start) {
+				noOfTime = 0;
+				index = str.find_first_of(" ", index);
+				if (index != std::string::npos) {
 					index = str.find_first_not_of(" ", index);
 					str = str.substr(index);
-					if (timer.extractTime(str, noOfTime, checkTime)) {
-						if (count == newStr.size()) {
-							tStr = "";
-						}
-						else {
-							tStr = newStr.substr(count);
-						}
-						return;
-					}
 				}
-
-				//If a timed task timing is found after the year then _year is a real year
-				if (count != newStr.size()) {
-					str = newStr;
-					str = str.substr(count);
-					timer.removeNonTimeChar(str);
-					while (index != std::string::npos) {
-						noOfTime = 0;
-						index = str.find_first_of(" ", index);
-						if (index == std::string::npos) {
-							_year = (now.tm_year + 1900);
-							return;
-						}
+				if (timer.extractTime(str, noOfTime, checkTime)) {
+					if (count == newStr.size()) {
+						tStr = "";
+					}
+					else {
+						tStr = newStr.substr(count);
+					}
+					return;
+				}
+			}
+				
+			index = 0;
+			//If a timed task timing is found after the year then _year is a real year
+			if (count != newStr.size()) {
+				str = newStr.substr(count);
+				timer.removeNonTimeChar(str);
+				std::cout << str << std::endl;
+				while (index != std::string::npos) {
+					noOfTime = 0;
+					index = str.find_first_of(" ", index);
+					if (index != std::string::npos) {
 						index = str.find_first_not_of(" ", index);
 						str = str.substr(index);
-						if (timer.extractTime(str, noOfTime, checkTime)) {
-							tStr = newStr.substr(count);
-							return;
-						}
+					}
+					if (timer.extractTime(str, noOfTime, checkTime)) {
+						tStr = newStr.substr(count);
+						return;
 					}
 				}
 			}
@@ -302,6 +342,14 @@ bool Date::extractDate(std::string &tStr, bool &pastDate, std::string originalSt
 		if (!takeMonth(newStr, start, end)) {
 			return false;
 		}
+		else {
+			newStr = newStr.substr(start);
+			removeNonDateChar(newStr);
+			if (newStr != "" && newStr[0] == '/') {
+				newStr = newStr.substr(1);
+			}
+			takeYear(tStr, newStr, originalStr, index);
+		}
 	}
 	//MM/DD
 	else if (takeMonth (tStr, start, end)) {
@@ -310,30 +358,24 @@ bool Date::extractDate(std::string &tStr, bool &pastDate, std::string originalSt
 		if (!takeDay(newStr, start)) {
 			return false;
 		}
+		else {
+			newStr = newStr.substr(start);
+			removeNonDateChar(newStr);
+			if (newStr != "" && newStr[0] == '/') {
+				newStr = newStr.substr(1);
+			}
+			takeYear(tStr, newStr, originalStr, index);
+		}
+	}
+	else if (dateInLetter(tStr)) {
+		return true;
 	}
 	else {
 		return false;
 	}
 
-	newStr = newStr.substr(start);
-	removeNonDateChar(newStr);
-	if (newStr != "" && newStr[0] == '/') {
-		newStr = newStr.substr(1);
-	}
-	takeYear(tStr, newStr, originalStr, index);
-	
-	//If user is entering a date but it is wrong due to typo
 	if (!isDayMonth(pastDate)) {
-		std::cout << "invalid date entered, please re-enter date: ";
-		getline(std::cin, newDate);
-		if (newDate == "") {
-			return false;
-		}
-		while (!extractDate(newDate, pastDate, originalStr, index)) {
-			std::cout << "invalid date entered, please re-enter date: ";
-			getline(std::cin, newDate);
-			return extractDate(newDate, pastDate, originalStr, index);
-		}
+		return false;
 	}
 	return true;
 }

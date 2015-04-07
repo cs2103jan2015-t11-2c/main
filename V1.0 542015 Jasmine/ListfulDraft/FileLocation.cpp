@@ -65,6 +65,7 @@ int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 				getline(readFile, x);
 
 				if (x == "") {
+					data.updateFile(data);
 					readFile.close();
 					return fileMsg::OPEN;
 				}
@@ -82,11 +83,13 @@ int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 
 				//Removes extra line in between entries
 				getline(readFile, x);
-			}	
+			}
+			data.updateFile(data);
 			readFile.close();
 			return fileMsg::OPEN;
 		}
 	}
+	data.updateFile(data);
 	return fileMsg::CREATE;
 }
 

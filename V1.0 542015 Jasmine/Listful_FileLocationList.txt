@@ -1,3 +1,2 @@
-C:\Users\Theck Yee\Documents\CS\V1.0 542015 Jasmine\text.txt
+C:\Users\Jasmine\Desktop\ListfulTimeDate\tet.txt
 C:\Users\Jasmine\Desktop\ListfulTimeDate\text.txt
-C:\Users\Theck Yee\Documents\CS\V1.0 542015 Jasmine\.txt

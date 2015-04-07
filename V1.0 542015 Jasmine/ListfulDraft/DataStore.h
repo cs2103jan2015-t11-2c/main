@@ -9,6 +9,9 @@ private:
 	std::vector <std::vector <Entry>> _pastData;
 	std::vector <std::vector <Entry>> _futureData;
 
+	std::vector <std::string> _pastActionLog;
+	std::vector <std::string> _futureActionLog;
+
 	std::vector <Entry> _tempDataBase;
 
 	Entry _tempEntry;
@@ -17,18 +20,24 @@ private:
 
 public:
 	DataStore () {};
-	void init (std::string);
 
 	void updateFile(DataStore &);
 	void savePrevFile();
-	bool undoData(DataStore &);
-	bool redoData(DataStore &);
+	bool undoData(DataStore &, std::ostringstream &);
+	bool redoData(DataStore &, std::ostringstream &);
 	
+	std::string &getFileName();
+
 	std::vector <Entry> &getData();
 	std::vector <Entry> &getTempData();
+
+	std::vector <std::string> &getPastActionLog();
+	std::vector <std::string> &getFutureActionLog();
+
 	Entry &getEntry(int);
 	Entry &get_tempEntry();
 	Entry &get_emptyEntry();
+
 	/*
 	std::string getDate(Entry);
     std::string getTime(Entry);

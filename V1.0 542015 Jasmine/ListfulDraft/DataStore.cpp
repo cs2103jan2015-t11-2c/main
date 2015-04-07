@@ -1,10 +1,6 @@
 #include "DataStore.h"
 #include "Display.h"
 
-void DataStore::init(std::string fileName) {
-	_fileName = fileName;
-	savePrevFile();
-}
 /*
 std::string DataStore::getTempDataString(int index) {
 	std::ostringstream dataString;
@@ -89,6 +85,7 @@ void DataStore::updateFile(DataStore &data) {
 void DataStore::savePrevFile() {
 	_pastData.push_back(_dataBase);
 	_futureData.clear();
+	_futureActionLog.clear();
 
 	if (_pastData.size() > 12) {
 		_pastData.erase(_pastData.begin());
@@ -96,11 +93,19 @@ void DataStore::savePrevFile() {
 	return;
 }
 
-bool DataStore::undoData(DataStore &data) {
+bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
+	std::cout << "oi" << std::endl;
 	if (_pastData.empty()) {
+		std::cout << "empty!" << std::endl;
 		return false;
 	}
-
+	
+	std::cout << "whut!" << std::endl;
+	errMsg << _pastActionLog.back();
+	_futureActionLog.push_back(_pastActionLog.back());
+	_pastActionLog.pop_back();
+	
+	std::cout << "zzzz!" << std::endl;
 	_futureData.push_back(_dataBase);
 	_pastData.pop_back();
 	_dataBase = _pastData.back();
@@ -108,16 +113,24 @@ bool DataStore::undoData(DataStore &data) {
 	return true;
 }
 
-bool DataStore::redoData(DataStore &data) {
+bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
 	if (_futureData.empty()) {
 		return false;
 	}
 	
+	errMsg << _futureActionLog.back();
+	_pastActionLog.push_back(_futureActionLog.back());
+	_futureActionLog.pop_back();
+
 	_dataBase = _futureData.back();
 	_futureData.pop_back();
 	_pastData.push_back(_dataBase);
 	updateFile(data);
 	return true;
+}
+
+std::string &DataStore::getFileName() {
+	return _fileName;
 }
 
 std::vector <Entry> &DataStore::getData() {
@@ -126,6 +139,14 @@ std::vector <Entry> &DataStore::getData() {
 
 std::vector <Entry> &DataStore::getTempData() {
 	return _tempDataBase;
+}
+
+std::vector <std::string> &DataStore::getPastActionLog() {
+	return _pastActionLog;
+}
+
+std::vector <std::string> &DataStore::getFutureActionLog() {
+	return _futureActionLog;
 }
 
 Entry &DataStore::getEntry(int index) {

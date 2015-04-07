@@ -62,7 +62,7 @@ void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 		if ((data.getData()[index].isFloat == data.get_tempEntry().isFloat) && (data.getData()[index].isTimedTask == data.get_tempEntry().isTimedTask)) {
 			if (!data.getData()[index].isComplete && !(data.getData()[index].isFloat)) {
 				if (data.getData()[index].subject == data.get_tempEntry().subject) {
-					errMsg << std::endl << "WARNING: subject clash ";
+					errMsg << std::endl << " WARNING: subject clash ";
 					if (!data.getData()[index].isFloat && (isSameDate(data, index)) && (isSameTime(data, index))) {
 						errMsg << "timing clash ";
 					}
@@ -70,7 +70,7 @@ void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 					return;
 				}
 				if ((isSameDate(data, index)) && (isSameTime(data, index))) {
-					errMsg << std::endl << "WARNING: timing clash (undo/edit adviced)";
+					errMsg << std::endl << " WARNING: timing clash (undo/edit adviced)";
 					return;
 				}
 			}
@@ -142,7 +142,6 @@ bool Add::deadlineAdd(DataStore &data) {
 void Add::floatAdd(DataStore &data) {
 	std::vector <Entry>::iterator iter;
 	int index = 0;
-
 	for (iter = data.getData().begin(); iter != data.getData().end(); iter++) {
 		if ((*iter).isFloat && pushData(data, iter, index)) {
 			return;
@@ -153,6 +152,10 @@ void Add::floatAdd(DataStore &data) {
 		}
 		if (!(*iter).isFloat) {
 			data.getData().insert(iter, data.get_tempEntry());
+			return;
+		}
+		if ((iter + 1) == data.getData().end()) { 
+			data.getData().push_back(data.get_tempEntry());
 			return;
 		}
 		index++;

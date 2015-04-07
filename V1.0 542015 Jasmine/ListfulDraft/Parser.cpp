@@ -124,12 +124,9 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 
 		case listClass.DISPLAY: 
 			if (listClass.display.getDisplay(data, floating, scheduled, deadline)) {
-				returnValue = listClass.commandType::DISPLAY;
+				return listClass.commandType::DISPLAY;
 			}
-			else {
-				returnValue = (listClass.commandType::DISPLAY + 12);
-			}
-			break;
+			return (listClass.commandType::DISPLAY + 12);
 
 		case listClass.CLEAR:
 			if (listClass.clearFile.clearFile(data)) {
@@ -170,13 +167,13 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 			break;
 
 		case listClass.REDO:
-			if (data.redoData(data)) {
+			if (data.redoData(data, errMsg)) {
 				return listClass.commandType::REDO;
 			}
 			return (listClass.commandType::REDO + 12);
 
 		case listClass.UNDO:
-			if (data.undoData(data)) {
+			if (data.undoData(data, errMsg)) {
 				return listClass.commandType::UNDO;
 			}
 			return (listClass.commandType::UNDO + 12);
@@ -265,6 +262,7 @@ bool Parser::getEditDelete(DataStore &data, Classes listClass, int &index, int &
 	found = data.get_tempEntry().subject.find(word);
 	if (found != std::string::npos) {
 		data.get_tempEntry().subject = data.get_tempEntry().subject.substr(0, found) + data.get_tempEntry().subject.substr(found + word.size());
+		removeFrontChar(data.get_tempEntry().subject);
 	}
 	cat = listClass.determineSubCat(word);
 	return true;

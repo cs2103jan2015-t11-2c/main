@@ -21,6 +21,7 @@ public:
 	void removeNonDateChar(std::string &);
 	bool extractNum(std::string, int &, int &);
 	void removeExtraLetters(std::string, int &);
+	bool dateInLetter(std::string &);
 	bool takeDay(std::string&, size_t &);
 	bool takeMonth(std::string&, size_t &, size_t &);
 	void takeYear(std::string &, std::string, std::string, size_t);
