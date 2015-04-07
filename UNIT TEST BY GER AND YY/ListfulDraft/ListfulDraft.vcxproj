@@ -65,6 +65,7 @@
     <ClInclude Include="Add.h" />
     <ClInclude Include="Category.h" />
     <ClInclude Include="Clear.h" />
+    <ClInclude Include="Completion.h" />
     <ClInclude Include="DataStore.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Delete.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="Add.cpp" />
     <ClCompile Include="Category.cpp" />
     <ClCompile Include="Clear.cpp" />
+    <ClCompile Include="Completion.cpp" />
     <ClCompile Include="DataStore.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Delete.cpp" />

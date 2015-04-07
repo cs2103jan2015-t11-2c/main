@@ -1,1 +1,5 @@
-1. hey                                           |           | INBOX    | no | Priority: LOW
+1. gabriel                                       |           | INBOX    | no | Priority: LOW
+
+2. ise club meeting                              |           | INBOX    | no | Priority: LOW
+
+3. meeting with gerald              | 21/08/2015 | 1200-1300 | WORK     | no | Priority: HIGH
