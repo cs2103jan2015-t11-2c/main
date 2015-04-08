@@ -89,8 +89,7 @@ namespace UnitTest1
 			Assert::AreEqual(0, actualMonth2);
 			Assert::AreEqual(0, actualYear2);
 
-		}
-		
+		}		
 		TEST_METHOD(DeleteTest)
 		{
 			// TODO: Your test code here
@@ -129,25 +128,32 @@ namespace UnitTest1
 
 			Assert::AreEqual(expectednewFirst, actualnewFirst);
 		}
-		/*TEST_METHOD(addEdit)
+		TEST_METHOD(EditTest)
 		{
 			// TODO: Your test code here
 			DataStore data;
 			Classes listClass;
 			Parser parse;
 			std::ostringstream errMsg;
-			errMsg << "(undo to remove add)";
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
 
-			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 WORK MED";
-			std::string input2 = "edit 1 subject IE2130 project meeting";
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 MED";
+			std::string input2 = "edit 1 subject IE2130 meeting with prof";
 
 			parse.init(input1);
-			parse.carryOutCommand(listClass, data, errMsg);
+			parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
 	
 			parse.init(input2);
-			parse.carryOutCommand(listClass, data, errMsg);
+			parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
 
-			std::string expectedSubject = "IE2130 project meeting";
+			std::string expectedSubject = "IE2130 meeting with prof";
 			std::string actualSubject = data.getData()[0].subject;
 
 			Assert::AreEqual(expectedSubject, actualSubject);
@@ -165,6 +171,68 @@ namespace UnitTest1
 			Assert::AreEqual(expectedTime, actualTime);
 
 		}
-*/
+		TEST_METHOD(TimeBoundaryTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			Classes listClass;
+			Parser parse;
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 0000-2359 TY's bday 1st apr 2015";
+
+			parse.init(input1);
+			parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+
+			int expectedStartTime = 0;
+			int actualStartTime = data.getData()[0].startTime;
+			int expectedEndTime = 2359;
+			int actualEndTime = data.getData()[0].endTime;
+
+			Assert::AreEqual(expectedStartTime, actualStartTime);
+			Assert::AreEqual(expectedEndTime, actualEndTime);
+
+
+		}
+		TEST_METHOD(TimeExtremeTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			Classes listClass;
+			Parser parse;
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 2000-2400 FUNRUN";
+
+			parse.init(input1);
+			parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			
+
+			int expectedStartTime = 2000;
+			int actualStartTime = data.getData()[0].startTime;
+			int expectedEndTime = 2000;
+			int actualEndTime = data.getData()[0].endTime;
+
+			Assert::AreEqual(expectedStartTime, actualStartTime);
+			Assert::AreEqual(expectedEndTime, actualEndTime);
+			Assert::IsTrue(data.getData()[0].isFloat);
+
+		}
 	};
 }
