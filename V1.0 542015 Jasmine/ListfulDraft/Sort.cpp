@@ -138,16 +138,16 @@ void Sort::sortTime(DataStore &data) {
 }
 
 int Sort::determineC(std::string word) {
-	if (word == "WORK     ") {
+	if (word == "WORK    ") {
 		return catType::WORK;
 	}
-	else if (word == "PERSONAL ") {
+	else if (word == "PERSONAL") {
 		return catType::PERSONAL;
 	}
-	else if (word == "ERRAND   ") {
+	else if (word == "ERRAND  ") {
 		return catType::ERRAND;
 	}
-	else if (word == "GENERAL  ") {
+	else if (word == "GENERAL ") {
 		return catType::GENERAL;
 	}
 	else {
@@ -160,7 +160,7 @@ void Sort::sortCat(DataStore &data) {
 		for (int start = 0; start < iter; ++start) {
 			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
 				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
-						if (determineP(data.getData()[start].category) > determineC(data.getData()[iter].category)) {	
+					if (determineC(data.getData()[start].category) > determineC(data.getData()[iter].category)) {	
 						sortSwitch(iter, start, data);
 					}
 				}

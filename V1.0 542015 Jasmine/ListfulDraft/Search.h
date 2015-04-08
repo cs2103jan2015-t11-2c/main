@@ -16,12 +16,12 @@ private:
 public:
 	Search() {};
 
-	bool searchFile(DataStore &, std::string, std::ostringstream &);
-	bool foundSubject(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
-	bool foundCategory(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
-	bool foundPriority(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
-	bool foundDate(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
-	bool foundTime(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
+	bool searchFile(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+	bool foundSubject(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, Add &, Display &);
+	bool foundCategory(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, Add &, Display &);
+	bool foundPriority(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &,  Add &, Display &);
+	bool foundDate(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, Add &, Display &);
+	bool foundTime(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &,  Add &, Display &);
 	
 	void printSearchedContent(DataStore &, std::ostringstream &, Display &);
 

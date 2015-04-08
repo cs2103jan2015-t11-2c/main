@@ -1,17 +1,18 @@
 #include "Search.h"
 
 //Displays all contents that contains the keywords
-bool Search::searchFile(DataStore &data, std::string keyword, std::ostringstream &errMsg) {
+bool Search::searchFile(DataStore &data, std::string keyword, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	Add add;
 	Display display;
+	data.clearData(floating, scheduled, deadline);
 
 	switch (_category) {
 		case SUBJECT:
-			return foundSubject(data, keyword, errMsg, add, display);
+			return foundSubject(data, keyword, errMsg, floating, scheduled, deadline, add, display);
 		case DATE:
-			return foundDate(data, keyword, errMsg, add, display);
+			return foundDate(data, keyword, errMsg, floating, scheduled, deadline, add, display);
 		case TIME:
-			return foundTime(data, keyword, errMsg, add, display);
+			return foundTime(data, keyword, errMsg, floating, scheduled, deadline, add, display);
 		case CATEGORY:{
 			if (keyword[0] == 'W' || keyword[0] == 'w'){
 				keyword = "WORK"; 
@@ -25,7 +26,7 @@ bool Search::searchFile(DataStore &data, std::string keyword, std::ostringstream
 			else if(keyword[0] == 'E' || keyword[0] == 'e'){
 				keyword = "ERRAND";
 			}
-			return foundCategory(data, keyword, errMsg, add, display);
+			return foundCategory(data, keyword, errMsg, floating, scheduled, deadline, add, display);
 			}
 		case PRIORITY: {
 			if (keyword[0] == 'l' || keyword[0] == 'L'){
@@ -37,14 +38,14 @@ bool Search::searchFile(DataStore &data, std::string keyword, std::ostringstream
 			else if(keyword[0] == 'm' || keyword[0] == 'M'){
 				keyword = "MED";
 			}
-			return foundPriority(data, keyword, errMsg, add, display);
+			return foundPriority(data, keyword, errMsg, floating, scheduled, deadline, add, display);
 			}
 		default:
 			return false;
 	}
 }
 
-bool Search::foundPriority(DataStore &data, std::string &keyword, std::ostringstream &errMsg, Add &add, Display &display) {
+bool Search::foundPriority(DataStore &data, std::string &keyword, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, Add &add, Display &display) {
 	size_t found = 0;
 	data.getTempData().clear();
 	std::ostringstream oss;
@@ -56,7 +57,7 @@ bool Search::foundPriority(DataStore &data, std::string &keyword, std::ostringst
 		found = content.find(keyword);
 		if (found != std::string::npos) {
 			data.get_tempEntry().subject = data.getData()[index].subject;
-			add.addContent(data, oss, isTemp);
+			add.addContent(data, oss, floating, scheduled, deadline, isTemp);
 		}
 	}
 
@@ -67,7 +68,7 @@ bool Search::foundPriority(DataStore &data, std::string &keyword, std::ostringst
 	return true;
 }
 
-bool Search::foundCategory(DataStore &data, std::string &keyword, std::ostringstream &errMsg, Add &add, Display &display) {
+bool Search::foundCategory(DataStore &data, std::string &keyword, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, Add &add, Display &display) {
 	size_t found = 0;
 	data.getTempData().clear();
 	std::ostringstream oss;
@@ -80,7 +81,7 @@ bool Search::foundCategory(DataStore &data, std::string &keyword, std::ostringst
 		found = content.find(keyword);
 		if (found != std::string::npos) {
 			data.get_tempEntry().subject = data.getData()[index].subject;
-			add.addContent(data, oss, isTemp);
+			add.addContent(data, oss, floating, scheduled, deadline, isTemp);
 		}
 	}
 
@@ -91,21 +92,20 @@ bool Search::foundCategory(DataStore &data, std::string &keyword, std::ostringst
 	return true;
 }
 
-
-
-bool Search::foundTime(DataStore &data, std::string &keyword, std::ostringstream &errMsg, Add &add, Display &display) {
+bool Search::foundTime(DataStore &data, std::string &keyword, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, Add &add, Display &display) {
 	bool found = false;
 	data.getTempData().clear();
 	std::ostringstream oss;
+	bool notTrue = false;
 	bool isTemp = true;
 	
 	assert(!keyword.empty());
 
 	for (int index = 0; index < data.getData().size(); index++) {
-		std::string time = display.getTime(data, index);
+		std::string time = display.getTime(data, index, notTrue);
 		if(time == keyword){
 			data.get_tempEntry().subject = data.getData()[index].subject;
-			add.addContent(data, oss, isTemp);
+			add.addContent(data, oss, floating, scheduled, deadline, isTemp);
 			found = true;
 		}
 	}
@@ -113,18 +113,19 @@ bool Search::foundTime(DataStore &data, std::string &keyword, std::ostringstream
 	return found;
 }
 
-bool Search::foundDate(DataStore &data, std::string &keyword, std::ostringstream &errMsg, Add &add, Display &display) {
+bool Search::foundDate(DataStore &data, std::string &keyword, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, Add &add, Display &display) {
 	bool found = false;
 	data.getTempData().clear();
 	assert(!keyword.empty());
 	std::ostringstream oss;
+	bool notTrue = false;
 	bool isTemp = true;
 
 	for (int index = 0; index < data.getData().size(); index++) {
-		std::string date = display.getDate(data, index);
+		std::string date = display.getDate(data, index, notTrue);
 		if(date == keyword){
 			data.get_tempEntry().subject = data.getData()[index].subject;
-			add.addContent(data, oss, isTemp);
+			add.addContent(data, oss, floating, scheduled, deadline, isTemp);
 			found = true;
 		}
 	}
@@ -132,7 +133,7 @@ bool Search::foundDate(DataStore &data, std::string &keyword, std::ostringstream
 	return found;
 }
 
-bool Search::foundSubject(DataStore &data, std::string &keyword, std::ostringstream &errMsg, Add &add, Display &display) {
+bool Search::foundSubject(DataStore &data, std::string &keyword, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, Add &add, Display &display) {
 	size_t found = 0;
 	data.getTempData().clear();
 	assert(!keyword.empty());
@@ -145,7 +146,7 @@ bool Search::foundSubject(DataStore &data, std::string &keyword, std::ostringstr
 		
 		if (found != std::string::npos) {
 			data.get_tempEntry().subject = data.getData()[index].subject;
-			add.addContent(data, oss, isTemp);
+			add.addContent(data, oss, floating, scheduled, deadline, isTemp);
 		}
 	}
 

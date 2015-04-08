@@ -24,9 +24,9 @@ class UserInterface {
 		void clearData(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void readFileName(std::string &, UserMessage);
 		void showReminder(DataStore, Classes &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool);
-		std::string getOutputToUser(DataStore, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool);
+		std::string getOutputToUser(int, DataStore &, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool);
 		void determineOutput(DataStore &, std::string, int);
-		void startUpScreen(DataStore &, Classes &, FileLocation &, Parser &, std::string &, std::string &, UserMessage , std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool);
+		void startUpScreen(DataStore &, Classes &, FileLocation &, ParserFacade &, std::string &, std::string &, UserMessage , std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool);
 		void extractFileName(std::string &, std::string &, FileLocation &);
 		std::string getPath();
 		std::string quoteOfTheDay(UserMessage);

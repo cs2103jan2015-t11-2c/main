@@ -26,7 +26,7 @@ public:
 	void savePrevAction(std::string);
 	bool undoData(DataStore &, std::ostringstream &);
 	bool redoData(DataStore &, std::ostringstream &);
-	
+	void clearData(std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	std::string &getFileName();
 
 	std::vector <Entry> &getData();
