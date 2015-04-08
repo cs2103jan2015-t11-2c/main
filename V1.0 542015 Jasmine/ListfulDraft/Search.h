@@ -2,7 +2,8 @@
 #define SEARCH_H
 
 #include "DataStore.h"
-#include "Sort.h"
+#include "Add.h"
+#include "Display.h"
 
 class Search {
 private:
@@ -14,16 +15,16 @@ private:
 
 public:
 	Search() {};
-	/*
+
 	bool searchFile(DataStore &, std::string, std::ostringstream &);
-	bool foundSubject(DataStore &, std::string &, std::ostringstream &);
-	bool foundCategory(DataStore &, std::string &, std::ostringstream &);
-	bool foundPriority(DataStore &, std::string &, std::ostringstream &);
-	bool foundDate(DataStore &, std::string &, std::ostringstream &);
-	bool foundTime(DataStore &, std::string &, std::ostringstream &);
+	bool foundSubject(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
+	bool foundCategory(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
+	bool foundPriority(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
+	bool foundDate(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
+	bool foundTime(DataStore &, std::string &, std::ostringstream &, Add &, Display &);
 	
-	void printSearchedContent(DataStore &, std::ostringstream &);
-	*/
+	void printSearchedContent(DataStore &, std::ostringstream &, Display &);
+
 	int &getCat();
 };
 #endif

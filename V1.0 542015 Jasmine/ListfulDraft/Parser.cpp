@@ -161,7 +161,7 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 				return listClass.commandType::REMOVE;
 			}
 			else if (!isDelete) {
-				listClass.display.getDeleteDisplay(data, floating, scheduled, deadline);
+				listClass.display.getTempDisplay(data, floating, scheduled, deadline);
 				return (listClass.commandType::REMOVE + 15);
 			}
 			return (listClass.commandType::REMOVE + 12);
@@ -178,26 +178,18 @@ int Parser::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstr
 			}
 			return (listClass.commandType::UNDO + 12);
 
-		case listClass.SEARCH: /*{
+		case listClass.SEARCH: {
 			std::string command, keyword;
 			command = _information.substr(0, _information.find_first_of(" "));
 			keyword = _information.substr(_information.find_first_of(" ")+1);
-			keyword = keyword.substr(0, keyword.find_first_of(" "));
+			keyword = keyword.substr(0, keyword.find_last_of(" "));
 			_information = command;
-			listClass.searchFile.getCat() = listClass.determineSubCat(_information);
-			keyword = keyword.substr(keyword.find_first_of(" ")+1);
+			listClass.searchFile.getCat() =  listClass.determineSubCat(_information);
 			if (listClass.searchFile.searchFile(data, keyword, errMsg)) {
-				return listClass.commandType::SEARCH;
+				returnValue = listClass.commandType::SEARCH;
 			}
-			return (listClass.commandType::SEARCH + 12);
+			returnValue = (listClass.commandType::SEARCH + 11);
 			}
-			std::cout << "index: " << listClass.edit.getCat() << std::endl;
-			std::cout << "sub: " << data.get_tempEntry().subject << std::endl;
-			std::cout << "time: " << data.get_tempEntry().startTime << "-" << data.get_tempEntry().endTime << std::endl;
-			std::cout << "date: " << data.get_tempEntry().day << "/" << data.get_tempEntry().month << std::endl;
-			std::cout << "priority: " << data.get_tempEntry().priority << std::endl;
-			std::cout << "category: " << data.get_tempEntry().category << std::endl;
-			*/
 			break;
 
 		case listClass.SORT:
@@ -331,7 +323,7 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 		data.get_tempEntry().category = listClass.category.getCat();
 	}
 	else {
-		data.get_tempEntry().category = "INBOX   ";
+		data.get_tempEntry().category = "GENERAL ";
 	}
 	
 	removeFrontChar(_information);

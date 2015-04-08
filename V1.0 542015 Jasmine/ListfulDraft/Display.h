@@ -11,15 +11,19 @@ private:
 public:
 	Display() {};
 
+	std::string getTempDataString(DataStore &, int, bool);
+	void getTempDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	void getReminder(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-	void getDeleteDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	bool getDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	std::string getDataString(DataStore &, int, bool);
-	void printSub(DataStore &, std::ostringstream &, int, int, bool);
-	void printDate(DataStore &, std::ostringstream &, int);
-	void printTime(DataStore &, std::ostringstream &, int);
-	void printCat(DataStore &, std::ostringstream &, int);
-	void printDone(DataStore &, std::ostringstream &, int);
+	void printSub(DataStore &, std::ostringstream &, int, int, bool, bool);
+	void printDate(DataStore &, std::ostringstream &, int, bool);
+	void printTime(DataStore &, std::ostringstream &, int, bool);
+	void printCat(DataStore &, std::ostringstream &, int, bool);
+	void printDone(DataStore &, std::ostringstream &, int, bool);
+	
+	std::string getDate(DataStore &, int);
+	std::string getTime(DataStore &, int);
 
 	int countDigit(int);
 	void printZero(int, std::ostringstream &, int);

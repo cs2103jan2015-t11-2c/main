@@ -82,8 +82,8 @@ int Classes::determineC(std::string word) {
 	else if (word == "ERRAND   " || word == "ERRAND") {
 		return catType::ERRAND;
 	}
-	else if (word == "INBOX    " || word == "INBOX") {
-		return catType::INBOX;
+	else if (word == "GENERAL " || word == "GENERAL") {
+		return catType::GENERAL;
 	}
 	else {
 		return catType::CINVALID;

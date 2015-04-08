@@ -49,7 +49,7 @@ void UserInterface::runProgram() {
 			output = parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
 			
 			if (output == listClass.commandType::EXIT) {
-				data.get_tempEntry().subject = file.getName() + "\n\n";
+				errMsg << " [" << file.getName() << "]\n\n ";
 			}
 			
 			msg = outputToUser.getCommandMsg()[output];
@@ -57,9 +57,7 @@ void UserInterface::runProgram() {
 				determineOutput(data, getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder), output);
 			}
 			
-			clearData(data, errMsg, floating, scheduled, deadline);
 			if (output == (listClass.commandType::REMOVE + 15)) {
-				listClass.display.getDeleteDisplay(data, floating, scheduled, deadline);
 				determineOutput(data, getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder), output);
 				getline(std::cin, _userInput);
 				if (_userInput != "") {
@@ -74,7 +72,8 @@ void UserInterface::runProgram() {
 			std::cout << outputToUser.getProgMsg()[1] << " ";
 			getline(std::cin, _userInput);
 			parse.init(_userInput);
-
+			
+	std::cout << _userInput << std::endl;
 			if (parse.isHelp(_userInput)) {
 				outputCommand(outputToUser);
 				std::cout << " ";
@@ -133,6 +132,7 @@ void UserInterface::startUpScreen(DataStore &data, Classes &listClass, FileLocat
 void UserInterface::showReminder(DataStore data, Classes &listClass, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser, bool isReminder) {
 	msg = outputToUser.getFileMsg()[2];
 	listClass.display.getReminder(data, floating, scheduled, deadline);
+	
 	if (getOutputToUser(data, msg, msg, floating, floating, scheduled, deadline, outputToUser, isReminder) != "") {
 		listClass.display.setColour(12);
 		std::cout << getOutputToUser(data, msg, msg, floating, floating, scheduled, deadline, outputToUser, isReminder) << "\n";
@@ -192,13 +192,8 @@ std::string UserInterface::getOutputToUser(DataStore data, std::string msg, std:
 		return oss.str();
 	}
 	else if (count == 3) {
-		if (data.get_tempEntry().subject == "") {
-			sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
-		}
-		else {
-			data.get_tempEntry().subject = "\"" + data.get_tempEntry().subject + "\"";
-			sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
-		}
+		data.get_tempEntry().subject = " \"" + data.get_tempEntry().subject + "\"";
+		sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
 		return msgToUser;
 	}
 	else if (count == 2) {
@@ -273,7 +268,7 @@ void UserInterface::outputCommand(UserMessage outputToUser) {
 }
 
 void UserInterface::homeScreen(UserMessage outputToUser, Classes &listClass, std::string quote) {
-	listClass.display.setColour(14);
+	listClass.display.setColour(7);
 	for (i = 2; i < 5; i++) {
 		if (i == 3) {
 			sprintf_s(msgToUser, outputToUser.getProgMsg()[i].c_str(), getCurrent(outputToUser, 1).c_str());
@@ -284,7 +279,7 @@ void UserInterface::homeScreen(UserMessage outputToUser, Classes &listClass, std
 		}
 	}
 	
-	listClass.display.setColour(10);
+	listClass.display.setColour(3);
 	std::cout << quote << "\n";
 
 	listClass.display.setColour(15);

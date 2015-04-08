@@ -56,6 +56,7 @@ int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 	std::string x = "";
 	std::string subject = "";
 	size_t start = 0;
+	size_t end = 0;
 	bool ignore = false;
 	
 	if (findFile(data)) {
@@ -71,8 +72,10 @@ int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 					return fileMsg::OPEN;
 				}
 				
-				start = x.find(" | ");
-				subject = x.substr(3, start - 3);
+				start = x.find_first_of(".");
+				end = x.find(" | ");
+				subject = x.substr(start + 1, end - (start + 1));
+				parse.removeFrontChar(subject);
 				parse.removeBackChar(subject);
 				
 				x = x.substr(start + 2);

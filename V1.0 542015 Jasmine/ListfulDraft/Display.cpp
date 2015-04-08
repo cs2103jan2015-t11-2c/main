@@ -3,6 +3,61 @@
 const int Display::FLOAT_SUB_SIZE = 44;
 const int Display::NON_FLOAT_SUB_SIZE = 31;
 
+std::string Display::getDate(DataStore &data, int index) {
+	std::ostringstream dataString;
+	bool isTemp = false;
+
+	printDate(data, dataString, index, isTemp);
+	return dataString.str();
+}
+
+std::string Display::getTime(DataStore &data, int index) {
+	std::ostringstream dataString;
+	bool isTemp = false;
+
+	printTime(data, dataString, index, isTemp);
+	return dataString.str();
+}
+
+std::string Display::getTempDataString(DataStore &data, int index, bool updateFile) {
+	std::ostringstream dataString;
+	bool isTemp = true;
+
+	if (data.getTempData()[index].isFloat) {
+		printSub(data, dataString, FLOAT_SUB_SIZE, index, updateFile, isTemp);
+	}
+	else {
+		printSub(data, dataString, NON_FLOAT_SUB_SIZE, index, updateFile, isTemp);
+		printDate(data, dataString, index, isTemp);
+	}
+
+	printTime(data, dataString, index, isTemp);
+	printCat(data, dataString, index, isTemp);
+	printDone(data, dataString, index, isTemp);
+	return dataString.str();
+}
+
+void Display::getTempDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	int i = 0;
+	bool updateFile = false;
+	
+	while (i < data.getTempData().size() && data.getTempData()[i].isFloat) {
+		floating << " " << (i + 1) << ". " << getTempDataString(data, i, updateFile) << std::endl;
+		i++;
+	}
+
+	while (i < data.getTempData().size() && data.getTempData()[i].isTimedTask) {
+		scheduled << " " << (i + 1) << ". " << getTempDataString(data, i, updateFile) << std::endl;
+		i++;
+	}
+
+	while (i < data.getTempData().size() && !data.getTempData()[i].isTimedTask) {
+		deadline << " " << (i + 1) << ". " << getTempDataString(data, i, updateFile) << std::endl;
+		i++;
+	}
+	return;
+}
+
 void Display::getReminder(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	int i = 0;
 	int j = 0;
@@ -37,27 +92,6 @@ void Display::getReminder(DataStore &data, std::ostringstream &floating, std::os
 	return;
 }
 
-void Display::getDeleteDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
-	int i = 0;
-	bool updateFile = false;
-	
-	while (i < data.getTempData().size() && data.getTempData()[i].isFloat) {
-		floating << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
-		i++;
-	}
-
-	while (i < data.getTempData().size() && data.getTempData()[i].isTimedTask) {
-		scheduled << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
-		i++;
-	}
-
-	while (i < data.getTempData().size() && !data.getTempData()[i].isTimedTask) {
-		deadline << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
-		i++;
-	}
-	return;
-}
-
 bool Display::getDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	if (data.getData().empty()) {
 		return false;
@@ -86,82 +120,157 @@ bool Display::getDisplay(DataStore &data, std::ostringstream &floating, std::ost
 //To get one entry
 std::string Display::getDataString(DataStore &data, int index, bool updateFile) {
 	std::ostringstream dataString;
+	bool isTemp = false;
 
 	if (data.getData()[index].isFloat) {
-		printSub(data, dataString, FLOAT_SUB_SIZE, index, updateFile);
+		if (index + 1 > 9) {
+			printSub(data, dataString, FLOAT_SUB_SIZE - 1, index, updateFile, isTemp);
+		}
+		else {
+			printSub(data, dataString, FLOAT_SUB_SIZE, index, updateFile, isTemp);
+		}
 	}
 	else {
-		printSub(data, dataString, NON_FLOAT_SUB_SIZE, index, updateFile);
-		printDate(data, dataString, index);
+		if (index + 1 > 9) {
+			printSub(data, dataString, NON_FLOAT_SUB_SIZE - 1, index, updateFile, isTemp);
+		}
+		else {
+			printSub(data, dataString, NON_FLOAT_SUB_SIZE, index, updateFile, isTemp);
+		}
+		printDate(data, dataString, index, isTemp);
 	}
 
-	printTime(data, dataString, index);
-	printCat(data, dataString, index);
-	printDone(data, dataString, index);
+	printTime(data, dataString, index, isTemp);
+	printCat(data, dataString, index, isTemp);
+	printDone(data, dataString, index, isTemp);
 	return dataString.str();
 }
 
-void Display::printSub(DataStore &data, std::ostringstream &dataString, int count, int index, bool updateFile) {
-	if (data.getData()[index].subject.size() > count && !updateFile) {
-		std::string cutOff = data.getData()[index].subject.substr(0, count - 2);
-		dataString << cutOff << ".. | ";
+void Display::printSub(DataStore &data, std::ostringstream &dataString, int count, int index, bool updateFile, bool isTemp) {
+	if (!isTemp) {
+		if (data.getData()[index].subject.size() > count && !updateFile) {
+			std::string cutOff = data.getData()[index].subject.substr(0, count - 2);
+			dataString << cutOff << ".. | ";
+		}
+		else {
+			dataString << data.getData()[index].subject;
+			printSpace(dataString, count - data.getData()[index].subject.size());
+			dataString << " | ";
+		}
 	}
 	else {
-		dataString << data.getData()[index].subject;
-		printSpace(dataString, count - data.getData()[index].subject.size());
+		if (data.getTempData()[index].subject.size() > count && !updateFile) {
+			std::string cutOff = data.getTempData()[index].subject.substr(0, count - 2);
+			dataString << cutOff << ".. | ";
+		}
+		else {
+			dataString << data.getTempData()[index].subject;
+			printSpace(dataString, count - data.getTempData()[index].subject.size());
+			dataString << " | ";
+		}
+	}
+	return;
+}
+
+void Display::printDate(DataStore &data, std::ostringstream &dataString, int index, bool isTemp) {
+	if (!isTemp) {
+		int nDay = countDigit(data.getData()[index].day);
+		int nMonth = countDigit(data.getData()[index].month);
+		int nYear = countDigit(data.getData()[index].year);
+
+		printZero(nDay, dataString, 2);
+		dataString << data.getData()[index].day << '/';	
+		printZero(nMonth, dataString, 2);
+		dataString << data.getData()[index].month << '/' << data.getData()[index].year;
+		dataString << " | ";
+	}
+	else {
+		int nDay = countDigit(data.getTempData()[index].day);
+		int nMonth = countDigit(data.getTempData()[index].month);
+		int nYear = countDigit(data.getTempData()[index].year);
+
+		printZero(nDay, dataString, 2);
+		dataString << data.getTempData()[index].day << '/';	
+		printZero(nMonth, dataString, 2);
+		dataString << data.getTempData()[index].month << '/' << data.getTempData()[index].year;
 		dataString << " | ";
 	}
 	return;
 }
 
-void Display::printDate(DataStore &data, std::ostringstream &dataString, int index) {
-	int nDay = countDigit(data.getData()[index].day);
-	int nMonth = countDigit(data.getData()[index].month);
-	int nYear = countDigit(data.getData()[index].year);
+void Display::printTime(DataStore &data, std::ostringstream &dataString, int index, bool isTemp) {
+	if (!isTemp) {
+		int sTime = countDigit(data.getData()[index].startTime);
+		int eTime = countDigit(data.getData()[index].endTime);
 
-	printZero(nDay, dataString, 2);
-	dataString << data.getData()[index].day << '/';	
-	printZero(nMonth, dataString, 2);
-	dataString << data.getData()[index].month << '/' << data.getData()[index].year;
-	dataString << " | ";
-	return;
-}
-
-void Display::printTime(DataStore &data, std::ostringstream &dataString, int index) {
-	int sTime = countDigit(data.getData()[index].startTime);
-	int eTime = countDigit(data.getData()[index].endTime);
-
-	if (data.getData()[index].startTime == 0 && (data.getData()[index].startTime == data.getData()[index].endTime)) {
-		printSpace(dataString, 9);
-	}
-	else if (data.getData()[index].startTime == data.getData()[index].endTime) {
-		printZero(sTime, dataString, 4);
-		dataString << data.getData()[index].startTime;
-		printSpace(dataString, 5);
+		if (data.getData()[index].startTime == 0 && (data.getData()[index].startTime == data.getData()[index].endTime)) {
+			printSpace(dataString, 9);
+		}
+		else if (data.getData()[index].startTime == data.getData()[index].endTime) {
+			printZero(sTime, dataString, 4);
+			dataString << data.getData()[index].startTime;
+			printSpace(dataString, 5);
+		}
+		else {
+			printZero(sTime, dataString, 4);
+			dataString << data.getData()[index].startTime << '-';
+			printZero(eTime, dataString, 4);
+			dataString << data.getData()[index].endTime;
+		}
+		dataString << " | ";
 	}
 	else {
-		printZero(sTime, dataString, 4);
-		dataString << data.getData()[index].startTime << '-';
-		printZero(eTime, dataString, 4);
-		dataString << data.getData()[index].endTime;
+		int sTime = countDigit(data.getTempData()[index].startTime);
+		int eTime = countDigit(data.getTempData()[index].endTime);
+
+		if (data.getTempData()[index].startTime == 0 && (data.getTempData()[index].startTime == data.getTempData()[index].endTime)) {
+			printSpace(dataString, 9);
+		}
+		else if (data.getTempData()[index].startTime == data.getTempData()[index].endTime) {
+			printZero(sTime, dataString, 4);
+			dataString << data.getTempData()[index].startTime;
+			printSpace(dataString, 5);
+		}
+		else {
+			printZero(sTime, dataString, 4);
+			dataString << data.getTempData()[index].startTime << '-';
+			printZero(eTime, dataString, 4);
+			dataString << data.getTempData()[index].endTime;
+		}
+		dataString << " | ";
 	}
-	dataString << " | ";
 	return;
 }
 
-void Display::printCat(DataStore &data, std::ostringstream &dataString, int index) {
-	dataString << data.getData()[index].category << " | ";
-	return;
-}
-
-void Display::printDone(DataStore &data, std::ostringstream &dataString, int index) {
-	if (data.getData()[index].isComplete) {
-		dataString << "yes";
+void Display::printCat(DataStore &data, std::ostringstream &dataString, int index, bool isTemp) {
+	if (!isTemp) {
+		dataString << data.getData()[index].category << " | ";
 	}
 	else {
-		dataString << "no";
+		dataString << data.getTempData()[index].category << " | ";
 	}
 	return;
+}
+
+void Display::printDone(DataStore &data, std::ostringstream &dataString, int index, bool isTemp) {
+	if (!isTemp) {
+		if (data.getData()[index].isComplete) {
+			dataString << "yes";
+		}
+		else {
+			dataString << "no";
+		}
+		return;
+	}
+	else {
+		if (data.getTempData()[index].isComplete) {
+			dataString << "yes";
+		}
+		else {
+			dataString << "no";
+		}
+		return;
+	}
 }
 
 int Display::countDigit(int num) {

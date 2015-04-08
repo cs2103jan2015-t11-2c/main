@@ -91,17 +91,17 @@ void Add::insertionAdd(DataStore &data, bool isTemp) {
 		floatAdd(data, isTemp);
 	}
 	else if (data.get_tempEntry().isTimedTask) {
-		if (!scheduledAdd(data, isTemp) && !isTemp) {
+		if (!isTemp && !scheduledAdd(data, isTemp)) {
 			data.getData().push_back(data.get_tempEntry());
 		}
-		else if (!scheduledAdd(data, isTemp) && isTemp) {
+		else if (isTemp && !scheduledAdd(data, isTemp)) {
 			data.getTempData().push_back(data.get_tempEntry());
 		}
 	}
-	else if (!deadlineAdd(data, isTemp) && !isTemp) {
+	else if (!isTemp && !deadlineAdd(data, isTemp)) {
 		data.getData().push_back(data.get_tempEntry());
 	}
-	else if (!deadlineAdd(data, isTemp) && isTemp) {
+	else if (isTemp && !deadlineAdd(data, isTemp)) {
 		data.getTempData().push_back(data.get_tempEntry());
 	}
 	return;

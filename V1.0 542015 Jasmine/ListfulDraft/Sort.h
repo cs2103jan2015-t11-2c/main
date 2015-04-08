@@ -10,7 +10,7 @@ private:
 	};
 
 	enum catType {
-		WORK, PERSONAL, ERRAND, INBOX, CINVALID
+		WORK, PERSONAL, ERRAND, GENERAL, CINVALID
 	};
 
 	int _category;

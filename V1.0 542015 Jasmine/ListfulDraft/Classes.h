@@ -28,7 +28,7 @@ public:
 	};
 
 	enum catType {
-		WORK, PERSONAL, ERRAND, INBOX, CINVALID
+		WORK, PERSONAL, ERRAND, GENERAL, CINVALID
 	};
 
 	Add add;

@@ -15,7 +15,7 @@ bool Category::extractCat(int cat, std::string &cStr, size_t found) {
 			_cat = "ERRAND  ";
 			break;
 		case 3:
-			_cat = "INBOX   ";
+			_cat = "GENERAL ";
 			break;
 		default:
 			return false;

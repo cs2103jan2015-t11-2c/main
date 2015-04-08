@@ -98,7 +98,7 @@ bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
 		return false;
 	}
 	
-	errMsg << "\n [ " << _pastActionLog.back() << " ]";
+	errMsg << "\n [" << _pastActionLog.back() << " ]";
 	_futureActionLog.push_back(_pastActionLog.back());
 	_pastActionLog.pop_back();
 	
@@ -114,7 +114,7 @@ bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
 		return false;
 	}
 	
-	errMsg << "\n [ " << _futureActionLog.back() << " ]";
+	errMsg << "\n [" << _futureActionLog.back() << " ]";
 	_pastActionLog.push_back(_futureActionLog.back());
 	_futureActionLog.pop_back();
 

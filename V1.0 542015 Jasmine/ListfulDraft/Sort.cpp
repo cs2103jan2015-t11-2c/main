@@ -147,8 +147,8 @@ int Sort::determineC(std::string word) {
 	else if (word == "ERRAND   ") {
 		return catType::ERRAND;
 	}
-	else if (word == "INBOX    ") {
-		return catType::INBOX;
+	else if (word == "GENERAL  ") {
+		return catType::GENERAL;
 	}
 	else {
 		return catType::CINVALID;
