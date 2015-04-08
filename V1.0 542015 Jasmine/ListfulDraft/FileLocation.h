@@ -1,4 +1,4 @@
-#include "ParserFacade.h"
+#include "Parser.h"
 
 class FileLocation {
 private:
@@ -15,7 +15,7 @@ public:
 	
 	void saveFileLocation();
 	bool findFile(DataStore &);
-	int openFile(DataStore &, ParserFacade, Classes &);
+	int openFile(DataStore &, Parser, Classes &);
 
 	std::string &getName();
 };

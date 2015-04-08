@@ -2,7 +2,7 @@
 
 //To add floating and non-floating where the floating tasks
 //If a clash (subject or time and date) is found, it will still add but a warning message will be output
-bool Add::addContent(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool isTemp) {
+bool Add::addContent(DataStore &data, std::ostringstream &errMsg, bool isTemp) {
 	if (data.get_tempEntry().subject == "") {
 		return false;
 	}
@@ -10,8 +10,8 @@ bool Add::addContent(DataStore &data, std::ostringstream &errMsg, std::ostringst
 	if (!data.getData().empty() && !isTemp) {
 		checkDuplicate(data, errMsg);
 	}
-	data.clearData(floating, scheduled, deadline);
-	insertionAdd(data, isTemp, floating, scheduled, deadline);
+
+	insertionAdd(data, isTemp);
 	return true;
 }
 
@@ -62,6 +62,7 @@ void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 		if ((data.getData()[index].isFloat == data.get_tempEntry().isFloat) && (data.getData()[index].isTimedTask == data.get_tempEntry().isTimedTask)) {
 			if (!data.getData()[index].isComplete) {
 				if (data.getData()[index].subject == data.get_tempEntry().subject) {
+					std::cout << "3 " << std::endl;
 					errMsg << std::endl << " WARNING: subject clash ";
 					if (!data.getData()[index].isFloat && (isSameDate(data, index)) && (isSameTime(data, index))) {
 						errMsg << "timing clash ";
@@ -79,16 +80,14 @@ void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 	return;
 }
 
-void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
-	Display show;
-
+void Add::insertionAdd(DataStore &data, bool isTemp) {
 	if (data.getData().empty() && !isTemp) {
 		data.getData().push_back(data.get_tempEntry());
 	}
 	else if (data.getTempData().empty() && isTemp) {
 		data.getTempData().push_back(data.get_tempEntry());
 	}
-	else if (data.get_tempEntry().isFloat && !isTemp) {
+	else if (data.get_tempEntry().isFloat) {
 		floatAdd(data, isTemp);
 	}
 	else if (data.get_tempEntry().isTimedTask) {
@@ -104,10 +103,6 @@ void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &floatin
 	}
 	else if (isTemp && !deadlineAdd(data, isTemp)) {
 		data.getTempData().push_back(data.get_tempEntry());
-	}
-
-	if (!isTemp) {
-		show.getChange(data, floating, scheduled, deadline);
 	}
 	return;
 }

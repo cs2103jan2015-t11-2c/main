@@ -52,12 +52,11 @@ bool FileLocation::findFile(DataStore &data) {
 	return false;
 }
 
-int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listClass) {
+int FileLocation::openFile(DataStore &data, Parser parse, Classes &listClass) {
 	std::string x = "";
 	std::string subject = "";
 	size_t start = 0;
 	size_t end = 0;
-	int i = 0;
 	bool ignore = false;
 	
 	if (findFile(data)) {
@@ -66,15 +65,11 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 			while (!readFile.eof()) {
 				getline(readFile, x);
 
-				while (x == "") {
-					getline(readFile, x);
-					i++;
-					if (i > 10) {
-						data.updateFile(data);
-						data.savePrevFile();
-						readFile.close();
-						return fileMsg::OPEN;
-					}
+				if (x == "") {
+					data.updateFile(data);
+					data.savePrevFile();
+					readFile.close();
+					return fileMsg::OPEN;
 				}
 				
 				start = x.find_first_of(".");
@@ -84,8 +79,9 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 				parse.removeBackChar(subject);
 				
 				x = x.substr(start + 2);
-				parse.readFile(x);
+				parse.getInfo() = x;
 				parse.separateWord(listClass, data, ignore, ignore);
+
 				data.get_tempEntry().subject = subject;
 				data.getData().push_back(data.get_tempEntry());
 

@@ -3,7 +3,6 @@
 
 #include "DataStore.h"
 #include "Add.h"
-#include "Display.h"
 
 class Edit {
 private:
@@ -13,9 +12,9 @@ private:
 public:
 	Edit() {};
 
-	bool editContent(DataStore &, int, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-	void editTime(DataStore &, int);
-	void editDate(DataStore &, int);
+	bool editContent(DataStore &, int, std::ostringstream &);
+	void editTime(DataStore &, Add &, int, std::ostringstream &, bool);
+	void editDate(DataStore &, Add &, int, std::ostringstream &, bool);
 
 	int &getCat();
 };

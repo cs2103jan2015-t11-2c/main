@@ -1,22 +1,18 @@
 #include "Delete.h"
 
-bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
-	data.getTempData().clear();
-	data.clearData(floating, scheduled, deadline);
-
+bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg, bool &isDelete) {
 	if (info[0] >= '0' && info[0] <= '9') {
-		isDelete = true;
-		return deleteByIndex(data, info, errMsg, floating, scheduled, deadline);
+		return deleteByIndex(data, info, errMsg);
 	}
 	
-	return deleteBySubject(data, info, errMsg, floating, scheduled, deadline, isDelete);
+	return  deleteBySubject(data, info, errMsg, isDelete);
 }
 
-bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream &errMsg) {
 	size_t found = info.find_first_of(" ");
+	std::string list = info;
 	int index = 0;
 	int count = 0;
-	Display show;
 
 	while (!info.empty()) {
 		if (found == std::string::npos) {
@@ -27,7 +23,6 @@ bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream
 			return false;
 		}
 		data.get_tempEntry().subject = data.getData()[index - 1].subject;
-		data.getTempData().push_back(data.getData()[index - 1]);
 		data.getData().erase(data.getData().begin() + (index - 1));
 		count++;
 		if (found == info.size()) {
@@ -38,40 +33,41 @@ bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream
 		found = info.find_first_of(" ");
 	}
 
-	data.get_tempEntry().subject = "";
-	show.getTempDisplay(data, floating, scheduled, deadline);
+	if (count > 1) {
+		data.get_tempEntry().subject = "";
+		errMsg << " multiple entries [ " << list << " ] deleted";
+	}
+
 	checkDataBaseEmpty(data, errMsg);
 	data.updateFile(data);
 	data.savePrevFile();
 	return true;
 }
 
-bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
+bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstream &errMsg, bool &isDelete) {
 	size_t found = 0;
 	Add add;
-	Display show;
+	std::vector <Entry>::iterator iter;
+	std::ostringstream ignore;
 	bool isTemp = true;
 	_indexList.clear();
 	data.getTempData().clear();
 
-	for (int i = 0; i < data.getData().size(); i++) {
-		found = data.getData()[i].subject.find(info);
+	for (iter = data.getData().begin(); iter != data.getData().end(); iter++) {
+		found = (*iter).subject.find(info);
 		if (found != std::string::npos) {
-			data.get_tempEntry() = data.getData()[i];
-			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
-			_indexList.push_back(i);
+			data.get_tempEntry() = (*iter);
+			add.addContent(data, ignore, isTemp);
+			_indexList.push_back(iter);
 		}
 	}
 
-	data.get_tempEntry().subject = "";
-	data.clearData(floating, scheduled, deadline);
-	show.getTempDisplay(data, floating, scheduled, deadline);
 	if (data.getTempData().empty()) {
 		isDelete = true;
 		return false;
 	}
 	else if (data.getTempData().size() == 1) {
-		data.getData().erase(data.getData().begin() + _indexList.front());
+		data.getData().erase(*(_indexList.begin()));
 		isDelete = true;
 	}
 	else {
@@ -84,56 +80,62 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 	return true;
 }
 
-bool Delete::deleteMore(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+bool Delete::deleteMore(DataStore &data, std::string info, std::ostringstream &errMsg) {
 	size_t found = info.find_first_of(" ");
 	int index = 0;
-	int deleteListSize = data.getTempData().size();
-	Add add;
-	Display show;
-	std::vector <Entry> list;
-	bool isTemp = true;
-	data.getTempData().clear();
+	std::string subject = "";
+	std::ostringstream msg;
 
-	while (!info.empty()) {
-		if (info == "all") {
-			while (!_indexList.empty()) {
-				data.getData().erase(data.getData().begin() + _indexList.back());
-				_indexList.pop_back();
-			}
-			errMsg << " all of the above deleted";
-			checkDataBaseEmpty(data, errMsg);
-			data.updateFile(data);
-			data.savePrevFile();
-			return true;
-		}
-		if (found == std::string::npos) {
-			index = atoi(info.c_str());
-			found = info.size();
-		}
-		else {
-			index = atoi(info.substr(0, found).c_str());
-		}
-		if (index > deleteListSize) {
-			errMsg << " index entered is invalid (out of range)";
+	if (found == std::string::npos) {
+		index = atoi(info.c_str());
+		if (index > data.getTempData().size()) {
+			errMsg << " index [ " << index << " ] out of range";
 			return false;
 		}
-		data.get_tempEntry() = data.getData()[_indexList[index - 1]];
-		data.getData().erase(data.getData().begin() + _indexList[index - 1]);
-		add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
-		if (found == info.size()) {
-			info.clear();
-			break;
-		}
-		info = info.substr(found + 1);
-		found = info.find_first_of(" ");
+		subject = (*_indexList[index - 1]).subject;
+		data.getData().erase(_indexList[index - 1]);
+		errMsg << " deleted from " << data.getFileName() << ": \"" << subject << "\"";
+		msg << " deleted from " << data.getFileName() << ": \"" << subject << "\"";
+
+		data.savePrevAction(msg.str());
+		checkDataBaseEmpty(data, errMsg);
+		data.updateFile(data);
+		data.savePrevFile();
+		return true;
 	}
-	data.clearData(floating, scheduled, deadline);
-	data.get_tempEntry().subject = "";
-	show.getTempDisplay(data, floating, scheduled, deadline);
-	checkDataBaseEmpty(data, errMsg);
-	data.updateFile(data);
-	data.savePrevFile();
-	return true;
+	else {
+		subject = info;
+		while (!info.empty()) {
+			if (data.getData().empty()) {
+				errMsg << " remaining index(es) [ " << info << " ] not found in file";
+				return false;
+			}
+
+			if (found == std::string::npos) {
+				index = atoi(info.c_str());
+			}
+			else {
+				info = info.substr(found + 1);
+				index = atoi((info.substr(0, found)).c_str());
+			}
+
+			if (index > data.getTempData().size()) {
+				errMsg << " index [ " << index << " ] out of range";
+				return false;
+			}
+			data.getData().erase(_indexList[index - 1]);
+			_indexList.erase(_indexList.begin() + (index - 1));
+			found = info.find_first_of(" ");
+		}
+		errMsg << " deleted from " << data.getFileName() << ": index(es) [ " << subject << " ]";
+		msg << " deleted from " << data.getFileName() << ": index(es) [ " << subject << " ]";
+		data.savePrevAction(msg.str());
+		checkDataBaseEmpty(data, errMsg);
+		data.updateFile(data);
+		data.savePrevFile();
+		return true;
+		
+	}
 }
 
 void Delete::checkDataBaseEmpty(DataStore &data, std::ostringstream &errMsg) {

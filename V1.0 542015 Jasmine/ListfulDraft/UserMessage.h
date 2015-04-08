@@ -1,6 +1,3 @@
-#ifndef USERMESSAGE_H
-#define USERMESSAGE_H
-
 #include "Entry.h"
 
 class UserMessage {
@@ -73,5 +70,3 @@ public:
 	std::vector <std::string> &getProgMsg();
 	std::vector <std::string> &getDisplayMsg();
 };
-
-#endif

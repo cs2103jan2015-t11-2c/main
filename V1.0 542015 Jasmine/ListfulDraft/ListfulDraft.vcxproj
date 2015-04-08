@@ -77,7 +77,6 @@
     <ClInclude Include="Classes.h" />
     <ClInclude Include="FileLocation.h" />
     <ClInclude Include="Parser.h" />
-    <ClInclude Include="ParserFacade.h" />
     <ClInclude Include="Priority.h" />
     <ClInclude Include="Search.h" />
     <ClInclude Include="Sort.h" />
@@ -96,7 +95,6 @@
     <ClCompile Include="FileLocation.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="MAIN.cpp" />
-    <ClCompile Include="ParserFacade.cpp" />
     <ClCompile Include="Priority.cpp" />
     <ClCompile Include="Search.cpp" />
     <ClCompile Include="Sort.cpp" />

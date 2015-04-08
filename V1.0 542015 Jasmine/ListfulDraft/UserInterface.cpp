@@ -24,7 +24,7 @@ void UserInterface::runProgram() {
 	bool isReminder = false;
 
 	Classes listClass;
-	ParserFacade parse;
+	Parser parse;
 	DataStore data;
 	UserMessage outputToUser;
 	FileLocation file;
@@ -51,41 +51,29 @@ void UserInterface::runProgram() {
 			if (output == listClass.commandType::EXIT) {
 				errMsg << " [" << file.getName() << "]\n\n ";
 			}
-
+			
 			msg = outputToUser.getCommandMsg()[output];
-			msg = getOutputToUser(output, data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder);
-			if (msg != "") {
-				determineOutput(data, msg, output);
+			if (getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder) != "") {
+				determineOutput(data, getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder), output);
 			}
-
-			clearData(data, errMsg, floating, scheduled, deadline);
+			
 			if (output == (listClass.commandType::REMOVE + 15)) {
-				std::cout << " ";
+				determineOutput(data, getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder), output);
 				getline(std::cin, _userInput);
-				isReminder = false;
 				if (_userInput != "") {
-					if (listClass.remove.deleteMore(data, _userInput, errMsg, floating, scheduled, deadline) && _userInput != "all") {
-						output = 6;
-						msg = outputToUser.getCommandMsg()[6];
-						msg = getOutputToUser(output, data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder);
-						std::cout << "\n" << errMsg.str() << "\n" << msg;
-					}
-					else if (_userInput == "all") {
-						data.savePrevAction(errMsg.str());
-						std::cout << "\n" << errMsg.str() << "\n";
+					if (listClass.remove.deleteMore(data, _userInput, errMsg)) {
+						std::cout << "\n" << errMsg << "\n\n";
 					}
 					else {
-						std::cout << "\n" << errMsg.str() << "\n";
+						std::cout << "\n" << errMsg << "\n\n";
 					}
-				}
-				else {
-					std::cout << "continue..\n";
 				}
 			}
 			std::cout << outputToUser.getProgMsg()[1] << " ";
 			getline(std::cin, _userInput);
 			parse.init(_userInput);
-		
+			
+	std::cout << _userInput << std::endl;
 			if (parse.isHelp(_userInput)) {
 				outputCommand(outputToUser);
 				std::cout << " ";
@@ -112,13 +100,17 @@ void UserInterface::clearData(DataStore &data, std::ostringstream &errMsg, std::
 }
 
 void UserInterface::determineOutput(DataStore &data, std::string msg, int output) {
-	std::cout << msg;
+	std::cout << msg << "\n";
 	if (output != 1) {
 		std::cout << "\n";
 	}
+	if (output < 7 && output != 1) {
+		data.savePrevAction(msg);
+	}
+	return;
 }
 
-void UserInterface::startUpScreen(DataStore &data, Classes &listClass, FileLocation &file, ParserFacade &parse, std::string &msg, std::string &extName, UserMessage outputToUser, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool isReminder) {
+void UserInterface::startUpScreen(DataStore &data, Classes &listClass, FileLocation &file, Parser &parse, std::string &msg, std::string &extName, UserMessage outputToUser, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool isReminder) {
 	std::string fileName = "";
 
 	outputCommand(outputToUser);
@@ -128,7 +120,7 @@ void UserInterface::startUpScreen(DataStore &data, Classes &listClass, FileLocat
 	extractFileName(fileName, extName, file);
 
 	msg = outputToUser.getFileMsg()[file.openFile(data, parse, listClass)];
-	std::cout << "\n" << getOutputToUser(10, data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder) << "\n\n";
+	std::cout << "\n" << getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder) << "\n\n";
 			
 	data.getFileName() = file.getName();
 			
@@ -138,15 +130,14 @@ void UserInterface::startUpScreen(DataStore &data, Classes &listClass, FileLocat
 }
 
 void UserInterface::showReminder(DataStore data, Classes &listClass, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser, bool isReminder) {
-	clearData(data, floating, floating, scheduled, deadline);
 	msg = outputToUser.getFileMsg()[2];
-	msg = getOutputToUser(10, data, msg, msg, floating, floating, scheduled, deadline, outputToUser, isReminder);
 	listClass.display.getReminder(data, floating, scheduled, deadline);
-	if (msg != "") {
+	
+	if (getOutputToUser(data, msg, msg, floating, floating, scheduled, deadline, outputToUser, isReminder) != "") {
 		listClass.display.setColour(12);
-		std::cout << msg << "\n";
+		std::cout << getOutputToUser(data, msg, msg, floating, floating, scheduled, deadline, outputToUser, isReminder) << "\n";
+		listClass.display.setColour(7);
 	}
-	listClass.display.setColour(7);
 	return;
 }
 
@@ -162,75 +153,56 @@ void UserInterface::readFileName(std::string &fileName, UserMessage outputToUser
 	return;
 }
 
-std::string UserInterface::getOutputToUser(int output, DataStore &data, std::string msg, std::string extName, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser, bool isReminder) {
+std::string UserInterface::getOutputToUser(DataStore data, std::string msg, std::string extName, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser, bool isReminder) {
 	size_t count = std::count(msg.begin(), msg.end(), '%');
 	std::ostringstream oss;
 	std::string cutOff = "";
-	bool isFinal = false;
-
-	if (count > 3 || output == 21) {
+	
+	if (count > 3) {
 		if (isReminder && (floating.str() != "" || scheduled.str() != "" || deadline.str() != "")) {
 			count = msg.find_first_of("%");
-			oss << msg.substr(0, count);
+			oss << msg.substr(0, count) << "\n";
 		}
 		else if (isReminder) {
 			oss << outputToUser.getFileMsg()[3] << "\n";
 			return oss.str();
 		}
 
-		if (!isReminder && msg != outputToUser.getCommandMsg()[1] && output != 21) {
-			std::ostringstream empty;
-			data.clearData(empty, empty, empty);
-			sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), empty.str().c_str(), empty.str().c_str());
-			oss << msgToUser;
-			if (output < 6 && output != 1) {
-				data.savePrevAction(oss.str());
-			}
-			oss << "\n";
-		}
-
 		if (floating.str() != "" && scheduled.str() != "" && deadline.str() != "") {
-			oss << "\n" << outputToUser.getDisplayMsg()[0] << floating.str() << "\n" << outputToUser.getDisplayMsg()[1] << scheduled.str() << "\n\n" << outputToUser.getDisplayMsg()[2] << deadline.str();
+			oss << outputToUser.getDisplayMsg()[0] << floating.str() << "\n\n" << outputToUser.getDisplayMsg()[1] << scheduled.str() << "\n\n" << outputToUser.getDisplayMsg()[2] << deadline.str();
 		}
 		else if (floating.str() != "" && scheduled.str() == "" && deadline.str() != "") {
-			oss << "\n" << outputToUser.getDisplayMsg()[0] << floating.str() << "\n" << outputToUser.getDisplayMsg()[2] << deadline.str();
+			oss << outputToUser.getDisplayMsg()[0] << floating.str() << "\n\n" << outputToUser.getDisplayMsg()[2] << deadline.str();
 		}
 		else if (floating.str() != "" && scheduled.str() != "" && deadline.str() == "") {
-			oss << "\n" << outputToUser.getDisplayMsg()[0] << floating.str() << "\n" << outputToUser.getDisplayMsg()[1] << scheduled.str();
+			oss << outputToUser.getDisplayMsg()[0] << floating.str() << "\n\n" << outputToUser.getDisplayMsg()[1] << scheduled.str();
 		}
 		else if (floating.str() == "" && scheduled.str() != "" && deadline.str() != "") {
-			oss << "\n" << outputToUser.getDisplayMsg()[1] << scheduled.str() << "\n" << outputToUser.getDisplayMsg()[2] << deadline.str();
+			oss << outputToUser.getDisplayMsg()[1] << scheduled.str() << "\n\n" << outputToUser.getDisplayMsg()[2] << deadline.str();
 		}
 		else if (floating.str() != "" && scheduled.str() == "" && deadline.str() == "") {
-			oss << "\n" << outputToUser.getDisplayMsg()[0] << floating.str();
+			oss << outputToUser.getDisplayMsg()[0] << floating.str();
 		}
 		else if (floating.str() == "" && scheduled.str() != "" && deadline.str() == "") {
-			oss << "\n" << outputToUser.getDisplayMsg()[1] << scheduled.str();
+			oss << outputToUser.getDisplayMsg()[1] << scheduled.str();
 		}
 		else if (floating.str() == "" && scheduled.str() == "" && deadline.str() != "") {
-			oss << "\n" << outputToUser.getDisplayMsg()[2] << deadline.str();
-		}
-		if (output == 6) {
-			data.savePrevAction(oss.str());
+			oss << outputToUser.getDisplayMsg()[2] << deadline.str();
 		}
 		return oss.str();
 	}
+	else if (count == 3) {
+		data.get_tempEntry().subject = " \"" + data.get_tempEntry().subject + "\"";
+		sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
+		return msgToUser;
+	}
 	else if (count == 2) {
 		sprintf_s(msgToUser, msg.c_str(), extName.c_str(), errMsg.str().c_str());
-		if (output < 7 && output != 1) {
-			data.savePrevAction(msgToUser);
-		}
 		return msgToUser;
 	}
 	else if (count == 1) {
 		sprintf_s(msgToUser, msg.c_str(), extName.c_str());
-		if (output < 7 && output != 1) {
-			data.savePrevAction(msgToUser);
-		}
 		return msgToUser;
-	}
-	if (output < 7 && output != 1) {
-		data.savePrevAction(msg);
 	}
 	return msg;
 }
@@ -245,7 +217,7 @@ void UserInterface::extractFileName(std::string &fileName, std::string &name, Fi
 	else {
 		name = fileName.substr(found + 1);
 	}
-	file.getName() = fileName; 
+	file.getName() = fileName;
 	return;
 }
 

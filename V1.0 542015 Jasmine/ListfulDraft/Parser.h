@@ -28,12 +28,19 @@ class Parser {
 		bool time;
 		bool cat;
 		bool priority;
-
+		
+		std::string _userInput;
 		std::string _information;
+		bool _isEnd;
 		
 	public:
-		Parser() {};
+		Parser();
 		void init(std::string);
+
+		bool isRunProgram();
+		bool isHelp(std::string);
+		void errorAddMsg(std::ostringstream &, bool, bool, Classes);
+		int carryOutCommand(Classes &, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 
 		bool getIndex(DataStore &, int &);
 		bool getEditDelete(DataStore &, Classes, int &, int &, std::string);
@@ -49,12 +56,14 @@ class Parser {
 
 		void getFirstWord(Classes, std::string &, std::string , size_t, size_t &);
 		void changeToLower(std::string &);
-		void removeFrontChar(std::string &);
-		void removeBackChar(std::string &);
+		void removeFrontChar(std::string &str);
+		void removeBackChar(std::string &str);
 		void getNextWord (std::string &, size_t &, size_t &);
 		void updateStr(std::string &, size_t &, size_t &);
 		void joinStr(std::string &, size_t &);
+
 		//void testParser();
+		std::string &getInfo();
 };
 
 #endif
