@@ -1,6 +1,8 @@
+//@author A0110670W
 #ifndef FILELOCATION_H
 #define FILELOCATION_H
-#include "Parser.h"
+
+#include "ParserFacade.h"
 
 class FileLocation {
 private:
@@ -17,7 +19,7 @@ public:
 	
 	void saveFileLocation();
 	bool findFile(DataStore &);
-	int openFile(DataStore &, Parser, Classes &);
+	int openFile(DataStore &, ParserFacade, Classes &);
 
 	std::string &getName();
 };

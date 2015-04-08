@@ -1,3 +1,4 @@
+//@author A0116177E
 #include "UserMessage.h"
 
 const std::string UserMessage::MESSAGE_COMMAND_LIST = "  1)Add   2)Display   3)Delete   4)Clear   5)Edit   6)Sort   7)Search   8)Exit  ";

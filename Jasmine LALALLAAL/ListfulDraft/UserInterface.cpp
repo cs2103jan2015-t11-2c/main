@@ -1,3 +1,4 @@
+//@author A0116177E
 #include "UserInterface.h"
 
 void UserInterface::centralizePrintToUser(std::string text, std::ostringstream &space) {

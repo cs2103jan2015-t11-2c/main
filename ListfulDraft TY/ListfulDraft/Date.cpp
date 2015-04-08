@@ -1,3 +1,4 @@
+//@author A0115871E
 #include "Date.h"
 #include "Timing.h"
 
@@ -115,7 +116,7 @@ bool Date::dateInLetter(std::string &str) {
 	localtime_s(&now, &t);
 	changeToLower(dateWord);
 	
-	if (dateWord == "today" || dateWord == "tdy" || dateWord == "tday") {
+	if (dateWord == "today" || dateWord == "tdy" || dateWord == "tday" || dateWord == "later" || dateWord == "tonight") {
 		_day = (now.tm_mday);
 	}
 	else if (dateWord == "tomorrow" || dateWord == "tmr" || dateWord == "tomoro" || dateWord == "tmrw") {
@@ -252,7 +253,6 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 			index = 0;
 			//If any time is found before this '_year' then _year is a real year
 			str = originalStr.substr(0, originalStr.find_last_of(" ", start));
-			std::cout << str << std::endl;
 			while (index != std::string::npos && index < start) {
 				noOfTime = 0;
 				index = str.find_first_of(" ", index);
@@ -276,7 +276,6 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 			if (count != newStr.size()) {
 				str = newStr.substr(count);
 				timer.removeNonTimeChar(str);
-				std::cout << str << std::endl;
 				while (index != std::string::npos) {
 					noOfTime = 0;
 					index = str.find_first_of(" ", index);

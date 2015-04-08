@@ -1,3 +1,4 @@
+//@author A0116177E
 #include "Parser.h"
 
 //Separates the user input to be the command string and information string and initialises private vector in parser

@@ -1,3 +1,4 @@
+//@author A0110670W
 #include "Classes.h"
 
 int Classes::determineCommand(std::string _userInput) {

@@ -1,3 +1,4 @@
+//@author A0116237L
 #include "Clear.h"
 
 bool Clear::clearFile(DataStore &data) {
