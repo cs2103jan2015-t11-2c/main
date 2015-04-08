@@ -29,12 +29,13 @@ bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream
 			info.clear();
 			break;
 		}
-		info = info.substr(found);
+		info = info.substr(found + 1);
 		found = info.find_first_of(" ");
 	}
 
 	if (count > 1) {
-		data.get_tempEntry().subject = " multiple entries [ " + list + " ] deleted";
+		data.get_tempEntry().subject = "";
+		errMsg << " multiple entries [ " << list << " ] deleted";
 	}
 
 	checkDataBaseEmpty(data, errMsg);
@@ -60,8 +61,9 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 			_indexList.push_back(iter);
 		}
 	}
-	std::cout << data.getTempData().size() << std::endl;
+
 	if (data.getTempData().empty()) {
+		isDelete = true;
 		return false;
 	}
 	else if (data.getTempData().size() == 1) {

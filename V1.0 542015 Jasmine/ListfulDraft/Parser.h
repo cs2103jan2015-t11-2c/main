@@ -34,9 +34,9 @@ class Parser {
 		bool _isEnd;
 		
 	public:
-		Parser() {};
-		
+		Parser();
 		void init(std::string);
+
 		bool isRunProgram();
 		bool isHelp(std::string);
 		void errorAddMsg(std::ostringstream &, bool, bool, Classes);

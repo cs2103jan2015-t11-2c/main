@@ -41,17 +41,17 @@ void Display::getDeleteDisplay(DataStore &data, std::ostringstream &floating, st
 	int i = 0;
 	bool updateFile = false;
 	
-	while (i < data.getTempData().size() && data.getData()[i].isFloat) {
+	while (i < data.getTempData().size() && data.getTempData()[i].isFloat) {
 		floating << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
 		i++;
 	}
 
-	while (i < data.getTempData().size() && data.getData()[i].isTimedTask) {
+	while (i < data.getTempData().size() && data.getTempData()[i].isTimedTask) {
 		scheduled << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
 		i++;
 	}
 
-	while (i < data.getTempData().size() && !data.getData()[i].isTimedTask) {
+	while (i < data.getTempData().size() && !data.getTempData()[i].isTimedTask) {
 		deadline << " " << (i + 1) << ". " << getDataString(data, i, updateFile) << std::endl;
 		i++;
 	}

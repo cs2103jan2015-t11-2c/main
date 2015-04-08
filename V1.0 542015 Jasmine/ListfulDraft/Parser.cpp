@@ -1,5 +1,9 @@
 #include "Parser.h"
 
+Parser::Parser() {
+	_isEnd = false;
+}
+
 //Separates the user input to be the command string and information string and initialises private vector in parser
 void Parser::init(std::string command) {
 	extraFront.push_back("from");
@@ -60,7 +64,6 @@ void Parser::init(std::string command) {
 
 	size_t start = 0;
 	size_t end;
-	_isEnd = false;
 
 	getNextWord(command, start, end);
 	if (end == std::string::npos) {

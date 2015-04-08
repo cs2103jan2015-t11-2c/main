@@ -31,7 +31,7 @@ void UserInterface::runProgram() {
 
 	quote = quoteOfTheDay(outputToUser);
 
-	do {
+	 while (!parse.isRunProgram()) {
 		homeScreen(outputToUser, listClass, quote);
 		isReminder = false;
 		clearData(data, errMsg, floating, scheduled, deadline);
@@ -39,21 +39,28 @@ void UserInterface::runProgram() {
 		if (i == 0) {
 			startUpScreen(data, listClass, file, parse, msg, extName, outputToUser, errMsg, floating, scheduled, deadline, isReminder);
 		}
-
 		i = 1;
+
 		if (_userInput == "remind" || _userInput == "reminder") {
 			isReminder = true;
 			showReminder(data, listClass, msg, floating, scheduled, deadline, outputToUser, isReminder);
 		}
 		else {
 			output = parse.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			
+			if (output == listClass.commandType::EXIT) {
+				data.get_tempEntry().subject = file.getName() + "\n\n";
+			}
+			
 			msg = outputToUser.getCommandMsg()[output];
 			if (getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder) != "") {
 				determineOutput(data, getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder), output);
 			}
 			
+			clearData(data, errMsg, floating, scheduled, deadline);
 			if (output == (listClass.commandType::REMOVE + 15)) {
 				listClass.display.getDeleteDisplay(data, floating, scheduled, deadline);
+				determineOutput(data, getOutputToUser(data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder), output);
 				getline(std::cin, _userInput);
 				if (_userInput != "") {
 					if (listClass.remove.deleteMore(data, _userInput, errMsg)) {
@@ -64,20 +71,19 @@ void UserInterface::runProgram() {
 					}
 				}
 			}
-		}
-		std::cout << " ";
-		getline(std::cin, _userInput);
-		parse.init(_userInput);
-
-		if (parse.isHelp(_userInput)) {
-			outputCommand(outputToUser);
-			std::cout << " ";
+			std::cout << outputToUser.getProgMsg()[1] << " ";
 			getline(std::cin, _userInput);
 			parse.init(_userInput);
-		}
 
-		system("CLS");
-	} while (!parse.isRunProgram());
+			if (parse.isHelp(_userInput)) {
+				outputCommand(outputToUser);
+				std::cout << " ";
+				getline(std::cin, _userInput);
+				parse.init(_userInput);
+			}
+			system("CLS");
+		}
+	}
 	return;
 }
 
@@ -186,7 +192,13 @@ std::string UserInterface::getOutputToUser(DataStore data, std::string msg, std:
 		return oss.str();
 	}
 	else if (count == 3) {
-		sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
+		if (data.get_tempEntry().subject == "") {
+			sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
+		}
+		else {
+			data.get_tempEntry().subject = "\"" + data.get_tempEntry().subject + "\"";
+			sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str());
+		}
 		return msgToUser;
 	}
 	else if (count == 2) {

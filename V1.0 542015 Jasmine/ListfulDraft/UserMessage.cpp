@@ -1,7 +1,7 @@
 #include "UserMessage.h"
 
 const std::string UserMessage::MESSAGE_COMMAND_LIST = "  1)Add   2)Display   3)Delete   4)Clear   5)Edit   6)Sort   7)Search   8)Exit  ";
-const std::string UserMessage::MESSAGE_LINE = " ============================================================================== ";
+const std::string UserMessage::MESSAGE_LINE = " ------------------------------------------------------------------------------ ";
 const std::string UserMessage::MESSAGE_STAR = "********************************************************************************";
 const std::string UserMessage::MESSAGE_WELCOME = "                           *** Listful %s ***                           ";
 const std::string UserMessage::MESSAGE_LOGIN = " ~ For help, enter [?] to display the above list of commands available             NOTE: you can [undo] and [redo] actions as well                              ";
@@ -17,15 +17,15 @@ const std::string UserMessage::MESSAGE_FILE_OPENED = " loading... %s is open and
 const std::string UserMessage::MESSAGE_REMINDER = "                        REMINDER(s) for the next 3 days                         %s%s%s%s";
 const std::string UserMessage::MESSAGE_FREE = " you have no upcoming tasks due the next 3 days :)";
 
-const std::string UserMessage::MESSAGE_ADD = " added to %s: \"%s\" %s";
+const std::string UserMessage::MESSAGE_ADD = " added to %s:%s%s";
 const std::string UserMessage::MESSAGE_DISPLAY = "%s%s%s%s";
 const std::string UserMessage::MESSAGE_CLEAR = " all content deleted from %s";
 const std::string UserMessage::MESSAGE_EDIT = " %s has been changed accordingly";
 const std::string UserMessage::MESSAGE_SORT = " %s has been sorted";
-const std::string UserMessage::MESSAGE_SEARCH = " results for searching in %s: \" %s\" %s";
-const std::string UserMessage::MESSAGE_DELETE = " deleted from %s: \"%s\"%s";
-const std::string UserMessage::MESSAGE_UNDO = " undid previous change for %s: [%s]";
-const std::string UserMessage::MESSAGE_REDO = " redid undo for %s: [%s]";
+const std::string UserMessage::MESSAGE_SEARCH = " results for searching in %s:%s%s";
+const std::string UserMessage::MESSAGE_DELETE = " deleted from %s:%s%s";
+const std::string UserMessage::MESSAGE_UNDO = " undid previous change for %s:%s";
+const std::string UserMessage::MESSAGE_REDO = " redid undo for %s:%s";
 const std::string UserMessage::MESSAGE_DO_NOTHING = "";
 const std::string UserMessage::MESSAGE_CLOSE_FILE = " %s saved at %s. Listful bids you farewell";
 const std::string UserMessage::ERROR_COMMAND = " invalid command";
@@ -33,12 +33,12 @@ const std::string UserMessage::ERROR_ADD = " invalid input";
 const std::string UserMessage::ERROR_DISPLAY = " %s is already empty";
 const std::string UserMessage::ERROR_CLEAR = " %s is already empty";
 const std::string UserMessage::ERROR_EDIT = " entry to edit not found";
-const std::string UserMessage::ERROR_SORT = " %s does not contain the category specified: \"%s\"";
+const std::string UserMessage::ERROR_SORT = " %s does not contain the category specified: %s";
 const std::string UserMessage::ERROR_SEARCH = " keyword cannot be found in %s";
 const std::string UserMessage::ERROR_UNDO = " no previous changes to undo";
 const std::string UserMessage::ERROR_REDO = " no previous undo to redo";
 const std::string UserMessage::ERROR_DELETE = " entry to delete not found";
-const std::string UserMessage::ERROR_DELETE_2 = " multiple entries found, please select one (or more) to delete by its index      ";
+const std::string UserMessage::ERROR_DELETE_2 = " multiple entries found, please select one (or more) to delete by its index";
 
 const std::string UserMessage::ERROR_ADD_DATE = " date entered has already past (undo/edit adviced)";
 const std::string UserMessage::ERROR_ADD_TIME = " end time entered earlier then start time (undo/edit adviced)";
