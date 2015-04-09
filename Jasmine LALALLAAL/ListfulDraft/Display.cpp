@@ -1,3 +1,4 @@
+//@author A0110670W
 #include "Display.h"
 
 const int Display::FLOAT_SUB_SIZE = 44;

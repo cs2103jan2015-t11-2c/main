@@ -1,3 +1,4 @@
+//@author A0116237L
 #include "Delete.h"
 
 bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {

@@ -1,3 +1,4 @@
+//@author A0115871E
 #include "Timing.h"
 
 Timing::Timing() {

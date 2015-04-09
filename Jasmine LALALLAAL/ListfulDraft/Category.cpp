@@ -1,3 +1,4 @@
+//@author A0110670W
 #include "Category.h"
 
 //Identifies category from the input and cuts them out from the string

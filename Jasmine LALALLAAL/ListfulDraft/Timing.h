@@ -1,3 +1,4 @@
+//@author A0115871E
 #ifndef TIME_H
 #define TIME_H
 

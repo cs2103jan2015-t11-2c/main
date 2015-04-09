@@ -1,3 +1,4 @@
+//@author A0115871E
 #ifndef ENTRY_H
 #define ENTRY_H
 
