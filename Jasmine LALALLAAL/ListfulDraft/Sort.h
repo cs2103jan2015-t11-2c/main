@@ -25,8 +25,6 @@ public:
 	bool compareWord(std::string &, std::string &, std::string &);
 	bool convertAndCmp(std::string, std::string, int, char &);
 	
-	void sortComplete(DataStore &);
-
 	void sortDate(DataStore &);
 	void sortTime(DataStore &);
 	void sortCat(DataStore &);

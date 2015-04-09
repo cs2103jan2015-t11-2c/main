@@ -1,57 +1,7 @@
 #include "Edit.h"
 
-bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
-	for (int j = 0; j < list.size(); j++) {
-		if (list[j] == index) {
-			data.get_tempEntry().subject = " repeated index to check complete found\n";
-			return true;
-		}
-	}
-	return false;
-}
-
-bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
-	size_t found = info.find_first_of(" ");
-	int index = 0;
-	Sort sort;
-	std::vector <int> checkList;
-	Display show;
-
-	while (!info.empty()) {
-		if (found == std::string::npos) {
-			found = info.size();
-		}
-		index = atoi(info.substr(0, found).c_str());
-		if (index > data.getData().size()) {
-			data.get_tempEntry().subject = " index out of range\n";
-			return false;
-		}
-		else if (!checkList.empty()) {
-			if (isRepeat(data, checkList, index)) {
-				return false;
-			}
-		}
-		data.get_tempEntry().subject = data.getData()[index - 1].subject;
-		data.getData()[index - 1].isComplete = true;
-		if (found == info.size()) {
-			info.clear();
-			break;
-		}
-		info = info.substr(found + 1);
-		found = info.find_first_of(" ");
-		checkList.push_back(index);
-	}
-	sort.sortComplete(data);
-	data.clearData(floating, scheduled, deadline);
-	show.getComplete(data, floating, scheduled, deadline);
-	return true;
-}
-
 bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline){
-	if (data.getData().size() == 0) {
-		errMsg << "file is empty";
-	}
-	else if (index > data.getData().size()) {
+	if (data.getData().size() == 0 || index > data.getData().size()) {
 		errMsg << "index entered is invalid";
 		return false;
 	}
@@ -66,7 +16,9 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 	switch (_category) {
 		case 0:
 			errMsg << " \"" << data.getData()[index].subject << "\" to \"" << data.get_tempEntry().subject << "\"";
-			data.getData()[index].subject = data.get_tempEntry().subject;
+			data.getData()[index].subject= data.get_tempEntry().subject;
+			show.getChange(data, floating, scheduled, deadline);
+			data.get_tempEntry().subject = errMsg.str();
 			break;
 
 		case 1:
@@ -75,7 +27,7 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 			editDate(data, index);
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
 			data.get_tempEntry().subject = errMsg.str();
-			return true;
+			break;
 		
 		case 2:
 			data.getTempData().push_back(data.get_tempEntry());
@@ -83,24 +35,26 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 			editTime(data, index);
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
 			data.get_tempEntry().subject = errMsg.str();
-			return true;
+			break;
 		    
 		case 3:
 			errMsg << " \"" << data.getData()[index].priority << "\" to \"" << data.get_tempEntry().priority << "\"";
 			data.getData()[index].priority = data.get_tempEntry().priority;
+			show.getChange(data, floating, scheduled, deadline);
+			data.get_tempEntry().subject = errMsg.str();
 			break;
 			
 		case 4:
 			errMsg << " \"" << data.getData()[index].category << "\" to \"" << data.get_tempEntry().category << "\"";
 			data.getData()[index].category = data.get_tempEntry().category;
+			show.getChange(data, floating, scheduled, deadline);
+			data.get_tempEntry().subject = errMsg.str();
 			break;
 
 		default:
+			errMsg << "category entered is invalid";
 			return false;
 	}
-	data.get_tempEntry() = data.getData()[index];
-	show.getChange(data, floating, scheduled, deadline);
-	data.get_tempEntry().subject = errMsg.str();
 	return true;
 }
 

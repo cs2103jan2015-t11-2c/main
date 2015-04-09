@@ -23,16 +23,15 @@ class UserInterface {
 		void runProgram();
 		void clearData(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void readFileName(std::string &, UserMessage);
-		void showReminder(DataStore, Classes &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage);
-		void showOver(DataStore, Classes &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage);
-		std::string getOutputToUser(int, DataStore &, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool, bool, Classes);
+		void showReminder(DataStore, Classes &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool);
+		std::string getOutputToUser(int, DataStore &, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool);
 		void determineOutput(DataStore &, std::string, int);
-		void startUpScreen(DataStore &, Classes &, FileLocation &, ParserFacade &, std::string &, std::string &, UserMessage , std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool, bool);
+		void startUpScreen(DataStore &, Classes &, FileLocation &, ParserFacade &, std::string &, std::string &, UserMessage , std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool);
 		void extractFileName(std::string &, std::string &, FileLocation &);
 		std::string getPath();
 		std::string quoteOfTheDay(UserMessage);
 		std::string getCurrent(UserMessage, int = 0);
-		void outputCommand(UserMessage, Classes);
+		void outputCommand(UserMessage);
 		void homeScreen(UserMessage, Classes &, std::string);
 };
 

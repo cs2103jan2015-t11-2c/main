@@ -119,19 +119,6 @@ void Sort::sortDate(DataStore &data) {
 	return;
 }
 
-void Sort::sortComplete(DataStore &data) {
-	for (int iter = 1; iter < data.getData().size(); ++iter) {
-		for (int start = 0; start < iter; ++start) {
-			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
-				if (data.getData()[start].isComplete && !data.getData()[iter].isComplete) {
-					sortSwitch(iter, start, data);
-				}
-			}
-		}
-	}
-	return;
-}
-
 void Sort::sortTime(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {

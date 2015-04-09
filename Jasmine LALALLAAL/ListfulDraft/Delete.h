@@ -13,8 +13,6 @@ class Delete {
 public:
 	Delete() {};
 
-	void remove(DataStore &, std::vector <std::string>);
-	bool isRepeat(std::vector <int>, int, std::ostringstream &);
 	bool deleteContent(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);
 	bool deleteByIndex(DataStore &, std::string, std::ostringstream &,std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	bool deleteBySubject(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);

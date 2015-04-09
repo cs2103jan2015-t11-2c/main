@@ -67,7 +67,6 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			break;
 
 		case listClass.DISPLAY:
-			_parse.changeToLower(_information);
 			if (_information == "") {
 				if (listClass.display.getDisplay(data, floating, scheduled, deadline)) {
 					return listClass.commandType::DISPLAY;
@@ -75,10 +74,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 				return (listClass.commandType::DISPLAY + 12);
 			}
 			else {
-				if (!listClass.display.displayContent(data, _information, floating, scheduled, deadline)) {
-					return (listClass.commandType::DISPLAY + 12);
-				}
-				return listClass.commandType::DISPLAY;
+
 			}
 
 		case listClass.CLEAR:
@@ -93,13 +89,8 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 		case listClass.EDIT: 
 			str = _information;
 			_parse.separateWord(listClass, data, pastDate, checkTime);
-			if (!_parse.getEditDelete(data, listClass, index, listClass.edit.getCat(), str, errMsg)) {
-				if (listClass.edit.checkComplete(data, _information, floating, scheduled, deadline)) {
-					returnValue = (listClass.commandType::EDIT + 19);
-				}
-				else {
-					returnValue = (listClass.commandType::EDIT + 12);
-				}
+			if (!_parse.getEditDelete(data, listClass, index, listClass.edit.getCat(), str)) {
+				returnValue = listClass.commandType::INVALID;
 			}
 			else {
 				if (listClass.edit.editContent(data, index - 1, errMsg, floating, scheduled, deadline)) {
@@ -133,20 +124,16 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			return (listClass.commandType::UNDO + 12);
 
 		case listClass.SEARCH: {
-			size_t found = _information.find_first_of(" ");
-			if (found == std::string::npos) {
-				found = _information.size();
-			}
 			std::string command, keyword;
-			command = _information.substr(0, found);
-			keyword = _information.substr(found + 1);
-			_parse.removeBackChar(keyword);
-			_parse.removeFrontChar(keyword);
-			listClass.searchFile.getCat() =  listClass.determineSubCat(command);
+			command = _information.substr(0, _information.find_first_of(" "));
+			keyword = _information.substr(_information.find_first_of(" ")+1);
+			keyword = keyword.substr(0, keyword.find_last_of(" "));
+			_information = command;
+			listClass.searchFile.getCat() =  listClass.determineSubCat(_information);
 			if (listClass.searchFile.searchFile(data, keyword, errMsg, floating, scheduled, deadline)) {
 				returnValue = listClass.commandType::SEARCH;
 			}
-			returnValue = (listClass.commandType::SEARCH + 12);
+			returnValue = (listClass.commandType::SEARCH + 11);
 			}
 			break;
 
@@ -163,7 +150,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 
 		case listClass.EXIT:
 			_isEnd = true;
-			return listClass.commandType::EXIT; 
+			return listClass.commandType::EXIT;
 
 		default:
 			if (_userInput == "") {
