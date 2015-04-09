@@ -8,7 +8,7 @@ void FileLocation::saveFileLocation() {
 	std::string name = "";
 	std::vector <std::string> fileList;
 
-	//To copy the already saved file names so that it will not be overwritten
+	//To copy the saved file names so that it will not be overwritten
 	std::ifstream readFile(FILE_LOCATION_LIST);
 	if (readFile.is_open()) {
 		while (!readFile.eof()) {
@@ -20,7 +20,7 @@ void FileLocation::saveFileLocation() {
 		readFile.close();
 	}
 
-	//Add in the new fileName (location)
+	//Add in new fileName (location)
 	fileList.push_back(_fileName);
 
 	//Update file location list
