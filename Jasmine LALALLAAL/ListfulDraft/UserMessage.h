@@ -20,8 +20,10 @@ private:
 	static const std::string MESSAGE_FILE_OPENED;
 	static const std::string MESSAGE_FILE_CREATED;
 	static const std::string MESSAGE_REMINDER;
+	static const std::string MESSAGE_OVERDUE;
 	static const std::string MESSAGE_FREE;
 	static const std::string MESSAGE_TO_DELETE;
+	static const std::string MESSAGE_NO_OVERDUE;
 
 	static const std::string MESSAGE_ADD;
 	static const std::string MESSAGE_DISPLAY;
@@ -45,6 +47,7 @@ private:
 	static const std::string ERROR_REDO;
 	static const std::string ERROR_DELETE;
 	static const std::string ERROR_DELETE_2;
+	static const std::string MESSAGE_COMPLETE;
 	
 	static const std::string ERROR_ADD_DATE;
 	static const std::string ERROR_ADD_TIME;

@@ -1,19 +1,43 @@
-1. lousyy                                       |           | GENERAL  | no | Priority: LOW
+1. a                                            |           | GENERAL  | no | Priority: LOW
 
-2. lsifh                                        |           | WORK     | no | Priority: LOW
+2. buy AA battery at clementi mall              | 1500      | GENERAL  | no | Priority: LOW
 
-3. hsflhs                                       |           | GENERAL  | no | Priority: LOW
+3. coding WOW                                   |           | PERSONAL | no | Priority: LOW
 
-4. ahhhh                                        |           | GENERAL  | no | Priority: LOW
+4. clean laptop                                 | 1700      | ERRAND   | no | Priority: LOW
 
-5. sgjkfba                                      |           | GENERAL  | no | Priority: LOW
+5. drink more water                             | 0600      | PERSONAL | no | Priority: LOW
 
-6. heyyy                                        | 1600-2000 | GENERAL  | no | Priority: LOW
+6. heyyyy                                       |           | WORK     | no | Priority: LOW
 
-7. afh                                          | 1700-1900 | GENERAL  | no | Priority: LOW
+7. hello                                        |           | GENERAL  | no | Priority: LOW
 
-8. kjfh                                         | 2200      | WORK     | no | Priority: LOW
+8. jassss                                       |           | GENERAL  | no | Priority: LOW
 
-9. heyyy                           | 08/04/2015 |           | WORK     | no | Priority: LOW
+9. wkrhg ;wkjgw ;;wrly\j e;s jrth sldrglehw lsekhy  jhd hjt;kjet th |           | GENERAL  | no | Priority: LOW
 
-10. hehehe                         | 03/11/2015 | 2000      | GENERAL  | no | Priority: HIGH
+10. last lastttt                                | 1000-0000 | GENERAL  | no | Priority: LOW
+
+11. lunch with friends             | 10/04/2015 | 1300-1500 | GENERAL  | no | Priority: LOW
+
+12. lkwehf leefjewlrgk ehlrg ehwlg wegl;kje g;lrk gw | 09/09/2015 | 1300-1500 | GENERAL  | no | Priority: LOW
+
+13. shui jiao liaooo               | 09/04/2015 | 1000-1600 | PERSONAL | no | Priority: LOW
+
+14. study at UT                    | 10/04/2015 | 1500-2200 | WORK     | no | Priority: LOW
+
+15. IE2130 last lecture            | 09/04/2015 | 1400-1600 | WORK     | yes | Priority: LOW
+
+16. drinking                       | 02/02/2015 |           | GENERAL  | no | Priority: LOW
+
+17. shake leg                      | 02/01/2015 |           | GENERAL  | no | Priority: LOW
+
+18. HW                             | 09/04/2015 | 1700      | WORK     | no | Priority: LOW
+
+19. my eyes wanna close already but still got so many things to do | 09/04/2015 | 0800      | GENERAL  | no | Priority: LOW
+
+20. stayover at YY de room         | 08/04/2015 |           | GENERAL  | no | Priority: LOW
+
+21. wash hair                      | 13/04/2015 |           | ERRAND   | no | Priority: LOW
+
+22. yawnnn got tut at Com          | 09/04/2015 | 1100      | GENERAL  | no | Priority: LOW

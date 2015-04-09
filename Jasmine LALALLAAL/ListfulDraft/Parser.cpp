@@ -9,6 +9,7 @@ void Parser::init(std::string info) {
 	extraFront.push_back("at");
 	extraFront.push_back("to");
 	extraFront.push_back("before");
+	extraFront.push_back("for");
 	extraFront.push_back("till");
 	extraFront.push_back("after");
 	extraFront.push_back("the");
@@ -20,6 +21,7 @@ void Parser::init(std::string info) {
 	extraFront2.push_back("by"); 
 	extraFront2.push_back("on");
 	extraFront2.push_back("at");
+	extraFront2.push_back("also");
 	extraFront2.push_back("to");
 	extraFront2.push_back("before");
 	extraFront2.push_back("till");
@@ -59,6 +61,8 @@ void Parser::init(std::string info) {
 	deadlineWord.push_back(" before ");
 
 	_information = info;
+	removeFrontChar(_information);
+	removeBackChar(_information);
 	return;
 }
 
@@ -79,8 +83,9 @@ bool Parser::getIndex(DataStore &data, int &index) {
 	return true;
 }
 
-bool Parser::getEditDelete(DataStore &data, Classes listClass, int &index, int &cat, std::string str) {
+bool Parser::getEditDelete(DataStore &data, Classes listClass, int &index, int &cat, std::string str, std::ostringstream &errMsg) {
 	if (!getIndex(data, index)) {
+		errMsg << "no index found";
 		return false;
 	}
 	std::string word = "";
@@ -90,6 +95,7 @@ bool Parser::getEditDelete(DataStore &data, Classes listClass, int &index, int &
 	while (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
 		found = str.find_first_not_of(" ", found2);
 		if (found == std::string::npos) {
+			errMsg << "no valid category found";
 			return false;
 		}
 		found2 = str.find_first_of(" ", found);
@@ -97,11 +103,9 @@ bool Parser::getEditDelete(DataStore &data, Classes listClass, int &index, int &
 			found2 = str.size();
 		}
 		word = str.substr(found, found2 - found);
+		changeToLower(word);
 	}
 
-	if (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
-		return false;
-	}
 	found = data.get_tempEntry().subject.find(word);
 	if (found != std::string::npos) {
 		data.get_tempEntry().subject = data.get_tempEntry().subject.substr(0, found) + data.get_tempEntry().subject.substr(found + word.size());

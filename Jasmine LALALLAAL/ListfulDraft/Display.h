@@ -13,8 +13,16 @@ private:
 public:
 	Display() {};
 	
-	void getChange(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+	bool displayContent(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+	
+	void getFloat(DataStore &, std::ostringstream &);
+	void getScheduled(DataStore &, std::ostringstream &);
+	void getDeadline(DataStore &, std::ostringstream &);
+	void getComplete(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+	void getOverDue(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	void getToday(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+	void getTmr(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+	void getChange(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	void getTempDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	void getReminder(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	bool getDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);

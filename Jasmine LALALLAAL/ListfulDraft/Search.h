@@ -8,7 +8,7 @@
 class Search {
 private:
 	enum subCategory {
-			DATE, SUBJECT, TIME, PRIORITY, CATEGORY, INVALIDCAT
+			SUBJECT, DATE, TIME, PRIORITY, CATEGORY, INVALIDCAT
 	};
 
 	int _category;
@@ -18,8 +18,7 @@ public:
 
 	bool searchFile(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	bool foundSubject(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, Add &, Display &);
-	bool foundCategory(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, Add &, Display &);
-	bool foundPriority(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &,  Add &, Display &);
+	bool foundCatPriority(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &,  Add &, Display &);
 	bool foundDate(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, Add &, Display &);
 	bool foundTime(DataStore &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &,  Add &, Display &);
 	

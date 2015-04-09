@@ -1,19 +1,19 @@
 #include "Classes.h"
 
 int Classes::determineCommand(std::string _userInput) {
-	if (_userInput == "add" || _userInput == "1" || _userInput == "addto") {
+	if (_userInput == "add" || _userInput == "1" || _userInput == "addto" || _userInput == "a") {
 		return commandType::ADD;
 	}
 	else if (_userInput == "display" || _userInput == "2" || _userInput == "show") {
 		return commandType::DISPLAY;
 	}
-	else if (_userInput == "delete" || _userInput == "3" || _userInput == "remove") {
+	else if (_userInput == "delete" || _userInput == "3" || _userInput == "remove" || _userInput == "del") {
 		return commandType::REMOVE;
 	}
-	else if (_userInput == "clear" || _userInput == "4" || _userInput == "reset") {
+	else if (_userInput == "clear" || _userInput == "4" || _userInput == "reset" || _userInput == "clr" || _userInput == "addto") {
 		return commandType::CLEAR;
 	}
-	else if (_userInput == "edit" || _userInput == "5" || _userInput == "append") {
+	else if (_userInput == "edit" || _userInput == "5" || _userInput == "append" || _userInput == "check" || _userInput == "done" || _userInput == "complete" || _userInput == "completed") {
 		return commandType::EDIT;
 	}
 	else if (_userInput == "sort" || _userInput == "6") {
@@ -25,10 +25,10 @@ int Classes::determineCommand(std::string _userInput) {
 	else if (_userInput == "exit" || _userInput == "8") {
 		return commandType::EXIT;
 	}
-	else if (_userInput == "undo") {
+	else if (_userInput == "undo" || _userInput == "back") {
 		return commandType::UNDO;
 	}
-	else if (_userInput == "redo") {
+	else if (_userInput == "redo" || _userInput == "front" || _userInput == "forward") {
 		return commandType::REDO;
 	}
 	else {

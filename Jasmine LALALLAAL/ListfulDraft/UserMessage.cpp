@@ -15,6 +15,8 @@ const std::string UserMessage::CURRENT_TIME = "                                 
 const std::string UserMessage::MESSAGE_FILE_CREATED = " loading... new %s created and ready for use";
 const std::string UserMessage::MESSAGE_FILE_OPENED = " loading... %s is open and ready for use";
 const std::string UserMessage::MESSAGE_REMINDER = "                        REMINDER(s) for the next 3 days                         %s%s%s%s";
+const std::string UserMessage::MESSAGE_OVERDUE = "                                    OVERDUE                                     %s%s%s%s";
+const std::string UserMessage::MESSAGE_NO_OVERDUE = " you have no overdue tasks ^^";
 const std::string UserMessage::MESSAGE_FREE = " you have no upcoming tasks due the next 3 days :)";
 
 const std::string UserMessage::MESSAGE_ADD = " added to %s: \"%s\"%s%s";
@@ -30,15 +32,16 @@ const std::string UserMessage::MESSAGE_DO_NOTHING = "";
 const std::string UserMessage::MESSAGE_CLOSE_FILE = " %s saved at%sListful bids you farewell...";
 const std::string UserMessage::ERROR_COMMAND = " invalid command entered";
 const std::string UserMessage::ERROR_ADD = " invalid input entered (no subject found)";
-const std::string UserMessage::ERROR_DISPLAY = " %s is empty and has nothing to display";
+const std::string UserMessage::ERROR_DISPLAY = " %s is unable to display (empty)";
 const std::string UserMessage::ERROR_CLEAR = " %s is already empty with no tasks to clear";
 const std::string UserMessage::ERROR_EDIT = " entry to edit is not found in %s (%s)";
 const std::string UserMessage::ERROR_SORT = " %s does not contain the category specified: %s";
-const std::string UserMessage::ERROR_SEARCH = " keyword cannot be found in %s";
+const std::string UserMessage::ERROR_SEARCH = " search in %s failed (%s)";
 const std::string UserMessage::ERROR_UNDO = " no previous changes to undo";
 const std::string UserMessage::ERROR_REDO = " no previous undo to redo";
-const std::string UserMessage::ERROR_DELETE = " invalid index entered";
+const std::string UserMessage::ERROR_DELETE = " entry to delete not found in %s (%s)";
 const std::string UserMessage::ERROR_DELETE_2 = " multiple entries found, please select one (or more) to delete by its index";
+const std::string UserMessage::MESSAGE_COMPLETE = " updating.. %s%s%s%s";
 
 const std::string UserMessage::ERROR_ADD_DATE = " date entered has already past (undo/edit adviced)";
 const std::string UserMessage::ERROR_ADD_TIME = " end time entered earlier then start time (undo/edit adviced)";
@@ -66,6 +69,7 @@ UserMessage::UserMessage() {
 	_commandMsg.push_back(ERROR_UNDO);
 	_commandMsg.push_back(ERROR_REDO);
 	_commandMsg.push_back(ERROR_DELETE_2);
+	_commandMsg.push_back(MESSAGE_COMPLETE);
 											
 	_progMsg.push_back(MESSAGE_COMMAND_LIST);	
 	_progMsg.push_back(MESSAGE_LINE);				
@@ -83,6 +87,8 @@ UserMessage::UserMessage() {
 	_fileMsg.push_back(MESSAGE_FILE_CREATED);
 	_fileMsg.push_back(MESSAGE_REMINDER);
 	_fileMsg.push_back(MESSAGE_FREE);
+	_fileMsg.push_back(MESSAGE_OVERDUE);
+	_fileMsg.push_back(MESSAGE_NO_OVERDUE);
 
 	_quotes.push_back("Mistakes are proof that you are trying.");
 	_quotes.push_back("Be kind, for everyone you meet is fighting a harder battle.");
