@@ -1,0 +1,55 @@
+1. FUNRUN                                       |           | PERSONAL | no | Priority: LOW
+
+2. meeting                                      |           | GENERAL  | no | Priority: LOW
+
+3. buy AA battery at clementi mall              | 1500      | GENERAL  | no | Priority: LOW
+
+4. coding WOW                                   |           | PERSONAL | no | Priority: LOW
+
+5. clean laptop                                 | 1700      | ERRAND   | no | Priority: LOW
+
+6. drink more water                             | 0600      | PERSONAL | no | Priority: LOW
+
+7. heyyyy                                       |           | WORK     | no | Priority: LOW
+
+8. hello                                        |           | GENERAL  | no | Priority: LOW
+
+9. jassss                                       |           | GENERAL  | no | Priority: LOW
+
+10. wkrhg ;wkjgw ;;wrly\j e;s jrth sldrglehw lsekhy  jhd hjt;kjet th |           | GENERAL  | no | Priority: LOW
+
+11. a                                           |           | GENERAL  | yes | Priority: LOW
+
+12. last lastttt                                | 1000-0000 | GENERAL  | no | Priority: LOW
+
+13. shake leg                      | 02/01/2015 | 1600-2000 | GENERAL  | no | Priority: LOW
+
+14. shui jiao liaooo               | 09/04/2015 | 1000-1600 | PERSONAL | no | Priority: LOW
+
+15. lunch with friends             | 10/04/2015 | 1300-1500 | GENERAL  | no | Priority: LOW
+
+16. study at UT                    | 10/04/2015 | 1500-2200 | WORK     | no | Priority: LOW
+
+17. lkwehf leefjewlrgk ehlrg ehwlg wegl;kje g;lrk gw | 09/09/2015 | 1300-1500 | GENERAL  | no | Priority: LOW
+
+18. IE2130 last lecture            | 09/04/2015 | 1400-1600 | WORK     | yes | Priority: LOW
+
+19. drg                                         |           | GENERAL  | no | Priority: LOW
+
+20. drgundo                                     |           | GENERAL  | no | Priority: LOW
+
+21. drinking                       | 02/02/2015 |           | GENERAL  | no | Priority: LOW
+
+22. stayover at YY de room         | 08/04/2015 |           | GENERAL  | no | Priority: LOW
+
+23. HW                             | 09/04/2015 | 1700      | WORK     | no | Priority: LOW
+
+24. my eyes wanna close already but still got so many things to do | 09/04/2015 | 0800      | GENERAL  | no | Priority: LOW
+
+25. yawnnn got tut at Com          | 09/04/2015 | 1100      | GENERAL  | no | Priority: LOW
+
+26. meet Ger                       | 10/04/2015 | 1700      | PERSONAL | no | Priority: LOW
+
+27. wash hair                      | 13/04/2015 |           | ERRAND   | no | Priority: LOW
+
+28. v.05                           | 13/04/2015 | 2359      | WORK     | no | Priority: LOW
