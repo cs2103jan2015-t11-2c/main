@@ -6,16 +6,25 @@ void SetColour(int value){
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
 }
 
-int main(){
-	SetColour(30);
+int main(){//31 46 55 62 71 79
+	SetColour(46);
 	cout << "Hello World" << endl;
 	system("PAUSE");
-	SetColour(12);
+	SetColour(31);
 	cout << "Hello World" << endl;
 	system("PAUSE");
-	SetColour(11);
+	SetColour(55);
 	cout << "Hello World" << endl;
-	SetColour(15);		//need to set back to white after desire word otherwise everything will be that colour later on
+	system("PAUSE");
+	SetColour(62);
+	cout << "Hello World" << endl;
+	system("PAUSE");
+	SetColour(71);
+	cout << "Hello World" << endl;
+	system("PAUSE");
+	SetColour(79);
+	cout << "Hello World" << endl;
+	system("PAUSE");		//need to set back to white after desire word otherwise everything will be that colour later on
 
 	
 	return 0;
