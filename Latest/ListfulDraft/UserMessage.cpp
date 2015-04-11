@@ -1,14 +1,14 @@
 #include "UserMessage.h"
 
-const std::string UserMessage::MESSAGE_COMMAND_LIST = "  1)Add   2)Display   3)Delete   4)Clear   5)Edit   6)Sort   7)Search   8)Exit  ";
+const std::string UserMessage::MESSAGE_COMMAND_LIST = "     1)Add    2)Search    3)Delete    4)Clear    5)Edit    6)Sort    8)Exit     ";
 const std::string UserMessage::MESSAGE_LINE = " ------------------------------------------------------------------------------ ";
 const std::string UserMessage::MESSAGE_STAR = "********************************************************************************";
 const std::string UserMessage::MESSAGE_WELCOME = "                           *** Listful %s ***                           ";
-const std::string UserMessage::MESSAGE_LOGIN = " ~ For help, enter [?] to display the above list of commands available             NOTE: you can [undo] and [redo] actions as well                              ";
+const std::string UserMessage::MESSAGE_LOGIN = " ~ For help, enter [?] to search the above list of commands available             NOTE: you can [undo] and [redo] actions as well                              ";
 const std::string UserMessage::MESSAGE_LOGIN2 = " Please enter a file name (and location to save your file if you wish)           -> ";
-const std::string UserMessage::MESSAGE_DISPLAY_FLOATING = "  TO DO(s)                                       | Time      | Category | Done   ================================================|===========|==========|====== ";
-const std::string UserMessage::MESSAGE_DISPLAY_SCHEDULE = "  SCHEDULED TASK(s)                 | Date       | Time      | Category | Done   ===================================|============|===========|==========|====== ";
-const std::string UserMessage::MESSAGE_DISPLAY_DEADLINE = "  DEADLINE TASK(s)                  | Date       | Time      | Category | Done   ===================================|============|===========|==========|====== ";
+const std::string UserMessage::MESSAGE_DISPLAY_FLOATING = "  TO DO(s)                                       | Time      | Category |        ================================================|===========|==========|====== ";
+const std::string UserMessage::MESSAGE_DISPLAY_SCHEDULE = "  SCHEDULED TASK(s)                 | Date       | Time      | Category |        ===================================|============|===========|==========|====== ";
+const std::string UserMessage::MESSAGE_DISPLAY_DEADLINE = "  DEADLINE TASK(s)                  | Date       | Time      | Category |        ===================================|============|===========|==========|====== ";
 
 const std::string UserMessage::CURRENT_TIME = "                                                                      [ %s ] ";
 
@@ -20,11 +20,10 @@ const std::string UserMessage::MESSAGE_NO_OVERDUE = " you have no overdue tasks 
 const std::string UserMessage::MESSAGE_FREE = " you have no upcoming tasks due the next 3 days :)";
 
 const std::string UserMessage::MESSAGE_ADD = " added to %s: [%s]%s%s";
-const std::string UserMessage::MESSAGE_DISPLAY = "%s%s%s%s";
+const std::string UserMessage::MESSAGE_SEARCH = "%s%s%s%s";
 const std::string UserMessage::MESSAGE_CLEAR = " all content deleted from %s";
 const std::string UserMessage::MESSAGE_EDIT = " changed %s: task [%s] from %s%s";
 const std::string UserMessage::MESSAGE_SORT = " %s has been sorted";
-const std::string UserMessage::MESSAGE_SEARCH = " results for searching in %s: [%s]%s%s";
 const std::string UserMessage::MESSAGE_DELETE = " task(s) deleted from %s:%s%s%s";
 const std::string UserMessage::MESSAGE_COMPLETE = " updating %s.. %s%s%s";
 const std::string UserMessage::MESSAGE_UNDO = " undid previous change for %s:%s%s%s";
@@ -33,11 +32,10 @@ const std::string UserMessage::MESSAGE_DO_NOTHING = "";
 const std::string UserMessage::MESSAGE_CLOSE_FILE = " %s saved at%sListful bids you farewell...";
 const std::string UserMessage::ERROR_COMMAND = " invalid command entered";
 const std::string UserMessage::ERROR_ADD = " invalid input entered (no subject found)";
-const std::string UserMessage::ERROR_DISPLAY = " %s is unable to display (%s)";
+const std::string UserMessage::ERROR_SEARCH = " %s is unable to search (%s)";
 const std::string UserMessage::ERROR_CLEAR = " %s is already empty with no tasks to clear";
 const std::string UserMessage::ERROR_EDIT = " %s cannot be edited (%s)";
 const std::string UserMessage::ERROR_SORT = " %s does not contain the category specified: %s";
-const std::string UserMessage::ERROR_SEARCH = " search in %s failed (%s)";
 const std::string UserMessage::ERROR_UNDO = " no previous changes to undo";
 const std::string UserMessage::ERROR_REDO = " no previous undo to redo";
 const std::string UserMessage::ERROR_DELETE = " entry to delete not found in %s (%s)";
@@ -48,11 +46,10 @@ const std::string UserMessage::ERROR_ADD_TIME = " end time entered earlier then 
 
 UserMessage::UserMessage() {
 	_commandMsg.push_back(MESSAGE_ADD);
-	_commandMsg.push_back(MESSAGE_DISPLAY);
+	_commandMsg.push_back(MESSAGE_SEARCH);
 	_commandMsg.push_back(MESSAGE_CLEAR);
 	_commandMsg.push_back(MESSAGE_EDIT);
 	_commandMsg.push_back(MESSAGE_SORT);
-	_commandMsg.push_back(MESSAGE_SEARCH);
 	_commandMsg.push_back(MESSAGE_DELETE);
 	_commandMsg.push_back(MESSAGE_COMPLETE);
 	_commandMsg.push_back(MESSAGE_UNDO);
@@ -61,11 +58,10 @@ UserMessage::UserMessage() {
 	_commandMsg.push_back(MESSAGE_DO_NOTHING);
 	_commandMsg.push_back(MESSAGE_CLOSE_FILE);
 	_commandMsg.push_back(ERROR_ADD);
-	_commandMsg.push_back(ERROR_DISPLAY);
+	_commandMsg.push_back(ERROR_SEARCH);
 	_commandMsg.push_back(ERROR_CLEAR);
 	_commandMsg.push_back(ERROR_EDIT);
 	_commandMsg.push_back(ERROR_SORT);
-	_commandMsg.push_back(ERROR_SEARCH);
 	_commandMsg.push_back(ERROR_DELETE);
 	_commandMsg.push_back(ERROR_UNDO);
 	_commandMsg.push_back(ERROR_REDO);

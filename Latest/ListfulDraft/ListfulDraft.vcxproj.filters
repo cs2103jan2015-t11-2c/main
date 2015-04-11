@@ -63,13 +63,10 @@
     <ClInclude Include="Edit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Search.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Display.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ParserFacade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Search.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,16 +116,13 @@
     <ClCompile Include="Edit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Search.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Classes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Display.cpp">
+    <ClCompile Include="ParserFacade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ParserFacade.cpp">
+    <ClCompile Include="Search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

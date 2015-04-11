@@ -56,46 +56,46 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 				returnValue = listClass.commandType::ADD;
 			}
 			else {
-				returnValue = (listClass.commandType::ADD + 13);
+				returnValue = (listClass.commandType::ADD + 12);
 			}
 			break;
 
-		case listClass.DISPLAY:
+		case listClass.SEARCH:
 			_parse.changeToLower(_information);
 			if (_information == "") {
-				if (listClass.display.getDisplay(data, errMsg, floating, scheduled, deadline)) {
-					return listClass.commandType::DISPLAY;
+				if (listClass.search.getDisplay(data, errMsg, floating, scheduled, deadline)) {
+					return listClass.commandType::SEARCH;
 				}
-				return (listClass.commandType::DISPLAY + 13);
+				return (listClass.commandType::SEARCH + 12);
 			}
 			else {
-				if (!listClass.display.displayContent(data, _information, errMsg, floating, scheduled, deadline)) {
+				if (!listClass.search.displayContent(data, _information, errMsg, floating, scheduled, deadline)) {
 					_parse.separateWord(listClass, data, pastDate, checkTime);
 					if (_parse.getTime() && _parse.getDate()) {
-						listClass.display.getTime(data, floating, scheduled, deadline);
+						listClass.search.getTime(data, floating, scheduled, deadline);
 					}
 					else if (_parse.getTime()) {
-						listClass.display.getFloat(data, floating);
+						listClass.search.getFloat(data, floating);
 					}
 					
 					else if (_parse.getDate()) {
-						listClass.display.getDay(data, floating, scheduled, deadline);
+						listClass.search.getDay(data, floating, scheduled, deadline);
 					}
 					else if (_parse.getCat()) {
-						listClass.display.getCat(data, floating, scheduled, deadline);
+						listClass.search.getCat(data, floating, scheduled, deadline);
 					}
 					else if (_parse.getPriority()) {
-						listClass.display.getPriority(data, floating, scheduled, deadline);
+						listClass.search.getPriority(data, floating, scheduled, deadline);
 					}
 					else if (_parse.getComplete()) {
-						listClass.display.getComplete(data, floating, scheduled, deadline);
+						listClass.search.getComplete(data, floating, scheduled, deadline);
 					}
 					else {
-						return (listClass.commandType::DISPLAY + 13);
+						return (listClass.commandType::SEARCH + 12);
 					}
-					return listClass.commandType::DISPLAY;
+					return listClass.commandType::SEARCH;
 				}
-				return listClass.commandType::DISPLAY;
+				return listClass.commandType::SEARCH;
 			}
 
 		case listClass.CLEAR:
@@ -103,7 +103,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 				returnValue = listClass.commandType::CLEAR;
 			}
 			else {
-				returnValue = (listClass.commandType::CLEAR + 13);
+				returnValue = (listClass.commandType::CLEAR + 12);
 			}
 			break;
 
@@ -112,10 +112,10 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			_parse.separateWord(listClass, data, pastDate, checkTime);
 			if (!_parse.getEditDelete(data, listClass, index, listClass.edit.getCat(), str, errMsg)) {
 				if (listClass.edit.checkComplete(data, _information, errMsg, floating, scheduled, deadline, _userInput)) {
-					returnValue = (listClass.commandType::EDIT + 4);
+					returnValue = (listClass.commandType::EDIT + 3);
 				}
 				else {
-					returnValue = (listClass.commandType::EDIT + 13);
+					returnValue = (listClass.commandType::EDIT + 12);
 				}
 			}
 			else {
@@ -123,7 +123,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 					returnValue = listClass.commandType::EDIT;
 				}
 				else {
-					returnValue = (listClass.commandType::EDIT + 13);
+					returnValue = (listClass.commandType::EDIT + 12);
 				}
 			}
 			break;
@@ -142,35 +142,17 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 
 		case listClass.REDO:
 			if (data.redoData(data, errMsg)) {
-				listClass.display.getTempDisplay(data, floating, scheduled, deadline);
+				listClass.search.getTempDisplay(data, floating, scheduled, deadline);
 				return listClass.commandType::REDO;
 			}
 			return (listClass.commandType::REDO + 12);
 
 		case listClass.UNDO:
 			if (data.undoData(data, errMsg)) {
-				listClass.display.getTempDisplay(data, floating, scheduled, deadline);
+				listClass.search.getTempDisplay(data, floating, scheduled, deadline);
 				return listClass.commandType::UNDO;
 			}
 			return (listClass.commandType::UNDO + 12);
-
-		case listClass.SEARCH: {
-			size_t found = _information.find_first_of(" ");
-			if (found == std::string::npos) {
-				found = _information.size();
-			}
-			std::string command, keyword;
-			command = _information.substr(0, found);
-			keyword = _information.substr(found + 1);
-			_parse.removeBackChar(keyword);
-			_parse.removeFrontChar(keyword);
-			listClass.searchFile.getCat() =  listClass.determineSubCat(command);
-			if (listClass.searchFile.searchFile(data, keyword, errMsg, floating, scheduled, deadline)) {
-				returnValue = listClass.commandType::SEARCH;
-			}
-			returnValue = (listClass.commandType::SEARCH + 13);
-			}
-			break;
 
 		case listClass.SORT:
 			_parse.changeToLower(_information);

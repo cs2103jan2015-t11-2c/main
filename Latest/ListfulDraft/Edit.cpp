@@ -41,7 +41,7 @@ bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstr
 	sort.sortComplete(data);
 	data.clearData(errMsg, floating, scheduled);
 	data.clearData(floating, scheduled, deadline);
-	show.getTempDisplay(data, floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline);
 	return true;
 }
 
@@ -91,7 +91,7 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 	updateTemp(data, checkList);
 	sort.sortComplete(data);
 	data.clearData(floating, scheduled, deadline);
-	show.getTempDisplay(data, floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline);
 	data.get_tempEntry().subject = "completed";
 	return true;
 }
@@ -100,12 +100,11 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 	if (index == -1) {
 		index = 0;
 	}
-
 	if (data.getData().size() == 0 && data.getTempData().size() == 0) {
 		errMsg << "file is empty";
 		return false;
 	}
-	else if (index > data.getData().size() || index > data.getTempData().size()) {
+	else if (index > data.getTempData().size()) {
 		errMsg << "index entered is out of range";
 		return false;
 	}
@@ -122,14 +121,14 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 
 		case 1:
 			data.getTempData().push_back(data.get_tempEntry());
-			errMsg << " \"" << show.getDate(data, data.getTempIndexList()[index], isTemp) << "\" to \"" << show.getDate(data, 0, real) << "\"";
+			errMsg << " \"" << search.getDate(data, data.getTempIndexList()[index], isTemp) << "\" to \"" << search.getDate(data, 0, real) << "\"";
 			editDate(data, data.getTempIndexList()[index]);
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
 			return true;
 		
 		case 2:
 			data.getTempData().push_back(data.get_tempEntry());
-			errMsg << " \"" << show.getTime(data, data.getTempIndexList()[index], isTemp) << "\" to \"" << show.getTime(data, 0, real) << "\"";
+			errMsg << " \"" << search.getTime(data, data.getTempIndexList()[index], isTemp) << "\" to \"" << search.getTime(data, 0, real) << "\"";
 			editTime(data, data.getTempIndexList()[index]);
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
 			return true;
@@ -149,7 +148,7 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 	}
 	data.get_tempEntry() = data.getData()[data.getTempIndexList()[index]];
 	data.clearData(floating, scheduled, deadline);
-	show.getEntry(data, floating, scheduled, deadline);
+	search.getEntry(data, floating, scheduled, deadline);
 	return true;
 }
 

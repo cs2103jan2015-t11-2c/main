@@ -8,7 +8,6 @@
 #include "Category.h"
 #include "Clear.h"
 #include "Delete.h"
-#include "Display.h"
 #include "Edit.h"
 #include "Sort.h"
 #include "Search.h"
@@ -16,7 +15,7 @@
 class Classes {
 	public:
 		enum commandType {
-			ADD, DISPLAY, CLEAR, EDIT, SORT, SEARCH, REMOVE, DO_NOTHING, UNDO, REDO, INVALID, EXIT
+			ADD, SEARCH, CLEAR, EDIT, SORT, REMOVE, DO_NOTHING, UNDO, REDO, INVALID, EXIT
 		};
 
 		enum subCategory {
@@ -33,9 +32,8 @@ class Classes {
 
 		Add add;
 		Delete remove;
-		Display display;
+		Search search;
 		Edit edit;
-		Search searchFile;
 		Sort sortFile;
 		Clear clearFile;
 		Timing time;

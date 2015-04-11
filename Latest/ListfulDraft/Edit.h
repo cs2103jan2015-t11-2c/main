@@ -3,7 +3,7 @@
 
 #include "DataStore.h"
 #include "Add.h"
-#include "Display.h"
+#include "Search.h"
 #include "Sort.h"
 
 class Edit {
@@ -12,7 +12,7 @@ class Edit {
 		Entry _editEntry;
 
 		Add add;
-		Display show;
+		Search search;
 		Sort sort;
 
 	public:

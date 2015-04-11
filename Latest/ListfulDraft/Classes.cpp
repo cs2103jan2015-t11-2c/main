@@ -4,8 +4,8 @@ int Classes::determineCommand(std::string _userInput) {
 	if (_userInput == "add" || _userInput == "1" || _userInput == "addto" || _userInput == "a") {
 		return commandType::ADD;
 	}
-	else if (_userInput == "display" || _userInput == "2" || _userInput == "show") {
-		return commandType::DISPLAY;
+	else if (_userInput == "display" || _userInput == "2" || _userInput == "search" || _userInput == "show" || _userInput == "find") {
+		return commandType::SEARCH;
 	}
 	else if (_userInput == "delete" || _userInput == "3" || _userInput == "remove" || _userInput == "del") {
 		return commandType::REMOVE;
@@ -19,10 +19,7 @@ int Classes::determineCommand(std::string _userInput) {
 	else if (_userInput == "sort" || _userInput == "6") {
 		return commandType::SORT;
 	}
-	else if (_userInput == "search" || _userInput == "7") {
-		return commandType::SEARCH;
-	}
-	else if (_userInput == "exit" || _userInput == "8") {
+	else if (_userInput == "exit" || _userInput == "7") {
 		return commandType::EXIT;
 	}
 	else if (_userInput == "undo" || _userInput == "back") {

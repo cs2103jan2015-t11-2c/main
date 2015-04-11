@@ -6,10 +6,10 @@ bool Priority::extractPriority(int impt, std::string &pStr, size_t found) {
 
 	switch (impt) {
 		case 0:
-			_priority = "LOW";
+			_priority = "LOW ";
 			break;
 		case 1:
-			_priority = "MED";
+			_priority = "MED ";
 			break;
 		case 2:
 			_priority = "HIGH";

@@ -26,11 +26,10 @@ class UserMessage {
 		static const std::string MESSAGE_NO_OVERDUE;
 
 		static const std::string MESSAGE_ADD;
-		static const std::string MESSAGE_DISPLAY;
+		static const std::string MESSAGE_SEARCH;
 		static const std::string MESSAGE_CLEAR;
 		static const std::string MESSAGE_EDIT;
 		static const std::string MESSAGE_SORT;
-		static const std::string MESSAGE_SEARCH;
 		static const std::string MESSAGE_UNDO;
 		static const std::string MESSAGE_REDO;
 		static const std::string MESSAGE_DELETE;
@@ -38,9 +37,8 @@ class UserMessage {
 		static const std::string MESSAGE_DO_NOTHING;
 		static const std::string MESSAGE_CLOSE_FILE;
 		static const std::string ERROR_ADD;
-		static const std::string ERROR_DISPLAY;
-		static const std::string ERROR_CLEAR;
 		static const std::string ERROR_SEARCH;
+		static const std::string ERROR_CLEAR;
 		static const std::string ERROR_EDIT;
 		static const std::string ERROR_SORT;
 		static const std::string ERROR_UNDO;

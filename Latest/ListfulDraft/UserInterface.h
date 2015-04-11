@@ -14,7 +14,7 @@ class UserInterface {
 		char msgToUser[MAX];
 		
 		Classes listClass;
-		ParserFacade parse;
+		ParserFacade parseF;
 		DataStore data;
 		UserMessage outputToUser;
 		FileLocation file;

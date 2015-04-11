@@ -92,7 +92,7 @@ void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 }
 
 void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
-	Display show;
+	Search search;
 	
 	//Empty
 	if (data.getData().empty() && !isTemp) {
@@ -125,7 +125,7 @@ void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &floatin
 	}
 
 	if (!isTemp) {
-		show.getEntry(data, floating, scheduled, deadline);
+		search.getEntry(data, floating, scheduled, deadline);
 	}
 	return;
 }

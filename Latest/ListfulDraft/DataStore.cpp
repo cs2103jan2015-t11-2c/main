@@ -1,14 +1,20 @@
 #include "DataStore.h"
-#include "Display.h"
+#include "Search.h"
 
 //To update the text file in the computer
 void DataStore::updateFile(DataStore &data) {
 	bool updateFile = true;
-	Display display;
+	Search search;
 
 	std::ofstream writeFile(_fileName);
 	for (int index = 0; index != _dataBase.size(); index++) {
-		writeFile << (index + 1) << ". " << display.getDataString(data, index, updateFile) << " | Priority: " << _dataBase[index].priority << "\n\n";
+		writeFile << (index + 1) << ". " << search.getDataString(data, index, updateFile) << " | ";
+		if (_dataBase[index].isComplete) {
+			writeFile << "yes\n\n";
+		}
+		else {
+			writeFile << "no\n\n";
+		}
 	}
 
 	//To create an empty file

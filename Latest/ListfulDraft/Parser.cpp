@@ -100,14 +100,14 @@ bool Parser::getEditDelete(DataStore &data, Classes listClass, int &index, int &
 		word = str.substr(found, found2 - found);
 		changeToLower(word);
 	}
-
-	if (!getIndex(data, index)) {
+	
+	if (!getIndex(data, index) && listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
 		if (data.getTempData().size() != 1) {
 			data.clearData(errMsg, errMsg, errMsg);
 			errMsg << "no index found";
 			return false;
 		}
-		else if (found == std::string::npos && listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
+		else if (found == std::string::npos) {
 			if (time) {
 				category = listClass.subCategory::TIME;
 			}

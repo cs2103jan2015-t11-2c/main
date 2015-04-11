@@ -69,7 +69,7 @@ bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream
 		found = info.find_first_of(" ");
 	}
 	remove(data, checkList);
-	show.getTempDisplay(data, floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline);
 	checkDataBaseEmpty(data, errMsg);
 	return true;
 }
@@ -87,7 +87,7 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 		}
 		remove(data, checkList);
 		data.clearData(floating, scheduled, deadline);
-		show.getTempDisplay(data, floating, scheduled, deadline);
+		search.getTempDisplay(data, floating, scheduled, deadline);
 		checkDataBaseEmpty(data, errMsg);
 		isDelete = true;
 		return true;
@@ -116,7 +116,7 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 	}
 	data.get_tempEntry() = data.get_emptyEntry();
 	data.clearData(floating, scheduled, deadline);
-	show.getTempDisplay(data, floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline);
 	checkDataBaseEmpty(data, errMsg);
 	return false;
 }

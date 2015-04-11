@@ -2,13 +2,13 @@
 #define DELETE_H
 
 #include "DataStore.h"
-#include "Display.h"
+#include "Search.h"
 #include "Add.h"
 
 class Delete {
 	private:
 		Add add;
-		Display show;
+		Search search;
 
 	public:
 		Delete() {};

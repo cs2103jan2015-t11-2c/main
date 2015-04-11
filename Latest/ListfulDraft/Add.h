@@ -2,7 +2,7 @@
 #define ADD_H
 
 #include "DataStore.h"
-#include "Display.h"
+#include "Search.h"
 
 class Add {
 	public:
