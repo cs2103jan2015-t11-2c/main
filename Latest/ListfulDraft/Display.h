@@ -22,6 +22,10 @@ class Display {
 		void getDeadline(DataStore &, std::ostringstream &);
 		void getComplete(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getOverDue(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getPriority(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getCat(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getDay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getTime(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getToday(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getTmr(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	

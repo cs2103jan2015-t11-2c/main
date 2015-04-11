@@ -55,6 +55,12 @@ class Parser {
 		void getNextWord (std::string &, size_t &, size_t &);
 		void updateStr(std::string &, size_t &, size_t &);
 		void joinStr(std::string &, size_t &);
+		
+		bool &getDate();
+		bool &getTime();
+		bool &getCat();
+		bool &getPriority();
+		bool &getComplete();
 		//void testParser();
 };
 

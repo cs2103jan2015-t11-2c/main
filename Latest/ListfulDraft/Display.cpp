@@ -109,6 +109,164 @@ void Display::getOverDue(DataStore &data, std::ostringstream &floating, std::ost
 	return;
 }
 
+void Display::getPriority(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	int i = 0;
+	int j = 0;
+	bool updateFile = false;
+	data.getTempIndexList().clear();
+	data.getTempData().clear();
+
+	while (i < data.getData().size() && data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].priority == data.get_tempEntry().priority) {
+				floating << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+				updateDisplayData(data, i);
+				j++;
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].priority == data.get_tempEntry().priority) {
+				scheduled << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+				updateDisplayData(data, i);
+				j++;
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].priority == data.get_tempEntry().priority) {
+				deadline << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+				updateDisplayData(data, i);
+				j++;
+			}
+		}
+		i++;
+	}
+	return;
+}
+
+void Display::getCat(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	int i = 0;
+	int j = 0;
+	bool updateFile = false;
+	data.getTempIndexList().clear();
+	data.getTempData().clear();
+
+	while (i < data.getData().size() && data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].category == data.get_tempEntry().category) {
+				floating << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+				updateDisplayData(data, i);
+				j++;
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].category == data.get_tempEntry().category) {
+				scheduled << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+				updateDisplayData(data, i);
+				j++;
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].category == data.get_tempEntry().category) {
+				deadline << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+				updateDisplayData(data, i);
+				j++;
+			}
+		}
+		i++;
+	}
+	return;
+}
+
+void Display::getTime(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	int i = 0;
+	int j = 0;
+	bool updateFile = false;
+	data.getTempData().clear();
+	data.getTempIndexList().clear();
+
+	while (i < data.getData().size() && data.getData()[i].isFloat && data.get_tempEntry().isFloat) {
+		i++;
+	}
+
+	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
+				if (data.getData()[i].startTime >= data.get_tempEntry().startTime) {
+					scheduled << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+					updateDisplayData(data, i);
+					j++;
+				}
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
+				if (data.getData()[i].startTime >= data.get_tempEntry().startTime) {
+					deadline << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+					updateDisplayData(data, i);
+					j++;
+				}
+			}
+		}
+		i++;
+	}
+	return;
+}
+
+void Display::getDay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	int i = 0;
+	int j = 0;
+	bool updateFile = false;
+	data.getTempIndexList().clear();
+	data.getTempData().clear();
+
+	while (i < data.getData().size() && data.getData()[i].isFloat) {
+		i++;
+	}
+
+	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
+				scheduled << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+				updateDisplayData(data, i);
+				j++;
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
+				deadline << " " << (j + 1) << ". " << getDataString(data, i, updateFile, j) << std::endl;
+				updateDisplayData(data, i);
+				j++;
+			}
+		}
+		i++;
+	}
+	return;
+}
+
 void Display::getTmr(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	time_t t = time(0);   
 	struct tm now;
@@ -479,7 +637,7 @@ void Display::printSub(DataStore &data, std::ostringstream &dataString, int coun
 		}
 		else {
 			dataString << data.getData()[index].subject;
-			if (maxSize > count) {
+			if (maxSize > count && updateFile) {
 				printSpace(dataString, maxSize - data.getData()[index].subject.size());
 			}
 			else {

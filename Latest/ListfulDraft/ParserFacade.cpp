@@ -70,7 +70,26 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			}
 			else {
 				if (!listClass.display.displayContent(data, _information, errMsg, floating, scheduled, deadline)) {
-					return (listClass.commandType::DISPLAY + 13);
+					_parse.separateWord(listClass, data, pastDate, checkTime);
+					if (_parse.getTime()) {
+						listClass.display.getTime(data, floating, scheduled, deadline);
+					}
+					else if (_parse.getDate()) {
+						listClass.display.getDay(data, floating, scheduled, deadline);
+					}
+					else if (_parse.getCat()) {
+						listClass.display.getCat(data, floating, scheduled, deadline);
+					}
+					else if (_parse.getPriority()) {
+						listClass.display.getPriority(data, floating, scheduled, deadline);
+					}
+					else if (_parse.getComplete()) {
+						listClass.display.getComplete(data, floating, scheduled, deadline);
+					}
+					else {
+						return (listClass.commandType::DISPLAY + 13);
+					}
+					return listClass.commandType::DISPLAY;
 				}
 				return listClass.commandType::DISPLAY;
 			}

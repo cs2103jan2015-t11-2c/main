@@ -504,3 +504,23 @@ void Parser::joinStr(std::string &tStr, size_t &start) {
 	_information = _information + tStr;
 	return;
 }
+
+bool &Parser::getDate() {
+	return date;
+}
+
+bool &Parser::getTime() {
+	return time;
+}
+
+bool &Parser::getCat() {
+	return cat;
+}
+
+bool &Parser::getPriority() {
+	return priority;
+}
+
+bool &Parser::getComplete() {
+	return complete;
+}
