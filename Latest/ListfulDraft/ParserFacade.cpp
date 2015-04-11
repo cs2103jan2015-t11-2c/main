@@ -71,9 +71,13 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			else {
 				if (!listClass.display.displayContent(data, _information, errMsg, floating, scheduled, deadline)) {
 					_parse.separateWord(listClass, data, pastDate, checkTime);
-					if (_parse.getTime()) {
+					if (_parse.getTime() && _parse.getDate()) {
 						listClass.display.getTime(data, floating, scheduled, deadline);
 					}
+					else if (_parse.getTime()) {
+						listClass.display.getFloat(data, floating);
+					}
+					
 					else if (_parse.getDate()) {
 						listClass.display.getDay(data, floating, scheduled, deadline);
 					}

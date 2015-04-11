@@ -18,7 +18,7 @@ void Sort::sortSwitch(int &index, int &start, DataStore &data){
 		}
 		else if(i != index) {
 			data.getTempData().push_back(data.getData()[i]);
-			data.getTempData()[i + 1].referenceNo = i + 2;
+			data.getTempData()[i].referenceNo = i + 2;
 		}
 	}
 	data.getData() = data.getTempData();

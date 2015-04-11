@@ -637,6 +637,9 @@ void Display::printSub(DataStore &data, std::ostringstream &dataString, int coun
 		}
 		else {
 			dataString << data.getData()[index].subject;
+			if (data.getData()[index].isFloat && updateFile && maxSize > count) {
+				printSpace(dataString, 13);
+			}
 			if (maxSize > count && updateFile) {
 				printSpace(dataString, maxSize - data.getData()[index].subject.size());
 			}
