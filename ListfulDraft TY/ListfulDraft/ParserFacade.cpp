@@ -1,4 +1,3 @@
-//@author A0116177E
 #include "ParserFacade.h"
 
 ParserFacade::ParserFacade() {
@@ -13,16 +12,19 @@ bool ParserFacade::isRunProgram() {
 void ParserFacade::init(std::string command) {
 	size_t start = 0;
 	size_t end;
-
+	
 	_parse.getNextWord(command, start, end);
 	if (end == std::string::npos) {
 		_userInput = command;
+		_parse.removeBackChar(_userInput);
 		_information = "";
 		return;
 	}
-
 	_userInput = command.substr(start, end - 1);
 	_information = command.substr(end);
+	_parse.removeBackChar(_userInput);
+	_parse.removeFrontChar(_information);
+	_parse.removeBackChar(_information);
 	_parse.init(_information);
 	return;
 }
@@ -34,19 +36,9 @@ bool ParserFacade::isHelp(std::string input) {
 	return false;
 }
 
-//for add only
-void ParserFacade::errorAddMsg(std::ostringstream &errMsg, bool pastDate, bool checkTime, Classes listClass) {
-	if (pastDate) {
-		errMsg << std::endl << " date entered has already past (undo/edit adviced)";
-	}
-	if (checkTime && listClass.time.getEnd() != listClass.time.getStart()) {
-		errMsg << std::endl << " end time entered earlier then start time (undo/edit adviced)";
-	}
-	return;
-}
-
 int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	int command = listClass.determineCommand(_userInput);
+	
 	int returnValue = 0;
 	int index = 0;
 	std::string str = "";
@@ -57,8 +49,9 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 	
 	switch(command) {
 		case listClass.ADD:
+			data.get_tempEntry() = data.get_emptyEntry();
 			_parse.separateWord(listClass, data, pastDate, checkTime);
-			errorAddMsg(errMsg, pastDate, checkTime, listClass);
+			listClass.add.checkDateTime(data, errMsg, pastDate, checkTime);
 			if (listClass.add.addContent(data, errMsg, floating, scheduled, deadline, isTemp)) {
 				returnValue = listClass.commandType::ADD;
 			}
@@ -67,15 +60,42 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			}
 			break;
 
-		case listClass.DISPLAY:
+		case listClass.SEARCH:
+			_parse.changeToLower(_information);
 			if (_information == "") {
-				if (listClass.display.getDisplay(data, floating, scheduled, deadline)) {
-					return listClass.commandType::DISPLAY;
+				if (listClass.search.getDisplay(data, errMsg, floating, scheduled, deadline)) {
+					return listClass.commandType::SEARCH;
 				}
-				return (listClass.commandType::DISPLAY + 12);
+				return (listClass.commandType::SEARCH + 12);
 			}
 			else {
-
+				if (!listClass.search.displayContent(data, _information, errMsg, floating, scheduled, deadline)) {
+					_parse.separateWord(listClass, data, pastDate, checkTime);
+					if (_parse.getTime() && _parse.getDate()) {
+						listClass.search.getTime(data, floating, scheduled, deadline);
+					}
+					else if (_parse.getTime()) {
+						listClass.search.getFloat(data, floating);
+					}
+					
+					else if (_parse.getDate()) {
+						listClass.search.getDay(data, floating, scheduled, deadline);
+					}
+					else if (_parse.getCat()) {
+						listClass.search.getCat(data, floating, scheduled, deadline);
+					}
+					else if (_parse.getPriority()) {
+						listClass.search.getPriority(data, floating, scheduled, deadline);
+					}
+					else if (_parse.getComplete()) {
+						listClass.search.getComplete(data, floating, scheduled, deadline);
+					}
+					else {
+						return (listClass.commandType::SEARCH + 12);
+					}
+					return listClass.commandType::SEARCH;
+				}
+				return listClass.commandType::SEARCH;
 			}
 
 		case listClass.CLEAR:
@@ -90,8 +110,13 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 		case listClass.EDIT: 
 			str = _information;
 			_parse.separateWord(listClass, data, pastDate, checkTime);
-			if (!_parse.getEditDelete(data, listClass, index, listClass.edit.getCat(), str)) {
-				returnValue = listClass.commandType::INVALID;
+			if (!_parse.getEditDelete(data, listClass, index, listClass.edit.getCat(), str, errMsg)) {
+				if (listClass.edit.checkComplete(data, _information, errMsg, floating, scheduled, deadline, _userInput)) {
+					returnValue = (listClass.commandType::EDIT + 3);
+				}
+				else {
+					returnValue = (listClass.commandType::EDIT + 12);
+				}
 			}
 			else {
 				if (listClass.edit.editContent(data, index - 1, errMsg, floating, scheduled, deadline)) {
@@ -105,38 +130,29 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 
 		case listClass.REMOVE:
 			if (listClass.remove.deleteContent(data, _information, errMsg, floating, scheduled, deadline, isDelete)) {
-				return listClass.commandType::REMOVE;
+				returnValue = listClass.commandType::REMOVE;
 			}
 			else if (!isDelete) {
-				return (listClass.commandType::REMOVE + 15);
+				returnValue = (listClass.commandType::REMOVE + 16);
 			}
-			return (listClass.commandType::REMOVE + 12);
+			else {
+				returnValue = (listClass.commandType::REMOVE + 13);
+			}
+			break;
 
 		case listClass.REDO:
 			if (data.redoData(data, errMsg)) {
+				listClass.search.getTempDisplay(data, floating, scheduled, deadline);
 				return listClass.commandType::REDO;
 			}
 			return (listClass.commandType::REDO + 12);
 
 		case listClass.UNDO:
 			if (data.undoData(data, errMsg)) {
+				listClass.search.getTempDisplay(data, floating, scheduled, deadline);
 				return listClass.commandType::UNDO;
 			}
 			return (listClass.commandType::UNDO + 12);
-
-		case listClass.SEARCH: {
-			std::string command, keyword;
-			command = _information.substr(0, _information.find_first_of(" "));
-			keyword = _information.substr(_information.find_first_of(" ")+1);
-			keyword = keyword.substr(0, keyword.find_last_of(" "));
-			_information = command;
-			listClass.searchFile.getCat() =  listClass.determineSubCat(_information);
-			if (listClass.searchFile.searchFile(data, keyword, errMsg, floating, scheduled, deadline)) {
-				returnValue = listClass.commandType::SEARCH;
-			}
-			returnValue = (listClass.commandType::SEARCH + 11);
-			}
-			break;
 
 		case listClass.SORT:
 			_parse.changeToLower(_information);
@@ -145,13 +161,13 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 				returnValue = listClass.commandType::SORT;
 			}
 			else {
-				returnValue = (listClass.commandType::SORT + 12);
+				returnValue = (listClass.commandType::SORT + 13);
 			}
 			break;
 
 		case listClass.EXIT:
 			_isEnd = true;
-			return listClass.commandType::EXIT;
+			return (listClass.commandType::EXIT + 1); 
 
 		default:
 			if (_userInput == "") {

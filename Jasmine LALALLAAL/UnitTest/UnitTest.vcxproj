@@ -52,7 +52,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Users\gerald\Desktop\main\Jasmine LALALLAAL\ListfulDraft;C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Jasmine LALALLAAL\ListfulDraft;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Theck Yee\Documents\CS\Jasmine LALALLAAL\ListfulDraft;C:\Users\gerald\Desktop\main\Jasmine LALALLAAL\ListfulDraft;C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Jasmine LALALLAAL\ListfulDraft;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>

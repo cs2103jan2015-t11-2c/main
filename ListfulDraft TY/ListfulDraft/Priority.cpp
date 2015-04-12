@@ -1,4 +1,3 @@
-//@author A0115871E
 #include "Priority.h"
 
 //Identifies category from the input and cuts them out from the string
@@ -7,10 +6,10 @@ bool Priority::extractPriority(int impt, std::string &pStr, size_t found) {
 
 	switch (impt) {
 		case 0:
-			_priority = "LOW";
+			_priority = "LOW ";
 			break;
 		case 1:
-			_priority = "MED";
+			_priority = "MED ";
 			break;
 		case 2:
 			_priority = "HIGH";
@@ -29,7 +28,12 @@ void Priority::updateStr(std::string &pStr, size_t found) {
 		return;
 	}
 	found = pStr.find_first_not_of(" ", found);
-	pStr = pStr.substr(found);
+	if (found == std::string::npos) {
+		pStr = "";
+	}
+	else {
+		pStr = pStr.substr(found);
+	}
 	return;
 }
 

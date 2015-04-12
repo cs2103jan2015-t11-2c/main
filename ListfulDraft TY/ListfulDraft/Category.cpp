@@ -1,4 +1,3 @@
-//@author A0110670W
 #include "Category.h"
 
 //Identifies category from the input and cuts them out from the string
@@ -32,7 +31,12 @@ void Category::updateStr(std::string &cStr, size_t found) {
 		return;
 	}
 	found = cStr.find_first_not_of(" ", found);
-	cStr = cStr.substr(found);
+	if (found == std::string::npos) {
+		cStr = "";
+	}
+	else {
+		cStr = cStr.substr(found);
+	}
 	return;
 }
 
