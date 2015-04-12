@@ -187,7 +187,8 @@ void ParserFacade::defaultSearchFunc(Classes listClass, DataStore &data, std::os
 		listClass.search.getTime(data, floating, scheduled, deadline, errMsg);
 	}
 	else if (_parse.getTime()) {
-					listClass.search.getFloat(data, floating, errMsg);
+		errMsg << "only time entered, date not entered";
+		data.getTempData().clear();
 	}	
 	else if (_parse.getDate()) {
 		listClass.search.getDay(data, floating, scheduled, deadline, errMsg);
@@ -200,6 +201,9 @@ void ParserFacade::defaultSearchFunc(Classes listClass, DataStore &data, std::os
 	}
 	else if (_parse.getComplete()) {
 		listClass.search.getComplete(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (data.get_tempEntry().month >= 1 && data.get_tempEntry().month <= 12) {
+		listClass.search.getMonth(data, floating, scheduled, deadline, errMsg);
 	}
 	else {
 		listClass.search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);

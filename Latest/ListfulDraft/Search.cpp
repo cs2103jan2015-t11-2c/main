@@ -481,16 +481,63 @@ void Search::getEntry(DataStore &data, std::ostringstream &floating, std::ostrin
 
 
 
+void Search::getMonth(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+	int i = 0;
+	int j = 0;
+	time_t t = time(0);   
+	struct tm now;
+	localtime_s(&now, &t);
+	std::string dayMonth[13] = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+	
+	bool updateFile = false;
+	data.getTempIndexList().clear();
+	data.getTempData().clear();
+
+	while (i < data.getData().size() && data.getData()[i].isFloat) {
+		i++;
+	}
+
+	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year == (now.tm_year + 1900)) {
+				updateDisplayData(data, i);
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			if (data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year == (now.tm_year + 1900)) {
+				updateDisplayData(data, i);
+			}
+		}
+		i++;
+	}
+
+	if (data.getTempData().size() == 0) {
+		errMsg << "no tasks due in " << dayMonth[data.get_tempEntry().month];
+		return;
+	}
+	stringGetter(data, floating, scheduled, deadline);
+	return;
+}
+
 void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	size_t found = 0;
+	std::string subject = "";
+	std::string searchStr = data.get_tempEntry().subject;
 	data.getTempIndexList().clear();
 	data.getTempData().clear();
 
 	while (i < data.getData().size() && data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			found = data.getData()[i].subject.find(data.get_tempEntry().subject);
+			subject = data.getData()[i].subject;
+			date.changeToLower(subject);
+			date.changeToLower(searchStr);
+			found = subject.find(searchStr);
 			if (found != std::string::npos) {
 				updateDisplayData(data, i);
 			}
@@ -500,7 +547,10 @@ void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			found = data.getData()[i].subject.find(data.get_tempEntry().subject);
+			subject = data.getData()[i].subject;
+			date.changeToLower(subject);
+			date.changeToLower(searchStr);
+			found = subject.find(searchStr);
 			if (found != std::string::npos) {
 				updateDisplayData(data, i);
 			}
@@ -510,14 +560,16 @@ void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std
 
 	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			found = data.getData()[i].subject.find(data.get_tempEntry().subject);
+			subject = data.getData()[i].subject;
+			date.changeToLower(subject);
+			date.changeToLower(searchStr);
+			found = subject.find(searchStr);
 			if (found != std::string::npos) {
 				updateDisplayData(data, i);
 			}
 		}
 		i++;
 	}
-
 	if (data.getTempData().size() == 0) {
 		errMsg << "no tasks found containing \"" << data.get_tempEntry().subject << "\"";
 		return;
@@ -809,7 +861,7 @@ std::string Search::getTempDataString(DataStore &data, int index, bool updateFil
 void Search::stringGetter(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	int i = 0;
 	bool updateFile = false;
-	
+
 	while (i < data.getTempData().size()) {
 		if (data.getTempData().size() > 9 && i < 9) {
 			if (data.getTempData()[i].isFloat) {

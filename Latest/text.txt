@@ -18,9 +18,9 @@
 
 10. sskghf                                                                  | 26/04/2015 |           | GENERAL  | LOW  | no
 
-11. srighf                                                                  | 04/03/2015 |           | GENERAL  | LOW  | yes
+11. srighf                                                                  | 04/03/2015 |           | GENERAL  | LOW  | no
 
-12. gejh                                                                    | 05/03/2015 |           | GENERAL  | LOW  | yes
+12. gejh                                                                    | 05/03/2015 |           | GENERAL  | LOW  | no
 
 13. wesfc                                                                   | 26/04/2015 |           | GENERAL  | LOW  | no
 

@@ -135,6 +135,15 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 
 
 
+bool Parser::getMonth(Classes listClass, DataStore &data) {
+	int month = listClass.date.determineMonth(_information);
+	if (month < 13) {
+		data.get_tempEntry().month = month;
+		return true;
+	}
+	return false;
+}
+
 void Parser::retrieveDate(Classes &listClass, bool &pastDate) {
 	std::string dStr = _information;
 	size_t start = 0;

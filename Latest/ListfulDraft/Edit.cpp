@@ -25,6 +25,8 @@ bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
 	return false;
 }
 
+
+
 bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	int size = 0;
 	while (size < data.getTempData().size()) {
@@ -92,6 +94,8 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 	data.get_tempEntry().subject = "completed";
 	return true;
 }
+
+
 
 bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	if (data.getData().size() == 0) {
@@ -183,6 +187,8 @@ void Edit::editDate(DataStore &data, int index) {
 	data.get_tempEntry() = _editEntry;
 	return;
 }
+
+
 
 int &Edit::getCat() {
 	return _category;

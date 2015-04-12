@@ -44,6 +44,7 @@ class Parser {
 		void retrieveCategory(Classes &);
 		void retrieveCompleteAndRefNo(Classes &, DataStore &);
 
+		bool getMonth(Classes, DataStore &);
 		bool getIndex(DataStore &, int &);
 		bool getEditInfo(DataStore &, Classes, int &, int &, std::string, std::ostringstream &);
 		void assignCat(DataStore &, Classes , int &);

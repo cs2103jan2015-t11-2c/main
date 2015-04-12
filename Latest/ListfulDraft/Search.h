@@ -4,11 +4,14 @@
 #define MIN -1
 
 #include "DataStore.h"
+#include "Date.h"
 
 class Search {
 	private:
 		static const int FLOAT_SUB_SIZE;
 		static const int NON_FLOAT_SUB_SIZE;
+
+		Date date;
 
 	public:
 		Search() {};
@@ -33,6 +36,7 @@ class Search {
 		bool getRemainingStr(std::string &, std::string &, int);
 		void getFullString(std::string, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		
+		void getMonth(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getSubjectSearch(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getPriority(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getCat(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);

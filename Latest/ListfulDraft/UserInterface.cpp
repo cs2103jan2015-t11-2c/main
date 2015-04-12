@@ -96,7 +96,7 @@ void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg
 	std::string cutOff = "";
 	bool isFinal = false;
 
-	if (count > 3 || output == 22) {
+	if (count > 3 || output == 18) {
 		remindAndDueHeader(isReminder, isOver, floating, scheduled, deadline, listClass, outputToUser, count, oss, msg);
 		if (!isOver && !isReminder && msg != outputToUser.getCommandMsg()[1] && output != 22) {
 			std::ostringstream empty;
