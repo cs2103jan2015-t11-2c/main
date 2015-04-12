@@ -436,6 +436,51 @@ void Search::getEntry(DataStore &data, std::ostringstream &floating, std::ostrin
 
 
 
+void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+	int i = 0;
+	int j = 0;
+	size_t found = 0;
+	data.getTempIndexList().clear();
+	data.getTempData().clear();
+
+	while (i < data.getData().size() && data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			found = data.getData()[i].subject.find(data.get_tempEntry().subject);
+			if (found != std::string::npos) {
+				updateDisplayData(data, i);
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			found = data.getData()[i].subject.find(data.get_tempEntry().subject);
+			if (found != std::string::npos) {
+				updateDisplayData(data, i);
+			}
+		}
+		i++;
+	}
+
+	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
+		if (!data.getData()[i].isComplete) {
+			found = data.getData()[i].subject.find(data.get_tempEntry().subject);
+			if (found != std::string::npos) {
+				updateDisplayData(data, i);
+			}
+		}
+		i++;
+	}
+
+	if (data.getTempData().size() == 0) {
+		errMsg << "no tasks found containing \"" << data.get_tempEntry().subject << "\"";
+		return;
+	}
+	stringGetter(data, floating, scheduled, deadline);
+	return;
+}
+
 void Search::getPriority(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
@@ -605,21 +650,6 @@ void Search::getTempDisplay(DataStore &data, std::ostringstream &floating, std::
 	
 	if (data.getTempData().size() == 0) {
 		return;
-	}
-
-	while (i < data.getTempData().size() && data.getTempData()[i].isFloat) {
-		updateDisplayData(data, i);
-		i++;
-	}
-
-	while (i < data.getTempData().size() && data.getTempData()[i].isTimedTask) {
-		updateDisplayData(data, i);
-		i++;
-	}
-
-	while (i < data.getTempData().size() && !data.getTempData()[i].isTimedTask) {
-		updateDisplayData(data, i);
-		i++;
 	}
 	stringGetter(data, floating, scheduled, deadline);
 	return;

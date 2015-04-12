@@ -27,11 +27,12 @@ class Search {
 		void getComplete(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getReminder(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getOverDue(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-	
+		
 		void getEntry(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);		
 		bool getRemainingStr(std::string &, std::string &, int);
 		void getFullString(std::string, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		
+		void getSubjectSearch(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getPriority(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getCat(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getDay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);

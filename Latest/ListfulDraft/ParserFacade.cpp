@@ -87,7 +87,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 					}
 					else {
 				std::cout << "6" << std::endl;
-						return (listClass.commandType::SEARCH + 12);
+						listClass.search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
 					}
 
 					if (data.getTempData().size() == 0) {

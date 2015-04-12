@@ -12,7 +12,7 @@ bool Add::addContent(DataStore &data, std::ostringstream &errMsg, std::ostringst
 	}
 	
 	data.clearData(floating, scheduled, deadline);
-	insertionAdd(data, isTemp, floating, scheduled, deadline, errMsg);
+	insertionAdd(data, isTemp, errMsg, floating, scheduled, deadline);
 	return true;
 }
 

@@ -40,7 +40,7 @@ void UserInterface::runProgram() {
 		else if (i == 1) {
 			output = parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
 			
-			if (output == (listClass.commandType::EXIT + 1)) {
+			if (output == (listClass.commandType::EXIT)) {
 				errMsg << " [" << file.getName() << "]\n\n ";
 			}
 

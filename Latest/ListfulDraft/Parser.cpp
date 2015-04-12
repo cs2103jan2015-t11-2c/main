@@ -252,12 +252,11 @@ void Parser::retrieveCategory(Classes &listClass) {
 //To separate out the information into its time, date, category, priority and subject
 void Parser::retrieveCompleteAndRefNo(Classes &listClass, DataStore &data) {
 	size_t found = _information.find(" | yes");
-	size_t found2 = _information.find(" | no");
 
 	if (found != std::string::npos) {
 		data.get_tempEntry().isComplete = true;
 	}
-	else if (found2 != std::string::npos) {
+	else {
 		data.get_tempEntry().isComplete = false;
 	}
 
