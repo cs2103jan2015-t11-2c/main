@@ -1,4 +1,3 @@
-//@author A0110670W
 #ifndef CLASSES_H
 #define CLASSES_H
 
@@ -9,45 +8,43 @@
 #include "Category.h"
 #include "Clear.h"
 #include "Delete.h"
-#include "Display.h"
 #include "Edit.h"
 #include "Sort.h"
 #include "Search.h"
 
 class Classes {
-public:
-	enum commandType {
-		ADD, DISPLAY, CLEAR, EDIT, SORT, SEARCH, REMOVE, UNDO, REDO, INVALID, DO_NOTHING, EXIT
-	};
+	public:
+		enum commandType {
+			ADD, SEARCH, CLEAR, EDIT, SORT, REMOVE, DO_NOTHING, UNDO, REDO, INVALID, EXIT
+		};
 
-	enum subCategory {
-		SUBJECT, DATE, TIME, PRIORITY, CATEGORY, INVALIDCAT
-	};
+		enum subCategory {
+			SUBJECT, DATE, TIME, PRIORITY, CATEGORY, INVALIDCAT
+		};
 
-	enum priorityType {
-		LOW, MEDIUM, HIGH, PINVALID
-	};
+		enum priorityType {
+			LOW, MEDIUM, HIGH, PINVALID
+		};
 
-	enum catType {
-		WORK, PERSONAL, ERRAND, GENERAL, CINVALID
-	};
+		enum catType {
+			WORK, PERSONAL, ERRAND, GENERAL, CINVALID
+		};
 
-	Add add;
-	Delete remove;
-	Display display;
-	Edit edit;
-	Search searchFile;
-	Sort sortFile;
-	Clear clearFile;
-	Timing time;
-	Date date;
-	Priority priority;
-	Category category;
+		Add add;
+		Delete remove;
+		Search search;
+		Edit edit;
+		Sort sortFile;
+		Clear clearFile;
+		Timing time;
+		Date date;
+		Priority priority;
+		Category category;
 
-	int determineCommand(std::string);
-	int determineSubCat(std::string);
-	int determineP(std::string);
-	int determineC(std::string);
+		int determineCommand(std::string);
+		int determineSubCat(std::string);
+		int determineP(std::string);
+		int determineC(std::string);
 };
 
 #endif

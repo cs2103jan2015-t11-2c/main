@@ -1,20 +1,19 @@
-//@author A0110670W
 #ifndef CATEGORY_H
 #define CATEGORY_H
 
 #include "DataStore.h"
 
 class Category {
-private:
-	std::string _cat;
+	private:
+		std::string _cat;
 
-public:
-	Category() {};
+	public:
+		Category() {};
 
-	bool extractCat(int, std::string &, size_t);
-	void updateStr(std::string &, size_t);
+		bool extractCat(int, std::string &, size_t);
+		void updateStr(std::string &, size_t);
 
-	std::string &getCat();
+		std::string &getCat();
 };
 
 #endif

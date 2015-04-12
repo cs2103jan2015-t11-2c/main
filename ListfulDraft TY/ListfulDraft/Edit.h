@@ -1,24 +1,32 @@
-//@author A0116237L
 #ifndef EDIT_H
 #define EDIT_H
 
 #include "DataStore.h"
 #include "Add.h"
-#include "Display.h"
+#include "Search.h"
+#include "Sort.h"
 
 class Edit {
-private:
-	int _category;
-	Entry _editEntry;
+	private:
+		int _category;
+		Entry _editEntry;
 
-public:
-	Edit() {};
+		Add add;
+		Search search;
+		Sort sort;
 
-	bool editContent(DataStore &, int, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-	void editTime(DataStore &, int);
-	void editDate(DataStore &, int);
+	public:
+		Edit() {};
+	
+		void updateTemp(DataStore &, std::vector <int>);
+		bool isRepeat(DataStore &, std::vector <int>, int);
+		bool checkAll(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
+		bool checkComplete(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
+		bool editContent(DataStore &, int, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void editTime(DataStore &, int);
+		void editDate(DataStore &, int);
 
-	int &getCat();
+		int &getCat();
 };
 
 #endif

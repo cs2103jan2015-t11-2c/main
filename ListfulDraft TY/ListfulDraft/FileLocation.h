@@ -1,27 +1,23 @@
-//@author A0110670W
-#ifndef FILELOCATION_H
-#define FILELOCATION_H
-
 #include "ParserFacade.h"
 
 class FileLocation {
-private:
-	static const std::string FILE_LOCATION_LIST;
+	private:
+		static const std::string FILE_LOCATION_LIST;
 
-	enum fileMsg {
-		OPEN, CREATE
-	};
+		enum fileMsg {
+			OPEN, CREATE
+		};
 
-	std::string _fileName;
+		std::string _fileName;
 
-public:
-	FileLocation() {};
+	public:
+		FileLocation() {};
 	
-	void saveFileLocation();
-	bool findFile(DataStore &);
-	int openFile(DataStore &, ParserFacade, Classes &);
+		void updateFileLocation(std::string);
+		void saveFileLocation();
+		bool findFile(DataStore &, bool);
+		int openFile(DataStore &, ParserFacade, Classes &);
 
-	std::string &getName();
+		std::string &getName();
 };
 
-#endif

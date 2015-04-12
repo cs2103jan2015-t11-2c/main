@@ -1,4 +1,3 @@
-//@author A0115871E
 #ifndef ENTRY_H
 #define ENTRY_H
 
@@ -17,18 +16,20 @@
 #include <wchar.h>
 
 class Entry {
-public:
-	std::string subject;
-	int day;
-	int month;
-	int year;
-	int startTime;
-	int endTime;
-	std::string priority;
-	std::string category;
-	bool isTimedTask;
-	bool isComplete;
-	bool isFloat;
+	public:
+		int referenceNo;
+
+		std::string subject;
+		int day;
+		int month;
+		int year;
+		int startTime;
+		int endTime;
+		std::string priority;
+		std::string category;
+		bool isTimedTask;
+		bool isComplete;
+		bool isFloat;
 };
 
 #endif

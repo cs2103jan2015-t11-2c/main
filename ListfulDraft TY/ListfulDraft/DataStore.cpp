@@ -1,20 +1,25 @@
-//@author A0110670W
 #include "DataStore.h"
-#include "Display.h"
+#include "Search.h"
 
 //To update the text file in the computer
 void DataStore::updateFile(DataStore &data) {
 	bool updateFile = true;
-	Display display;
+	Search search;
 
 	std::ofstream writeFile(_fileName);
 	for (int index = 0; index != _dataBase.size(); index++) {
-		if (index != _dataBase.size() - 1) {
-			writeFile << (index + 1) << ". " << display.getDataString(data, index, updateFile) << " | Priority: " << _dataBase[index].priority << "\n\n";
+		writeFile << (index + 1) << ". " << search.getDataString(data, index, updateFile) << " | ";
+		if (_dataBase[index].isComplete) {
+			writeFile << "yes\n\n";
 		}
 		else {
-			writeFile << (index + 1) << ". " << display.getDataString(data, index, updateFile) << " | Priority: " << _dataBase[index].priority;
+			writeFile << "no\n\n";
 		}
+	}
+
+	//To create an empty file
+	if (_dataBase.size() == 0) {
+		writeFile << "";
 	}
 	writeFile.close();
 	return;
@@ -26,9 +31,8 @@ void DataStore::savePrevFile() {
 	_futureData.clear();
 	_futureActionLog.clear();
 
-	if (_pastData.size() > 12) {
-		_pastData.erase(_pastData.begin());
-	}
+	_pastTempData.push_back(_tempDataBase);
+	_futureTempData.clear();
 	return;
 }
 
@@ -36,13 +40,18 @@ bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
 	if (_pastData.size() <= 1) {
 		return false;
 	}
-	errMsg << "\n\n" << _pastActionLog.back() << "\n";
+
+	errMsg << "\n\n" << _pastActionLog.back();
 	_futureActionLog.push_back(_pastActionLog.back());
 	_pastActionLog.pop_back();
 	
 	_futureData.push_back(_dataBase);
 	_pastData.pop_back();
 	_dataBase = _pastData.back();
+
+	_futureTempData.push_back(_pastTempData.back());
+	_tempDataBase = _pastTempData.back();
+	_pastTempData.pop_back();
 	updateFile(data);
 	return true;
 }
@@ -52,13 +61,17 @@ bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
 		return false;
 	}
 	
-	errMsg << "\n\n" << _futureActionLog.back() << "\n";
+	errMsg << "\n\n" << _futureActionLog.back();
 	_pastActionLog.push_back(_futureActionLog.back());
 	_futureActionLog.pop_back();
 
 	_dataBase = _futureData.back();
 	_futureData.pop_back();
 	_pastData.push_back(_dataBase);
+
+	_pastTempData.push_back(_futureTempData.back());
+	_tempDataBase = _futureTempData.back();
+	_futureTempData.pop_back();
 	updateFile(data);
 	return true;
 }
@@ -82,12 +95,16 @@ void DataStore::clearData(std::ostringstream &floating, std::ostringstream &sche
 	return;
 }
 
-std::string &DataStore::getFileName() {
-	return _fileName;
+void DataStore::init(std::string fileName) {
+	_fileName = fileName;
 }
 
 std::vector <Entry> &DataStore::getData() {
 	return _dataBase;
+}
+
+std::vector <int> &DataStore::getTempIndexList() {
+	return _tempIndexList;
 }
 
 std::vector <Entry> &DataStore::getTempData() {

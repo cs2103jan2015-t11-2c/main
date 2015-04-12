@@ -1,4 +1,3 @@
-//@author A0115871E
 #include "Timing.h"
 
 Timing::Timing() {
@@ -238,7 +237,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 	}
 	//assume pm if not indicated
 	else {
-		if (count > 2 && count < 4) {
+		if ((count > 2 && count < 4) || (num > 100 && num < 959 && count == 4)) {
 			num = num + 1200;
 		}
 		else if (count <= 2) {

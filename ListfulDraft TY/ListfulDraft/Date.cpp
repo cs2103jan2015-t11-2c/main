@@ -1,4 +1,3 @@
-//@author A0115871E
 #include "Date.h"
 #include "Timing.h"
 
@@ -209,7 +208,23 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 	//Cut off DD/MM
 	tStr = newStr;
 
-	if (!extractNum(newStr, count, _year) || count != 4) {
+	if (!extractNum(newStr, count, _year)) {
+		_year = (now.tm_year + 1900);
+		return;
+	}
+	else if (originalStr[originalStr.find(newStr) - 1] == '/') {
+		if (count == newStr.size()) {
+			tStr = "";
+		}
+		else if (count == 2 || count == 4) {
+			tStr = newStr.substr(count);
+			if (count == 2) {
+				_year = _year + 2000;
+			}
+		}
+		return;
+	}
+	else if (count != 4) {
 		_year = (now.tm_year + 1900);
 		return;
 	}
@@ -219,15 +234,6 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 		return;
 	}
 	else if (_year >= (now.tm_year + 1900) && _year <= (now.tm_year + 1900) + 5) {
-		if (count == newStr.size()) {
-			tStr = "";
-		}
-		else {
-			tStr = newStr.substr(count);
-		}
-		return;
-	}
-	else if (originalStr[originalStr.find(newStr) - 1] == '/') {
 		if (count == newStr.size()) {
 			tStr = "";
 		}
@@ -329,7 +335,7 @@ bool Date::isDayMonth(bool &pastDate) {
 }
 
 //To identify if the current first word of the string is a date
-bool Date::extractDate(std::string &tStr, bool &pastDate, std::string originalStr, size_t index) {
+bool Date::extractDate(std::string &tStr, bool &pastDate, std::string originalStr, size_t index, bool getNewDate) {
 	_day = 0;
 	_month = 0;
 	_year = 0;
@@ -377,9 +383,15 @@ bool Date::extractDate(std::string &tStr, bool &pastDate, std::string originalSt
 	else {
 		return false;
 	}
-
-	if (!isDayMonth(pastDate)) {
-		return false;
+	//If user is entering a date but it is wrong due to typo
+	if (!isDayMonth(pastDate) && !getNewDate) {
+		std::cout << " possible date [ " << _day << '/' << _month << " ] entered but invalid\n\n new date?\n\n ";
+		getline(std::cin, newDate);
+		getNewDate = true;
+		if (newDate == "") {
+			return	false;
+		}
+		return extractDate(newDate, pastDate, originalStr, index, getNewDate);
 	}
 	return true;
 }

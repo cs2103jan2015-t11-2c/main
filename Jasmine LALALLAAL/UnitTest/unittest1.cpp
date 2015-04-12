@@ -28,7 +28,7 @@ namespace UnitTest1
 	TEST_CLASS(UnitTest1)
 	{
 	public:
-		
+		//Add test, floating, specific and seadline
 		TEST_METHOD(AddSortTest)
 		{
 			// TODO: Your test code here
@@ -116,6 +116,46 @@ namespace UnitTest1
 			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
 			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
 			std::string input4 = "delete 1";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+
+			parseF.init(input2);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+
+			parseF.init(input3);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+
+			parseF.init(input4);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+
+			std::string expectednewFirst = "CS project meeting";
+			std::string actualnewFirst = data.getData()[0].subject;
+
+			Assert::AreEqual(expectednewFirst, actualnewFirst);
+		}
+		TEST_METHOD(MultipleDeleteTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			Classes listClass;
+			ParserFacade parseF;
+			Parser parse;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 6 apr 2015 1200-1600 CS project meeting MED";
+			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
+			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
+			std::string input4 = "delete 1 2";
 
 			parseF.init(input1);
 			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
@@ -242,5 +282,116 @@ namespace UnitTest1
 			Assert::IsTrue(data.getData()[0].isFloat);
 
 		}
+		TEST_METHOD(ClearTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			Classes listClass;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 2000-2359 FUNRUN";
+			std::string input2 = "clear";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			parseF.init(input2);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+
+			Assert::IsTrue(data.getData().empty());
+
+		}
+		TEST_METHOD(UndoTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			Classes listClass;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add CS project meeting 6 apr 2015 1200-1600 MED";
+			std::string input2 = "add visit grandma 5th april 1200-1600 LOW";
+			std::string input3 = "add FUNRUN  7th apr 1200-1600";
+			std::string input4 = "undo";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);	
+			parseF.init(input2);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			parseF.init(input3);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			parseF.init(input4);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			
+			int size = data.getData().size();
+			
+			Assert::AreEqual(size,2);
+
+		}		
+		TEST_METHOD(RedoTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			Classes listClass;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add CS project meeting 6 apr 2015 1200-1600 MED";
+			std::string input2 = "add visit grandma 5th april 1200-1600 LOW";
+			std::string input3 = "add FUNRUN  7th apr 1300-1700";
+			std::string input4 = "undo";
+			std::string input5 = "redo";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			parseF.init(input2);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			parseF.init(input3);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			parseF.init(input4);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			parseF.init(input5);
+			parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+
+			int size = data.getData().size();
+
+			Assert::AreEqual(size,3);
+
+			int expectedStartTime = 1300;
+			int actualStartTime = data.getData()[3].startTime;
+			int expectedEndTime = 1700;
+			int actualEndTime = data.getData()[3].endTime;
+
+			Assert::AreEqual(expectedStartTime, actualStartTime);
+			Assert::AreEqual(expectedEndTime, actualEndTime);
+		
+		}		
 	};
 }

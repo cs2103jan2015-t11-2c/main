@@ -71,7 +71,7 @@
     <ClInclude Include="DataStore.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Delete.h" />
-    <ClInclude Include="Display.h" />
+    <ClInclude Include="Search.h" />
     <ClInclude Include="Edit.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Classes.h" />
@@ -79,7 +79,6 @@
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParserFacade.h" />
     <ClInclude Include="Priority.h" />
-    <ClInclude Include="Search.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="Timing.h" />
     <ClInclude Include="UserInterface.h" />
@@ -98,10 +97,9 @@
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="ParserFacade.cpp" />
     <ClCompile Include="Priority.cpp" />
-    <ClCompile Include="Search.cpp" />
     <ClCompile Include="Sort.cpp" />
     <ClCompile Include="Classes.cpp" />
-    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Search.cpp" />
     <ClCompile Include="Timing.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="UserMessage.cpp" />

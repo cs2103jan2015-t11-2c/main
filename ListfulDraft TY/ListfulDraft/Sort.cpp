@@ -1,18 +1,24 @@
-//@author A0116237L
 #include "Sort.h"
 
 //To swap the entries
 void Sort::sortSwitch(int &index, int &start, DataStore &data){
+	data.getTempData().clear();
+	data.getTempIndexList().clear();
+
 	for(int i = 0; i < data.getData().size(); i++){
 		if (i < start) {
 			data.getTempData().push_back(data.getData()[i]); 
+			data.getTempData()[i].referenceNo = i + 1;
 		}
 		else if(i == start) {
-			data.getTempData().push_back(data.getData()[index]); 
+			data.getTempData().push_back(data.getData()[index]);
+			data.getTempData()[i].referenceNo = i + 1;
 			data.getTempData().push_back(data.getData()[i]); 
+			data.getTempData()[i + 1].referenceNo = i + 2;
 		}
 		else if(i != index) {
-			data.getTempData().push_back(data.getData()[i]); 
+			data.getTempData().push_back(data.getData()[i]);
+			data.getTempData()[i].referenceNo = i + 2;
 		}
 	}
 	data.getData() = data.getTempData();
@@ -28,14 +34,12 @@ void Sort::sortSub(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		line2 = data.getData()[iter].subject;
 		for (int start = 0; start < iter; ++start) {
-			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
-				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
-					line1 = data.getData()[start].subject;
-					compareLineSize(line1, line2, lineSize);
-					if (compareWord(line1, line2, lineSize)) {
-						sortSwitch(iter, start, data);
-						line2 = data.getData()[iter].subject;
-					}
+			if (cmpSame(data, start, iter)) {
+				line1 = data.getData()[start].subject;
+				compareLineSize(line1, line2, lineSize);
+				if (compareWord(line1, line2, lineSize)) {
+					sortSwitch(iter, start, data);
+					line2 = data.getData()[iter].subject;
 				}
 			}
 		}
@@ -102,17 +106,28 @@ bool Sort::compareWord(std::string &line1, std::string &line2, std::string &line
 void Sort::sortDate(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
+			if (cmpSame(data, start, iter)) {
+				if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month == data.getData()[iter].month && data.getData()[start].day > data.getData()[iter].day) {
+					sortSwitch(iter, start, data);
+				}
+				else if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month > data.getData()[iter].month) {
+					sortSwitch(iter, start, data);
+				}
+				else if (data.getData()[start].year > data.getData()[iter].year) {
+					sortSwitch(iter, start, data);
+				}
+			}
+		}
+	}
+	return;
+}
+
+void Sort::sortComplete(DataStore &data) {
+	for (int iter = 1; iter < data.getData().size(); ++iter) {
+		for (int start = 0; start < iter; ++start) {
 			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
-				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
-					if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month == data.getData()[iter].month && data.getData()[start].day > data.getData()[iter].day) {
-						sortSwitch(iter, start, data);
-					}
-					else if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month > data.getData()[iter].month) {
-						sortSwitch(iter, start, data);
-					}
-					else if (data.getData()[start].year > data.getData()[iter].year) {
-						sortSwitch(iter, start, data);
-					}
+				if (data.getData()[start].isComplete && !data.getData()[iter].isComplete) {
+					sortSwitch(iter, start, data);
 				}
 			}
 		}
@@ -123,14 +138,12 @@ void Sort::sortDate(DataStore &data) {
 void Sort::sortTime(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
-			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
-				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
-					if (data.getData()[start].startTime > data.getData()[iter].startTime) {
-						sortSwitch(iter, start, data);
-					}
-					else if (data.getData()[start].startTime == data.getData()[iter].startTime && data.getData()[start].endTime < data.getData()[iter].endTime) {
-						sortSwitch(iter, start, data);
-					}
+			if (cmpSame(data, start, iter)) {
+				if (data.getData()[start].startTime > data.getData()[iter].startTime) {
+					sortSwitch(iter, start, data);
+				}
+				else if (data.getData()[start].startTime == data.getData()[iter].startTime && data.getData()[start].endTime < data.getData()[iter].endTime) {
+					sortSwitch(iter, start, data);
 				}
 			}
 		}
@@ -159,11 +172,9 @@ int Sort::determineC(std::string word) {
 void Sort::sortCat(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
-			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
-				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
-					if (determineC(data.getData()[start].category) > determineC(data.getData()[iter].category)) {	
-						sortSwitch(iter, start, data);
-					}
+			if (cmpSame(data, start, iter)) {
+				if (determineC(data.getData()[start].category) > determineC(data.getData()[iter].category)) {	
+					sortSwitch(iter, start, data);
 				}
 			}
 		}
@@ -189,11 +200,9 @@ int Sort::determineP(std::string word) {
 void Sort::sortPriority(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
-			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
-				if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
-					if (determineP(data.getData()[start].priority) > determineP(data.getData()[iter].priority)) {	
-						sortSwitch(iter, start, data);
-					}
+			if (cmpSame(data, start, iter)) {
+				if (determineP(data.getData()[start].priority) > determineP(data.getData()[iter].priority)) {	
+					sortSwitch(iter, start, data);
 				}
 			}
 		}
@@ -222,6 +231,17 @@ bool Sort::sortContent(DataStore &data){
 			return false;
 	}
 	return true;
+}
+
+bool Sort::cmpSame(DataStore &data, int start, int iter) {
+	if (data.getData()[start].isFloat == data.getData()[iter].isFloat) {
+		if (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask) {
+			if (data.getData()[start].isComplete == data.getData()[iter].isComplete) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 int &Sort::getSortCat() {

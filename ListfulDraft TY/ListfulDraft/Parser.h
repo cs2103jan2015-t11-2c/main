@@ -1,4 +1,3 @@
-//@author A0116177E
 #ifndef PARSER_H
 #define PARSER_H
 
@@ -29,6 +28,7 @@ class Parser {
 		bool time;
 		bool cat;
 		bool priority;
+		bool complete;
 
 		std::string _information;
 		
@@ -37,13 +37,13 @@ class Parser {
 		void init(std::string);
 
 		bool getIndex(DataStore &, int &);
-		bool getEditDelete(DataStore &, Classes, int &, int &, std::string);
+		bool getEditDelete(DataStore &, Classes, int &, int &, std::string, std::ostringstream &);
 		void separateWord(Classes &, DataStore &, bool &, bool &);
 		void retrieveDate(Classes &, bool &);
 		void retrieveTime(Classes &, bool &);
 		void retrievePriority(Classes &);
 		void retrieveCategory(Classes &);
-		void retrieveComplete(Classes &, DataStore &);
+		void retrieveCompleteAndRefNo(Classes &, DataStore &);
 		void takeFirstWord(int &, size_t &, std::string &);
 		void cutExtraWord(size_t, int, int);
 		bool extraWord(std::string, size_t, int, int, int);
@@ -55,6 +55,12 @@ class Parser {
 		void getNextWord (std::string &, size_t &, size_t &);
 		void updateStr(std::string &, size_t &, size_t &);
 		void joinStr(std::string &, size_t &);
+		
+		bool &getDate();
+		bool &getTime();
+		bool &getCat();
+		bool &getPriority();
+		bool &getComplete();
 		//void testParser();
 };
 
