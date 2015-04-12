@@ -60,8 +60,6 @@ class UserMessage {
 
 		std::vector <std::string> _progMsg;
 
-		std::vector <std::string> _progErrorMsg;
-
 		std::vector <std::string> _quotes;
 
 	public:

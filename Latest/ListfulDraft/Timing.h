@@ -6,25 +6,27 @@
 class Timing {
 	private:
 		std::vector <std::string> _linkWord;
-		std::vector <std::string> _words;
 		int _startTime;
 		int _endTime;
 
 	public:
 		Timing();
-	
-		void changeToLower(std::string &);
-		bool isTimeValid(int);
-		void updateStr(std::string &, std::string &, size_t);
-		bool extractNum (std::string, int &, int &);
-		void updateTime();
-		void removeNonTimeChar(std::string &);
-		void countWord(std::string, int &);
+		
+		bool extractTime (std::string &, int &, bool &);
+		
 		bool takeTime(std::string &, int &, bool &);
 		void checkAMPM (std::string &, int , int &, bool &, int);
-		bool extractTime (std::string &, int &, bool &);
+		bool isTimeValid(int);
+		bool extractNum (std::string, int &, int &);
+		
+		void countWord(std::string, int &);
+		void changeToLower(std::string &);
+		void updateStr(std::string &, std::string &, size_t);
+		void removeNonTimeChar(std::string &);
+		
+		void updateTime();
 		bool checkStartEnd();
-
+		
 		int &getStart();
 		int &getEnd();
 };

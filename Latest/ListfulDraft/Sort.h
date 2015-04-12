@@ -18,6 +18,8 @@ class Sort {
 	public:
 		Sort() {};
 
+		bool sortContent(DataStore &);
+	
 		void sortSwitch(int &, int &, DataStore &);
 	
 		void sortSub(DataStore &);
@@ -26,14 +28,17 @@ class Sort {
 		bool convertAndCmp(std::string, std::string, int, char &);
 	
 		void sortComplete(DataStore &);
+
 		void sortDate(DataStore &);
+
 		void sortTime(DataStore &);
+
 		void sortCat(DataStore &);
 		int determineC(std::string);
+
 		void sortPriority(DataStore &);
 		int determineP(std::string);
-		bool sortContent(DataStore &);
-	
+
 		bool cmpSame(DataStore & ,int, int);
 
 		int &getSortCat();

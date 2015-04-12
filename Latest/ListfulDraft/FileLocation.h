@@ -15,6 +15,7 @@ class FileLocation {
 	
 		void updateFileLocation(std::string);
 		void saveFileLocation();
+
 		bool findFile(DataStore &, bool);
 		int openFile(DataStore &, ParserFacade, Classes &);
 
