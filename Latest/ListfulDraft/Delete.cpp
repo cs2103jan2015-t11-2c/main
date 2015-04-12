@@ -2,7 +2,6 @@
 
 void Delete::remove(DataStore &data, std::vector <int> list) {
 	data.getTempIndexList().clear();
-	std::ostringstream ignore;
 	bool isTemp = true;
 	
 	for (int i = 0; !list.empty(); i++) {
@@ -56,7 +55,6 @@ bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream
 		else if (!checkList.empty()) {
 			if (isRepeat(data, checkList, index)) {
 				errMsg << data.get_tempEntry().subject;
-				data.get_tempEntry().subject = "";
 				return false;
 			}
 		}
@@ -72,11 +70,8 @@ bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream
 		}
 	}
 	remove(data, checkList);
-	std::cout << "wgf" << std::endl;
 	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
-	std::cout << "th" << std::endl;
 	checkDataBaseEmpty(data, errMsg);
-	std::cout << "erdh" << std::endl;
 	return true;
 }
 
@@ -85,11 +80,13 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 	bool isTemp = true;
 	std::vector <int> checkList;
 	data.getTempData().clear();
-	data.getTempIndexList().clear();
 
 	if (info == "all") {
-		for (int i = 0; i < data.getTempData().size(); i++) {
-			checkList.push_back(data.getTempData()[i].referenceNo);
+		for (int i = 0; i < data.getTempIndexList().size(); i++) {
+			checkList.push_back(data.getData()[data.getTempIndexList()[i]].referenceNo);
+			std::cout << checkList.back() << std::endl;
+			data.get_tempEntry() = data.getData()[i];
+			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
 		}
 		remove(data, checkList);
 		data.clearData(floating, scheduled, deadline);

@@ -8,8 +8,6 @@ ParserFacade::ParserFacade() {
 void ParserFacade::init(std::string command) {
 	size_t start = 0;
 	size_t end;
-	
-	std::cout << "ef" << command << "f" << std::endl;
 
 	_parse.getNextWord(command, start, end);
 	if (end == std::string::npos) {
@@ -25,8 +23,6 @@ void ParserFacade::init(std::string command) {
 	_parse.removeFrontChar(_information);
 	_parse.removeBackChar(_information);
 	_parse.init(_information);
-	std::cout << "ef" << _userInput << "f" << std::endl;
-	std::cout << "f" << _information << "fr" << std::endl;
 	return;
 }
 
@@ -66,29 +62,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			}
 			else {
 				if (!listClass.search.displayContent(data, _information, errMsg, floating, scheduled, deadline)) {
-					_parse.separateWord(listClass, data, pastDate, checkTime);
-					if (errMsg == "" && _parse.getTime() && _parse.getDate()) {
-						listClass.search.getTime(data, floating, scheduled, deadline, errMsg);
-					}
-					else if (errMsg == "" && _parse.getTime()) {
-						listClass.search.getFloat(data, floating, errMsg);
-					}
-					else if (errMsg == "" && _parse.getDate()) {
-						listClass.search.getDay(data, floating, scheduled, deadline, errMsg);
-					}
-					else if (errMsg == "" && _parse.getCat()) {
-						listClass.search.getCat(data, floating, scheduled, deadline, errMsg);
-					}
-					else if (errMsg == "" && _parse.getPriority()) {
-						listClass.search.getPriority(data, floating, scheduled, deadline, errMsg);
-					}
-					else if (errMsg == "" && _parse.getComplete()) {
-						listClass.search.getComplete(data, floating, scheduled, deadline, errMsg);
-					}
-					else if (errMsg == "") {
-						listClass.search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
-					}
-
+					defaultSearchFunc(listClass, data, errMsg, floating, scheduled, deadline);
 					if (data.getTempData().size() == 0) {
 						return (listClass.commandType::SEARCH + 12);
 					}
@@ -172,28 +146,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			}
 			else {
 				_parse.init(_userInput);
-				_parse.separateWord(listClass, data, pastDate, checkTime);
-				if (_parse.getTime() && _parse.getDate()) {
-					listClass.search.getTime(data, floating, scheduled, deadline, errMsg);
-				}
-				else if (_parse.getTime()) {
-					listClass.search.getFloat(data, floating, errMsg);
-				}
-				else if (_parse.getDate()) {
-					listClass.search.getDay(data, floating, scheduled, deadline, errMsg);
-				}
-				else if (_parse.getCat()) {
-					listClass.search.getCat(data, floating, scheduled, deadline, errMsg);
-				}
-				else if (_parse.getPriority()) {
-					listClass.search.getPriority(data, floating, scheduled, deadline, errMsg);
-				}
-				else if (_parse.getComplete()) {
-					listClass.search.getComplete(data, floating, scheduled, deadline, errMsg);
-				}
-				else {
-					listClass.search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
-				}
+				defaultSearchFunc(listClass, data, errMsg, floating, scheduled, deadline);
 				if (data.getTempData().size() == 0) {
 					return (listClass.commandType::SEARCH + 12);
 				}
@@ -224,6 +177,35 @@ bool ParserFacade::isHelp(std::string input) {
 }
 
 
+
+void ParserFacade::defaultSearchFunc(Classes listClass, DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	bool pastDate = false;
+	bool checkTime = false;
+
+	_parse.separateWord(listClass, data, pastDate, checkTime);
+	if (_parse.getTime() && _parse.getDate()) {
+		listClass.search.getTime(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (_parse.getTime()) {
+					listClass.search.getFloat(data, floating, errMsg);
+	}	
+	else if (_parse.getDate()) {
+		listClass.search.getDay(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (_parse.getCat()) {
+		listClass.search.getCat(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (_parse.getPriority()) {
+		listClass.search.getPriority(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (_parse.getComplete()) {
+		listClass.search.getComplete(data, floating, scheduled, deadline, errMsg);
+	}
+	else {
+		listClass.search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
+	}
+	return;
+}
 
 void ParserFacade::separateWord(Classes &listClass, DataStore &data, bool &i, bool &j) {
 	_parse.separateWord(listClass, data, i, j);

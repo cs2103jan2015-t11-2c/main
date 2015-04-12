@@ -14,10 +14,10 @@ const std::string UserMessage::CURRENT_TIME = "                                 
 
 const std::string UserMessage::MESSAGE_FILE_CREATED = " loading... new %s created and ready for use";
 const std::string UserMessage::MESSAGE_FILE_OPENED = " loading... %s is open and ready for use";
-const std::string UserMessage::MESSAGE_REMINDER = "                        REMINDER(s) for the next 3 days                         %s%s%s%s";
+const std::string UserMessage::MESSAGE_REMINDER = "                    REMINDER(s) for today and the next 2 days                   %s%s%s%s";
 const std::string UserMessage::MESSAGE_OVERDUE = "                                    OVERDUE                                     %s%s%s%s";
 const std::string UserMessage::MESSAGE_NO_OVERDUE = " you have no overdue tasks ^^";
-const std::string UserMessage::MESSAGE_FREE = " you have no upcoming tasks due the next 3 days :)";
+const std::string UserMessage::MESSAGE_FREE = " you have no upcoming tasks due today and next 2 days :)";
 
 const std::string UserMessage::MESSAGE_ADD = " added to %s: [%s]%s%s";
 const std::string UserMessage::MESSAGE_SEARCH = "%s%s%s%s";
