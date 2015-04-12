@@ -21,6 +21,8 @@ bool Priority::extractPriority(int impt, std::string &pStr, size_t found) {
 	return true;
 }
 
+
+
 //Cuts out if priority is identified
 void Priority::updateStr(std::string &pStr, size_t found) {
 	if (found == pStr.size()) {
@@ -36,6 +38,8 @@ void Priority::updateStr(std::string &pStr, size_t found) {
 	}
 	return;
 }
+
+
 
 std::string &Priority::getPriority() {
 	return _priority;

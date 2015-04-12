@@ -1,10 +1,10 @@
 #include "Classes.h"
 
 int Classes::determineCommand(std::string _userInput) {
-	if (_userInput == "add" || _userInput == "1" || _userInput == "addto" || _userInput == "a") {
+	if (_userInput == "add" || _userInput == "1" || _userInput == "addto" || _userInput == "a" || _userInput == "-") {
 		return commandType::ADD;
 	}
-	else if (_userInput == "display" || _userInput == "2" || _userInput == "search" || _userInput == "show" || _userInput == "find") {
+	else if (_userInput == "display" || _userInput == "2" || _userInput == "search" || _userInput == "show" || _userInput == "find" || _userInput == "get") {
 		return commandType::SEARCH;
 	}
 	else if (_userInput == "delete" || _userInput == "3" || _userInput == "remove" || _userInput == "del") {

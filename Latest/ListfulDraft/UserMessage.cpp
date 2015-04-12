@@ -36,10 +36,10 @@ const std::string UserMessage::ERROR_SEARCH = " %s is unable to search (%s)";
 const std::string UserMessage::ERROR_CLEAR = " %s is already empty with no tasks to clear";
 const std::string UserMessage::ERROR_EDIT = " %s cannot be edited (%s)";
 const std::string UserMessage::ERROR_SORT = " %s does not contain the category specified: %s";
-const std::string UserMessage::ERROR_UNDO = " no previous changes to undo";
-const std::string UserMessage::ERROR_REDO = " no previous undo to redo";
 const std::string UserMessage::ERROR_DELETE = " entry to delete not found in %s (%s)";
 const std::string UserMessage::ERROR_DELETE_2 = " multiple entries found, please select one (or more) to delete by its index";
+const std::string UserMessage::ERROR_UNDO = " no previous changes to undo";
+const std::string UserMessage::ERROR_REDO = " no previous undo to redo";
 
 const std::string UserMessage::ERROR_ADD_DATE = " date entered has already past (undo/edit adviced)";
 const std::string UserMessage::ERROR_ADD_TIME = " end time entered earlier then start time (undo/edit adviced)";
@@ -54,18 +54,18 @@ UserMessage::UserMessage() {
 	_commandMsg.push_back(MESSAGE_COMPLETE);
 	_commandMsg.push_back(MESSAGE_UNDO);
 	_commandMsg.push_back(MESSAGE_REDO);
-	_commandMsg.push_back(ERROR_COMMAND);
 	_commandMsg.push_back(MESSAGE_DO_NOTHING);
 	_commandMsg.push_back(MESSAGE_CLOSE_FILE);
+	_commandMsg.push_back(ERROR_COMMAND);
 	_commandMsg.push_back(ERROR_ADD);
 	_commandMsg.push_back(ERROR_SEARCH);
 	_commandMsg.push_back(ERROR_CLEAR);
 	_commandMsg.push_back(ERROR_EDIT);
 	_commandMsg.push_back(ERROR_SORT);
 	_commandMsg.push_back(ERROR_DELETE);
+	_commandMsg.push_back(ERROR_DELETE_2);
 	_commandMsg.push_back(ERROR_UNDO);
 	_commandMsg.push_back(ERROR_REDO);
-	_commandMsg.push_back(ERROR_DELETE_2);
 											
 	_progMsg.push_back(MESSAGE_COMMAND_LIST);	
 	_progMsg.push_back(MESSAGE_LINE);				

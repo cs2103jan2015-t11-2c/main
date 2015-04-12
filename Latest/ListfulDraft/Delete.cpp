@@ -4,7 +4,7 @@ void Delete::remove(DataStore &data, std::vector <int> list) {
 	data.getTempIndexList().clear();
 	std::ostringstream ignore;
 	bool isTemp = true;
-
+	
 	for (int i = 0; !list.empty(); i++) {
 		if (data.getData()[i].referenceNo == list.back()) {
 			data.getTempIndexList().push_back(i);
@@ -43,18 +43,20 @@ bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream
 	bool isTemp = true;
 	std::vector <int> checkList;
 	data.getTempData().clear();
+
 	while (!info.empty()) {
 		if (found == std::string::npos) {
 			found = info.size();
 		}
 		index = atoi(info.substr(0, found).c_str());
-		
 		if (index > data.getTempIndexList().size()) {
-			data.get_tempEntry().subject = "index out of range";
+			errMsg << "index out of range";
 			return false;
 		}
 		else if (!checkList.empty()) {
 			if (isRepeat(data, checkList, index)) {
+				errMsg << data.get_tempEntry().subject;
+				data.get_tempEntry().subject = "";
 				return false;
 			}
 		}
@@ -62,15 +64,19 @@ bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream
 		add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
 		checkList.push_back(data.getData()[data.getTempIndexList()[index - 1]].referenceNo);
 		if (found == info.size()) {
-			info.clear();
-			break;
+			info = "";
 		}
-		info = info.substr(found + 1);
-		found = info.find_first_of(" ");
+		else {
+			info = info.substr(found + 1);
+			found = info.find_first_of(" ");
+		}
 	}
 	remove(data, checkList);
-	search.getTempDisplay(data, floating, scheduled, deadline);
+	std::cout << "wgf" << std::endl;
+	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
+	std::cout << "th" << std::endl;
 	checkDataBaseEmpty(data, errMsg);
+	std::cout << "erdh" << std::endl;
 	return true;
 }
 
@@ -87,7 +93,7 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 		}
 		remove(data, checkList);
 		data.clearData(floating, scheduled, deadline);
-		search.getTempDisplay(data, floating, scheduled, deadline);
+		search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
 		checkDataBaseEmpty(data, errMsg);
 		isDelete = true;
 		return true;
@@ -112,11 +118,14 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 	else if (data.getTempData().size() == 1) {
 		remove(data, checkList);
 		isDelete = true;
+		data.clearData(floating, scheduled, deadline);
+		search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
+		checkDataBaseEmpty(data, errMsg);
 		return true;
 	}
 	data.get_tempEntry() = data.get_emptyEntry();
 	data.clearData(floating, scheduled, deadline);
-	search.getTempDisplay(data, floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
 	checkDataBaseEmpty(data, errMsg);
 	return false;
 }

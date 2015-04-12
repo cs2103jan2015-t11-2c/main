@@ -5,7 +5,7 @@
 
 class ParserFacade {
 	private:
-		bool _isEnd;
+		bool _isRun;
 
 		std::string _userInput;
 		std::string _information;
@@ -15,6 +15,8 @@ class ParserFacade {
 	public:
 		ParserFacade();
 		void init(std::string);
+		
+		int carryOutCommand(Classes &, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 
 		bool isHelp(std::string);
 		bool isRunProgram();
@@ -23,8 +25,6 @@ class ParserFacade {
 		void removeFrontChar(std::string &);
 		void removeBackChar(std::string &);
 		void readFile(std::string);
-
-		int carryOutCommand(Classes &, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 };
 
 #endif

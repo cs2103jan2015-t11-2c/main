@@ -18,7 +18,7 @@ void Edit::updateTemp(DataStore &data, std::vector <int> list) {
 bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
 	for (int j = 0; j < list.size(); j++) {
 		if (list[j] == index) {
-			data.get_tempEntry().subject = " repeated index to check complete found\n";
+			data.get_tempEntry().subject = " repeated index to edit found\n";
 			return true;
 		}
 	}
@@ -41,7 +41,7 @@ bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstr
 	sort.sortComplete(data);
 	data.clearData(errMsg, floating, scheduled);
 	data.clearData(floating, scheduled, deadline);
-	search.getTempDisplay(data, floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
 	return true;
 }
 
@@ -55,11 +55,6 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 		return checkAll(data, errMsg, floating, scheduled, deadline, input);
 	}
 
-	//To remove redundant char in front
-	while (info[0] <= '0' || info[0] >= '9') {
-		info = info.substr(1);
-	}
-	
 	while (!info.empty()) {
 		if (found == std::string::npos) {
 			found = info.size();
@@ -70,7 +65,8 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 			return false;
 		}
 		else if (!checkList.empty()) {
-			if (isRepeat(data, checkList, index)) {
+			if (isRepeat(data, checkList, index - 1)) {
+				errMsg << data.get_tempEntry().subject;
 				return false;
 			}
 		}
@@ -82,31 +78,33 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 		}
 		checkList.push_back(data.getTempIndexList()[index - 1]);
 		if (found == info.size()) {
-			info.clear();
-			break;
+			info = "";
 		}
-		info = info.substr(found + 1);
-		found = info.find_first_of(" ");
+		else {
+			info = info.substr(found + 1);
+			found = info.find_first_of(" ");
+		}
 	}
 	updateTemp(data, checkList);
 	sort.sortComplete(data);
 	data.clearData(floating, scheduled, deadline);
-	search.getTempDisplay(data, floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
 	data.get_tempEntry().subject = "completed";
 	return true;
 }
 
 bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
-	if (index == -1) {
-		index = 0;
-	}
-	if (data.getData().size() == 0 && data.getTempData().size() == 0) {
+	if (data.getData().size() == 0) {
 		errMsg << "file is empty";
 		return false;
 	}
 	else if (index > data.getTempData().size()) {
 		errMsg << "index entered is out of range";
 		return false;
+	}
+	
+	if (index == -1) {
+		index = 0;
 	}
 
 	bool real = true;
@@ -125,7 +123,7 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 			editDate(data, data.getTempIndexList()[index]);
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
 			return true;
-		
+
 		case 2:
 			data.getTempData().push_back(data.get_tempEntry());
 			errMsg << " \"" << search.getTime(data, data.getTempIndexList()[index], isTemp) << "\" to \"" << search.getTime(data, 0, real) << "\"";
@@ -148,7 +146,8 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 	}
 	data.get_tempEntry() = data.getData()[data.getTempIndexList()[index]];
 	data.clearData(floating, scheduled, deadline);
-	search.getEntry(data, floating, scheduled, deadline);
+	search.getEntry(data, floating, scheduled, deadline, errMsg);
+	data.get_tempEntry().subject = "";
 	return true;
 }
 
