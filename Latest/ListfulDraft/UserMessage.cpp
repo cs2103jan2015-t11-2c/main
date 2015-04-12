@@ -4,7 +4,7 @@ const std::string UserMessage::MESSAGE_COMMAND_LIST = "     1)Add    2)Search   
 const std::string UserMessage::MESSAGE_LINE = " ------------------------------------------------------------------------------ ";
 const std::string UserMessage::MESSAGE_STAR = "********************************************************************************";
 const std::string UserMessage::MESSAGE_WELCOME = "                           *** Listful %s ***                           ";
-const std::string UserMessage::MESSAGE_LOGIN = " ~ For help, enter [?] to search the above list of commands available             NOTE: you can [undo] and [redo] actions as well                              ";
+const std::string UserMessage::MESSAGE_LOGIN = " ~ For help, enter [?] to search the above list of commands available             NOTE: you can [undo] and [redo] actions as well                               ";
 const std::string UserMessage::MESSAGE_LOGIN2 = " Please enter a file name (and location to save your file if you wish)           -> ";
 const std::string UserMessage::MESSAGE_DISPLAY_FLOATING = "  TO DO(s)                                       | Time      | Category |        ================================================|===========|==========|====== ";
 const std::string UserMessage::MESSAGE_DISPLAY_SCHEDULE = "  SCHEDULED TASK(s)                 | Date       | Time      | Category |        ===================================|============|===========|==========|====== ";

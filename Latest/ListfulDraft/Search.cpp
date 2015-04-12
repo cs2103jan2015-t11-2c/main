@@ -64,6 +64,7 @@ void Search::updateDisplayData(DataStore &data, int i) {
 }
 
 
+
 void Search::getFloat(DataStore &data, std::ostringstream &floating, std::ostringstream &errMsg) {
 	int i = 0;
 	std::ostringstream ignore;
@@ -355,53 +356,85 @@ void Search::getFullString(std::string info, DataStore &data, std::ostringstream
 
 	num = atoi(info.c_str());
 	if (num > data.getTempData().size()) {
+		data.getTempData().clear();
 		errMsg << "index out of range";
 		return;
 	}
+	num--;
 	std::string remainingStr = data.getTempData()[num].subject;
 	
 	if (data.getTempData()[num].isFloat) {
-		floating << "  1. ";
+		floating << " 1. ";
 		if (getRemainingStr(cutOff, remainingStr, FLOAT_SUB_SIZE)) {
 			floating << cutOff << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
 			while (getRemainingStr(cutOff, remainingStr, FLOAT_SUB_SIZE)) {
+				printSpace(floating, 4);
+				while (cutOff[0] == ' ') {
+					cutOff = cutOff.substr(1);
+				}
 				floating << cutOff;
 				printSpace(floating, FLOAT_SUB_SIZE - cutOff.size());
 				floating << " |           |          | " << std::endl;
 			}
-			floating << remainingStr << " |           |          | " << std::endl;
+			printSpace(floating, 4);
+			while (remainingStr[0] == ' ') {
+				remainingStr = remainingStr.substr(1);
+			}
+			floating << remainingStr;
+			printSpace(floating, FLOAT_SUB_SIZE - remainingStr.size());
+			floating << " |           |          | " << std::endl;
 		}
 		else if (data.getTempData().size() < FLOAT_SUB_SIZE) {
 			floating << getTempDataString(data, num, updateFile) << std::endl;
 		}
 	}
 	else if (data.getTempData()[num].isTimedTask) {
-		scheduled << "  1. ";
-		if (getRemainingStr(cutOff, remainingStr, FLOAT_SUB_SIZE)) {
-			scheduled << cutOff << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
-			while (getRemainingStr(cutOff, remainingStr, FLOAT_SUB_SIZE)) {
+		scheduled << " 1. ";
+		if (getRemainingStr(cutOff, remainingStr, NON_FLOAT_SUB_SIZE)) {
+			scheduled << cutOff << " | " << getDate(data, num, isTemp) << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
+			while (getRemainingStr(cutOff, remainingStr, NON_FLOAT_SUB_SIZE)) {
+				printSpace(scheduled, 4);
+				while (cutOff[0] == ' ') {
+					cutOff = cutOff.substr(1);
+				}
 				scheduled << cutOff;
-				printSpace(scheduled, FLOAT_SUB_SIZE - cutOff.size());
-				scheduled << " |           |          | " << std::endl;
+				printSpace(scheduled, NON_FLOAT_SUB_SIZE - cutOff.size());
+				scheduled << " |            |           |          | " << std::endl;
 			}
-			scheduled << remainingStr << " |           |          | " << std::endl;
+			printSpace(scheduled, 4);
+			while (remainingStr[0] == ' ') {
+				remainingStr = remainingStr.substr(1);
+			}
+			scheduled << remainingStr;
+			printSpace(scheduled, NON_FLOAT_SUB_SIZE - remainingStr.size());
+			scheduled << " |            |           |          | " << std::endl;
 		}
-		else if (data.getTempData().size() < FLOAT_SUB_SIZE) {
+		else if (data.getTempData().size() < NON_FLOAT_SUB_SIZE) {
 			scheduled << getTempDataString(data, num, updateFile) << std::endl;
 		}
 	}
 	else {
-		deadline << "  1. ";
-		if (getRemainingStr(cutOff, remainingStr, FLOAT_SUB_SIZE)) {
-			deadline << cutOff << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
-			while (getRemainingStr(cutOff, remainingStr, FLOAT_SUB_SIZE)) {
+		deadline << " 1. ";
+		if (getRemainingStr(cutOff, remainingStr, NON_FLOAT_SUB_SIZE)) {
+			deadline << cutOff << " | " << getDate(data, num, isTemp) << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
+			while (getRemainingStr(cutOff, remainingStr, NON_FLOAT_SUB_SIZE)) {
+				printSpace(deadline, 5);
+				while (cutOff[0] == ' ') {
+					cutOff = cutOff.substr(1);
+				}
 				deadline << cutOff;
-				printSpace(deadline, FLOAT_SUB_SIZE - cutOff.size());
-				deadline << " |           |          | " << std::endl;
+				printSpace(deadline, NON_FLOAT_SUB_SIZE - cutOff.size());
+				deadline << " |            |           |          | " << std::endl;
 			}
-			deadline << remainingStr << " |           |          | " << std::endl;
+			printSpace(deadline, 4);
+			while (remainingStr[0] == ' ') {
+				remainingStr = remainingStr.substr(1);
+			}
+			deadline << remainingStr;
+			printSpace(deadline, NON_FLOAT_SUB_SIZE - remainingStr.size());
+			deadline << " |            |           |          | " << std::endl;
 		}
-		else if (data.getTempData().size() < FLOAT_SUB_SIZE) {
+		else if (data.getTempData().size() < NON_FLOAT_SUB_SIZE) {
 			deadline << getTempDataString(data, num, updateFile) << std::endl;
 		}
 	}
