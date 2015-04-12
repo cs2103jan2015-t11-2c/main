@@ -1,5 +1,5 @@
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef SEARCH_H
+#define SEARCH_H 1
 
 #define MIN -1
 

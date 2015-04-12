@@ -42,12 +42,10 @@ bool Search::displayContent(DataStore &data, std::string info, std::ostringstrea
 }
 
 
-
 void Search::updateDisplayData(DataStore &data, int i) {
 	data.getTempData().push_back(data.getData()[i]);
 	data.getTempIndexList().push_back(i);
 }
-
 
 
 void Search::getFloat(DataStore &data, std::ostringstream &floating, std::ostringstream &errMsg) {

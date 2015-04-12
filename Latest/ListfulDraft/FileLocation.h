@@ -1,3 +1,6 @@
+#ifndef FILELOCATION_H
+#define FILELOCATION_H
+
 #include "ParserFacade.h"
 
 class FileLocation {
@@ -22,3 +25,4 @@ class FileLocation {
 		std::string &getName();
 };
 
+#endif

@@ -1,5 +1,5 @@
-#ifndef TIME_H
-#define TIME_H
+#ifndef TIMING_H
+#define TIMING_H
 
 #include "DataStore.h"
 
