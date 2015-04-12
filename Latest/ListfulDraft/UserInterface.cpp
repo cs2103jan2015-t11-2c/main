@@ -103,7 +103,7 @@ void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg
 			data.clearData(empty, empty, empty);
 			sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str(), empty.str().c_str());
 			oss << msgToUser;
-			if (output != 8 && output != 9) {
+			if (output != 7 && output != 8) {
 				oss << "\n";
 			}
 			std::cout << oss.str();
@@ -111,14 +111,14 @@ void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg
 		getStringToDisplay(floating, scheduled, deadline, outputToUser, listClass);
 
 		//To record the previous changes
-		if (output < 8 && output != 1) {
+		if (output < 7 && output != 1) {
 			data.savePrevAction(oss.str());
 		}
 		return;
 	}
 	else if (count == 2) {
 		sprintf_s(msgToUser, msg.c_str(), extName.c_str(), errMsg.str().c_str());
-		if (output < 8 && output != 1) {
+		if (output < 7 && output != 1) {
 			data.savePrevAction(msgToUser);
 		}
 		std::cout << "\n" << msgToUser;
@@ -126,7 +126,7 @@ void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg
 	}
 	else if (count == 1) {
 		sprintf_s(msgToUser, msg.c_str(), extName.c_str());
-		if (output < 8 && output != 1) {
+		if (output < 7 && output != 1) {
 			data.savePrevAction(msgToUser);
 		}
 		std::cout << "\n" << msgToUser;

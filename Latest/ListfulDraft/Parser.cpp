@@ -275,7 +275,6 @@ void Parser::retrieveCompleteAndRefNo(Classes &listClass, DataStore &data) {
 
 
 
-
 bool Parser::getIndex(DataStore &data, int &index) {
 	size_t found = _information.find_first_of("0123456789");
 	if (found == std::string::npos) {
@@ -297,19 +296,6 @@ bool Parser::getEditInfo(DataStore &data, Classes listClass, int &index, int &ca
 	size_t found = 0;
 	size_t found2 = 0;
 
-	while (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
-		found = str.find_first_not_of(" ", found2);
-		if (found == std::string::npos) {
-			break;
-		}
-		found2 = str.find_first_of(" ", found);
-		if (found2 == std::string::npos) {
-			found2 = str.size();
-		}
-		word = str.substr(found, found2 - found);
-		changeToLower(word);
-	}
-	
 	if (!getIndex(data, index)) {
 		//if no index and category assume editing the only display on the screen
 		if (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT && data.getTempData().size() != 1) {
