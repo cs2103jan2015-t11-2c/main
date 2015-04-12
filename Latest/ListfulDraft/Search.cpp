@@ -32,7 +32,7 @@ bool Search::displayContent(DataStore &data, std::string info, std::ostringstrea
 	else if (info == "all") {
 		return getDisplay(data, errMsg, floating, scheduled, deadline);
 	}
-	else if (info[0] >= '0' && info[0] <= '9') {
+	else if (isAllNum(info)) {
 		getFullString(info, data, errMsg, floating, scheduled, deadline);
 	}
 	else {
@@ -44,6 +44,18 @@ bool Search::displayContent(DataStore &data, std::string info, std::ostringstrea
 	}
 	return true;
 }
+
+bool Search::isAllNum(std::string info) {
+	while (info.size() != 0 && info[0] >= '0' && info[0] <= '9') {
+		info = info.substr(1);
+	}
+
+	if (info.size() == 0) {
+		return true;
+	}
+	return false;
+}
+
 
 
 void Search::updateDisplayData(DataStore &data, int i) {
@@ -570,14 +582,14 @@ void Search::getTime(DataStore &data, std::ostringstream &floating, std::ostring
 	data.getTempData().clear();
 	data.getTempIndexList().clear();
 
-	while (i < data.getData().size() && data.getData()[i].isFloat && data.get_tempEntry().isFloat) {
+	while (i < data.getData().size() && data.getData()[i].isFloat) {
 		i++;
 	}
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
-		if (!data.getData()[i].isComplete) {
+		if (!data.getData()[i].isComplete) {				
 			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
-				if (data.getData()[i].startTime >= data.get_tempEntry().startTime) {
+				if (data.getData()[i].startTime <= data.get_tempEntry().startTime && data.getData()[i].endTime > data.get_tempEntry().startTime) {
 					updateDisplayData(data, i);
 				}
 			}
@@ -588,7 +600,7 @@ void Search::getTime(DataStore &data, std::ostringstream &floating, std::ostring
 	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
 			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
-				if (data.getData()[i].startTime >= data.get_tempEntry().startTime) {
+				if (data.getData()[i].startTime <= data.get_tempEntry().startTime && data.getData()[i].endTime > data.get_tempEntry().startTime) {
 					updateDisplayData(data, i);
 				}
 			}

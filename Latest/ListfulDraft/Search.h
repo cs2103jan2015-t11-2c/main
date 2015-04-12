@@ -14,6 +14,7 @@ class Search {
 		Search() {};
 	
 		bool displayContent(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		bool isAllNum(std::string);
 
 		void updateDisplayData(DataStore &, int);
 

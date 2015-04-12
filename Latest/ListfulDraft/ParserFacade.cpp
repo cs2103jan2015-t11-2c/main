@@ -66,37 +66,29 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 						listClass.search.getTime(data, floating, scheduled, deadline, errMsg);
 					}
 					else if (_parse.getTime()) {
-				std::cout << "1" << std::endl;
 						listClass.search.getFloat(data, floating, errMsg);
 					}
 					else if (_parse.getDate()) {
-				std::cout << "2" << std::endl;
 						listClass.search.getDay(data, floating, scheduled, deadline, errMsg);
 					}
 					else if (_parse.getCat()) {
-				std::cout << "3" << std::endl;
 						listClass.search.getCat(data, floating, scheduled, deadline, errMsg);
 					}
 					else if (_parse.getPriority()) {
-				std::cout << "4" << std::endl;
 						listClass.search.getPriority(data, floating, scheduled, deadline, errMsg);
 					}
 					else if (_parse.getComplete()) {
-				std::cout << "5" << std::endl;
 						listClass.search.getComplete(data, floating, scheduled, deadline, errMsg);
 					}
 					else {
-				std::cout << "6" << std::endl;
 						listClass.search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
 					}
 
 					if (data.getTempData().size() == 0) {
-					std::cout << "8" << std::endl;
 						return (listClass.commandType::SEARCH + 12);
 					}
 				}
-				std::cout << "7" << std::endl;
-				return (listClass.commandType::SEARCH);
+				return listClass.commandType::SEARCH;
 			}
 
 		case listClass.CLEAR:
@@ -173,7 +165,37 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			if (_userInput == "") {
 				return listClass.commandType::DO_NOTHING;
 			}
-			return listClass.commandType::INVALID;
+			else {
+				_parse.init(_userInput);
+				_parse.separateWord(listClass, data, pastDate, checkTime);
+				if (_parse.getTime() && _parse.getDate()) {
+					listClass.search.getTime(data, floating, scheduled, deadline, errMsg);
+				}
+				else if (_parse.getTime()) {
+					listClass.search.getFloat(data, floating, errMsg);
+				}
+				else if (_parse.getDate()) {
+					listClass.search.getDay(data, floating, scheduled, deadline, errMsg);
+				}
+				else if (_parse.getCat()) {
+					listClass.search.getCat(data, floating, scheduled, deadline, errMsg);
+				}
+				else if (_parse.getPriority()) {
+					listClass.search.getPriority(data, floating, scheduled, deadline, errMsg);
+				}
+				else if (_parse.getComplete()) {
+					listClass.search.getComplete(data, floating, scheduled, deadline, errMsg);
+				}
+				else {
+					listClass.search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
+				}
+				if (data.getTempData().size() == 0) {
+					return (listClass.commandType::SEARCH + 12);
+				}
+				else {
+					return listClass.commandType::SEARCH;
+				}
+			}
 
 		default:
 			return listClass.commandType::INVALID;

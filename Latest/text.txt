@@ -4,23 +4,23 @@
 
 3. Mon submit cs2103                           |           | GENERAL  | HIGH | no
 
-4. ehdf's                                      |           | GENERAL  | LOW  | no
+4. meeting with gerald            | 13/04/2015 | 1200-1300 | WORK     | HIGH | no
 
-5. meeting with gerald            | 13/04/2015 | 1200-1300 | WORK     | HIGH | no
+5. basketball                     | 12/08/2015 | 1300-1600 | GENERAL  | LOW  | no
 
-6. basketball                     | 12/08/2015 | 1300-1600 | GENERAL  | LOW  | no
+6. run                            | 12/04/2015 | 1200      | GENERAL  | LOW  | no
 
-7. sskghf                         | 26/04/2015 |           | GENERAL  | LOW  | no
+7. noc mapping                    | 17/04/2015 |           | GENERAL  | LOW  | no
 
-8. gejh                           | 05/03/2015 |           | GENERAL  | LOW  | yes
+8. sdc                            | 20/04/2015 |           | GENERAL  | LOW  | no
 
-9. srighf                         | 04/03/2015 |           | GENERAL  | LOW  | yes
+9. lala                           | 25/04/2015 | 1500      | GENERAL  | LOW | no
 
-10. run                            | 12/04/2015 | 1200      | GENERAL  | LOW  | no
+10. sskghf                         | 26/04/2015 |           | GENERAL  | LOW  | no
 
-11. noc mapping                    | 17/04/2015 |           | GENERAL  | LOW  | no
+11. srighf                         | 04/03/2015 |           | GENERAL  | LOW  | yes
 
-12. sdc                            | 20/04/2015 |           | GENERAL  | LOW  | no
+12. gejh                           | 05/03/2015 |           | GENERAL  | LOW  | yes
 
 13. wesfc                          | 26/04/2015 |           | GENERAL  | LOW  | no
 

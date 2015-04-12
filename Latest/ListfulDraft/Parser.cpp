@@ -266,6 +266,7 @@ void Parser::retrieveCompleteAndRefNo(Classes &listClass, DataStore &data) {
 
 
 
+
 bool Parser::getIndex(DataStore &data, int &index) {
 	size_t found = _information.find_first_of("0123456789");
 	if (found == std::string::npos) {
