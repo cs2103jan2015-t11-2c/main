@@ -28,12 +28,11 @@ void ParserFacade::init(std::string command) {
 
 
 
-int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	int command = listClass.determineCommand(_userInput);
 	
 	int returnValue = 0;
-	int index = 0;
-	std::string str = "";
+	std::vector <int> editCat;
 	bool pastDate = false;
 	bool checkTime = false;
 	bool isTemp = false;
@@ -42,7 +41,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 	switch(command) {
 		case listClass.ADD:
 			data.get_tempEntry() = data.get_emptyEntry();
-			_parse.separateWord(listClass, data, pastDate, checkTime);
+			_parse.separateWord(data, pastDate, checkTime);
 			listClass.add.checkDateTime(data, errMsg, pastDate, checkTime);
 			if (listClass.add.addContent(data, errMsg, floating, scheduled, deadline, isTemp)) {
 				returnValue = listClass.commandType::ADD;
@@ -62,7 +61,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			}
 			else {
 				if (!listClass.search.displayContent(data, _information, errMsg, floating, scheduled, deadline)) {
-					defaultSearchFunc(listClass, data, errMsg, floating, scheduled, deadline);
+					defaultSearchFunc(data, errMsg, floating, scheduled, deadline);
 					if (data.getTempData().size() == 0) {
 						return (listClass.commandType::SEARCH + 12);
 					}
@@ -80,22 +79,13 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			break;
 
 		case listClass.EDIT:
-			str = _information;
-			_parse.separateWord(listClass, data, pastDate, checkTime);
-			if (!_parse.getEditInfo(data, listClass, index, listClass.edit.getCat(), str, errMsg)) {
-				returnValue = (listClass.commandType::EDIT + 12);
+			_parse.separateWord (data, pastDate, checkTime);
+			_parse.getEditInfo(editCat);
+			if (listClass.edit.editContent(data, editCat, _information, errMsg, floating, scheduled, deadline)) {
+				returnValue = listClass.commandType::EDIT;
 			}
 			else {
-				if (listClass.edit.editContent(data, index - 1, errMsg, floating, scheduled, deadline)) {
-					returnValue = listClass.commandType::EDIT;
-				}
-				else if (errMsg == "" && listClass.edit.checkComplete(data, _information, errMsg, floating, scheduled, deadline, _userInput)) {
-					returnValue = (listClass.commandType::EDIT + 3);
-				}
-				else {
-				std::cout << "st" << std::endl;
-					returnValue = (listClass.commandType::EDIT + 12);
-				}
+				returnValue = (listClass.commandType::EDIT + 12);
 			}
 			break;
 
@@ -146,7 +136,7 @@ int ParserFacade::carryOutCommand(Classes &listClass, DataStore &data, std::ostr
 			}
 			else {
 				_parse.init(_userInput);
-				defaultSearchFunc(listClass, data, errMsg, floating, scheduled, deadline);
+				defaultSearchFunc(data, errMsg, floating, scheduled, deadline);
 				if (data.getTempData().size() == 0) {
 					return (listClass.commandType::SEARCH + 12);
 				}
@@ -178,15 +168,16 @@ bool ParserFacade::isHelp(std::string input) {
 
 
 
-void ParserFacade::defaultSearchFunc(Classes listClass, DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+void ParserFacade::defaultSearchFunc(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	bool pastDate = false;
 	bool checkTime = false;
-
-	_parse.separateWord(listClass, data, pastDate, checkTime);
+	_parse.separateWord(data, pastDate, checkTime);
+	_parse.getMonth(data);
 	if (_parse.getTime() && _parse.getDate()) {
 		listClass.search.getTime(data, floating, scheduled, deadline, errMsg);
 	}
 	else if (_parse.getTime()) {
+		data.clearData(errMsg, errMsg, errMsg);
 		errMsg << "only time entered, date not entered";
 		data.getTempData().clear();
 	}	
@@ -211,8 +202,8 @@ void ParserFacade::defaultSearchFunc(Classes listClass, DataStore &data, std::os
 	return;
 }
 
-void ParserFacade::separateWord(Classes &listClass, DataStore &data, bool &i, bool &j) {
-	_parse.separateWord(listClass, data, i, j);
+void ParserFacade::separateWord(DataStore &data, bool &i, bool &j) {
+	_parse.separateWord(data, i, j);
 	return;
 }
 	

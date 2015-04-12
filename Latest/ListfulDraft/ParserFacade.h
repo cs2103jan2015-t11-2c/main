@@ -9,20 +9,21 @@ class ParserFacade {
 
 		std::string _userInput;
 		std::string _information;
-	
+		
+		Classes listClass;
 		Parser _parse;
 
 	public:
 		ParserFacade();
 		void init(std::string);
 		
-		int carryOutCommand(Classes &, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		int carryOutCommand(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 
 		bool isHelp(std::string);
 		bool isRunProgram();
 	
-		void defaultSearchFunc(Classes, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void separateWord(Classes &, DataStore &, bool &, bool &);
+		void defaultSearchFunc(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void separateWord(DataStore &, bool &, bool &);
 		void removeFrontChar(std::string &);
 		void removeBackChar(std::string &);
 		void readFile(std::string);

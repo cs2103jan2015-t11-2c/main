@@ -8,7 +8,6 @@
 
 class Edit {
 	private:
-		int _category;
 		Entry _editEntry;
 
 		Add add;
@@ -24,11 +23,10 @@ class Edit {
 		bool checkAll(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
 		bool checkComplete(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
 		
-		bool editContent(DataStore &, int, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		bool editContent(DataStore &, std::vector <int>, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		bool getEditIndex(std::string, int);
 		void editTime(DataStore &, int);
 		void editDate(DataStore &, int);
-
-		int &getCat();
 };
 
 #endif

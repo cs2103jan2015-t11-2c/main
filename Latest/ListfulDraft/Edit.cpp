@@ -97,25 +97,29 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 
 
 
-bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	if (data.getData().size() == 0) {
 		errMsg << "file is empty";
 		return false;
 	}
-	else if (index > data.getTempData().size()) {
-		errMsg << "index entered is out of range";
-		return false;
-	}
 	
-	if (index == -1) {
-		index = 0;
-	}
-
 	bool real = true;
 	bool isTemp = false;
+	int index = 0;
 	data.getTempData().clear();
 
-	switch (_category) {
+	if (!getEditIndex(info, index)) {
+		if (data.getTempData().size() != 1) {
+			errMsg << "no index entered";
+			return false;
+		}
+		else {
+
+		}
+	}
+	index--;
+
+	switch (editCat[0]) {
 		case 0:
 			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].subject << "\" to \"" << data.get_tempEntry().subject << "\"";
 			data.getData()[data.getTempIndexList()[index]].subject = data.get_tempEntry().subject;
@@ -152,7 +156,26 @@ bool Edit::editContent(DataStore &data, int index, std::ostringstream &errMsg, s
 	data.clearData(floating, scheduled, deadline);
 	search.getEntry(data, floating, scheduled, deadline, errMsg);
 	data.get_tempEntry().subject = "";
+
+	if (editCat.size() > 1) {
+		editCat.erase(editCat.begin());
+		editContent(data, editCat, info, errMsg, floating, scheduled, deadline);
+	}
 	return true;
+}
+
+bool Edit::getEditIndex(std::string info, int index) {
+	while (info.size() != 0 && info[0] >= '9' && info[0] <= '0') {
+		index = (index * 10) + (info[0] - '0');
+		info = info.substr(1);
+	}
+	
+	if (info.size() == 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void Edit::editTime(DataStore &data, int index) {
@@ -186,10 +209,4 @@ void Edit::editDate(DataStore &data, int index) {
 	data.getData().erase(data.getData().begin() + index);
 	data.get_tempEntry() = _editEntry;
 	return;
-}
-
-
-
-int &Edit::getCat() {
-	return _category;
 }

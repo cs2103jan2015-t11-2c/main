@@ -12,6 +12,7 @@ class UserInterface {
 
 		int i;
 		char msgToUser[MAX];
+		std::string quote;
 		
 		Classes listClass;
 		ParserFacade parseF;
@@ -30,23 +31,23 @@ class UserInterface {
 		void runProgram();
 		
 		void clearData(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getStringToDisplay(std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, Classes);
-		void getOutputToUser(int, DataStore &, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage, bool, bool, Classes);
+		void getStringToDisplay(std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getOutputToUser(int, DataStore &, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool, bool);
 		
-		void readFileName(std::string &, UserMessage);
+		void readFileName(std::string &);
 		void extractFileName(std::string &, std::string &, FileLocation &);
 		std::string getPath();
 		
-		void remindAndDueHeader(bool, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, Classes, UserMessage, int, std::ostringstream &, std::string);
-		void showReminder(DataStore, Classes &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage);
-		void showOverDue(DataStore, Classes &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, UserMessage);
+		void remindAndDueHeader(bool, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, int, std::ostringstream &, std::string);
+		void showReminder(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void showOverDue(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		
-		void outputCommand(UserMessage, Classes);
-		void defaultScreen(Classes, UserMessage, ParserFacade &);
-		void startUpScreen(DataStore &, Classes &, FileLocation &, ParserFacade &, std::string &, std::string &, UserMessage , std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool, bool);
-		void homeScreen(UserMessage, Classes &, std::string);
-		std::string quoteOfTheDay(UserMessage);
-		std::string getCurrent(UserMessage, int = 0);
+		void outputCommand();
+		void defaultScreen(ParserFacade &);
+		void startUpScreen(DataStore &, FileLocation &, ParserFacade &, std::string &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool, bool);
+		void homeScreen();
+		std::string quoteOfTheDay();
+		std::string getCurrent(int = 0);
 		void centralizePrintToUser(std::string, std::ostringstream &);
 };
 

@@ -135,7 +135,7 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 				
 				x = x.substr(x.find_first_of("|"));
 				parse.readFile(x);
-				parse.separateWord(listClass, data, ignore, ignore);
+				parse.separateWord(data, ignore, ignore);
 				
 				data.get_tempEntry().subject = subject;
 				data.getData().push_back(data.get_tempEntry());

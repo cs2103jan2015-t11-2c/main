@@ -30,30 +30,30 @@ class Parser {
 		bool priority;
 		bool complete;
 
+		Classes listClass;
 		std::string _information;
 		
 	public:
 		Parser() {};
 		void init(std::string);
 		
-		void separateWord(Classes &, DataStore &, bool &, bool &);
+		void separateWord(DataStore &, bool &, bool &);
 		
-		void retrieveDate(Classes &, bool &);
-		void retrieveTime(Classes &, bool &);
-		void retrievePriority(Classes &);
-		void retrieveCategory(Classes &);
-		void retrieveCompleteAndRefNo(Classes &, DataStore &);
+		void retrieveDate(bool &);
+		void retrieveTime(bool &);
+		void retrievePriority();
+		void retrieveCategory();
+		void retrieveCompleteAndRefNo(DataStore &);
 
-		bool getMonth(Classes, DataStore &);
-		bool getIndex(DataStore &, int &);
-		bool getEditInfo(DataStore &, Classes, int &, int &, std::string, std::ostringstream &);
-		void assignCat(DataStore &, Classes , int &);
+		bool getMonth(DataStore &);
+		void getEditInfo(std::vector <int> &);
+		void assignCat(DataStore &, int &);
 	
 		void takeFirstWord(int &, size_t &, std::string &);
 
 		void cutExtraWord(size_t, int, int);
 		bool extraWord(std::string, size_t, int, int, int);
-		void getFirstWord(Classes, std::string &, std::string , size_t, size_t &);
+		void getFirstWord(std::string &, std::string , size_t, size_t &);
 		void changeToLower(std::string &);
 		void removeFrontChar(std::string &);
 		void removeBackChar(std::string &);

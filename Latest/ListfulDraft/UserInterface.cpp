@@ -2,7 +2,6 @@
 
 void UserInterface::runProgram() {
 	std::string msg = "";
-	std::string quote = "";
 	std::string extName = "";
 	_userInput = "";
 
@@ -12,11 +11,11 @@ void UserInterface::runProgram() {
 	bool isOver = false;
 	size_t found = 0;
 
-	quote = quoteOfTheDay(outputToUser);
+	quote = quoteOfTheDay();
 
 	while (parseF.isRunProgram()) {
 		clearData(data, errMsg, floating, scheduled, deadline);
-		homeScreen(outputToUser, listClass, quote);
+		homeScreen();
 		isReminder = false;
 		isOver = false;
 
@@ -24,7 +23,7 @@ void UserInterface::runProgram() {
 
 		if (i == 0 || _userInput == "save" || _userInput == "save file") {
 			data.getData().clear();
-			startUpScreen(data, listClass, file, parseF, msg, extName, outputToUser, errMsg, floating, scheduled, deadline, isReminder, isOver);
+			startUpScreen(data, file, parseF, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
 		}/*
 		//To save in a different location
 		else if (found != std::string::npos && _userInput.substr(0, found) == "save") {
@@ -32,23 +31,23 @@ void UserInterface::runProgram() {
 		}*/
 
 		if (_userInput == "remind" || _userInput == "reminder" || _userInput == "due") {
-			showReminder(data, listClass, msg, floating, scheduled, deadline, outputToUser);
+			showReminder(data, msg, floating, scheduled, deadline);
 		}
 		else if (_userInput == "over" || _userInput == "overdue") {
-			showOverDue(data, listClass, msg, floating, scheduled, deadline, outputToUser);
+			showOverDue(data, msg, floating, scheduled, deadline);
 		}
 		else if (i == 1) {
-			output = parseF.carryOutCommand(listClass, data, errMsg, floating, scheduled, deadline);
+			output = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
 			
 			if (output == (listClass.commandType::EXIT)) {
 				errMsg << " [" << file.getName() << "]\n\n ";
 			}
 
 			msg = outputToUser.getCommandMsg()[output];
-			getOutputToUser(output, data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder, isOver, listClass);
+			getOutputToUser(output, data, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
 		}
 		i = 1;
-		defaultScreen(listClass, outputToUser, parseF);
+		defaultScreen(parseF);
 	}
 	return;
 }
@@ -68,7 +67,7 @@ void UserInterface::clearData(DataStore &data, std::ostringstream &errMsg, std::
 	return;
 }
 
-void UserInterface::getStringToDisplay(std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser, Classes listClass) {
+void UserInterface::getStringToDisplay(std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	if (floating.str() != "") {
 		listClass.search.setColour(6);
 		std::cout << "\n"  << outputToUser.getDisplayMsg()[0];
@@ -90,14 +89,14 @@ void UserInterface::getStringToDisplay(std::ostringstream &floating, std::ostrin
 	return;
 }
 
-void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg, std::string extName, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser, bool isReminder, bool isOver, Classes listClass) {
+void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg, std::string extName, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool isReminder, bool isOver) {
 	size_t count = std::count(msg.begin(), msg.end(), '%');
 	std::ostringstream oss;
 	std::string cutOff = "";
 	bool isFinal = false;
 
 	if (count > 3 || output == 18) {
-		remindAndDueHeader(isReminder, isOver, floating, scheduled, deadline, listClass, outputToUser, count, oss, msg);
+		remindAndDueHeader(isReminder, isOver, floating, scheduled, deadline, count, oss, msg);
 		if (!isOver && !isReminder && msg != outputToUser.getCommandMsg()[1] && output != 22) {
 			std::ostringstream empty;
 			data.clearData(empty, empty, empty);
@@ -108,7 +107,7 @@ void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg
 			}
 			std::cout << oss.str();
 		}
-		getStringToDisplay(floating, scheduled, deadline, outputToUser, listClass);
+		getStringToDisplay(floating, scheduled, deadline);
 
 		//To record the previous changes
 		if (output < 7 && output != 1) {
@@ -139,7 +138,7 @@ void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg
 
 
 
-void UserInterface::readFileName(std::string &fileName, UserMessage outputToUser) {
+void UserInterface::readFileName(std::string &fileName) {
 	std::cout << outputToUser.getProgMsg()[6];
 	
 	//If user does not key in .txt
@@ -176,7 +175,7 @@ std::string UserInterface::getPath() {
 
 
 
-void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, Classes listClass, UserMessage outputToUser, int count, std::ostringstream &oss, std::string msg) {
+void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, int count, std::ostringstream &oss, std::string msg) {
 		if (isReminder && !isOver && (floating.str() != "" || scheduled.str() != "" || deadline.str() != "")) {
 			count = msg.find_first_of("%");
 			oss << msg.substr(0, count);
@@ -204,38 +203,38 @@ void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostrin
 		return;
 }
 
-void UserInterface::showOverDue(DataStore data, Classes &listClass, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser) {
+void UserInterface::showOverDue(DataStore data, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	clearData(data, floating, floating, scheduled, deadline);
 	bool isReminder = false;
 	bool isOver = true;
 	listClass.search.getOverDue(data, floating, scheduled, deadline, errMsg);
 	msg = outputToUser.getFileMsg()[4];
-	getOutputToUser(10, data, msg, msg, floating, floating, scheduled, deadline, outputToUser, isReminder, isOver, listClass);
+	getOutputToUser(10, data, msg, msg, floating, floating, scheduled, deadline, isReminder, isOver);
 	listClass.search.setColour(7);
 	return;
 }
 
-void UserInterface::showReminder(DataStore data, Classes &listClass, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, UserMessage outputToUser) {
+void UserInterface::showReminder(DataStore data, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	clearData(data, floating, floating, scheduled, deadline);
 	bool isReminder = true;
 	bool isOver = false;
 	listClass.search.getReminder(data, floating, scheduled, deadline, errMsg);
 	msg = outputToUser.getFileMsg()[2];
-	getOutputToUser(10, data, msg, msg, floating, floating, scheduled, deadline, outputToUser, isReminder, isOver, listClass);
+	getOutputToUser(10, data, msg, msg, floating, floating, scheduled, deadline, isReminder, isOver);
 	listClass.search.setColour(7);
 	return;
 }
 
 
 
-void UserInterface::outputCommand(UserMessage outputToUser, Classes listClass) {
+void UserInterface::outputCommand() {
 	std::cout << outputToUser.getProgMsg()[0];
 	listClass.search.setColour(6);
 	std::cout << outputToUser.getProgMsg()[1];
 	listClass.search.setColour(7);
 }
 
-void UserInterface::defaultScreen(Classes listClass, UserMessage outputToUser, ParserFacade &parseF) {
+void UserInterface::defaultScreen(ParserFacade &parseF) {
 	listClass.search.setColour(6);
 	std::cout << "\n" << outputToUser.getProgMsg()[1] << " ";
 	listClass.search.setColour(7);
@@ -243,7 +242,7 @@ void UserInterface::defaultScreen(Classes listClass, UserMessage outputToUser, P
 	parseF.init(_userInput);
 		
 	if (parseF.isHelp(_userInput)) {
-		outputCommand(outputToUser, listClass);
+		outputCommand();
 		std::cout << " ";
 		getline(std::cin, _userInput);
 		parseF.init(_userInput);
@@ -252,33 +251,33 @@ void UserInterface::defaultScreen(Classes listClass, UserMessage outputToUser, P
 	return;
 }
 
-void UserInterface::startUpScreen(DataStore &data, Classes &listClass, FileLocation &file, ParserFacade &parseF, std::string &msg, std::string &extName, UserMessage outputToUser, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool isReminder, bool isOver) {
+void UserInterface::startUpScreen(DataStore &data,  FileLocation &file, ParserFacade &parseF, std::string &msg, std::string &extName, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool isReminder, bool isOver) {
 	std::string fileName = "";
 
-	outputCommand(outputToUser, listClass);
+	outputCommand();
 	std::cout << outputToUser.getProgMsg()[5] << std::endl;
 
-	readFileName(fileName, outputToUser);
+	readFileName(fileName);
 	extractFileName(fileName, extName, file);
 	msg = outputToUser.getFileMsg()[file.openFile(data, parseF, listClass)];
 
 	//If the user did not enter any location, update fileName to to last access location
 	extractFileName(file.getName(), extName, file);
 
-	getOutputToUser(10, data, msg, extName, errMsg, floating, scheduled, deadline, outputToUser, isReminder, isOver, listClass);
+	getOutputToUser(10, data, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
 	std::cout << "\n\n";
 	data.init(file.getName());
 
-	showOverDue(data, listClass, msg, floating, scheduled, deadline, outputToUser);
-	showReminder(data, listClass, msg, floating, scheduled, deadline, outputToUser);
+	showOverDue(data, msg, floating, scheduled, deadline);
+	showReminder(data, msg, floating, scheduled, deadline);
 	return;
 }
 
-void UserInterface::homeScreen(UserMessage outputToUser, Classes &listClass, std::string quote) {
+void UserInterface::homeScreen() {
 	listClass.search.setColour(7);
 	for (i = 2; i < 5; i++) {
 		if (i == 3) {
-			sprintf_s(msgToUser, outputToUser.getProgMsg()[i].c_str(), getCurrent(outputToUser, 1).c_str());
+			sprintf_s(msgToUser, outputToUser.getProgMsg()[i].c_str(), getCurrent(1).c_str());
 			std::cout << msgToUser;
 		}
 		else if (i%2 == 0) {
@@ -293,13 +292,13 @@ void UserInterface::homeScreen(UserMessage outputToUser, Classes &listClass, std
 	listClass.search.setColour(3);
 	std::cout << quote << "\n";
 	listClass.search.setColour(15);
-	sprintf_s(msgToUser, outputToUser.getTime().c_str(), getCurrent(outputToUser).c_str());
+	sprintf_s(msgToUser, outputToUser.getTime().c_str(), getCurrent().c_str());
 	std::cout << msgToUser;
 	listClass.search.setColour(7);
 	return;
 }
 
-std::string UserInterface::quoteOfTheDay(UserMessage outputToUser) {
+std::string UserInterface::quoteOfTheDay() {
 	int randNum = 0;
 	std::ostringstream printSpace;
 
@@ -309,7 +308,7 @@ std::string UserInterface::quoteOfTheDay(UserMessage outputToUser) {
 	return (printSpace.str() + outputToUser.getQuote()[randNum]);
 }
 
-std::string UserInterface::getCurrent(UserMessage outputToUser, int dateOrTime) {
+std::string UserInterface::getCurrent(int dateOrTime) {
 	Timing timer;
 	time_t t = time(0);   
 	struct tm now;
