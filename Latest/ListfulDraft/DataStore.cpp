@@ -1,12 +1,6 @@
 #include "DataStore.h"
 #include "Search.h"
 
-void DataStore::init(std::string fileName) {
-	_fileName = fileName;
-}
-
-
-
 //To update the text file in the computer
 void DataStore::updateFile(DataStore &data) {
 	bool updateFile = true;
@@ -41,8 +35,6 @@ void DataStore::savePrevFile() {
 	_futureTempData.clear();
 	return;
 }
-
-
 
 bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
 	if (_pastData.size() <= 1) {
@@ -103,7 +95,9 @@ void DataStore::clearData(std::ostringstream &floating, std::ostringstream &sche
 	return;
 }
 
-
+void DataStore::init(std::string fileName) {
+	_fileName = fileName;
+}
 
 std::vector <Entry> &DataStore::getData() {
 	return _dataBase;

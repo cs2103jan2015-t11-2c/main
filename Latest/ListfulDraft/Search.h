@@ -13,36 +13,28 @@ class Search {
 	public:
 		Search() {};
 	
-		bool displayContent(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-
 		void updateDisplayData(DataStore &, int);
 
-		void getFloat(DataStore &, std::ostringstream &, std::ostringstream &);
-		void getScheduled(DataStore &, std::ostringstream &, std::ostringstream &);
-		void getDeadline(DataStore &, std::ostringstream &, std::ostringstream &);
-		
-		void getToday(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getTmr(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-
-		void getComplete(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getReminder(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getOverDue(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		bool displayContent(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getEntry(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getFloat(DataStore &, std::ostringstream &);
+		void getScheduled(DataStore &, std::ostringstream &);
+		void getDeadline(DataStore &, std::ostringstream &);
+		void getComplete(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getOverDue(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getPriority(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getCat(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getDay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getTime(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getToday(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getTmr(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	
-		void getEntry(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);		
-		bool getRemainingStr(std::string &, std::string &, int);
-		void getFullString(std::string, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		
-		void getPriority(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getCat(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getDay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getTime(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		
-		void getTempDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getTempDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getReminder(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		bool getDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	
 		std::string getDataString(DataStore &, int, bool, int = MIN);
-		std::string getTempDataString(DataStore &, int, bool);
-		void stringGetter(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		std::string getTempDataString(DataStore &, int, bool, int = MIN);
 
 		void printSub(DataStore &, std::ostringstream &, int, int, bool, bool);
 		void printDate(DataStore &, std::ostringstream &, int, bool);

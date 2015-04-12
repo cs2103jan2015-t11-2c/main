@@ -11,9 +11,50 @@ Timing::Timing() {
 	_linkWord.push_back("up to");
 	_linkWord.push_back("up till");
 	_linkWord.push_back("up until");
+
+	_words.push_back("by");
+	_words.push_back("at");
+	_words.push_back("due");
+	_words.push_back("due by");
+	_words.push_back("before");
+	_words.push_back("on");
+	_words.push_back("due on");
 }
 
+void Timing::changeToLower(std::string &str) {
+	int i = 0;
+	for (i = 0; i < str.size(); i++) {
+		if (str[i] >= 'A' && str[i] <= 'Z') {
+			str[i] = 'a' + (str[i] - 'A');
+		}
+	}
+	return;
+}
 
+bool Timing::isTimeValid(int num) {
+	if (num/100 > 23) {
+		return false;
+	}
+	
+	if (num%100 > 59) {
+		return false;
+	}
+	return true;
+}
+
+//Cuts off 'am' and 'pm'
+void Timing::updateStr(std::string &originalStr, std::string &line, size_t found) {
+	size_t space = line.find_first_of(" -", found + 2);
+	
+	if (space == std::string::npos) {
+		originalStr = "";
+	}
+	else {
+		line = line.substr(space);
+		originalStr = originalStr.substr(originalStr.size() - line.size());
+	}
+	return;
+}
 
 bool Timing::extractNum (std::string line, int &count, int &num) {
 	size_t end = 0;
@@ -62,44 +103,54 @@ bool Timing::extractNum (std::string line, int &count, int &num) {
 	return false;
 }
 
-bool Timing::extractTime (std::string &line, int &noOfTime, bool &checkTime) {
-	std::string str = line;
-	size_t index = 0;
-	size_t index2 = 0;
-	int noOfWord = 0;
+//Assume that the task will be adeadline task if only one time is entered
+void Timing::updateTime() {
+	_endTime = _startTime;
+	return;
+}
 
-	if (takeTime(str, noOfTime, checkTime)) {
-		removeNonTimeChar(str);
-		line = str;
-		countWord(str, noOfWord);
-		if (noOfWord > 3) {
-			return true;
-		}
-		else {
-			int temp = noOfWord;
-			while (index != std::string::npos && noOfWord > 0) {
-				index = str.find_first_of(" -", index);
-				if(str[index] == '-') {
-					index++;
+void Timing::removeNonTimeChar(std::string &str) {
+	size_t found;
+	found = str.find_first_of(" ");
+
+	while (found != std::string::npos && found == 0) {
+		str = str.substr(1);
+		found = str.find_first_of(" ");
+	}
+	return;
+}
+
+//Count no. of words between two possible times
+void Timing::countWord(std::string str, int &noOfWord) {
+	size_t nextTime = str.find_first_of("0123456789");
+	
+	size_t found = str.find_first_of(",.?!");
+	if (found != std::string::npos && found < nextTime) {
+		return;
+	}
+	
+	size_t found2 = str.find_first_of("-");
+	if (found2 != std::string::npos && found2 < 2 && found2 < nextTime) {
+		noOfWord = 1;
+		return;
+	}
+	
+	size_t index = str.find_first_of(" ");
+	for (int i = _linkWord.size() - 1; i >= 0; i--) {
+		size_t found = str.find(_linkWord[i]);
+		if (found != std::string::npos && found <= index + 1) {
+			while (index != std::string::npos && nextTime != std::string::npos) {
+				if (index < nextTime) {
+					noOfWord++;
+					index = str.find_first_of(" ", index + 1);
 				}
-				str = str.substr(index);
-				removeNonTimeChar(str);
-				noOfWord--;
-			}
-
-			if (temp != 0 && takeTime(str, noOfTime, checkTime)) {
-				checkTime = false;
-				checkTime = checkStartEnd();
-				line = str;
-				return true;
-			}
-			else {
-				line = str;
-				return true;
+				else {
+					return;
+				}
 			}
 		}
 	}
-	return false;
+	return;
 }
 
 bool Timing::takeTime(std::string &line, int &noOfTime, bool &checkTime) {
@@ -217,93 +268,44 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 	return;
 }
 
+bool Timing::extractTime (std::string &line, int &noOfTime, bool &checkTime) {
+	std::string str = line;
+	size_t index = 0;
+	size_t index2 = 0;
+	int noOfWord = 0;
 
+	if (takeTime(str, noOfTime, checkTime)) {
+		removeNonTimeChar(str);
+		line = str;
+		countWord(str, noOfWord);
+		if (noOfWord > 3) {
+			return true;
+		}
+		else {
+			int temp = noOfWord;
+			while (index != std::string::npos && noOfWord > 0) {
+				index = str.find_first_of(" -", index);
+				if(str[index] == '-') {
+					index++;
+				}
+				str = str.substr(index);
+				removeNonTimeChar(str);
+				noOfWord--;
+			}
 
-//Count no. of words between two possible times
-void Timing::countWord(std::string str, int &noOfWord) {
-	size_t nextTime = str.find_first_of("0123456789");
-	
-	size_t found = str.find_first_of(",.?!");
-	if (found != std::string::npos && found < nextTime) {
-		return;
-	}
-	
-	size_t found2 = str.find_first_of("-");
-	if (found2 != std::string::npos && found2 < 2 && found2 < nextTime) {
-		noOfWord = 1;
-		return;
-	}
-	
-	size_t index = str.find_first_of(" ");
-	for (int i = _linkWord.size() - 1; i >= 0; i--) {
-		size_t found = str.find(_linkWord[i]);
-		if (found != std::string::npos && found <= index + 1) {
-			while (index != std::string::npos && nextTime != std::string::npos) {
-				if (index < nextTime) {
-					noOfWord++;
-					index = str.find_first_of(" ", index + 1);
-				}
-				else {
-					return;
-				}
+			if (temp != 0 && takeTime(str, noOfTime, checkTime)) {
+				checkTime = false;
+				checkTime = checkStartEnd();
+				line = str;
+				return true;
+			}
+			else {
+				line = str;
+				return true;
 			}
 		}
 	}
-	return;
-}
-
-void Timing::changeToLower(std::string &str) {
-	int i = 0;
-	for (i = 0; i < str.size(); i++) {
-		if (str[i] >= 'A' && str[i] <= 'Z') {
-			str[i] = 'a' + (str[i] - 'A');
-		}
-	}
-	return;
-}
-
-//Cuts off 'am' and 'pm'
-void Timing::updateStr(std::string &originalStr, std::string &line, size_t found) {
-	size_t space = line.find_first_of(" -", found + 2);
-	
-	if (space == std::string::npos) {
-		originalStr = "";
-	}
-	else {
-		line = line.substr(space);
-		originalStr = originalStr.substr(originalStr.size() - line.size());
-	}
-	return;
-}
-
-bool Timing::isTimeValid(int num) {
-	if (num/100 > 23) {
-		return false;
-	}
-	
-	if (num%100 > 59) {
-		return false;
-	}
-	return true;
-}
-
-//Assume that the task will be adeadline task if only one time is entered
-void Timing::removeNonTimeChar(std::string &str) {
-	size_t found;
-	found = str.find_first_of(" ");
-
-	while (found != std::string::npos && found == 0) {
-		str = str.substr(1);
-		found = str.find_first_of(" ");
-	}
-	return;
-}
-
-
-
-void Timing::updateTime() {
-	_endTime = _startTime;
-	return;
+	return false;
 }
 
 bool Timing::checkStartEnd() {
@@ -316,8 +318,6 @@ bool Timing::checkStartEnd() {
 	}
 	return false;
 }
-
-
 
 int &Timing::getStart() {
 	return _startTime;

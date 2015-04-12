@@ -12,7 +12,7 @@ bool Add::addContent(DataStore &data, std::ostringstream &errMsg, std::ostringst
 	}
 	
 	data.clearData(floating, scheduled, deadline);
-	insertionAdd(data, isTemp, floating, scheduled, deadline, errMsg);
+	insertionAdd(data, isTemp, floating, scheduled, deadline);
 	return true;
 }
 
@@ -91,7 +91,7 @@ void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 	return;
 }
 
-void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	Search search;
 	
 	//Empty
@@ -125,7 +125,7 @@ void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &errMsg,
 	}
 
 	if (!isTemp) {
-		search.getEntry(data, floating, scheduled, deadline, errMsg);
+		search.getEntry(data, floating, scheduled, deadline);
 	}
 	return;
 }

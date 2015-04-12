@@ -43,40 +43,6 @@ int Date::determineMonth(std::string str) {
 	}
 }
 
-int Date::determineDay(std::string &str) {	
-	if (str == "mon" || str == "monday") {
-		str = "Monday";
-		return dayType::MON;
-	}
-	else if (str == "tue" || str == "tuesday") {
-		str = "Tuesday";
-		return dayType::TUE;
-	}
-	else if (str == "wed" || str == "wednesday") {
-		str = "Wednesday";
-		return dayType::WED;
-	}
-	else if (str == "thur" || str == "thursday") {
-		str = "Thursday";
-		return dayType::THUR;
-	}
-	else if (str == "fri" || str == "friday") {
-		str = "Friday";
-		return dayType::FRI;
-	}
-	else if (str == "sun" || str == "sunday") {
-		str = "Sunday";
-		return dayType::SUN;
-	}
-	else if (str == "sat" || str == "saturday") {
-		str = "Saturday";
-		return dayType::SAT;
-	}
-	else {
-		return dayType::INVALIDDAY;
-	}
-}
-
 //To make entering the month not case-sensitive
 void Date::changeToLower(std::string &str) {
 	int i;
@@ -140,55 +106,15 @@ void Date::removeExtraLetters(std::string str, int &count) {
 	return;
 }
 
-bool Date::retrieveDayIfNext(std::string &dateDayWord, size_t end, std::string str) {
-	if (dateDayWord == "next") {
-		if (end != std::string::npos) {
-			dateDayWord = str.substr(end + 1);
-			end = dateDayWord.find_first_of(" ");
-			if (end != std::string::npos) {
-				dateDayWord = dateDayWord.substr(0, end);
-			}
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	return false;
-}
-
-bool Date::getDayOfWeek(std::string dateDayWord, tm now, int count) {
-	changeToLower(dateDayWord);
-	int dayWord = determineDay(dateDayWord);
-	int i = 0;
-	struct tm *timeInfo;
-	const char *weekday[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-	timeInfo = &now;
-
-	if (dayWord != dayType::INVALIDDAY) {
-		for (;;) {
-			mktime(timeInfo);
-			if (weekday[timeInfo->tm_wday] == dateDayWord) {
-				if (count == 1 && i > 7) {
-					break;
-				}
-				else if (count == 0) {
-					break;
-				}
-			}
-			timeInfo->tm_mday = timeInfo->tm_mday + 1;
-			i++;
-		}
-		_day = timeInfo->tm_mday;
-		_month = timeInfo->tm_mon + 1;
-		_year = timeInfo->tm_year + 1900;
-		return true;
-	} 
-	return false;
-}
-
-bool Date::getTdyTmr(std::string dateWord,tm now, bool &pastDate) {
+bool Date::dateInLetter(std::string &str) {
+	size_t end = str.find_first_of(" ");
+	std::string dateWord = str.substr(0, end);
+	bool pastDate = false;
+	time_t t = time(0);   
+	struct tm now;
+	localtime_s(&now, &t);
 	changeToLower(dateWord);
+	
 	if (dateWord == "today" || dateWord == "tdy" || dateWord == "tday" || dateWord == "later" || dateWord == "tonight") {
 		_day = (now.tm_mday);
 	}
@@ -204,44 +130,6 @@ bool Date::getTdyTmr(std::string dateWord,tm now, bool &pastDate) {
 	if (!isDayMonth(pastDate)) {
 		_day = 1;
 		_month++;
-	}
-	return true;
-}
-
-bool Date::dateInLetter(std::string &str) {
-	size_t end = str.find_first_of(" ");
-	std::string dateDayWord = "";
-	int count = 0;
-	bool pastDate = false;
-	time_t t = time(0);   
-	struct tm now;
-	localtime_s(&now, &t);
-
-	if (end == std::string::npos) {
-		dateDayWord = str;
-	}
-	else {
-		dateDayWord = str.substr(0, end);
-	}	
-
-	//Exception for sat and wed and sun
-	if (dateDayWord == "sat" || dateDayWord == "sun" || dateDayWord == "wed") {
-		return false;
-	}
-
-	//If current word is 'next' get the next word to check for day of the week
-	if (retrieveDayIfNext(dateDayWord, end, str)) {
-		count++;
-	}
-	
-	if (getDayOfWeek(dateDayWord, now, count)) {
-		if (count == 1) {
-			str = str.substr(end + 1);
-			end = str.find_first_of(" ");
-		}
-	}
-	else if (!getTdyTmr(dateDayWord, now, pastDate)) {
-		return false;
 	}
 
 	if (end == std::string::npos) {

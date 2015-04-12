@@ -15,7 +15,7 @@ class Add {
 		bool isSameDate(DataStore, int);
 		bool isSameTime(DataStore, int);
 
-		void insertionAdd(DataStore &, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void insertionAdd(DataStore &, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		bool scheduledAdd(DataStore &, bool);
 		bool deadlineAdd(DataStore &, bool);
 		void floatAdd(DataStore &, bool);

@@ -22,16 +22,15 @@ class DataStore {
 
 	public:
 		DataStore () {};
-		void init(std::string);
 
 		void updateFile(DataStore &);
 		void savePrevFile();
 		void savePrevAction(std::string);
-
 		bool undoData(DataStore &, std::ostringstream &);
 		bool redoData(DataStore &, std::ostringstream &);
 		void clearData(std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		
+		void init(std::string);
+
 		std::vector <Entry> &getData();
 		std::vector <Entry> &getTempData();
 		std::vector <int> &getTempIndexList();

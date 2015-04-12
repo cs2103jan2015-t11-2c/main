@@ -65,8 +65,6 @@ void FileLocation::saveFileLocation() {
 	return;
 }
 
-
-
 bool FileLocation::findFile(DataStore &data, bool isOpen) {
 	std::string x = "";
 	std::string find = "";
@@ -133,7 +131,7 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 				parse.removeFrontChar(subject);
 				parse.removeBackChar(subject);
 				
-				x = x.substr(x.find_first_of("|"));
+				x = x.substr(x.find_first_of(".") + 2);
 				parse.readFile(x);
 				parse.separateWord(listClass, data, ignore, ignore);
 				
@@ -152,8 +150,6 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 	data.updateFile(data);
 	return fileMsg::CREATE;
 }
-
-
 
 std::string &FileLocation::getName() {
 	return _fileName;

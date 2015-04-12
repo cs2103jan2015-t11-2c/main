@@ -37,9 +37,7 @@ class Parser {
 		void init(std::string);
 
 		bool getIndex(DataStore &, int &);
-		bool getEditInfo(DataStore &, Classes, int &, int &, std::string, std::ostringstream &);
-		void assignCat(DataStore &, Classes , int &);
-	
+		bool getEditDelete(DataStore &, Classes, int &, int &, std::string, std::ostringstream &);
 		void separateWord(Classes &, DataStore &, bool &, bool &);
 		void retrieveDate(Classes &, bool &);
 		void retrieveTime(Classes &, bool &);

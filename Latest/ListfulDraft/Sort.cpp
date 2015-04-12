@@ -1,30 +1,5 @@
 #include "Sort.h"
 
-bool Sort::sortContent(DataStore &data){
-	switch (_category) {
-		case 0:
-			sortSub(data);
-			break;
-		case 1:
-			sortDate(data);
-			break;
-		case 2:
-			sortTime(data);
-			break;
-		case 3:
-			sortPriority(data);
-			break;
-		case 4:
-			sortCat(data);
-			break;
-		default:
-			return false;
-	}
-	return true;
-}
-
-
-
 //To swap the entries
 void Sort::sortSwitch(int &index, int &start, DataStore &data){
 	data.getTempData().clear();
@@ -49,8 +24,6 @@ void Sort::sortSwitch(int &index, int &start, DataStore &data){
 	data.getData() = data.getTempData();
 	data.getTempData().clear();
 }
-
-
 
 //Sort alphabetically
 void Sort::sortSub(DataStore &data) {
@@ -130,8 +103,6 @@ bool Sort::compareWord(std::string &line1, std::string &line2, std::string &line
 	return false;
 }
 
-
-
 void Sort::sortDate(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
@@ -151,8 +122,6 @@ void Sort::sortDate(DataStore &data) {
 	return;
 }
 
-
-
 void Sort::sortComplete(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
@@ -165,8 +134,6 @@ void Sort::sortComplete(DataStore &data) {
 	}
 	return;
 }
-
-
 
 void Sort::sortTime(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
@@ -183,8 +150,6 @@ void Sort::sortTime(DataStore &data) {
 	}
 	return;
 }
-
-
 
 int Sort::determineC(std::string word) {
 	if (word == "WORK    ") {
@@ -217,8 +182,6 @@ void Sort::sortCat(DataStore &data) {
 	return;
 }
 
-
-
 int Sort::determineP(std::string word) {
 	if (word == "LOW  ") {
 		return priorityType::LOW;
@@ -247,7 +210,28 @@ void Sort::sortPriority(DataStore &data) {
 	return;
 }
 
-
+bool Sort::sortContent(DataStore &data){
+	switch (_category) {
+		case 0:
+			sortSub(data);
+			break;
+		case 1:
+			sortDate(data);
+			break;
+		case 2:
+			sortTime(data);
+			break;
+		case 3:
+			sortPriority(data);
+			break;
+		case 4:
+			sortCat(data);
+			break;
+		default:
+			return false;
+	}
+	return true;
+}
 
 bool Sort::cmpSame(DataStore &data, int start, int iter) {
 	if (data.getData()[start].isFloat == data.getData()[iter].isFloat) {
@@ -259,8 +243,6 @@ bool Sort::cmpSame(DataStore &data, int start, int iter) {
 	}
 	return false;
 }
-
-
 
 int &Sort::getSortCat() {
 	return _category;

@@ -1,18 +1,2 @@
-1. osrlh                                        |           | GENERAL  | LOW  | no
-
-2. passport renewal                             |           | GENERAL  | LOW  | no
-
-3. Mon submit cs2103                            |           | GENERAL  | HIGH | no
-
-4. meeting with gerald             | 13/04/2015 | 1200-1300 | WORK     | HIGH | no
-
-5. basketball                      | 12/08/2015 | 1300-1600 | GENERAL  | LOW  | no
-
-6. run                          | 12/04/2015 | 1200      | GENERAL  | LOW  | no
-
-7. noc mapping                     | 17/04/2015 |           | GENERAL  | LOW  | no
-
-8. sdc                             | 20/04/2015 |           | GENERAL  | LOW  | no
-
-9. wesfc                           | 26/04/2015 |           | GENERAL  | LOW  | no
+1. lalal                                        | 1300-1530 | GENERAL  | no | Priority: LOW
 
