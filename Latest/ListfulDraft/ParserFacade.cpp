@@ -32,6 +32,7 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 	int command = listClass.determineCommand(_userInput);
 	
 	int returnValue = 0;
+	std::string originalStr = "";
 	std::vector <int> editCat;
 	bool pastDate = false;
 	bool checkTime = false;
@@ -79,9 +80,10 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 			break;
 
 		case listClass.EDIT:
+			originalStr = _information;
 			_parse.separateWord (data, pastDate, checkTime);
-			_parse.getEditInfo(editCat);
-			if (listClass.edit.editContent(data, editCat, _information, errMsg, floating, scheduled, deadline)) {
+			_parse.getEditInfo(editCat, originalStr);
+			if (listClass.edit.editContent(data, editCat, _information, errMsg, floating, scheduled, deadline, _userInput)) {
 				returnValue = listClass.commandType::EDIT;
 			}
 			else {

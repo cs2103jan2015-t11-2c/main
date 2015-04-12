@@ -1,32 +1,5 @@
 #include "Edit.h"
 
-void Edit::updateTemp(DataStore &data, std::vector <int> list) {
-	data.getTempData().clear();
-	data.getTempIndexList().clear();
-	std::ostringstream ignore;
-	bool isTemp = true;
-
-	while (!list.empty()) {
-		data.get_tempEntry() = data.getData()[list.back()];
-		add.addContent(data, ignore, ignore, ignore, ignore, isTemp);
-		list.pop_back();
-	}
-	data.get_tempEntry() = data.get_emptyEntry();
-	return;
-}
-
-bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
-	for (int j = 0; j < list.size(); j++) {
-		if (list[j] == index) {
-			data.get_tempEntry().subject = " repeated index to edit found\n";
-			return true;
-		}
-	}
-	return false;
-}
-
-
-
 bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	int size = 0;
 	while (size < data.getTempData().size()) {
@@ -78,7 +51,7 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 		else {
 			data.getData()[data.getTempIndexList()[index - 1]].isComplete = true;
 		}
-		checkList.push_back(data.getTempIndexList()[index - 1]);
+		checkList.push_back(data.getData()[data.getTempIndexList()[index - 1]].referenceNo);
 		if (found == info.size()) {
 			info = "";
 		}
@@ -97,7 +70,7 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 
 
 
-bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	if (data.getData().size() == 0) {
 		errMsg << "file is empty";
 		return false;
@@ -106,19 +79,29 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 	bool real = true;
 	bool isTemp = false;
 	int index = 0;
-	data.getTempData().clear();
 
 	if (!getEditIndex(info, index)) {
 		if (data.getTempData().size() != 1) {
 			errMsg << "no index entered";
 			return false;
 		}
-		else {
-
+		else if (info.size() != 0 && info[0] >= '0' && info[0] <= '0') {
+			checkComplete(data, info, errMsg, floating, scheduled, deadline, input);
 		}
 	}
-	index--;
+	else if (data.get_tempEntry().subject == info && editCat.size() == 1 && editCat[0] == 0) {
+		checkComplete(data, info, errMsg, floating, scheduled, deadline, input);
+	}
 
+	if (index == 0) {
+		index = 1;
+	}
+	
+	data.getTempData().clear();
+	index--;
+	
+	std::cout << index << std::endl;
+	std::cout << editCat[0] << std::endl;
 	switch (editCat[0]) {
 		case 0:
 			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].subject << "\" to \"" << data.get_tempEntry().subject << "\"";
@@ -159,19 +142,19 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 
 	if (editCat.size() > 1) {
 		editCat.erase(editCat.begin());
-		editContent(data, editCat, info, errMsg, floating, scheduled, deadline);
+		editContent(data, editCat, info, errMsg, floating, scheduled, deadline, input);
 	}
 	return true;
 }
 
-bool Edit::getEditIndex(std::string info, int index) {
+bool Edit::getEditIndex(std::string info, int &index) {
 	while (info.size() != 0 && info[0] >= '9' && info[0] <= '0') {
 		index = (index * 10) + (info[0] - '0');
 		info = info.substr(1);
 	}
 	
 	if (info.size() == 0) {
-		return true;
+			return true;
 	}
 	else {
 		return false;
@@ -209,4 +192,38 @@ void Edit::editDate(DataStore &data, int index) {
 	data.getData().erase(data.getData().begin() + index);
 	data.get_tempEntry() = _editEntry;
 	return;
+}
+
+
+
+void Edit::updateTemp(DataStore &data, std::vector <int> list) {
+	data.getTempData().clear();
+	data.getTempIndexList().clear();
+	std::ostringstream ignore;
+	bool isTemp = true;
+		
+	for (int i = 0; !list.empty(); i++) {
+		if (i < data.getData().size() && data.getData()[i].referenceNo == list.back()) {
+			data.getTempIndexList().push_back(i);
+			data.get_tempEntry() = data.getData()[list.back()];
+			add.addContent(data, ignore, ignore, ignore, ignore, isTemp);
+			list.pop_back();
+		}
+		
+		if (i == data.getData().size()) {
+			i = -1;
+		}
+	}
+	data.get_tempEntry() = data.get_emptyEntry();
+	return;
+}
+
+bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
+	for (int j = 0; j < list.size(); j++) {
+		if (list[j] == data.getData()[index].referenceNo) {
+			data.get_tempEntry().subject = "repeated index to check complete found";
+			return true;
+		}
+	}
+	return false;
 }

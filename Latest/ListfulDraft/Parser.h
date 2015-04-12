@@ -46,7 +46,7 @@ class Parser {
 		void retrieveCompleteAndRefNo(DataStore &);
 
 		bool getMonth(DataStore &);
-		void getEditInfo(std::vector <int> &);
+		void getEditInfo(std::vector <int> &, std::string);
 		void assignCat(DataStore &, int &);
 	
 		void takeFirstWord(int &, size_t &, std::string &);

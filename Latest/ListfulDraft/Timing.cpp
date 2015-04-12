@@ -19,6 +19,10 @@ bool Timing::extractNum (std::string line, int &count, int &num) {
 	size_t end = 0;
 	int noOfMin = 0;
 
+	while (line[0] == ' ') {
+		line = line.substr(1);
+	}
+
 	//If time is in 7.00 or 7:00 format for example
 	size_t nonNum = line.find_first_of(".:");
 	if (nonNum != std::string::npos && nonNum > 2) {
@@ -77,16 +81,20 @@ bool Timing::extractTime (std::string &line, int &noOfTime, bool &checkTime) {
 		}
 		else {
 			int temp = noOfWord;
+			std::cout << str << std::endl;
 			while (index != std::string::npos && noOfWord > 0) {
 				index = str.find_first_of(" -", index);
 				if(str[index] == '-') {
 					index++;
 				}
+				else if (index != std::string::npos) {
+					index = str.find_first_not_of(" -", index);
+				}
+
 				str = str.substr(index);
 				removeNonTimeChar(str);
 				noOfWord--;
 			}
-
 			if (temp != 0 && takeTime(str, noOfTime, checkTime)) {
 				checkTime = false;
 				checkTime = checkStartEnd();

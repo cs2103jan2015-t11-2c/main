@@ -276,7 +276,7 @@ void Parser::retrieveCompleteAndRefNo(DataStore &data) {
 
 
 
-void Parser::getEditInfo(std::vector <int> &editCat) {
+void Parser::getEditInfo(std::vector <int> &editCat, std::string originalStr) {
 	if (time) {
 		editCat.push_back(listClass.subCategory::TIME);
 	}
@@ -289,7 +289,7 @@ void Parser::getEditInfo(std::vector <int> &editCat) {
 	if (cat) {
 		editCat.push_back(listClass.subCategory::CATEGORY);
 	}
-	if (editCat.size() == 0) {
+	if (editCat.size() == 0 || _information != originalStr) {
 		editCat.push_back(listClass.subCategory::SUBJECT);
 	}
 	return;

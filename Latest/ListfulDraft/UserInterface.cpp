@@ -23,6 +23,7 @@ void UserInterface::runProgram() {
 
 		if (i == 0 || _userInput == "save" || _userInput == "save file") {
 			data.getData().clear();
+			i = 0;
 			startUpScreen(data, file, parseF, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
 		}/*
 		//To save in a different location
