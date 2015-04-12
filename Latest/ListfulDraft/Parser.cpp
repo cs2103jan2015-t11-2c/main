@@ -66,98 +66,14 @@ void Parser::init(std::string info) {
 	return;
 }
 
-bool Parser::getIndex(DataStore &data, int &index) {
-	size_t found = _information.find_first_of("0123456789");
-	if (found == std::string::npos) {
-		return false;
-	}
-	size_t found2 = _information.find_first_not_of("0123456789", found);
-	if (found2 == std::string::npos) {
-		found2 = _information.size();
-	}
-	std::string str = data.get_tempEntry().subject.substr(found, found2 - found);
-	data.get_tempEntry().subject = data.get_tempEntry().subject.substr(0, found) + data.get_tempEntry().subject.substr(found2);
-	removeFrontChar(data.get_tempEntry().subject);
-	index = atoi(str.c_str());
-	return true;
-}
 
-bool Parser::getEditInfo(DataStore &data, Classes listClass, int &index, int &category, std::string str, std::ostringstream &errMsg) {
-	std::string word = "";
-	size_t found = 0;
-	size_t found2 = 0;
 
-	while (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
-		found = str.find_first_not_of(" ", found2);
-		if (found == std::string::npos) {
-			break;
-		}
-		found2 = str.find_first_of(" ", found);
-		if (found2 == std::string::npos) {
-			found2 = str.size();
-		}
-		word = str.substr(found, found2 - found);
-		changeToLower(word);
-	}
-	
-	if (!getIndex(data, index)) {
-		//if no index and category assume editing the only display on the screen
-		if (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT && data.getTempData().size() != 1) {
-			errMsg << "no index or category found";
-			return false;
-		}
-		else if (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT && data.getTempData().size() == 1) {
-			assignCat(data, listClass, category);
-			return true;
-		}
-		//If there is no index but a category, also assume editing the only display on the screen
-		else if (listClass.determineSubCat(word) != listClass.subCategory::INVALIDCAT && data.getTempData().size() != 1) {
-			errMsg << "no index found";
-			return false;
-		}
-		else if (listClass.determineSubCat(word) != listClass.subCategory::INVALIDCAT && data.getTempData().size() == 1) {
-			return true;
-		}
-	}
-	//If there is an index and a category
-	else if (listClass.determineSubCat(word) != listClass.subCategory::INVALIDCAT) {
-		found = data.get_tempEntry().subject.find(word);
-		if (found != std::string::npos) {
-			data.get_tempEntry().subject = data.get_tempEntry().subject.substr(0, found) + data.get_tempEntry().subject.substr(found + word.size());
-			removeFrontChar(data.get_tempEntry().subject);
-		}
-		category = listClass.determineSubCat(word);
-		return true;
-	}
-	//If there is an index found but no category (meaning check complete)
-	return true;
-}
-
-void Parser::assignCat(DataStore &data, Classes listClass, int &category) {
-	if (time) {
-		category = listClass.subCategory::TIME;
-	}
-	else if (date) {
-		category = listClass.subCategory::DATE;
-	}
-	else if (priority) {
-		category = listClass.subCategory::PRIORITY;
-	}
-	else if (cat) {
-		category = listClass.subCategory::CATEGORY;
-	}
-	else {
-		category = listClass.subCategory::SUBJECT;
-	}
-	return;
-}
-
-//To separate out the information into its time, date, category, priority and subject
 void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, bool & checkTime) {
 	date = false;
 	time = false;
 	cat = false;
 	priority = false;
+	complete = false;
 	
 	retrieveDate(listClass, pastDate);
 	retrieveTime(listClass, checkTime);
@@ -217,19 +133,7 @@ void Parser::separateWord(Classes &listClass, DataStore &data, bool &pastDate, b
 	return;
 }
 
-void Parser::retrieveCompleteAndRefNo(Classes &listClass, DataStore &data) {
-	size_t found = _information.find(" | yes ");
-	
-	if (found != std::string::npos) {
-		data.get_tempEntry().isComplete = true;
-	}
-	else {
-		data.get_tempEntry().isComplete = false;
-	}
 
-	data.get_tempEntry().referenceNo = data.getData().size() + 1;
-	return;
-}
 
 void Parser::retrieveDate(Classes &listClass, bool &pastDate) {
 	std::string dStr = _information;
@@ -344,6 +248,111 @@ void Parser::retrieveCategory(Classes &listClass) {
 	} while (end != std::string::npos);
 	return;
 }
+
+//To separate out the information into its time, date, category, priority and subject
+void Parser::retrieveCompleteAndRefNo(Classes &listClass, DataStore &data) {
+	size_t found = _information.find(" | yes");
+	size_t found2 = _information.find(" | no");
+
+	if (found != std::string::npos) {
+		data.get_tempEntry().isComplete = true;
+	}
+	else if (found2 != std::string::npos) {
+		data.get_tempEntry().isComplete = false;
+	}
+
+	data.get_tempEntry().referenceNo = data.getData().size() + 1;
+	return;
+}
+
+
+
+bool Parser::getIndex(DataStore &data, int &index) {
+	size_t found = _information.find_first_of("0123456789");
+	if (found == std::string::npos) {
+		return false;
+	}
+	size_t found2 = _information.find_first_not_of("0123456789", found);
+	if (found2 == std::string::npos) {
+		found2 = _information.size();
+	}
+	std::string str = data.get_tempEntry().subject.substr(found, found2 - found);
+	data.get_tempEntry().subject = data.get_tempEntry().subject.substr(0, found) + data.get_tempEntry().subject.substr(found2);
+	removeFrontChar(data.get_tempEntry().subject);
+	index = atoi(str.c_str());
+	return true;
+}
+
+bool Parser::getEditInfo(DataStore &data, Classes listClass, int &index, int &category, std::string str, std::ostringstream &errMsg) {
+	std::string word = "";
+	size_t found = 0;
+	size_t found2 = 0;
+
+	while (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT) {
+		found = str.find_first_not_of(" ", found2);
+		if (found == std::string::npos) {
+			break;
+		}
+		found2 = str.find_first_of(" ", found);
+		if (found2 == std::string::npos) {
+			found2 = str.size();
+		}
+		word = str.substr(found, found2 - found);
+		changeToLower(word);
+	}
+	
+	if (!getIndex(data, index)) {
+		//if no index and category assume editing the only display on the screen
+		if (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT && data.getTempData().size() != 1) {
+			errMsg << "no index or category found";
+			return false;
+		}
+		else if (listClass.determineSubCat(word) == listClass.subCategory::INVALIDCAT && data.getTempData().size() == 1) {
+			assignCat(data, listClass, category);
+			return true;
+		}
+		//If there is no index but a category, also assume editing the only display on the screen
+		else if (listClass.determineSubCat(word) != listClass.subCategory::INVALIDCAT && data.getTempData().size() != 1) {
+			errMsg << "no index found";
+			return false;
+		}
+		else if (listClass.determineSubCat(word) != listClass.subCategory::INVALIDCAT && data.getTempData().size() == 1) {
+			return true;
+		}
+	}
+	//If there is an index and a category
+	else if (listClass.determineSubCat(word) != listClass.subCategory::INVALIDCAT) {
+		found = data.get_tempEntry().subject.find(word);
+		if (found != std::string::npos) {
+			data.get_tempEntry().subject = data.get_tempEntry().subject.substr(0, found) + data.get_tempEntry().subject.substr(found + word.size());
+			removeFrontChar(data.get_tempEntry().subject);
+		}
+		category = listClass.determineSubCat(word);
+		return true;
+	}
+	//If there is an index found but no category (meaning check complete)
+	return true;
+}
+
+void Parser::assignCat(DataStore &data, Classes listClass, int &category) {
+	if (time) {
+		category = listClass.subCategory::TIME;
+	}
+	else if (date) {
+		category = listClass.subCategory::DATE;
+	}
+	else if (priority) {
+		category = listClass.subCategory::PRIORITY;
+	}
+	else if (cat) {
+		category = listClass.subCategory::CATEGORY;
+	}
+	else {
+		category = listClass.subCategory::SUBJECT;
+	}
+	return;
+}
+
 
 //To remove words keyed in by the user that are not the subject
 //Checks the next word only and up to three previous words
@@ -515,6 +524,8 @@ void Parser::joinStr(std::string &tStr, size_t &start) {
 	_information = _information + tStr;
 	return;
 }
+
+
 
 bool &Parser::getDate() {
 	return date;

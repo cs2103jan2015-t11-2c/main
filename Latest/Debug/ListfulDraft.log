@@ -1,53 +1,12 @@
-﻿Build started 12/4/2015 9:51:32 PM.
+﻿Build started 12/4/2015 10:31:19 PM.
      1>Project "C:\Users\Jasmine\Desktop\ListfulTimeDate\ListfulDraft\ListfulDraft.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(345,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(346,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"..\Debug\\" /Fd"..\Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Search.cpp
-         Search.cpp
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(60): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(80): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(102): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(129): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(138): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(147): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(174): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(183): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(192): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(218): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(225): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(232): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(257): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(261): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(270): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(294): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(298): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(307): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(327): warning C4018: '>' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(342): warning C4018: '>' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(412): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(442): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(451): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(460): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(483): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(492): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(501): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(525): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(529): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(540): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(567): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(571): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(580): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(607): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(612): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(617): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(638): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(645): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(652): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(735): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(770): warning C4018: '>' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(774): warning C4018: '>' : signed/unsigned mismatch
-     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\search.cpp(794): warning C4018: '>' : signed/unsigned mismatch
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"..\Debug\\" /Fd"..\Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt UserInterface.cpp
+         UserInterface.cpp
+     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\userinterface.cpp(306): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\jasmine\desktop\listfultimedate\listfuldraft\userinterface.cpp(339): warning C4018: '<' : signed/unsigned mismatch
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\ListfulDraft.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\ListfulDraft.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\ListfulDraft.lib" /MACHINE:X86 ..\Debug\Add.obj
          ..\Debug\Category.obj
@@ -72,4 +31,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.75
+Time Elapsed 00:00:03.45

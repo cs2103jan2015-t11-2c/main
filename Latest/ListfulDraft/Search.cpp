@@ -4,6 +4,7 @@ const int Search::FLOAT_SUB_SIZE = 44;
 const int Search::NON_FLOAT_SUB_SIZE = 31;
 
 bool Search::displayContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	data.clearData(floating, scheduled, deadline);
 	if (info == "today" || info == "tdy" || info == "tday" || info == "later" || info == "tonight") {
 		getToday(data, floating, scheduled, deadline, errMsg);
 	}
@@ -34,11 +35,14 @@ bool Search::displayContent(DataStore &data, std::string info, std::ostringstrea
 	else if (info[0] >= '0' && info[0] <= '9') {
 		getFullString(info, data, errMsg, floating, scheduled, deadline);
 	}
-
-	if (data.getTempData().size() != 0) {
-		return true;
+	else {
+		return false;
 	}
-	return false;
+
+	if (data.getTempData().size() == 0) {
+		return false;
+	}
+	return true;
 }
 
 
@@ -235,7 +239,7 @@ void Search::getComplete(DataStore &data, std::ostringstream &floating, std::ost
 	}
 
 	if (data.getTempData().size() == 0) {
-		errMsg << "completed tasks found";
+		errMsg << "no completed tasks found";
 		return;
 	}
 	stringGetter(data, floating, scheduled, deadline);
@@ -273,6 +277,7 @@ void Search::getReminder(DataStore &data, std::ostringstream &floating, std::ost
 		}
 		i++;
 	}
+
 	if (data.getTempData().size() == 0) {
 		errMsg << "no tasks due for the next three days";
 		return;
@@ -310,7 +315,7 @@ void Search::getOverDue(DataStore &data, std::ostringstream &floating, std::ostr
 		}
 		i++;
 	}
-	std::cout << "agf" << data.getTempData().size() << std::endl;
+
 	if (data.getTempData().size() == 0) {
 		errMsg << "no tasks are overdue";
 		return;
@@ -465,7 +470,7 @@ void Search::getPriority(DataStore &data, std::ostringstream &floating, std::ost
 	}
 
 	if (data.getTempData().size() == 0) {
-		errMsg << "no tasks with priority " << data.get_tempEntry().priority << " found";
+		errMsg << "no tasks found with priority " << data.get_tempEntry().priority;
 		return;
 	}
 	stringGetter(data, floating, scheduled, deadline);
@@ -506,7 +511,7 @@ void Search::getCat(DataStore &data, std::ostringstream &floating, std::ostrings
 	}
 
 	if (data.getTempData().size() == 0) {
-		errMsg << "no tasks under the category " << data.get_tempEntry().category << " found";
+		errMsg << "no tasks found under the category " << data.get_tempEntry().category;
 		return;
 	}
 	stringGetter(data, floating, scheduled, deadline);

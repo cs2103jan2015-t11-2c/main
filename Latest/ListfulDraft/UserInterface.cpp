@@ -103,7 +103,6 @@ void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg
 			data.clearData(empty, empty, empty);
 			sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str(), empty.str().c_str());
 			oss << msgToUser;
-			
 			if (output != 8 && output != 9) {
 				oss << "\n";
 			}

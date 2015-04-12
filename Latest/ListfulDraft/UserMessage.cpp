@@ -28,9 +28,9 @@ const std::string UserMessage::MESSAGE_DELETE = " task(s) deleted from %s:%s%s%s
 const std::string UserMessage::MESSAGE_COMPLETE = " updating %s.. %s%s%s";
 const std::string UserMessage::MESSAGE_UNDO = " undid previous change for %s:%s%s%s";
 const std::string UserMessage::MESSAGE_REDO = " redid undo for %s:%s%s%s";
-const std::string UserMessage::MESSAGE_DO_NOTHING = "";
-const std::string UserMessage::MESSAGE_CLOSE_FILE = " %s saved at%sListful bids you farewell...";
 const std::string UserMessage::ERROR_COMMAND = " invalid command entered";
+const std::string UserMessage::MESSAGE_CLOSE_FILE = " %s saved at%sListful bids you farewell...";
+const std::string UserMessage::MESSAGE_DO_NOTHING = "";
 const std::string UserMessage::ERROR_ADD = " invalid input entered (no subject found)";
 const std::string UserMessage::ERROR_SEARCH = " %s is unable to search (%s)";
 const std::string UserMessage::ERROR_CLEAR = " %s is already empty with no tasks to clear";
@@ -54,9 +54,9 @@ UserMessage::UserMessage() {
 	_commandMsg.push_back(MESSAGE_COMPLETE);
 	_commandMsg.push_back(MESSAGE_UNDO);
 	_commandMsg.push_back(MESSAGE_REDO);
-	_commandMsg.push_back(MESSAGE_DO_NOTHING);
-	_commandMsg.push_back(MESSAGE_CLOSE_FILE);
 	_commandMsg.push_back(ERROR_COMMAND);
+	_commandMsg.push_back(MESSAGE_CLOSE_FILE);
+	_commandMsg.push_back(MESSAGE_DO_NOTHING);
 	_commandMsg.push_back(ERROR_ADD);
 	_commandMsg.push_back(ERROR_SEARCH);
 	_commandMsg.push_back(ERROR_CLEAR);
