@@ -35,21 +35,23 @@ class Parser {
 	public:
 		Parser() {};
 		void init(std::string);
-
-		bool getIndex(DataStore &, int &);
-		bool getEditInfo(DataStore &, Classes, int &, int &, std::string, std::ostringstream &);
-		void assignCat(DataStore &, Classes , int &);
-	
+		
 		void separateWord(Classes &, DataStore &, bool &, bool &);
+		
 		void retrieveDate(Classes &, bool &);
 		void retrieveTime(Classes &, bool &);
 		void retrievePriority(Classes &);
 		void retrieveCategory(Classes &);
 		void retrieveCompleteAndRefNo(Classes &, DataStore &);
+
+		bool getIndex(DataStore &, int &);
+		bool getEditInfo(DataStore &, Classes, int &, int &, std::string, std::ostringstream &);
+		void assignCat(DataStore &, Classes , int &);
+	
 		void takeFirstWord(int &, size_t &, std::string &);
+
 		void cutExtraWord(size_t, int, int);
 		bool extraWord(std::string, size_t, int, int, int);
-
 		void getFirstWord(Classes, std::string &, std::string , size_t, size_t &);
 		void changeToLower(std::string &);
 		void removeFrontChar(std::string &);
