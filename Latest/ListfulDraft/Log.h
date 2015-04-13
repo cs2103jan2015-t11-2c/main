@@ -8,6 +8,7 @@
 class Log {
 private:
 	std::string _logFileName;
+//	std::ofstream file;
 
 public:
 	Log() {};

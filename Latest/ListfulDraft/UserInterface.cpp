@@ -20,7 +20,7 @@ void UserInterface::runProgram() {
 		isOver = false;
 
 		std::string logInputUI = "User input: " + _userInput;
-		listClass.log.log(logInputUI);
+		log.log(logInputUI);
 
 		found = _userInput.find_first_of(" ");
 
@@ -38,7 +38,7 @@ void UserInterface::runProgram() {
 		}
 		else if (i == 1) {
 			output = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			
+
 			if (output == (listClass.commandType::EXIT)) {
 				errMsg << " [" << file.getName() << "]\n\n ";
 			}
@@ -270,7 +270,7 @@ void UserInterface::startUpScreen(DataStore &data,  FileLocation &file, ParserFa
 
 	//If the user did not enter any location, update fileName to to last access location
 	extractFileName(file.getName(), extName, file);
-	listClass.log.get_logFileName() = extName;
+//	listClass.log.get_logFileName() = extName;
 	getOutputToUser(10, data, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
 	std::cout << "\n\n";
 	data.init(file.getName());

@@ -19,6 +19,7 @@ class UserInterface {
 		DataStore data;
 		UserMessage outputToUser;
 		FileLocation file;
+		Log log;
 		
 		std::ostringstream errMsg;
 		std::ostringstream floating;

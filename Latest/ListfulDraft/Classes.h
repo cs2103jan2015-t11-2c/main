@@ -42,7 +42,6 @@ class Classes {
 		Date date;
 		Priority priority;
 		Category category;
-		Log log;
 
 		int determineCommand(std::string);
 		int determineField(std::string);

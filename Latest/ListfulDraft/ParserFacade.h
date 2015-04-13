@@ -12,6 +12,7 @@ class ParserFacade {
 		
 		Classes listClass;
 		Parser _parse;
+		Log log;
 
 	public:
 		ParserFacade();
