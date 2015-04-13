@@ -28,7 +28,7 @@ bool Add::isSameDate(DataStore data, int index) {
 bool Add::isSameTime(DataStore data, int index) {
 	int num1 = data.getData()[index].endTime;
 	int num2 = data.get_tempEntry().endTime;
-
+	
 	//To take note of '12am' since it is considered 0 so that we can get the correct duration
 	if (num1 == 0) {
 		num1 = 2400;

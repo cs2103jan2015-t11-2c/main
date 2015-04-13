@@ -1,26 +1,16 @@
-1. shit                                        |           | GENERAL  | LOW  | no
+1. meeting with prof                                                   |           | GENERAL  | LOW  | no
 
-2. passport renewal                            |           | GENERAL  | LOW  | no
+2. meeting with gerald                                    | 13/04/2015 | 1200-1300 | WORK     | HIGH | no
 
-3. hi                                          |           | GENERAL  | HIGH | no
+3. basketball             vrdg ref hbfhtfhbtfhbt btbtntnt | 12/08/2015 | 1300-1600 | GENERAL  | LOW  | no
 
-4. sejhf                                       |           | GENERAL  | LOW  | no
+4. run                                                    | 12/04/2015 | 1200      | GENERAL  | LOW  | no
 
-5. meeting with gerald            | 13/04/2015 | 1200-1300 | WORK     | HIGH | no
+5. what is going                                          | 13/04/2015 |           | GENERAL  | LOW  | no
 
-6. sincs mug IE2130               | 06/06/2015 | 1700-1900 | WORK     | HIGH | no
+6. noc mapping                                            | 17/04/2015 |           | GENERAL  | LOW  | no
 
-7. basketball                     | 12/08/2015 | 1200-1600 | PERSONAL | MED  | no
+7. gejh                                                   | 05/03/2015 |           | GENERAL  | LOW  | no
 
-8. run                            | 12/04/2015 | 1200      | GENERAL  | LOW  | no
-
-9. wesfc                          | 13/04/2015 |           | GENERAL  | LOW  | no
-
-10. hahaha                         | 13/04/2015 |           | GENERAL  | MED  | no
-
-11. cs project                     | 13/04/2015 | 2359      | WORK     | HIGH | no
-
-12. noc mapping                    | 17/04/2015 |           | GENERAL  | LOW  | no
-
-13. haha                           | 04/11/2015 | 1600      | ERRAND   | LOW  | no
+8. wesfc                                                  | 26/04/2015 |           | GENERAL  | LOW  | no
 

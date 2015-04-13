@@ -7,7 +7,6 @@ void FileLocation::updateFileLocation(std::string x) {
 	std::string name = "";
 	std::vector <std::string> fileList;
 	
-	//Move the open file up (location)
 	fileList.push_back(x);
 
 	//Retrieve the rest of the locations
@@ -21,16 +20,7 @@ void FileLocation::updateFileLocation(std::string x) {
 		}
 		readFile.close();
 	}
-
-	//To write the locations back in the new order
-	std::ofstream writeFile(FILE_LOCATION_LIST.c_str());
-	if (writeFile.is_open()) {
-		while (!fileList.empty()) {
-			writeFile << *(fileList.begin()) << "\n";
-			fileList.erase(fileList.begin());
-		}
-		writeFile.close();
-	}
+	updateOpenFile(fileList);
 	return;
 }
 
@@ -40,7 +30,6 @@ void FileLocation::saveFileLocation() {
 	std::vector <std::string> fileList;
 	std::string find = _fileName.substr(_fileName.find_last_of("\\") + 1);
 					
-	//Add in the new fileName (location) at the top
 	fileList.push_back(_fileName);
 
 	//To copy the already saved file names so that it will not be overwritten
@@ -54,16 +43,26 @@ void FileLocation::saveFileLocation() {
 		}
 		readFile.close();
 	}
-
-	//Update file location list
-	std::ofstream writeFile(FILE_LOCATION_LIST);
-	while (!fileList.empty()) {
-		writeFile << *(fileList.begin()) << "\n";
-		fileList.erase(fileList.begin());
-	}
-	writeFile.close();
+	updateOpenFile(fileList);
 	return;
 }
+
+
+
+//To write the locations back into open file
+void FileLocation::updateOpenFile(std::vector <std::string> fileList) {
+	std::ofstream writeFile(FILE_LOCATION_LIST.c_str());
+	if (writeFile.is_open()) {
+		while (!fileList.empty()) {
+			writeFile << *(fileList.begin()) << "\n";
+			fileList.erase(fileList.begin());
+		}
+		writeFile.close();
+	}
+	return;
+}
+
+
 
 bool FileLocation::findFile(DataStore &data, bool isOpen) {
 	std::string x = "";
@@ -85,7 +84,8 @@ bool FileLocation::findFile(DataStore &data, bool isOpen) {
 				}
 			}
 
-			//If file has no location specified and a file with the same name is found in this list, assume user is referring to the same file
+			//If file has no location specified and a file with the same name is found in this list, 
+			//assume user is referring to the same file
 			found = x.find(_fileName);
 			if (x == _fileName || found != std::string::npos) {
 				_fileName = x;
@@ -131,9 +131,9 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 				parse.removeFrontChar(subject);
 				parse.removeBackChar(subject);
 				
-				x = x.substr(x.find_first_of(".") + 2);
+				x = x.substr(x.find_first_of("|"));
 				parse.readFile(x);
-				parse.separateWord(listClass, data, ignore, ignore);
+				parse.separateWord(data, ignore, ignore);
 				
 				data.get_tempEntry().subject = subject;
 				data.getData().push_back(data.get_tempEntry());
@@ -150,6 +150,8 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 	data.updateFile(data);
 	return fileMsg::CREATE;
 }
+
+
 
 std::string &FileLocation::getName() {
 	return _fileName;

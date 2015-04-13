@@ -27,6 +27,8 @@ bool Sort::sortContent(DataStore &data){
 
 //To swap the entries
 void Sort::sortSwitch(int &index, int &start, DataStore &data){
+	assert(index>=0);
+	assert(start>=0);
 	data.getTempData().clear();
 	data.getTempIndexList().clear();
 
@@ -75,6 +77,7 @@ void Sort::sortSub(DataStore &data) {
 }
 
 void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &lineSize) {
+	assert(!line1.empty()&&!line2.empty());
 	if (line1.size() <= line2.size()) {
 		lineSize = line1;
 	}
@@ -84,6 +87,8 @@ void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &
 }
 
 bool Sort::convertAndCmp(std::string line1, std::string line2, int index, char &word) {
+	assert(!line1.empty()&&!line2.empty());
+	assert(index >= 0);
 	if (line2[index] >= 'a' && line2[index] <= 'z') {
 		if (line1[index] > line2[index]) {
 			return true;
@@ -99,6 +104,7 @@ bool Sort::convertAndCmp(std::string line1, std::string line2, int index, char &
 }
 
 bool Sort::compareWord(std::string &line1, std::string &line2, std::string &lineSize) {
+	assert(!line1.empty()&&!line2.empty());
 	for (int index = 0; index < lineSize.size(); index++) {
 		char word = ' ';
 		if (line1[index] >= 'a' && line1[index] <= 'z') {

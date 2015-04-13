@@ -74,7 +74,7 @@ void Parser::separateWord(DataStore &data, bool &pastDate, bool & checkTime) {
 	cat = false;
 	priority = false;
 	complete = false;
-	
+
 	retrieveDate(pastDate);
 	retrieveTime(checkTime);
 	retrievePriority();
