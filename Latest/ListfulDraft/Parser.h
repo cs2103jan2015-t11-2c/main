@@ -1,3 +1,4 @@
+//@author A0116177E
 #ifndef PARSER_H
 #define PARSER_H
 
@@ -48,12 +49,10 @@ class Parser {
 		bool getMonth(DataStore &);
 		void getEditInfo(std::vector <int> &, std::string);
 		void assignCat(DataStore &, int &);
-	
-		void takeFirstWord(int &, size_t &, std::string &);
 
 		void cutExtraWord(size_t, int, int);
-		bool isExtraWord(std::string, size_t, int, int, int);
 		void getFirstWord(std::string &, std::string , size_t, size_t &);
+		bool isExtraWord(std::string, size_t, int, int, int);
 		void changeToLower(std::string &);
 		void removeFrontChar(std::string &);
 		void removeBackChar(std::string &);

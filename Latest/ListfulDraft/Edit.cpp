@@ -1,4 +1,6 @@
+//@author A0116237L
 #include "Edit.h"
+
 //to update entry to done status
 bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	int size = 0;
@@ -20,6 +22,7 @@ bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstr
 	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
 	return true;
 }
+
 //to check if task is done
 bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	size_t found = info.find_first_of(" ");
@@ -167,6 +170,7 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 	}
 	return true;
 }
+
 //to get the index of edited content
 bool Edit::getEditIndex(std::string &info, int &index) {
 	
@@ -194,6 +198,7 @@ bool Edit::getEditIndex(std::string &info, int &index) {
 		return false;
 	}
 }
+
 //to edit time
 void Edit::editTime(DataStore &data, int index) {
 	_editEntry = data.getData()[index];
@@ -211,6 +216,7 @@ void Edit::editTime(DataStore &data, int index) {
 	data.get_tempEntry() = _editEntry;
 	return;
 }
+
 //to edit date
 void Edit::editDate(DataStore &data, int index) {
 	_editEntry = data.getData()[index];
@@ -227,6 +233,7 @@ void Edit::editDate(DataStore &data, int index) {
 	data.get_tempEntry() = _editEntry;
 	return;
 }
+
 //to update temporary storage 
 void Edit::updateTemp(DataStore &data, std::vector <int> list) {
 	data.getTempData().clear();

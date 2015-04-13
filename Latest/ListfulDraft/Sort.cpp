@@ -1,4 +1,6 @@
+//@author A0116237L
 #include "Sort.h"
+
 //to sort content
 bool Sort::sortContent(DataStore &data){
 	switch (_category) {
@@ -71,6 +73,7 @@ void Sort::sortSub(DataStore &data) {
 	}
 	return;
 }
+
 //to compare line size
 void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &lineSize) {
 	if (line1.size() <= line2.size()) {
@@ -80,6 +83,7 @@ void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &
 		lineSize = line2;
 	}
 }
+
 //to check if its uper case
 bool Sort::isUpperCase(std::string line1, std::string line2, int index, char &word) {
 	if (line2[index] >= 'a' && line2[index] <= 'z') {
@@ -95,6 +99,7 @@ bool Sort::isUpperCase(std::string line1, std::string line2, int index, char &wo
 	}
 	return false;
 }
+ 
 //to see if its a larger character
 bool Sort::isLargerChar(std::string &line1, std::string &line2, std::string &lineSize) {
 	for (int index = 0; index < lineSize.size(); index++) {
@@ -127,6 +132,7 @@ bool Sort::isLargerChar(std::string &line1, std::string &line2, std::string &lin
 
 	return false;
 }
+
 //to sort by date
 void Sort::sortDate(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
@@ -149,6 +155,7 @@ void Sort::sortDate(DataStore &data) {
 	}
 	return;
 }
+
 //to sort by completed status
 void Sort::sortComplete(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
@@ -163,6 +170,7 @@ void Sort::sortComplete(DataStore &data) {
 	}
 	return;
 }
+
 //to sort by time
 void Sort::sortTime(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
@@ -180,6 +188,8 @@ void Sort::sortTime(DataStore &data) {
 	}
 	return;
 }
+
+
 //to determine category to be sorted
 int Sort::determineCategory(std::string word) {
 	if (word == "WORK    ") {
@@ -211,6 +221,8 @@ void Sort::sortCat(DataStore &data) {
 	}
 	return;
 }
+
+
 //to determine priority entered
 int Sort::determinePriority(std::string word) {
 	if (word == "LOW  ") {
@@ -226,6 +238,7 @@ int Sort::determinePriority(std::string word) {
 		return priorityType::PINVALID;
 	}
 }
+
 //to sort by priority
 void Sort::sortPriority(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
@@ -239,6 +252,8 @@ void Sort::sortPriority(DataStore &data) {
 	}
 	return;
 }
+
+
 //to compare the tasks
 bool Sort::cmpSame(DataStore &data, int start, int iter) {
 	if (data.getData()[start].isFloat == data.getData()[iter].isFloat) {
@@ -250,6 +265,7 @@ bool Sort::cmpSame(DataStore &data, int start, int iter) {
 	}
 	return false;
 }
+
 //getter function for category
 int &Sort::getSortCat() {
 	return _category;

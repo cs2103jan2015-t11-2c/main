@@ -1,3 +1,4 @@
+//@author A0115871E
 #ifndef LOG_H
 #define LOG_H
 
@@ -8,7 +9,6 @@
 class Log {
 private:
 	std::string _logFileName;
-//	std::ofstream file;
 
 public:
 	Log() {};
@@ -16,7 +16,6 @@ public:
 	void clear();
 	void log(std::string);
 	void endLog();
-	std::string &get_logFileName();
 };
 
 #endif

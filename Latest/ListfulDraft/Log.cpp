@@ -1,26 +1,28 @@
+//@author A0115871E
 #include "Log.h"
-using namespace std;
 
 void Log::clear() {
-	ofstream file;
-	file.open("log.txt", ios::trunc);
+	std::ofstream file;
+
+	file.open("log.txt", std::ios::trunc);
 	file << "Log sequence: \n";
+
 	file.close();
 }
 
-void Log::log(string input) {
-	ofstream file;
-	file.open("log.txt", ios::app);
+void Log::log(std::string input) {
+	std::ofstream file;
 
+	file.open("log.txt", std::ios::app);
 	file << input << "\n";
 
 	file.close();
 }
 
 void Log::endLog() {
-	ofstream file;
-	file.open("log.txt", ios::app);
+	std::ofstream file;
 
+	file.open("log.txt", std::ios::app);
 	file << "\n";
 
 	file.close();

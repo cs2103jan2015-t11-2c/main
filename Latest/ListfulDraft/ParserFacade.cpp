@@ -1,3 +1,4 @@
+//@author A0116177E
 #include "ParserFacade.h"
 
 ParserFacade::ParserFacade() {
@@ -25,27 +26,21 @@ void ParserFacade::init(std::string command) {
 	_parse.init(_information);
 	return;
 }
+
 //main function to carry out command
 int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
 								  std::ostringstream &deadline) {
 	int command = listClass.determineCommand(_userInput);
-<<<<<<< HEAD
+
 	std::string logInputParseF = "Listful: \"" + _information + "\" passed to ParserFacade";
 	log.log(logInputParseF);
 
 	assert(!_userInput.empty());
-=======
-	
-	std::string logInputParseF = "Listful: " + _userInput + " passed to ParserFacade";
-	listClass.log.log(logInputParseF);
-
-	assert(!_userInput.empty());
-
->>>>>>> 848de96a388848e55ee222d67a5b35443acb4ee7
 
 	int returnValue = 0;
 	std::string originalStr = "";
 	std::vector <int> editCat;
+
 	bool pastDate = false;
 	bool checkTime = false;
 	bool isTemp = false;
@@ -187,6 +182,7 @@ bool ParserFacade::isHelp(std::string input) {
 	}
 	return false;
 }
+
 //simple search function
 void ParserFacade::defaultSearchFunc(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, 
 									 std::ostringstream &scheduled, std::ostringstream &deadline) {
@@ -227,6 +223,7 @@ void ParserFacade::separateWord(DataStore &data, bool &i, bool &j) {
 	_parse.separateWord(data, i, j);
 	return;
 }
+
 //to remove the front character
 void ParserFacade::removeFrontChar(std::string &str) {
 	_parse.removeFrontChar(str);

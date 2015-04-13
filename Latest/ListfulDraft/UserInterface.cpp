@@ -1,3 +1,4 @@
+//@author A0116177E
 #include "UserInterface.h"
 
 void UserInterface::runProgram() {
@@ -51,7 +52,6 @@ void UserInterface::runProgram() {
 	}
 	return;
 }
-
 
 
 void UserInterface::clearData(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
@@ -176,7 +176,6 @@ std::string UserInterface::getPath() {
 }
 
 
-
 void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostringstream &floating, std::ostringstream &scheduled, 
 									   std::ostringstream &deadline, int count, std::ostringstream &oss, std::string msg) {
 		if (isReminder && !isOver && (floating.str() != "" || scheduled.str() != "" || deadline.str() != "")) {
@@ -229,7 +228,6 @@ void UserInterface::showReminder(DataStore data, std::string &msg, std::ostrings
 	listClass.search.setColour(7);
 	return;
 }
-
 
 
 void UserInterface::outputCommand() {
