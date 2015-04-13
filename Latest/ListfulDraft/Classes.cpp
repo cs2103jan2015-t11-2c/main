@@ -1,4 +1,6 @@
+//@author A0110670W
 #include "Classes.h"
+
 // to determine command
 int Classes::determineCommand(std::string _userInput) {
 	if (_userInput == "add" || _userInput == "1" || _userInput == "addto" || _userInput == "-") {
@@ -13,7 +15,8 @@ int Classes::determineCommand(std::string _userInput) {
 	else if (_userInput == "clear" || _userInput == "4" || _userInput == "reset" || _userInput == "clr" || _userInput == "addto") {
 		return commandType::CLEAR;
 	}
-	else if (_userInput == "edit" || _userInput == "5" || _userInput == "append" || _userInput == "change" || _userInput == "check" || _userInput == "done" || _userInput == "complete" || _userInput == "completed" || _userInput == "uncheck" || _userInput == "uncomplete") {
+	else if (_userInput == "edit" || _userInput == "5" || _userInput == "append" || _userInput == "change" || _userInput == "check" || _userInput == "done" 
+			 || _userInput == "complete" || _userInput == "completed" || _userInput == "uncheck" || _userInput == "uncomplete") {
 		return commandType::EDIT;
 	}
 	else if (_userInput == "sort" || _userInput == "6") {
@@ -32,6 +35,7 @@ int Classes::determineCommand(std::string _userInput) {
 		return commandType::INVALID;
 	}
 }
+
 //to determine field
 int Classes::determineField(std::string info) {
 	if (info == "date") {
@@ -53,6 +57,7 @@ int Classes::determineField(std::string info) {
 		return fieldType::INVALIDFIELD;
 	}
 }
+
 // to determine priority
 int Classes::determinePriority(std::string str) {
 	if (str == "LOW" || str == "L") {
@@ -68,6 +73,7 @@ int Classes::determinePriority(std::string str) {
 		return priorityType::PINVALID;
 	}
 }
+
 //to determine category
 int Classes::determineCategory(std::string word) {
 	if (word == "WORK     " || word == "WORK") {

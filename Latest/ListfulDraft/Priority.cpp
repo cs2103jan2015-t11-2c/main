@@ -1,3 +1,4 @@
+//@author A0115871E
 #include "Priority.h"
 
 //Identifies category from the input and cuts them out from the string
@@ -21,8 +22,6 @@ bool Priority::checkForPriority(int impt, std::string &pStr, size_t found) {
 	return true;
 }
 
-
-
 //Cuts out if priority is identified
 void Priority::extractRemainingStr(std::string &pStr, size_t found) {
 	if (found == pStr.size()) {
@@ -38,8 +37,6 @@ void Priority::extractRemainingStr(std::string &pStr, size_t found) {
 	}
 	return;
 }
-
-
 
 std::string &Priority::getPriority() {
 	return _priority;

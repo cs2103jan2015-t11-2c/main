@@ -1,3 +1,4 @@
+//@author A0116237L
 #ifndef DELETE_H
 #define DELETE_H
 
@@ -23,8 +24,6 @@ class Delete {
 		
 		bool isRepeat(DataStore &, std::vector <int>, int);
 		void checkDataBaseEmpty(DataStore &, std::ostringstream &);
-
-		int &getIndex();
 };
 
 #endif

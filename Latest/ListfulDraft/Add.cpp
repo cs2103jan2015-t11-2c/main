@@ -1,3 +1,4 @@
+//@author A0116177E
 #include "Add.h"
 
 //To add floating and non-floating where the floating tasks
@@ -15,6 +16,7 @@ bool Add::addContent(DataStore &data, std::ostringstream &errMsg, std::ostringst
 	addToDataBase(data, isTemp, errMsg, floating, scheduled, deadline);
 	return true;
 }
+
 
 //Checks if the date clashes
 bool Add::isSameDate(DataStore data, int index) {
@@ -90,6 +92,7 @@ void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 	}
 	return;
 }
+
 
 void Add::addToDataBase(DataStore &data, bool isTemp, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	Search search;
@@ -212,6 +215,7 @@ void Add::addFloat(DataStore &data, bool isTemp) {
 	return;
 }
 
+
 bool Add::isAdded(DataStore &data, std::vector <Entry> &check, std::vector <Entry>::iterator iter, int index, bool isTemp) {
 	if (isSameDate(data, index) && !isTemp) {
 		if ((*iter).startTime > data.get_tempEntry().startTime) {
@@ -257,6 +261,7 @@ bool Add::isAdded(DataStore &data, std::vector <Entry> &check, std::vector <Entr
 	}
 	return false;
 }
+
 
 void Add::selectDataBase(DataStore &data, std::vector <Entry> &check, bool isTemp) {
 	if (!isTemp) {

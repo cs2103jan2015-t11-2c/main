@@ -1,3 +1,4 @@
+//@author A0116177E
 #include "UserInterface.h"
 
 void UserInterface::runProgram() {
@@ -20,7 +21,7 @@ void UserInterface::runProgram() {
 		isOver = false;
 
 		std::string logInputUI = "User input: " + _userInput;
-		listClass.log.log(logInputUI);
+		log.log(logInputUI);
 
 		found = _userInput.find_first_of(" ");
 
@@ -38,7 +39,7 @@ void UserInterface::runProgram() {
 		}
 		else if (i == 1) {
 			output = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			
+
 			if (output == (listClass.commandType::EXIT)) {
 				errMsg << " [" << file.getName() << "]\n\n ";
 			}
@@ -51,7 +52,6 @@ void UserInterface::runProgram() {
 	}
 	return;
 }
-
 
 
 void UserInterface::clearData(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
@@ -176,7 +176,6 @@ std::string UserInterface::getPath() {
 }
 
 
-
 void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostringstream &floating, std::ostringstream &scheduled, 
 									   std::ostringstream &deadline, int count, std::ostringstream &oss, std::string msg) {
 		if (isReminder && !isOver && (floating.str() != "" || scheduled.str() != "" || deadline.str() != "")) {
@@ -231,7 +230,6 @@ void UserInterface::showReminder(DataStore data, std::string &msg, std::ostrings
 }
 
 
-
 void UserInterface::outputCommand() {
 	std::cout << outputToUser.getProgMsg()[0];
 	listClass.search.setColour(6);
@@ -270,7 +268,7 @@ void UserInterface::startUpScreen(DataStore &data,  FileLocation &file, ParserFa
 
 	//If the user did not enter any location, update fileName to to last access location
 	extractFileName(file.getName(), extName, file);
-	listClass.log.get_logFileName() = extName;
+//	listClass.log.get_logFileName() = extName;
 	getOutputToUser(10, data, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
 	std::cout << "\n\n";
 	data.init(file.getName());
