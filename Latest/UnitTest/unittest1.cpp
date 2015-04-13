@@ -386,7 +386,7 @@ namespace UnitTest1
 			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 MED";
 			std::string input2 = "add running 7 apr 2015  1800-2000";
 			std::string input3 = "search CS project meeting";
-			std::string input4 = "edit IE2130 meeting with prof";
+			std::string input4 = "edit 1 IE2130 meeting with prof";
 			std::string buffer = "buffer";
 
 			parseF.init(input1);
