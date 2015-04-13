@@ -74,7 +74,7 @@ void Parser::separateWord(DataStore &data, bool &pastDate, bool & checkTime) {
 	cat = false;
 	priority = false;
 	complete = false;
-	
+
 	retrieveDate(pastDate);
 	retrieveTime(checkTime);
 	retrievePriority();
@@ -278,23 +278,18 @@ void Parser::retrieveCompleteAndRefNo(DataStore &data) {
 
 void Parser::getEditInfo(std::vector <int> &editCat, std::string originalStr) {
 	if (time) {
-		std::cout << "1" << std::endl;
 		editCat.push_back(listClass.subCategory::TIME);
 	}
 	if (date) {
-		std::cout << "2" << std::endl;
 		editCat.push_back(listClass.subCategory::DATE);
 	}
 	if (priority) {
-		std::cout << "3" << std::endl;
 		editCat.push_back(listClass.subCategory::PRIORITY);
 	}
 	if (cat) {
-		std::cout << "4" << std::endl;
 		editCat.push_back(listClass.subCategory::CATEGORY);
 	}
 	if (editCat.size() == 0 || (_information != originalStr && _information != "")) {
-		std::cout << "5" << std::endl;
 		editCat.push_back(listClass.subCategory::SUBJECT);
 	}
 	return;
@@ -318,6 +313,7 @@ void Parser::assignCat(DataStore &data, int &category) {
 	}
 	return;
 }
+
 
 
 //To remove words keyed in by the user that are not the subject
@@ -385,7 +381,8 @@ void Parser::getFirstWord(std::string &str, std::string pStr, size_t start, size
 	return;
 }
 
-//Identifies if the words is an extra
+//Identifies if the words is an extra words, meaning a word to complement the other categories
+//which we won't want in our subject
 //3 different vector for three different cases since there are different extra words before and after 
 //for different types (time & date, category & importance) 
 bool Parser::extraWord(std::string word, size_t found, int cat, int frontOrBack, int count) {

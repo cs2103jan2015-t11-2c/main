@@ -385,15 +385,15 @@ namespace UnitTest1
 
 			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 MED";
 			std::string input2 = "edit IE2130 meeting with prof";
-			std::string buffer = "buffer";
+			//std::string buffer = "buffer";
 
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			//data.getPastActionLog().push_back(buffer);
 	
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			//data.getPastActionLog().push_back(buffer);
 
 			std::string expectedSubject = "IE2130 meeting with prof";
 			std::string actualSubject = data.getData()[0].subject;
@@ -599,7 +599,7 @@ namespace UnitTest1
 			parseF.init(input4);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
 			data.getPastActionLog().push_back(buffer);
-
+			
 			parseF.init(input5);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
 			data.getPastActionLog().push_back(buffer);
@@ -610,9 +610,9 @@ namespace UnitTest1
 			Assert::AreEqual(expectedSize, actualSize);
 
 			int expectedStartTime = 1300;
-			int actualStartTime = data.getData()[3].startTime;
+			int actualStartTime = data.getData()[2].startTime;
 			int expectedEndTime = 1700;
-			int actualEndTime = data.getData()[3].endTime;
+			int actualEndTime = data.getData()[2].endTime;
 
 			Assert::AreEqual(expectedStartTime, actualStartTime);
 			Assert::AreEqual(expectedEndTime, actualEndTime);		

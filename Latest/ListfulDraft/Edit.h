@@ -1,6 +1,8 @@
 #ifndef EDIT_H
 #define EDIT_H
 
+#define MIN -1
+
 #include "DataStore.h"
 #include "Add.h"
 #include "Search.h"
@@ -20,8 +22,8 @@ class Edit {
 		bool checkAll(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
 		bool checkComplete(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
 		
-		bool editContent(DataStore &, std::vector <int>, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
-		bool getEditIndex(std::string, int &);
+		bool editContent(DataStore &, std::vector <int>, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string, int = MIN);
+		bool getEditIndex(std::string &, int &);
 		void editTime(DataStore &, int);
 		void editDate(DataStore &, int);
 		

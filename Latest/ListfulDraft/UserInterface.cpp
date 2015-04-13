@@ -28,11 +28,7 @@ void UserInterface::runProgram() {
 			data.getData().clear();
 			i = 0;
 			startUpScreen(data, file, parseF, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
-		}/*
-		//To save in a different location
-		else if (found != std::string::npos && _userInput.substr(0, found) == "save") {
-			
-		}*/
+		}
 
 		if (_userInput == "remind" || _userInput == "reminder" || _userInput == "due") {
 			showReminder(data, msg, floating, scheduled, deadline);
@@ -58,7 +54,8 @@ void UserInterface::runProgram() {
 
 
 
-void UserInterface::clearData(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+void UserInterface::clearData(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
+							  std::ostringstream &deadline) {
 	errMsg.str("");
 	errMsg.clear();
 	floating.str("");
@@ -93,7 +90,9 @@ void UserInterface::getStringToDisplay(std::ostringstream &floating, std::ostrin
 	return;
 }
 
-void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg, std::string extName, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool isReminder, bool isOver) {
+void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg, std::string extName, std::ostringstream &errMsg, 
+									std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+									bool isReminder, bool isOver) {
 	size_t count = std::count(msg.begin(), msg.end(), '%');
 	std::ostringstream oss;
 	std::string cutOff = "";
@@ -141,7 +140,6 @@ void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg
 
 
 
-
 void UserInterface::readFileName(std::string &fileName) {
 	std::cout << outputToUser.getProgMsg()[6];
 	
@@ -179,7 +177,8 @@ std::string UserInterface::getPath() {
 
 
 
-void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, int count, std::ostringstream &oss, std::string msg) {
+void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostringstream &floating, std::ostringstream &scheduled, 
+									   std::ostringstream &deadline, int count, std::ostringstream &oss, std::string msg) {
 		if (isReminder && !isOver && (floating.str() != "" || scheduled.str() != "" || deadline.str() != "")) {
 			count = msg.find_first_of("%");
 			oss << msg.substr(0, count);
@@ -207,7 +206,8 @@ void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostrin
 		return;
 }
 
-void UserInterface::showOverDue(DataStore data, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+void UserInterface::showOverDue(DataStore data, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, 
+								std::ostringstream &deadline) {
 	clearData(data, floating, floating, scheduled, deadline);
 	bool isReminder = false;
 	bool isOver = true;
@@ -218,7 +218,8 @@ void UserInterface::showOverDue(DataStore data, std::string &msg, std::ostringst
 	return;
 }
 
-void UserInterface::showReminder(DataStore data, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+void UserInterface::showReminder(DataStore data, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, 
+								 std::ostringstream &deadline) {
 	clearData(data, floating, floating, scheduled, deadline);
 	bool isReminder = true;
 	bool isOver = false;
@@ -255,7 +256,9 @@ void UserInterface::defaultScreen(ParserFacade &parseF) {
 	return;
 }
 
-void UserInterface::startUpScreen(DataStore &data,  FileLocation &file, ParserFacade &parseF, std::string &msg, std::string &extName, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool isReminder, bool isOver) {
+void UserInterface::startUpScreen(DataStore &data,  FileLocation &file, ParserFacade &parseF, std::string &msg, std::string &extName, 
+								  std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
+								  std::ostringstream &deadline, bool isReminder, bool isOver) {
 	std::string fileName = "";
 
 	outputCommand();

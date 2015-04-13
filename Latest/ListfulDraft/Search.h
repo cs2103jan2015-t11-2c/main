@@ -47,7 +47,7 @@ class Search {
 		bool getDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	
 		std::string getDataString(DataStore &, int, bool, int = MIN);
-		std::string getTempDataString(DataStore &, int, bool);
+		std::string getTempDataString(DataStore &, int, bool, int = MIN);
 		void stringGetter(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 
 		void printSub(DataStore &, std::ostringstream &, int, int, bool, bool);

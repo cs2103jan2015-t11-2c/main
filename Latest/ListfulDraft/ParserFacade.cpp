@@ -28,11 +28,16 @@ void ParserFacade::init(std::string command) {
 
 
 
-int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
+								  std::ostringstream &deadline) {
 	int command = listClass.determineCommand(_userInput);
+<<<<<<< HEAD
 	
 	std::string logInputParseF = "Listful: " + _userInput + " passed to ParserFacade";
 	listClass.log.log(logInputParseF);
+=======
+	assert(!_userInput.empty());
+>>>>>>> f1f97518af4d6268ecfad3cd3cce180131ccea82
 
 	int returnValue = 0;
 	std::string originalStr = "";
@@ -87,7 +92,7 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 			originalStr = _information;
 			_parse.separateWord (data, pastDate, checkTime);
 			_parse.getEditInfo(editCat, originalStr);
-			if (listClass.edit.editContent(data, editCat, _information, errMsg, floating, scheduled, deadline, _userInput)) {
+			if (listClass.edit.editContent(data, editCat, data.get_tempEntry().subject, errMsg, floating, scheduled, deadline, _userInput)) {
 				returnValue = listClass.commandType::EDIT;
 			}
 			else {
@@ -174,7 +179,8 @@ bool ParserFacade::isHelp(std::string input) {
 
 
 
-void ParserFacade::defaultSearchFunc(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+void ParserFacade::defaultSearchFunc(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, 
+									 std::ostringstream &scheduled, std::ostringstream &deadline) {
 	bool pastDate = false;
 	bool checkTime = false;
 	_parse.separateWord(data, pastDate, checkTime);
