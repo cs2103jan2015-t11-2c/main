@@ -1,0 +1,81 @@
+//@author: a0110670w
+
+
+
+	/**
+	 * origin: C:\Users\Jasmine\Desktop\CS2103\main\Latest\UnitTest\ListFulTest.cpp
+	 */
+
+	TEST_CLASS(ListFulRemainingTest) {
+	public:
+		
+		TEST_METHOD(TimeBoundaryTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 0000-2359 TY's bday 1st apr 2015";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+
+			int expectedStartTime = 0;
+			int actualStartTime = data.getData()[0].startTime;
+			int expectedEndTime = 2359;
+			int actualEndTime = data.getData()[0].endTime;
+
+			Assert::AreEqual(expectedStartTime, actualStartTime);
+			Assert::AreEqual(expectedEndTime, actualEndTime);
+		}
+
+		TEST_METHOD(TimeExtremeTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 2000-2400 FUNRUN";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			
+
+			int expectedStartTime = 2000;
+			int actualStartTime = data.getData()[0].startTime;
+			int expectedEndTime = 2000;
+			int actualEndTime = data.getData()[0].endTime;
+
+			Assert::AreEqual(expectedStartTime, actualStartTime);
+			Assert::AreEqual(expectedEndTime, actualEndTime);
+			Assert::IsTrue(data.getData()[0].isFloat);
+		}
+
+	};
+	
+	// End of segment: C:\Users\Jasmine\Desktop\CS2103\main\Latest\UnitTest\ListFulTest.cpp
+
+
+
+
+
