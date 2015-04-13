@@ -31,6 +31,9 @@ void ParserFacade::init(std::string command) {
 int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	int command = listClass.determineCommand(_userInput);
 	
+	std::string logInputParseF = "Listful: " + _userInput + " passed to ParserFacade";
+	listClass.log.log(logInputParseF);
+
 	int returnValue = 0;
 	std::string originalStr = "";
 	std::vector <int> editCat;
@@ -45,6 +48,7 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 			_parse.separateWord(data, pastDate, checkTime);
 			listClass.add.checkDateTime(data, errMsg, pastDate, checkTime);
 			if (listClass.add.addContent(data, errMsg, floating, scheduled, deadline, isTemp)) {
+				listClass.log.log("Listful: ");
 				returnValue = listClass.commandType::ADD;
 			}
 			else {

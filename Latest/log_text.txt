@@ -1,0 +1,24 @@
+User input: 2
+User input: delete all
+User input: 2
+User input: undo
+User input: exit
+User input: display
+User input: search floating
+User input: search low
+User input: search LOW
+User input: delete 1 2 3 4 5 6 7
+User input: 2
+User input: delete 1 2 3 4 5 6 7
+User input: search LOW
+User input: delete 1
+User input: add meeting with prof
+User input: add what is going on today
+User input: show
+User input: edit 7 what is this?
+User input: show
+User input: edit 7 subject what is this?
+User input: 2
+User input: edit 8 WORK
+User input: 2
+User input: edit 8 WORK

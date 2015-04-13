@@ -11,6 +11,7 @@
 #include "Edit.h"
 #include "Sort.h"
 #include "Search.h"
+#include "Log.h"
 
 class Classes {
 	public:
@@ -41,6 +42,7 @@ class Classes {
 		Date date;
 		Priority priority;
 		Category category;
+		Log log;
 
 		int determineCommand(std::string);
 		int determineSubCat(std::string);
