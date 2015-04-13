@@ -12,7 +12,7 @@ class Timing {
 	public:
 		Timing();
 		
-		bool extractTime (std::string &, int &, bool &);
+		bool checkForTime (std::string &, int &, bool &);
 		
 		bool takeTime(std::string &, int &, bool &);
 		void checkAMPM (std::string &, int , int &, bool &, int);
@@ -21,7 +21,7 @@ class Timing {
 		
 		void countWord(std::string, int &);
 		void changeToLower(std::string &);
-		void updateStr(std::string &, std::string &, size_t);
+		void extractRemainingStr(std::string &, std::string &, size_t);
 		void removeNonTimeChar(std::string &);
 		
 		void updateTime();

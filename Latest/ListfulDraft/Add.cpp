@@ -12,7 +12,7 @@ bool Add::addContent(DataStore &data, std::ostringstream &errMsg, std::ostringst
 	}
 	
 	data.clearData(floating, scheduled, deadline);
-	insertionAdd(data, isTemp, errMsg, floating, scheduled, deadline);
+	addToDataBase(data, isTemp, errMsg, floating, scheduled, deadline);
 	return true;
 }
 
@@ -58,7 +58,7 @@ bool Add::isSameTime(DataStore data, int index) {
 void Add::checkDateTime(DataStore data, std::ostringstream &errMsg, bool pastDate, bool checkTime) {
 	int index = 0;
 	if (pastDate) {
-		errMsg << std::endl << " WARNING: date entered has already past (undo/edit adviced)";
+		errMsg << std::endl << " WARNING: date entered has already undo (undo/edit adviced)";
 	}
 	if (checkTime && data.get_tempEntry().endTime > data.get_tempEntry().startTime && data.get_tempEntry().endTime != 0) {
 		errMsg << std::endl << " end time entered earlier then start time (undo/edit adviced)";
@@ -91,7 +91,7 @@ void Add::checkDuplicate(DataStore data, std::ostringstream &errMsg) {
 	return;
 }
 
-void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+void Add::addToDataBase(DataStore &data, bool isTemp, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	Search search;
 	
 	//Empty
@@ -103,23 +103,23 @@ void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &errMsg,
 	}
 	//Float
 	else if (data.get_tempEntry().isFloat) {
-		floatAdd(data, isTemp);
+		addFloat(data, isTemp);
 	}
 	//Scheduled
 	else if (data.get_tempEntry().isTimedTask && !data.get_tempEntry().isFloat) {
-		if (!isTemp && !scheduledAdd(data, isTemp)) {
+		if (!isTemp && !addScheduled(data, isTemp)) {
 			data.getData().push_back(data.get_tempEntry());
 		}
-		else if (isTemp && !scheduledAdd(data, isTemp)) {
+		else if (isTemp && !addScheduled(data, isTemp)) {
 			data.getTempData().push_back(data.get_tempEntry());
 		}
 	}
 	//Deadline
 	else if (!data.get_tempEntry().isTimedTask && !data.get_tempEntry().isFloat) {
-		if (!isTemp && !deadlineAdd(data, isTemp)) {
+		if (!isTemp && !addDeadline(data, isTemp)) {
 			data.getData().push_back(data.get_tempEntry());
 		}
-		else if (isTemp && !deadlineAdd(data, isTemp)) {
+		else if (isTemp && !addDeadline(data, isTemp)) {
 			data.getTempData().push_back(data.get_tempEntry());
 		}
 	}
@@ -130,27 +130,27 @@ void Add::insertionAdd(DataStore &data, bool isTemp, std::ostringstream &errMsg,
 	return;
 }
 
-bool Add::scheduledAdd(DataStore &data, bool isTemp) {
+bool Add::addScheduled(DataStore &data, bool isTemp) {
 	std::vector <Entry>::iterator iter;
 	std::vector <Entry> check;
 	int index = 0;
 
-	setData(data, check, isTemp);
+	selectDataBase(data, check, isTemp);
 	for (iter = check.begin(); iter !=check.end(); iter++) {
 		if ((*iter).isTimedTask) {
-			if (pushData(data, check, iter, index, isTemp)) {
-				setDataBack(data, check, isTemp);
+			if (isAdded(data, check, iter, index, isTemp)) {
+				revertDataBase(data, check, isTemp);
 				return true;
 			}
 		}
 		if ((*iter).isTimedTask && (*iter).isComplete) {
 			check.insert(iter, data.get_tempEntry());
-			setDataBack(data, check, isTemp);
+			revertDataBase(data, check, isTemp);
 			return true;
 		}
 		if (!(*iter).isFloat && !(*iter).isTimedTask) { 
 			check.insert(iter, data.get_tempEntry());
-			setDataBack(data, check, isTemp);
+			revertDataBase(data, check, isTemp);
 			return true;
 		}
 		index++;
@@ -158,22 +158,22 @@ bool Add::scheduledAdd(DataStore &data, bool isTemp) {
 	return false;
 }
 
-bool Add::deadlineAdd(DataStore &data, bool isTemp) {
+bool Add::addDeadline(DataStore &data, bool isTemp) {
 	std::vector <Entry>::iterator iter;
 	std::vector <Entry> check;
 	int index = 0;
 
-	setData(data, check, isTemp);
+	selectDataBase(data, check, isTemp);
 	for (iter = check.begin(); iter != check.end(); iter++) {
 		if (!(*iter).isTimedTask && !(*iter).isFloat && !(*iter).isComplete) {
-			if (pushData(data, check, iter, index, isTemp)) {
-				setDataBack(data, check, isTemp);
+			if (isAdded(data, check, iter, index, isTemp)) {
+				revertDataBase(data, check, isTemp);
 				return true;
 			}
 		}
 		if ((!(*iter).isTimedTask && !(*iter).isFloat) && (*iter).isComplete) { 
 			check.insert(iter, data.get_tempEntry());
-			setDataBack(data, check, isTemp);
+			revertDataBase(data, check, isTemp);
 			return true;
 		}
 		index++;
@@ -181,30 +181,30 @@ bool Add::deadlineAdd(DataStore &data, bool isTemp) {
 	return false;
 }
 
-void Add::floatAdd(DataStore &data, bool isTemp) {
+void Add::addFloat(DataStore &data, bool isTemp) {
 	std::vector <Entry>::iterator iter;
 	std::vector <Entry> check;
 	int index = 0;
 	
-	setData(data, check, isTemp);	
+	selectDataBase(data, check, isTemp);	
 	for (iter = check.begin(); iter != check.end(); iter++) {
-		if ((*iter).isFloat && !(*iter).isComplete && pushData(data, check, iter, index, isTemp)) {
-			setDataBack(data, check, isTemp);
+		if ((*iter).isFloat && !(*iter).isComplete && isAdded(data, check, iter, index, isTemp)) {
+			revertDataBase(data, check, isTemp);
 			return;
 		}
 		if (((*iter).isFloat && (*iter).isComplete)) { 
 			check.insert(iter, data.get_tempEntry());
-			setDataBack(data, check, isTemp);
+			revertDataBase(data, check, isTemp);
 			return;
 		}
 		if (!(*iter).isFloat) {	
 			check.insert(iter, data.get_tempEntry());
-			setDataBack(data, check, isTemp);
+			revertDataBase(data, check, isTemp);
 			return;
 		}
 		if ((iter + 1) == check.end()) {
 			check.push_back(data.get_tempEntry());
-			setDataBack(data, check, isTemp);
+			revertDataBase(data, check, isTemp);
 			return;
 		}
 		index++;
@@ -212,7 +212,7 @@ void Add::floatAdd(DataStore &data, bool isTemp) {
 	return;
 }
 
-bool Add::pushData(DataStore &data, std::vector <Entry> &check, std::vector <Entry>::iterator iter, int index, bool isTemp) {
+bool Add::isAdded(DataStore &data, std::vector <Entry> &check, std::vector <Entry>::iterator iter, int index, bool isTemp) {
 	if (isSameDate(data, index) && !isTemp) {
 		if ((*iter).startTime > data.get_tempEntry().startTime) {
 			check.insert(iter, data.get_tempEntry());
@@ -258,7 +258,7 @@ bool Add::pushData(DataStore &data, std::vector <Entry> &check, std::vector <Ent
 	return false;
 }
 
-void Add::setData(DataStore &data, std::vector <Entry> &check, bool isTemp) {
+void Add::selectDataBase(DataStore &data, std::vector <Entry> &check, bool isTemp) {
 	if (!isTemp) {
 		check = data.getData();
 	}
@@ -268,7 +268,7 @@ void Add::setData(DataStore &data, std::vector <Entry> &check, bool isTemp) {
 	return;
 }
 
-void Add::setDataBack(DataStore &data, std::vector <Entry> &check, bool isTemp) {
+void Add::revertDataBase(DataStore &data, std::vector <Entry> &check, bool isTemp) {
 	if (!isTemp) {
 		data.getData() = check;
 	}

@@ -6,7 +6,7 @@
 class Date {
 	private:
 		enum monthType {
-			JAN = 1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, INVALID
+			JAN = 1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC, INVALIDMONTH
 		};
 
 		enum dayType {
@@ -22,6 +22,7 @@ class Date {
 
 		int determineMonth(std::string);
 		int determineDay(std::string &);
+		
 		void changeToLower(std::string &);
 		void removeNonDateChar(std::string &);
 		bool extractNum(std::string, int &, int &);
@@ -30,11 +31,13 @@ class Date {
 		bool getDayOfWeek(std::string, tm, int);
 		bool getTdyTmr(std::string,tm, bool &);
 		bool dateInLetter(std::string &);
+		
 		bool takeDay(std::string&, size_t &);
 		bool takeMonth(std::string&, size_t &, size_t &);
 		void takeYear(std::string &, std::string, std::string, size_t);
-		bool isDayMonth(bool &);
-		bool extractDate(std::string &, bool &, std::string, size_t, bool);
+		bool isValidDate(bool &);
+		
+		bool checkForDate(std::string &, bool &, std::string, size_t, bool);
 
 		int &getDay();
 		int &getMonth();

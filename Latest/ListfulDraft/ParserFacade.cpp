@@ -56,7 +56,7 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 		case listClass.SEARCH:
 			_parse.changeToLower(_information);
 			if (_information == "") {
-				if (listClass.search.getDisplay(data, errMsg, floating, scheduled, deadline)) {
+				if (listClass.search.isDisplayEmpty(data, errMsg, floating, scheduled, deadline)) {
 					return listClass.commandType::SEARCH;
 				}
 				return (listClass.commandType::SEARCH + 12);
@@ -120,7 +120,7 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 
 		case listClass.SORT:
 			_parse.changeToLower(_information);
-			listClass.sortFile.getSortCat() = listClass.determineSubCat(_information);
+			listClass.sortFile.getSortCat() = listClass.determineField(_information);
 			if (listClass.sortFile.sortContent(data)) {
 				returnValue = listClass.commandType::SORT;
 			}

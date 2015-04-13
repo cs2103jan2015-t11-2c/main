@@ -32,19 +32,22 @@ class UserInterface {
 		
 		void clearData(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getStringToDisplay(std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getOutputToUser(int, DataStore &, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool, bool);
+		void getOutputToUser(int, DataStore &, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, 
+						     std::ostringstream &, bool, bool);
 		
 		void readFileName(std::string &);
 		void extractFileName(std::string &, std::string &, FileLocation &);
 		std::string getPath();
 		
-		void remindAndDueHeader(bool, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, int, std::ostringstream &, std::string);
+		void remindAndDueHeader(bool, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, int, std::ostringstream &, 
+								std::string);
 		void showReminder(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void showOverDue(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		
 		void outputCommand();
 		void defaultScreen(ParserFacade &);
-		void startUpScreen(DataStore &, FileLocation &, ParserFacade &, std::string &, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool, bool);
+		void startUpScreen(DataStore &, FileLocation &, ParserFacade &, std::string &, std::string &, std::ostringstream &, std::ostringstream &, 
+						   std::ostringstream &, std::ostringstream &, bool, bool);
 		void homeScreen();
 		std::string quoteOfTheDay();
 		std::string getCurrent(int = 0);

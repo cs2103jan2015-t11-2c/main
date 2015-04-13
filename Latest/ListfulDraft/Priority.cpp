@@ -1,7 +1,7 @@
 #include "Priority.h"
 
 //Identifies category from the input and cuts them out from the string
-bool Priority::extractPriority(int impt, std::string &pStr, size_t found) {
+bool Priority::checkForPriority(int impt, std::string &pStr, size_t found) {
 	_priority = "";
 
 	switch (impt) {
@@ -17,14 +17,14 @@ bool Priority::extractPriority(int impt, std::string &pStr, size_t found) {
 		default:
 			return false;
 	}
-	updateStr(pStr, found);
+	extractRemainingStr(pStr, found);
 	return true;
 }
 
 
 
 //Cuts out if priority is identified
-void Priority::updateStr(std::string &pStr, size_t found) {
+void Priority::extractRemainingStr(std::string &pStr, size_t found) {
 	if (found == pStr.size()) {
 		pStr = "";
 		return;

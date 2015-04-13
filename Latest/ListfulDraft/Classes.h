@@ -18,8 +18,8 @@ class Classes {
 			ADD, SEARCH, CLEAR, EDIT, SORT, REMOVE, DO_NOTHING, UNDO, REDO, INVALID, EXIT
 		};
 
-		enum subCategory {
-			SUBJECT, DATE, TIME, PRIORITY, CATEGORY, INVALIDCAT
+		enum fieldType {
+			SUBJECT, DATE, TIME, PRIORITY, CATEGORY, INVALIDFIELD
 		};
 
 		enum priorityType {
@@ -43,9 +43,9 @@ class Classes {
 		Category category;
 
 		int determineCommand(std::string);
-		int determineSubCat(std::string);
-		int determineP(std::string);
-		int determineC(std::string);
+		int determineField(std::string);
+		int determinePriority(std::string);
+		int determineCategory(std::string);
 };
 
 #endif
