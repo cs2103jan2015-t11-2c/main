@@ -33,62 +33,62 @@ void DataStore::updateFile(DataStore &data) {
 
 //Saves a previous version for undo and redo functionalities
 void DataStore::savePrevFile() {
-	_pastData.push_back(_dataBase);
-	_futureData.clear();
-	_futureActionLog.clear();
+	_undoData.push_back(_dataBase);
+	_redoData.clear();
+	_redoActionLog.clear();
 
-	_pastTempData.push_back(_tempDataBase);
-	_futureTempData.clear();
+	_undoTempData.push_back(_tempDataBase);
+	_redoTempData.clear();
 	return;
 }
 
 
 
 bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
-	if (_pastData.size() <= 1) {
+	if (_undoData.size() <= 1) {
 		return false;
 	}
 
-	errMsg << "\n\n" << _pastActionLog.back();
-	_futureActionLog.push_back(_pastActionLog.back());
-	_pastActionLog.pop_back();
+	errMsg << "\n\n" << _undoActionLog.back();
+	_redoActionLog.push_back(_undoActionLog.back());
+	_undoActionLog.pop_back();
 	
-	_futureData.push_back(_dataBase);
-	_pastData.pop_back();
-	_dataBase = _pastData.back();
+	_redoData.push_back(_dataBase);
+	_undoData.pop_back();
+	_dataBase = _undoData.back();
 
-	_futureTempData.push_back(_pastTempData.back());
-	_tempDataBase = _pastTempData.back();
-	_pastTempData.pop_back();
+	_redoTempData.push_back(_undoTempData.back());
+	_tempDataBase = _undoTempData.back();
+	_undoTempData.pop_back();
 	updateFile(data);
 	return true;
 }
 
 bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
-	if (_futureData.empty()) {
+	if (_redoData.empty()) {
 		return false;
 	}
 	
-	errMsg << "\n\n" << _futureActionLog.back();
-	_pastActionLog.push_back(_futureActionLog.back());
-	_futureActionLog.pop_back();
+	errMsg << "\n\n" << _redoActionLog.back();
+	_undoActionLog.push_back(_redoActionLog.back());
+	_redoActionLog.pop_back();
 
-	_dataBase = _futureData.back();
-	_futureData.pop_back();
-	_pastData.push_back(_dataBase);
+	_dataBase = _redoData.back();
+	_redoData.pop_back();
+	_undoData.push_back(_dataBase);
 
-	_pastTempData.push_back(_futureTempData.back());
-	_tempDataBase = _futureTempData.back();
-	_futureTempData.pop_back();
+	_undoTempData.push_back(_redoTempData.back());
+	_tempDataBase = _redoTempData.back();
+	_redoTempData.pop_back();
 	updateFile(data);
 	return true;
 }
 
 void DataStore::savePrevAction(std::string msg) {
-	_pastActionLog.push_back(msg);
+	_undoActionLog.push_back(msg);
 	
-	if (_pastActionLog.size() > 12) {
-		_pastActionLog.erase(_pastActionLog.begin());
+	if (_undoActionLog.size() > 12) {
+		_undoActionLog.erase(_undoActionLog.begin());
 	}
 	return;
 }
@@ -117,12 +117,12 @@ std::vector <Entry> &DataStore::getTempData() {
 	return _tempDataBase;
 }
 
-std::vector <std::string> &DataStore::getPastActionLog() {
-	return _pastActionLog;
+std::vector <std::string> &DataStore::getUndoActionLog() {
+	return _undoActionLog;
 }
 
-std::vector <std::string> &DataStore::getFutureActionLog() {
-	return _futureActionLog;
+std::vector <std::string> &DataStore::getRedoActionLog() {
+	return _redoActionLog;
 }
 
 Entry &DataStore::getEntry(int index) {

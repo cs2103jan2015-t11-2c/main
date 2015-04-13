@@ -23,8 +23,6 @@ bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstr
 
 bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	size_t found = info.find_first_of(" ");
-	assert(!info.empty());
-
 	int index = 0;
 	std::vector <int> checkList;
 	std::vector <Entry> holdTempTask;
@@ -83,7 +81,7 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 		errMsg << "file is empty";
 		return false;
 	}
-	assert(!info.empty());
+	
 	bool real = true;
 	bool isTemp = false;
 	
@@ -171,7 +169,7 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 }
 
 bool Edit::getEditIndex(std::string &info, int &index) {
-	assert(!info.empty());
+	
 	size_t found = info.find_first_of("0123456789");
 	std::string checkNum = info;
 	index = 0;
@@ -198,7 +196,6 @@ bool Edit::getEditIndex(std::string &info, int &index) {
 }
 
 void Edit::editTime(DataStore &data, int index) {
-	assert(index>=0);
 	_editEntry = data.getData()[index];
 	
 	if (data.get_tempEntry().startTime != data.get_tempEntry().endTime && !_editEntry.isFloat) {
@@ -216,8 +213,6 @@ void Edit::editTime(DataStore &data, int index) {
 }
 
 void Edit::editDate(DataStore &data, int index) {
-	assert(index>=0);
-
 	_editEntry = data.getData()[index];
 	if (data.get_tempEntry().day == 0) {
 		_editEntry.isFloat = true;
@@ -238,8 +233,7 @@ void Edit::editDate(DataStore &data, int index) {
 void Edit::updateTemp(DataStore &data, std::vector <int> list) {
 	data.getTempData().clear();
 	data.getTempIndexList().clear();
-	assert(!list.empty());
-
+		
 	for (int i = 0; !list.empty(); i++) {
 		if (i < data.getData().size() && data.getData()[i].referenceNo == list.back()) {
 			data.getTempIndexList().push_back(i);
@@ -255,7 +249,6 @@ void Edit::updateTemp(DataStore &data, std::vector <int> list) {
 }
 
 bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
-	assert(index>=0);
 	for (int j = 0; j < list.size(); j++) {
 		if (list[j] == data.getData()[index].referenceNo) {
 			data.get_tempEntry().subject = "repeated index to check complete found";

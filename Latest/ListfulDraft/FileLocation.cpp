@@ -64,7 +64,7 @@ void FileLocation::updateOpenFile(std::vector <std::string> fileList) {
 
 
 
-bool FileLocation::findFile(DataStore &data, bool isOpen) {
+bool FileLocation::isFileFound(DataStore &data, bool isOpen) {
 	std::string x = "";
 	std::string find = "";
 	size_t found = 0;
@@ -96,7 +96,7 @@ bool FileLocation::findFile(DataStore &data, bool isOpen) {
 		readFile.close();
 	}
 	saveFileLocation();
-	if (findFile(data, isOpen)) {
+	if (isFileFound(data, isOpen)) {
 		return true;
 	}
 	return false;
@@ -110,7 +110,7 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 	int i = 0;
 	bool ignore = false;
 	
-	if (findFile(data, ignore)) {
+	if (isFileFound(data, ignore)) {
 		std::ifstream readFile(_fileName.c_str());
 		if (readFile.is_open()) {
 			while (!readFile.eof()) {

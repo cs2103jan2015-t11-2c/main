@@ -10,9 +10,9 @@ class Priority {
 	public:
 		Priority() {};
 
-		bool extractPriority(int, std::string &, size_t);
+		bool checkForPriority(int, std::string &, size_t);
 		
-		void updateStr(std::string &, size_t);
+		void extractRemainingStr(std::string &, size_t);
 
 		std::string &getPriority();
 };

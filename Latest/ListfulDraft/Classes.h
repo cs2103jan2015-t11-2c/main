@@ -11,6 +11,7 @@
 #include "Edit.h"
 #include "Sort.h"
 #include "Search.h"
+#include "Log.h"
 
 class Classes {
 	public:
@@ -18,8 +19,8 @@ class Classes {
 			ADD, SEARCH, CLEAR, EDIT, SORT, REMOVE, DO_NOTHING, UNDO, REDO, INVALID, EXIT
 		};
 
-		enum subCategory {
-			SUBJECT, DATE, TIME, PRIORITY, CATEGORY, INVALIDCAT
+		enum fieldType {
+			SUBJECT, DATE, TIME, PRIORITY, CATEGORY, INVALIDFIELD
 		};
 
 		enum priorityType {
@@ -41,11 +42,12 @@ class Classes {
 		Date date;
 		Priority priority;
 		Category category;
+		Log log;
 
 		int determineCommand(std::string);
-		int determineSubCat(std::string);
-		int determineP(std::string);
-		int determineC(std::string);
+		int determineField(std::string);
+		int determinePriority(std::string);
+		int determineCategory(std::string);
 };
 
 #endif

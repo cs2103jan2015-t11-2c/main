@@ -1,7 +1,6 @@
 #include "Delete.h"
 
 bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
-	assert(!info.empty());
 	if (info[0] >= '0' && info[0] <= '9') {
 		isDelete = true;
 		return deleteByIndex(data, info, errMsg, floating, scheduled, deadline);
@@ -12,7 +11,6 @@ bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream
 
 bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
 	size_t found = info.find_first_of(" ");
-	assert(!info.empty());
 	int index = 0;
 	bool isTemp = true;
 	std::vector <int> checkList;
@@ -54,7 +52,6 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 	size_t found = 0;
 	bool isTemp = true;
 	std::vector <int> checkList;
-	assert(!info.empty());
 	data.getTempData().clear();
 
 	if (info == "all") {
@@ -122,8 +119,6 @@ void Delete::remove(DataStore &data, std::vector <int> list) {
 }
 
 bool Delete::isRepeat(DataStore &data, std::vector <int> list, int index) {
-	assert(index >= 0);
-
 	for (int j = 0; j < list.size(); j++) {
 		if (list[j] == data.getData()[index - 1].referenceNo) {
 			data.get_tempEntry().subject = "repeated index to delete found";

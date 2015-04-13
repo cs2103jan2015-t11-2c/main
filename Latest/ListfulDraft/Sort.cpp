@@ -26,9 +26,7 @@ bool Sort::sortContent(DataStore &data){
 
 
 //To swap the entries
-void Sort::sortSwitch(int &index, int &start, DataStore &data){
-	assert(index>=0);
-	assert(start>=0);
+void Sort::shiftPos(int &index, int &start, DataStore &data){
 	data.getTempData().clear();
 	data.getTempIndexList().clear();
 
@@ -66,8 +64,8 @@ void Sort::sortSub(DataStore &data) {
 			if (cmpSame(data, start, iter)) {
 				line1 = data.getData()[start].subject;
 				compareLineSize(line1, line2, lineSize);
-				if (compareWord(line1, line2, lineSize)) {
-					sortSwitch(iter, start, data);
+				if (isLargerChar(line1, line2, lineSize)) {
+					shiftPos(iter, start, data);
 					line2 = data.getData()[iter].subject;
 				}
 			}
@@ -77,7 +75,6 @@ void Sort::sortSub(DataStore &data) {
 }
 
 void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &lineSize) {
-	assert(!line1.empty()&&!line2.empty());
 	if (line1.size() <= line2.size()) {
 		lineSize = line1;
 	}
@@ -86,9 +83,7 @@ void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &
 	}
 }
 
-bool Sort::convertAndCmp(std::string line1, std::string line2, int index, char &word) {
-	assert(!line1.empty()&&!line2.empty());
-	assert(index >= 0);
+bool Sort::isUpperCase(std::string line1, std::string line2, int index, char &word) {
 	if (line2[index] >= 'a' && line2[index] <= 'z') {
 		if (line1[index] > line2[index]) {
 			return true;
@@ -103,15 +98,14 @@ bool Sort::convertAndCmp(std::string line1, std::string line2, int index, char &
 	return false;
 }
 
-bool Sort::compareWord(std::string &line1, std::string &line2, std::string &lineSize) {
-	assert(!line1.empty()&&!line2.empty());
+bool Sort::isLargerChar(std::string &line1, std::string &line2, std::string &lineSize) {
 	for (int index = 0; index < lineSize.size(); index++) {
 		char word = ' ';
 		if (line1[index] >= 'a' && line1[index] <= 'z') {
-			return convertAndCmp(line1, line2, index, word);
+			return isUpperCase(line1, line2, index, word);
 		}
 		else if (line1[index] >= 'A' && line1[index] <= 'Z') {
-			return convertAndCmp(line2, line1, index, word);
+			return isUpperCase(line2, line1, index, word);
 		}
 		else if ((line2[index] >= 'a' && line2[index] <= 'z') || (line2[index] >= 'A' && line2[index] <= 'Z')) {
 			return true;
@@ -145,14 +139,14 @@ void Sort::sortDate(DataStore &data) {
 				if (data.getData()[start].year == data.getData()[iter].year && 
 					data.getData()[start].month == data.getData()[iter].month && 
 					data.getData()[start].day > data.getData()[iter].day) {
-					sortSwitch(iter, start, data);
+					shiftPos(iter, start, data);
 				}
 				else if (data.getData()[start].year == data.getData()[iter].year && 
 					data.getData()[start].month > data.getData()[iter].month) {
-					sortSwitch(iter, start, data);
+					shiftPos(iter, start, data);
 				}
 				else if (data.getData()[start].year > data.getData()[iter].year) {
-					sortSwitch(iter, start, data);
+					shiftPos(iter, start, data);
 				}
 			}
 		}
@@ -168,7 +162,7 @@ void Sort::sortComplete(DataStore &data) {
 			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && 
 				(data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
 				if (data.getData()[start].isComplete && !data.getData()[iter].isComplete) {
-					sortSwitch(iter, start, data);
+					shiftPos(iter, start, data);
 				}
 			}
 		}
@@ -183,11 +177,11 @@ void Sort::sortTime(DataStore &data) {
 		for (int start = 0; start < iter; ++start) {
 			if (cmpSame(data, start, iter)) {
 				if (data.getData()[start].startTime > data.getData()[iter].startTime) {
-					sortSwitch(iter, start, data);
+					shiftPos(iter, start, data);
 				}
 				else if (data.getData()[start].startTime == data.getData()[iter].startTime && 
 					data.getData()[start].endTime < data.getData()[iter].endTime) {
-					sortSwitch(iter, start, data);
+					shiftPos(iter, start, data);
 				}
 			}
 		}
@@ -197,7 +191,7 @@ void Sort::sortTime(DataStore &data) {
 
 
 
-int Sort::determineC(std::string word) {
+int Sort::determineCategory(std::string word) {
 	if (word == "WORK    ") {
 		return catType::WORK;
 	}
@@ -219,8 +213,8 @@ void Sort::sortCat(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
 			if (cmpSame(data, start, iter)) {
-				if (determineC(data.getData()[start].category) > determineC(data.getData()[iter].category)) {	
-					sortSwitch(iter, start, data);
+				if (determineCategory(data.getData()[start].category) > determineCategory(data.getData()[iter].category)) {	
+					shiftPos(iter, start, data);
 				}
 			}
 		}
@@ -230,7 +224,7 @@ void Sort::sortCat(DataStore &data) {
 
 
 
-int Sort::determineP(std::string word) {
+int Sort::determinePriority(std::string word) {
 	if (word == "LOW  ") {
 		return priorityType::LOW;
 	}
@@ -249,8 +243,8 @@ void Sort::sortPriority(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
 			if (cmpSame(data, start, iter)) {
-				if (determineP(data.getData()[start].priority) > determineP(data.getData()[iter].priority)) {	
-					sortSwitch(iter, start, data);
+				if (determinePriority(data.getData()[start].priority) > determinePriority(data.getData()[iter].priority)) {	
+					shiftPos(iter, start, data);
 				}
 			}
 		}

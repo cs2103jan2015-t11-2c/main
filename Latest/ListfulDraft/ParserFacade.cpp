@@ -31,7 +31,13 @@ void ParserFacade::init(std::string command) {
 int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
 								  std::ostringstream &deadline) {
 	int command = listClass.determineCommand(_userInput);
+<<<<<<< HEAD
+	
+	std::string logInputParseF = "Listful: " + _userInput + " passed to ParserFacade";
+	listClass.log.log(logInputParseF);
+=======
 	assert(!_userInput.empty());
+>>>>>>> f1f97518af4d6268ecfad3cd3cce180131ccea82
 
 	int returnValue = 0;
 	std::string originalStr = "";
@@ -47,6 +53,7 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 			_parse.separateWord(data, pastDate, checkTime);
 			listClass.add.checkDateTime(data, errMsg, pastDate, checkTime);
 			if (listClass.add.addContent(data, errMsg, floating, scheduled, deadline, isTemp)) {
+				listClass.log.log("Listful: ");
 				returnValue = listClass.commandType::ADD;
 			}
 			else {
@@ -57,7 +64,7 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 		case listClass.SEARCH:
 			_parse.changeToLower(_information);
 			if (_information == "") {
-				if (listClass.search.getDisplay(data, errMsg, floating, scheduled, deadline)) {
+				if (listClass.search.isDisplayEmpty(data, errMsg, floating, scheduled, deadline)) {
 					return listClass.commandType::SEARCH;
 				}
 				return (listClass.commandType::SEARCH + 12);
@@ -121,7 +128,7 @@ int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, s
 
 		case listClass.SORT:
 			_parse.changeToLower(_information);
-			listClass.sortFile.getSortCat() = listClass.determineSubCat(_information);
+			listClass.sortFile.getSortCat() = listClass.determineField(_information);
 			if (listClass.sortFile.sortContent(data)) {
 				returnValue = listClass.commandType::SORT;
 			}

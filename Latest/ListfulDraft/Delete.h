@@ -20,6 +20,7 @@ class Delete {
 		
 		void deleteAll(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);
 		void remove(DataStore &, std::vector <int>);
+		
 		bool isRepeat(DataStore &, std::vector <int>, int);
 		void checkDataBaseEmpty(DataStore &, std::ostringstream &);
 

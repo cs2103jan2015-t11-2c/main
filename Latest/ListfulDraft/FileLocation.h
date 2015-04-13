@@ -21,7 +21,7 @@ class FileLocation {
 
 		void updateOpenFile(std::vector <std::string>);
 
-		bool findFile(DataStore &, bool);
+		bool isFileFound(DataStore &, bool);
 		int openFile(DataStore &, ParserFacade, Classes &);
 
 		std::string &getName();

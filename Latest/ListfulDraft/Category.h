@@ -10,8 +10,8 @@ class Category {
 	public:
 		Category() {};
 
-		bool extractCat(int, std::string &, size_t);
-		void updateStr(std::string &, size_t);
+		bool checkForCat(int, std::string &, size_t);
+		void extractRemainingStr(std::string &, size_t);
 
 		std::string &getCat();
 };
