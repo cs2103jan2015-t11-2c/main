@@ -2,6 +2,8 @@
 
 bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	int size = 0;
+	std::vector <Entry> holdTempTask;
+
 	while (size < data.getTempData().size()) {
 		if (input == "uncheck" || input == "uncomplete") {
 			data.getData()[data.getTempIndexList()[size]].isComplete = false;
@@ -13,7 +15,6 @@ bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstr
 		}
 		size++;
 	}
-	sort.sortComplete(data);
 	data.clearData(errMsg, floating, scheduled);
 	data.clearData(floating, scheduled, deadline);
 	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
@@ -24,12 +25,14 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 	size_t found = info.find_first_of(" ");
 	int index = 0;
 	std::vector <int> checkList;
+	std::vector <Entry> holdTempTask;
 
 	//To complete all tasks shown
 	if (info == "all") {
 		return checkAll(data, errMsg, floating, scheduled, deadline, input);
 	}
 
+	std::cout << "size: " << data.getTempIndexList().size()<<std::endl;
 	while (!info.empty()) {
 		if (found == std::string::npos) {
 			found = info.size();
@@ -61,7 +64,10 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 		}
 	}
 	updateTemp(data, checkList);
+	holdTempTask = data.getTempData();
 	sort.sortComplete(data);
+	data.getTempData() = holdTempTask;
+	std::cout << data.getTempData().size() << std::endl;
 	data.clearData(floating, scheduled, deadline);
 	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
 	data.get_tempEntry().subject = "completed";
@@ -70,7 +76,7 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 
 
 
-bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
+bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input, int index) {
 	if (data.getData().size() == 0) {
 		errMsg << "file is empty";
 		return false;
@@ -78,86 +84,111 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 	
 	bool real = true;
 	bool isTemp = false;
-	int index = 0;
 	
-	if (!getEditIndex(info, index)) {
-		if (data.getTempData().size() != 1) {
-			errMsg << "no index entered";
-			return false;
-		}
-		else if (info.size() != 0 && info[0] >= '0' && info[0] <= '0') {
-			checkComplete(data, info, errMsg, floating, scheduled, deadline, input);
-		}
-	}
-	else if (data.get_tempEntry().subject == info && editCat.size() == 1 && editCat[0] == 0) {
-		checkComplete(data, info, errMsg, floating, scheduled, deadline, input);
+	if (input == "check" || input == "done" || input == "complete" || input == "completed" || input == "uncheck" || input == "uncomplete") {
+		return checkComplete(data, info, errMsg, floating, scheduled, deadline, input);
 	}
 
-	if (index == 0) {
+	if (index < 0 && !getEditIndex(info, index) && data.getTempData().size() != 1) {
+		errMsg << "no index entered";
+		return false;
+	}
+	
+	if (index < 0 && data.getTempData().size() == 1) {
 		index = 1;
 	}
 	
-	std::cout << "2" << index << std::endl;
-	std::cout << "2" << editCat[0] << std::endl;
+	if (errMsg != "") {
+		errMsg << "\n";
+	}
+	
+	data.get_tempEntry().subject = info;
 	data.getTempData().clear();
-	index--;
+	data.getTempData().push_back(data.get_tempEntry());
 	
 	switch (editCat[0]) {
 		case 0:
-			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].subject << "\" to \"" << data.get_tempEntry().subject << "\"";
+			if (data.get_tempEntry().subject == "") {
+				break;
+			}
+			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].subject << "\" to \"";
+			errMsg << data.get_tempEntry().subject << "\"";
 			data.getData()[data.getTempIndexList()[index]].subject = data.get_tempEntry().subject;
+			_editEntry = data.get_tempEntry();
 			break;
 
 		case 1:
 			errMsg << " \"" << search.getDate(data, data.getTempIndexList()[index], isTemp) << "\" to \"";
-			data.getTempData().push_back(data.get_tempEntry());
 			errMsg << search.getDate(data, 0, real) << "\"";
 			editDate(data, data.getTempIndexList()[index]);
+			_editEntry = data.getTempData().front();
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
+			index = 0;
 			break;
 
 		case 2:
 			errMsg << " \"" << search.getTime(data, data.getTempIndexList()[index], isTemp) << "\" to \"";
-			data.getTempData().push_back(data.get_tempEntry());
 			errMsg << search.getTime(data, 0, real) << "\"";
 			editTime(data, data.getTempIndexList()[index]);
+			_editEntry = data.getTempData().front();
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
+			index = 0;
 			break;
 		    
 		case 3:
-			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].priority << "\" to \"" << data.get_tempEntry().priority << "\"";
+			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].priority << "\" to \"";
+			errMsg << data.get_tempEntry().priority << "\"";
 			data.getData()[data.getTempIndexList()[index]].priority = data.get_tempEntry().priority;
+			_editEntry = data.get_tempEntry();
 			break;
 			
 		case 4:
-			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].category << "\" to \"" << data.get_tempEntry().category << "\"";
+			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].category << "\" to \"";
+			errMsg << data.get_tempEntry().category << "\"";
 			data.getData()[data.getTempIndexList()[index]].category = data.get_tempEntry().category;
+			_editEntry = data.get_tempEntry();
 			break;
 
 		default:
 			return false;
 	}
+
 	data.get_tempEntry() = data.getData()[data.getTempIndexList()[index]];
-	std::cout << data.get_tempEntry().subject << std::endl;
 	data.clearData(floating, scheduled, deadline);
 	search.getEntry(data, floating, scheduled, deadline, errMsg);
 	data.get_tempEntry().subject = "";
 
 	if (editCat.size() > 1) {
+		index = 0;
+		data.get_tempEntry() = _editEntry;
+		_editEntry = data.getTempData().front();
 		editCat.erase(editCat.begin());
-		editContent(data, editCat, info, errMsg, floating, scheduled, deadline, input);
+		editContent(data, editCat, info, errMsg, floating, scheduled, deadline, input, index);
 	}
 	return true;
 }
 
-bool Edit::getEditIndex(std::string info, int &index) {
-	while (info.size() != 0 && info[0] >= '9' && info[0] <= '0') {
-		index = (index * 10) + (info[0] - '0');
-		info = info.substr(1);
+bool Edit::getEditIndex(std::string &info, int &index) {
+	
+	size_t found = info.find_first_of("0123456789");
+	std::string checkNum = info;
+	index = 0;
+	while (found != std::string::npos && found < checkNum.size() && checkNum[found] >= '0' && checkNum[found] <= '9') {
+		index = (index * 10) + (checkNum[found] - '0');
+		checkNum = checkNum.substr(found + 1);
 	}
 	
-	if (info.size() == 0) {
-			return true;
+	if (index != 0) {
+		found = info.find_first_of("0123456789");
+		info = info.substr(0, found) + checkNum;
+		while (info.size() != 0 && info[0] == ' ') {
+			info = info.substr(1);
+		}
+		while (info.size() != 0 && info.back() == ' ') {
+			info = info.substr(0, info.size() - 1);
+		}
+		index--;
+		return true;
 	}
 	else {
 		return false;
@@ -166,14 +197,14 @@ bool Edit::getEditIndex(std::string info, int &index) {
 
 void Edit::editTime(DataStore &data, int index) {
 	_editEntry = data.getData()[index];
-
+	
 	if (data.get_tempEntry().startTime != data.get_tempEntry().endTime && !_editEntry.isFloat) {
 		_editEntry.isTimedTask = true;
 	}
 	else {
 		_editEntry.isTimedTask = false;
 	}
-
+			
 	_editEntry.startTime = data.get_tempEntry().startTime;
 	_editEntry.endTime = data.get_tempEntry().endTime;
 	data.getData().erase(data.getData().begin() + index);
@@ -202,14 +233,11 @@ void Edit::editDate(DataStore &data, int index) {
 void Edit::updateTemp(DataStore &data, std::vector <int> list) {
 	data.getTempData().clear();
 	data.getTempIndexList().clear();
-	std::ostringstream ignore;
-	bool isTemp = true;
 		
 	for (int i = 0; !list.empty(); i++) {
 		if (i < data.getData().size() && data.getData()[i].referenceNo == list.back()) {
 			data.getTempIndexList().push_back(i);
-			data.get_tempEntry() = data.getData()[list.back()];
-			add.addContent(data, ignore, ignore, ignore, ignore, isTemp);
+			data.getTempData().push_back(data.getData()[i]);
 			list.pop_back();
 		}
 		
@@ -217,7 +245,6 @@ void Edit::updateTemp(DataStore &data, std::vector <int> list) {
 			i = -1;
 		}
 	}
-	data.get_tempEntry() = data.get_emptyEntry();
 	return;
 }
 

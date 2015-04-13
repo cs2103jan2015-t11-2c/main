@@ -136,10 +136,13 @@ void Sort::sortDate(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
 			if (cmpSame(data, start, iter)) {
-				if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month == data.getData()[iter].month && data.getData()[start].day > data.getData()[iter].day) {
+				if (data.getData()[start].year == data.getData()[iter].year && 
+					data.getData()[start].month == data.getData()[iter].month && 
+					data.getData()[start].day > data.getData()[iter].day) {
 					sortSwitch(iter, start, data);
 				}
-				else if (data.getData()[start].year == data.getData()[iter].year && data.getData()[start].month > data.getData()[iter].month) {
+				else if (data.getData()[start].year == data.getData()[iter].year && 
+					data.getData()[start].month > data.getData()[iter].month) {
 					sortSwitch(iter, start, data);
 				}
 				else if (data.getData()[start].year > data.getData()[iter].year) {
@@ -156,7 +159,8 @@ void Sort::sortDate(DataStore &data) {
 void Sort::sortComplete(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
-			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
+			if ((data.getData()[start].isFloat == data.getData()[iter].isFloat) && 
+				(data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask)) {
 				if (data.getData()[start].isComplete && !data.getData()[iter].isComplete) {
 					sortSwitch(iter, start, data);
 				}
@@ -175,7 +179,8 @@ void Sort::sortTime(DataStore &data) {
 				if (data.getData()[start].startTime > data.getData()[iter].startTime) {
 					sortSwitch(iter, start, data);
 				}
-				else if (data.getData()[start].startTime == data.getData()[iter].startTime && data.getData()[start].endTime < data.getData()[iter].endTime) {
+				else if (data.getData()[start].startTime == data.getData()[iter].startTime && 
+					data.getData()[start].endTime < data.getData()[iter].endTime) {
 					sortSwitch(iter, start, data);
 				}
 			}

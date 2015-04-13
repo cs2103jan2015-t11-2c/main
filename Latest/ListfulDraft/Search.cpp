@@ -3,7 +3,8 @@
 const int Search::FLOAT_SUB_SIZE = 44;
 const int Search::NON_FLOAT_SUB_SIZE = 31;
 
-bool Search::displayContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+bool Search::displayContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, 
+							std::ostringstream &scheduled, std::ostringstream &deadline) {
 	data.clearData(floating, scheduled, deadline);
 	if (info == "today" || info == "tdy" || info == "tday" || info == "later" || info == "tonight") {
 		getToday(data, floating, scheduled, deadline, errMsg);
@@ -131,7 +132,8 @@ void Search::getDeadline(DataStore &data, std::ostringstream &deadline, std::ost
 
 
 
-void Search::getToday(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getToday(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+					  std::ostringstream &errMsg) {
 	time_t t = time(0);   
 	struct tm now;
 	localtime_s(&now, &t);
@@ -143,7 +145,8 @@ void Search::getToday(DataStore &data, std::ostringstream &floating, std::ostrin
 
 	while (i < data.getData().size() && data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].day == (now.tm_mday) && data.getData()[i].month == (now.tm_mon + 1) && data.getData()[i].year == (now.tm_year + 1900)) {
+			if (data.getData()[i].day == (now.tm_mday) && data.getData()[i].month == (now.tm_mon + 1) && 
+				data.getData()[i].year == (now.tm_year + 1900)) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -152,7 +155,8 @@ void Search::getToday(DataStore &data, std::ostringstream &floating, std::ostrin
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].day == (now.tm_mday) && data.getData()[i].month == (now.tm_mon + 1) && data.getData()[i].year == (now.tm_year + 1900)) {
+			if (data.getData()[i].day == (now.tm_mday) && data.getData()[i].month == (now.tm_mon + 1) && 
+				data.getData()[i].year == (now.tm_year + 1900)) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -161,7 +165,8 @@ void Search::getToday(DataStore &data, std::ostringstream &floating, std::ostrin
 
 	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].day == (now.tm_mday) && data.getData()[i].month == (now.tm_mon + 1) && data.getData()[i].year == (now.tm_year + 1900)) {
+			if (data.getData()[i].day == (now.tm_mday) && data.getData()[i].month == (now.tm_mon + 1) && 
+				data.getData()[i].year == (now.tm_year + 1900)) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -176,7 +181,8 @@ void Search::getToday(DataStore &data, std::ostringstream &floating, std::ostrin
 	return;
 }
 
-void Search::getTmr(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getTmr(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+					std::ostringstream &errMsg) {
 	time_t t = time(0);   
 	struct tm now;
 	localtime_s(&now, &t);
@@ -188,7 +194,8 @@ void Search::getTmr(DataStore &data, std::ostringstream &floating, std::ostrings
 
 	while (i < data.getData().size() && data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].day == (now.tm_mday + 1) && data.getData()[i].month == (now.tm_mon + 1) && data.getData()[i].year == (now.tm_year + 1900)) {
+			if (data.getData()[i].day == (now.tm_mday + 1) && data.getData()[i].month == (now.tm_mon + 1) && 
+				data.getData()[i].year == (now.tm_year + 1900)) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -223,7 +230,8 @@ void Search::getTmr(DataStore &data, std::ostringstream &floating, std::ostrings
 
 
 
-void Search::getComplete(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getComplete(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+						 std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	bool updateFile = false;
@@ -259,7 +267,8 @@ void Search::getComplete(DataStore &data, std::ostringstream &floating, std::ost
 	return;
 }
 
-void Search::getReminder(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getReminder(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline,
+						 std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	bool updateFile = false;
@@ -275,7 +284,8 @@ void Search::getReminder(DataStore &data, std::ostringstream &floating, std::ost
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].year == (now.tm_year + 1900) && data.getData()[i].month == (now.tm_mon + 1) && ((data.getData()[i].day - (now.tm_mday) < 3) && (data.getData()[i].day - (now.tm_mday) >= 0))) {
+			if (data.getData()[i].year == (now.tm_year + 1900) && data.getData()[i].month == (now.tm_mon + 1) && 
+				((data.getData()[i].day - (now.tm_mday) < 3) && (data.getData()[i].day - (now.tm_mday) >= 0))) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -284,7 +294,8 @@ void Search::getReminder(DataStore &data, std::ostringstream &floating, std::ost
 
 	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].year == (now.tm_year + 1900) && data.getData()[i].month == (now.tm_mon + 1) && ((data.getData()[i].day - (now.tm_mday) < 3) && (data.getData()[i].day - (now.tm_mday) >= 0))) {
+			if (data.getData()[i].year == (now.tm_year + 1900) && data.getData()[i].month == (now.tm_mon + 1) && 
+				((data.getData()[i].day - (now.tm_mday) < 3) && (data.getData()[i].day - (now.tm_mday) >= 0))) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -299,7 +310,8 @@ void Search::getReminder(DataStore &data, std::ostringstream &floating, std::ost
 	return;
 }
 
-void Search::getOverDue(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getOverDue(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+						std::ostringstream &errMsg) {
 	time_t t = time(0);   
 	struct tm now;
 	localtime_s(&now, &t);
@@ -313,7 +325,8 @@ void Search::getOverDue(DataStore &data, std::ostringstream &floating, std::ostr
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].year <= (now.tm_year + 1900) && data.getData()[i].month <= (now.tm_mon + 1) && data.getData()[i].day < (now.tm_mday)) {
+			if (data.getData()[i].year <= (now.tm_year + 1900) && data.getData()[i].month <= (now.tm_mon + 1) && 
+				data.getData()[i].day < (now.tm_mday)) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -348,7 +361,8 @@ bool Search::getRemainingStr(std::string &cutOff, std::string &remaining, int co
 	return false;
 }
 
-void Search::getFullString(std::string info, DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+void Search::getFullString(std::string info, DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, 
+						   std::ostringstream &scheduled, std::ostringstream &deadline) {
 	int num = 0;
 	bool updateFile = false;
 	bool isTemp = true;
@@ -366,7 +380,8 @@ void Search::getFullString(std::string info, DataStore &data, std::ostringstream
 	if (data.getTempData()[num].isFloat) {
 		floating << " 1. ";
 		if (getRemainingStr(cutOff, remainingStr, FLOAT_SUB_SIZE)) {
-			floating << cutOff << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
+			floating << cutOff << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category;
+			floating << " | " << data.getTempData()[num].priority << std::endl;
 			while (getRemainingStr(cutOff, remainingStr, FLOAT_SUB_SIZE)) {
 				printSpace(floating, 4);
 				while (cutOff[0] == ' ') {
@@ -385,13 +400,14 @@ void Search::getFullString(std::string info, DataStore &data, std::ostringstream
 			floating << " |           |          | " << std::endl;
 		}
 		else if (data.getTempData().size() < FLOAT_SUB_SIZE) {
-			floating << getTempDataString(data, num, updateFile) << std::endl;
+			floating << getTempDataString(data, num, updateFile, 1) << std::endl;
 		}
 	}
 	else if (data.getTempData()[num].isTimedTask) {
 		scheduled << " 1. ";
 		if (getRemainingStr(cutOff, remainingStr, NON_FLOAT_SUB_SIZE)) {
-			scheduled << cutOff << " | " << getDate(data, num, isTemp) << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
+			scheduled << cutOff << " | " << getDate(data, num, isTemp) << " | " << getTime(data, num, isTemp);
+			scheduled << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
 			while (getRemainingStr(cutOff, remainingStr, NON_FLOAT_SUB_SIZE)) {
 				printSpace(scheduled, 4);
 				while (cutOff[0] == ' ') {
@@ -410,13 +426,14 @@ void Search::getFullString(std::string info, DataStore &data, std::ostringstream
 			scheduled << " |            |           |          | " << std::endl;
 		}
 		else if (data.getTempData().size() < NON_FLOAT_SUB_SIZE) {
-			scheduled << getTempDataString(data, num, updateFile) << std::endl;
+			scheduled << getTempDataString(data, num, updateFile, 1) << std::endl;
 		}
 	}
 	else {
 		deadline << " 1. ";
 		if (getRemainingStr(cutOff, remainingStr, NON_FLOAT_SUB_SIZE)) {
-			deadline << cutOff << " | " << getDate(data, num, isTemp) << " | " << getTime(data, num, isTemp) << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
+			deadline << cutOff << " | " << getDate(data, num, isTemp) << " | " << getTime(data, num, isTemp);
+			deadline << " | " << data.getTempData()[num].category << " | " << data.getTempData()[num].priority << std::endl;
 			while (getRemainingStr(cutOff, remainingStr, NON_FLOAT_SUB_SIZE)) {
 				printSpace(deadline, 5);
 				while (cutOff[0] == ' ') {
@@ -435,7 +452,7 @@ void Search::getFullString(std::string info, DataStore &data, std::ostringstream
 			deadline << " |            |           |          | " << std::endl;
 		}
 		else if (data.getTempData().size() < NON_FLOAT_SUB_SIZE) {
-			deadline << getTempDataString(data, num, updateFile) << std::endl;
+			deadline << getTempDataString(data, num, updateFile, 1) << std::endl;
 		}
 	}
 	data.get_tempEntry() = data.getTempData()[num];
@@ -451,7 +468,8 @@ void Search::getFullString(std::string info, DataStore &data, std::ostringstream
 	return;
 }
 
-void Search::getEntry(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getEntry(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+					  std::ostringstream &errMsg) {
 	int i = 0;
 	bool updateFile = false;
 	data.getTempIndexList().clear();
@@ -481,13 +499,15 @@ void Search::getEntry(DataStore &data, std::ostringstream &floating, std::ostrin
 
 
 
-void Search::getMonth(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getMonth(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+					  std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	time_t t = time(0);   
 	struct tm now;
 	localtime_s(&now, &t);
-	std::string dayMonth[13] = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+	std::string dayMonth[13] = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", 
+								"October", "November", "December"};
 	
 	bool updateFile = false;
 	data.getTempIndexList().clear();
@@ -523,7 +543,8 @@ void Search::getMonth(DataStore &data, std::ostringstream &floating, std::ostrin
 	return;
 }
 
-void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+							  std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	size_t found = 0;
@@ -578,7 +599,8 @@ void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std
 	return;
 }
 
-void Search::getPriority(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getPriority(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+						 std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	data.getTempIndexList().clear();
@@ -619,7 +641,8 @@ void Search::getPriority(DataStore &data, std::ostringstream &floating, std::ost
 	return;
 }
 
-void Search::getCat(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getCat(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+					std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	data.getTempIndexList().clear();
@@ -660,7 +683,8 @@ void Search::getCat(DataStore &data, std::ostringstream &floating, std::ostrings
 	return;
 }
 
-void Search::getTime(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getTime(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+					 std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	bool updateFile = false;
@@ -673,7 +697,8 @@ void Search::getTime(DataStore &data, std::ostringstream &floating, std::ostring
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {				
-			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
+			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && 
+				data.getData()[i].year ==  data.get_tempEntry().year) {
 				if (data.getData()[i].startTime <= data.get_tempEntry().startTime && data.getData()[i].endTime > data.get_tempEntry().startTime) {
 					updateDisplayData(data, i);
 				}
@@ -684,7 +709,8 @@ void Search::getTime(DataStore &data, std::ostringstream &floating, std::ostring
 
 	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
+			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && 
+				data.getData()[i].year ==  data.get_tempEntry().year) {
 				if (data.getData()[i].startTime <= data.get_tempEntry().startTime && data.getData()[i].endTime > data.get_tempEntry().startTime) {
 					updateDisplayData(data, i);
 				}
@@ -702,7 +728,8 @@ void Search::getTime(DataStore &data, std::ostringstream &floating, std::ostring
 	return;
 }
 
-void Search::getDay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getDay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+					std::ostringstream &errMsg) {
 	int i = 0;
 	int j = 0;
 	bool updateFile = false;
@@ -715,7 +742,8 @@ void Search::getDay(DataStore &data, std::ostringstream &floating, std::ostrings
 
 	while (i < data.getData().size() && data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
+			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && 
+				data.getData()[i].year ==  data.get_tempEntry().year) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -724,7 +752,8 @@ void Search::getDay(DataStore &data, std::ostringstream &floating, std::ostrings
 
 	while (i < data.getData().size() && !data.getData()[i].isTimedTask && !data.getData()[i].isFloat) {
 		if (!data.getData()[i].isComplete) {
-			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && data.getData()[i].year ==  data.get_tempEntry().year) {
+			if (data.getData()[i].day == data.get_tempEntry().day && data.getData()[i].month ==  data.get_tempEntry().month && 
+				data.getData()[i].year ==  data.get_tempEntry().year) {
 				updateDisplayData(data, i);
 			}
 		}
@@ -741,7 +770,8 @@ void Search::getDay(DataStore &data, std::ostringstream &floating, std::ostrings
 
 
 
-void Search::getTempDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::ostringstream &errMsg) {
+void Search::getTempDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+							std::ostringstream &errMsg) {
 	int i = 0;
 	bool updateFile = false;
 	
@@ -753,7 +783,8 @@ void Search::getTempDisplay(DataStore &data, std::ostringstream &floating, std::
 }
 
 //Completed tasks not displayed
-bool Search::getDisplay(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+bool Search::getDisplay(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
+						std::ostringstream &deadline) {
 	if (data.getData().empty()) {
 		errMsg << "file is empty";
 		return false;
@@ -827,12 +858,12 @@ std::string Search::getDataString(DataStore &data, int index, bool updateFile, i
 	return dataString.str();
 }
 
-std::string Search::getTempDataString(DataStore &data, int index, bool updateFile) {
+std::string Search::getTempDataString(DataStore &data, int index, bool updateFile, int index2) {
 	std::ostringstream dataString;
 	bool isTemp = true;
 
 	if (data.getTempData()[index].isFloat) {
-		if  (data.getTempData().size() > 9) {
+		if  (data.getTempData().size() > 9 && index2 < 1) {
 			printSub(data, dataString, FLOAT_SUB_SIZE - 1, index, updateFile, isTemp);
 		}
 		else {
@@ -840,7 +871,7 @@ std::string Search::getTempDataString(DataStore &data, int index, bool updateFil
 		}
 	}
 	else {
-		if (data.getTempData().size() > 9) {
+		if (data.getTempData().size() > 9 && index2 < 1) {
 			printSub(data, dataString, NON_FLOAT_SUB_SIZE - 1, index, updateFile, isTemp);
 		}
 		else {
@@ -945,11 +976,11 @@ void Search::printDate(DataStore &data, std::ostringstream &dataString, int inde
 		printZero(nYear, dataString, 4);
 		dataString << data.getData()[index].year;
 	}
-	else if (!data.getTempData()[index].isFloat) {
+	else if (isTemp && !data.getTempData()[index].isFloat) {
 		int nDay = countDigit(data.getTempData()[index].day);
 		int nMonth = countDigit(data.getTempData()[index].month);
 		int nYear = countDigit(data.getTempData()[index].year);
-
+		
 		printZero(nDay, dataString, 2);
 		dataString << data.getTempData()[index].day << '/';	
 		printZero(nMonth, dataString, 2);
