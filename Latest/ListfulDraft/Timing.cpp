@@ -137,6 +137,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 	std::string line = originalStr;
 	std::string remainingStr = originalStr.substr(count);
 	changeToLower(line);
+	
 	size_t foundAM = line.find("am");
 	size_t foundAM2 = line.find("a.m");
 	size_t foundPM = line.find("pm");
@@ -230,7 +231,6 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 //Count no. of words between two possible times
 void Timing::countWord(std::string str, int &noOfWord) {
 	size_t nextTime = str.find_first_of("0123456789");
-	
 	size_t found = str.find_first_of(",.?!");
 	if (found != std::string::npos && found < nextTime) {
 		return;
@@ -276,7 +276,7 @@ void Timing::changeToLower(std::string &str) {
 //Cuts off 'am' and 'pm'
 void Timing::updateStr(std::string &originalStr, std::string &line, size_t found) {
 	size_t space = line.find_first_of(" -", found + 2);
-	
+
 	if (space == std::string::npos) {
 		originalStr = "";
 	}
@@ -288,6 +288,8 @@ void Timing::updateStr(std::string &originalStr, std::string &line, size_t found
 }
 
 bool Timing::isTimeValid(int num) {
+	assert(num>=0);
+
 	if (num/100 > 23) {
 		return false;
 	}
