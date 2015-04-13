@@ -43,7 +43,7 @@ void DataStore::savePrevFile() {
 }
 
 
-//to undo data
+
 bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
 	if (_undoData.size() <= 1) {
 		return false;
@@ -63,7 +63,7 @@ bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
 	updateFile(data);
 	return true;
 }
-//to redo data
+
 bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
 	if (_redoData.empty()) {
 		return false;
@@ -83,7 +83,7 @@ bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
 	updateFile(data);
 	return true;
 }
-//to save the previous command entered
+
 void DataStore::savePrevAction(std::string msg) {
 	_undoActionLog.push_back(msg);
 	
