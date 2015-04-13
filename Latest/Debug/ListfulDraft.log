@@ -1,0 +1,120 @@
+﻿Build started 14/4/2015 2:09:32 AM.
+     1>Project "C:\Users\gerald\Documents\main\Latest\ListfulDraft\ListfulDraft.vcxproj" on node 2 (Rebuild target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(345,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(346,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"..\Debug\\" /Fd"..\Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Add.cpp Category.cpp Clear.cpp DataStore.cpp Date.cpp Delete.cpp Edit.cpp FileLocation.cpp Log.cpp Parser.cpp MAIN.cpp ParserFacade.cpp Priority.cpp Sort.cpp Classes.cpp Search.cpp Timing.cpp UserInterface.cpp UserMessage.cpp
+         UserMessage.cpp
+         UserInterface.cpp
+     1>c:\users\gerald\documents\main\latest\listfuldraft\userinterface.cpp(313): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\gerald\documents\main\latest\listfuldraft\userinterface.cpp(346): warning C4018: '<' : signed/unsigned mismatch
+         Timing.cpp
+     1>c:\users\gerald\documents\main\latest\listfuldraft\timing.cpp(269): warning C4018: '<' : signed/unsigned mismatch
+         Search.cpp
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(79): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(99): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(121): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(149): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(159): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(169): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(198): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(208): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(217): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(244): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(251): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(258): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(284): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(288): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(298): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(325): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(329): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(339): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(359): warning C4018: '>' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(375): warning C4018: '>' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(481): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(519): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(523): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(532): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(559): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(572): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(585): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(612): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(621): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(630): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(654): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(663): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(672): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(697): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(701): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(713): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(742): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(746): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(756): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(802): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(809): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(816): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(899): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(934): warning C4018: '>' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(938): warning C4018: '>' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\search.cpp(958): warning C4018: '>' : signed/unsigned mismatch
+         Classes.cpp
+         Sort.cpp
+     1>c:\users\gerald\documents\main\latest\listfuldraft\sort.cpp(34): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\sort.cpp(62): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\sort.cpp(103): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\sort.cpp(137): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\sort.cpp(161): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\sort.cpp(177): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\sort.cpp(214): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\sort.cpp(244): warning C4018: '<' : signed/unsigned mismatch
+         Priority.cpp
+         ParserFacade.cpp
+         MAIN.cpp
+         Parser.cpp
+     1>c:\users\gerald\documents\main\latest\listfuldraft\parser.cpp(107): warning C4553: '==' : operator has no effect; did you intend '='?
+     1>c:\users\gerald\documents\main\latest\listfuldraft\parser.cpp(435): warning C4018: '<' : signed/unsigned mismatch
+         Log.cpp
+         FileLocation.cpp
+         Edit.cpp
+     1>c:\users\gerald\documents\main\latest\listfuldraft\edit.cpp(8): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\edit.cpp(42): warning C4018: '>' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\edit.cpp(239): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\edit.cpp(253): warning C4018: '<' : signed/unsigned mismatch
+         Delete.cpp
+     1>c:\users\gerald\documents\main\latest\listfuldraft\delete.cpp(25): warning C4018: '>' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\delete.cpp(90): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\delete.cpp(109): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\gerald\documents\main\latest\listfuldraft\delete.cpp(123): warning C4018: '<' : signed/unsigned mismatch
+         Date.cpp
+     1>c:\users\gerald\documents\main\latest\listfuldraft\date.cpp(84): warning C4018: '<' : signed/unsigned mismatch
+         DataStore.cpp
+         Clear.cpp
+         Category.cpp
+         Add.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\ListfulDraft.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\ListfulDraft.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\ListfulDraft.lib" /MACHINE:X86 ..\Debug\Add.obj
+         ..\Debug\Category.obj
+         ..\Debug\Clear.obj
+         ..\Debug\DataStore.obj
+         ..\Debug\Date.obj
+         ..\Debug\Delete.obj
+         ..\Debug\Edit.obj
+         ..\Debug\FileLocation.obj
+         ..\Debug\Log.obj
+         ..\Debug\Parser.obj
+         ..\Debug\MAIN.obj
+         ..\Debug\ParserFacade.obj
+         ..\Debug\Priority.obj
+         ..\Debug\Sort.obj
+         ..\Debug\Classes.obj
+         ..\Debug\Search.obj
+         ..\Debug\Timing.obj
+         ..\Debug\UserInterface.obj
+         ..\Debug\UserMessage.obj
+         ListfulDraft.vcxproj -> C:\Users\gerald\Documents\main\Latest\ListfulDraft\..\ListfulDraft.exe
+     1>Done Building Project "C:\Users\gerald\Documents\main\Latest\ListfulDraft\ListfulDraft.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:21.37
