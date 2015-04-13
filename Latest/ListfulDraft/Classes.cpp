@@ -33,28 +33,28 @@ int Classes::determineCommand(std::string _userInput) {
 	}
 }
 
-int Classes::determineSubCat(std::string info) {
+int Classes::determineField(std::string info) {
 	if (info == "date") {
-		return subCategory::DATE;
+		return fieldType::DATE;
 	}
 	else if (info == "time") {
-		return subCategory::TIME;
+		return fieldType::TIME;
 	}
 	else if (info == "priority" || info == "impt" || info == "importance") {
-		return subCategory::PRIORITY;
+		return fieldType::PRIORITY;
 	}
 	else if (info == "category" || info == "cat") {
-		return subCategory::CATEGORY;
+		return fieldType::CATEGORY;
 	}
 	else if (info == "sub" || info == "subject" || info == "alphabetically") {
-		return subCategory::SUBJECT;
+		return fieldType::SUBJECT;
 	}
 	else {
-		return subCategory::INVALIDCAT;
+		return fieldType::INVALIDFIELD;
 	}
 }
 
-int Classes::determineP(std::string str) {
+int Classes::determinePriority(std::string str) {
 	if (str == "LOW" || str == "L") {
 		return priorityType::LOW;
 	}
@@ -69,7 +69,7 @@ int Classes::determineP(std::string str) {
 	}
 }
 
-int Classes::determineC(std::string word) {
+int Classes::determineCategory(std::string word) {
 	if (word == "WORK     " || word == "WORK") {
 		return catType::WORK;
 	}

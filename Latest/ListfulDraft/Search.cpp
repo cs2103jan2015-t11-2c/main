@@ -13,7 +13,7 @@ bool Search::displayContent(DataStore &data, std::string info, std::ostringstrea
 	else if (info == "tomorrow" || info == "tmr" || info == "tomoro" || info == "tmrw") {
 		getTmr(data, floating, scheduled, deadline, errMsg);
 	}
-	else if (info == "over" || info == "overdue" || info == "past" || info == "yesterday") {
+	else if (info == "over" || info == "overdue" || info == "undo" || info == "yesterday") {
 		getOverDue(data, floating, scheduled, deadline, errMsg);
 	}
 	else if (info == "done" || info == "complete" || info == "completed" || info == "finished" || info == "finish") {
@@ -32,7 +32,7 @@ bool Search::displayContent(DataStore &data, std::string info, std::ostringstrea
 		getDeadline(data, deadline, errMsg);
 	}
 	else if (info == "all") {
-		return getDisplay(data, errMsg, floating, scheduled, deadline);
+		return isDisplayEmpty(data, errMsg, floating, scheduled, deadline);
 	}
 	else if (isAllNum(info)) {
 		getFullString(info, data, errMsg, floating, scheduled, deadline);
@@ -785,7 +785,7 @@ void Search::getTempDisplay(DataStore &data, std::ostringstream &floating, std::
 }
 
 //Completed tasks not displayed
-bool Search::getDisplay(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
+bool Search::isDisplayEmpty(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
 						std::ostringstream &deadline) {
 	if (data.getData().empty()) {
 		errMsg << "file is empty";

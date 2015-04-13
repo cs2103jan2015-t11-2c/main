@@ -44,7 +44,7 @@ class Search {
 		void getTime(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		
 		void getTempDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		bool getDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		bool isDisplayEmpty(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 	
 		std::string getDataString(DataStore &, int, bool, int = MIN);
 		std::string getTempDataString(DataStore &, int, bool, int = MIN);

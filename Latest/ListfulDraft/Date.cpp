@@ -39,7 +39,7 @@ int Date::determineMonth(std::string str) {
 		return monthType::DEC;
 	}
 	else {
-		return monthType::INVALID;
+		return monthType::INVALIDMONTH;
 	}
 }
 
@@ -201,7 +201,7 @@ bool Date::getTdyTmr(std::string dateWord,tm now, bool &pastDate) {
 	_month = (now.tm_mon + 1);
 	_year = (now.tm_year + 1900);
 
-	if (!isDayMonth(pastDate)) {
+	if (!isValidDate(pastDate)) {
 		_day = 1;
 		_month++;
 	}
@@ -340,7 +340,7 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 		_year = (now.tm_year + 1900);
 		return;
 	}
-	//Listful can only accept tasks up to 50 years in the future and 10 years back
+	//Listful can only accept tasks up to 50 years in the redo and 10 years back
 	else if (_year < (now.tm_year + 1890) || _year > (now.tm_year + 1950)) {
 		_year = (now.tm_year + 1900);
 		return;
@@ -367,7 +367,7 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 
 		//To check if the number after the month is a year or a time
 		timer.removeNonTimeChar(str);
-		if (timer.extractTime(str, noOfTime, checkTime)) {
+		if (timer.checkForTime(str, noOfTime, checkTime)) {
 			index = 0;
 			//If any time is found before this '_year' then _year is a real year
 			str = originalStr.substr(0, originalStr.find_last_of(" ", start));
@@ -378,7 +378,7 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 					index = str.find_first_not_of(" ", index);
 					str = str.substr(index);
 				}
-				if (timer.extractTime(str, noOfTime, checkTime)) {
+				if (timer.checkForTime(str, noOfTime, checkTime)) {
 					if (count == newStr.size()) {
 						tStr = "";
 					}
@@ -401,7 +401,7 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 						index = str.find_first_not_of(" ", index);
 						str = str.substr(index);
 					}
-					if (timer.extractTime(str, noOfTime, checkTime)) {
+					if (timer.checkForTime(str, noOfTime, checkTime)) {
 						tStr = newStr.substr(count);
 						return;
 					}
@@ -413,7 +413,7 @@ void Date::takeYear(std::string &tStr, std::string newStr, std::string originalS
 }
 
 //To invalidate dates like the 32th dec
-bool Date::isDayMonth(bool &pastDate) {
+bool Date::isValidDate(bool &pastDate) {
 	if (_month > 12) {
 		return false;
 	}
@@ -447,7 +447,7 @@ bool Date::isDayMonth(bool &pastDate) {
 }
 
 //To identify if the current first word of the string is a date
-bool Date::extractDate(std::string &tStr, bool &pastDate, std::string originalStr, size_t index, bool getNewDate) {
+bool Date::checkForDate(std::string &tStr, bool &pastDate, std::string originalStr, size_t index, bool getNewDate) {
 	_day = 0;
 	_month = 0;
 	_year = 0;
@@ -496,14 +496,14 @@ bool Date::extractDate(std::string &tStr, bool &pastDate, std::string originalSt
 		return false;
 	}
 	//If user is entering a date but it is wrong due to typo
-	if (!isDayMonth(pastDate) && !getNewDate) {
+	if (!isValidDate(pastDate) && !getNewDate) {
 		std::cout << " possible date [ " << _day << '/' << _month << " ] entered but invalid\n\n new date?\n\n ";
 		getline(std::cin, newDate);
 		getNewDate = true;
 		if (newDate == "") {
 			return	false;
 		}
-		return extractDate(newDate, pastDate, originalStr, index, getNewDate);
+		return checkForDate(newDate, pastDate, originalStr, index, getNewDate);
 	}
 	return true;
 }

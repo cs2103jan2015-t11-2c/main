@@ -19,6 +19,9 @@ void UserInterface::runProgram() {
 		isReminder = false;
 		isOver = false;
 
+		std::string logInputUI = "User input: " + _userInput;
+		listClass.log.log(logInputUI);
+
 		found = _userInput.find_first_of(" ");
 
 		if (i == 0 || _userInput == "save" || _userInput == "save file") {
@@ -267,7 +270,7 @@ void UserInterface::startUpScreen(DataStore &data,  FileLocation &file, ParserFa
 
 	//If the user did not enter any location, update fileName to to last access location
 	extractFileName(file.getName(), extName, file);
-
+	listClass.log.get_logFileName() = extName;
 	getOutputToUser(10, data, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
 	std::cout << "\n\n";
 	data.init(file.getName());

@@ -62,7 +62,7 @@ bool Timing::extractNum (std::string line, int &count, int &num) {
 	return false;
 }
 
-bool Timing::extractTime (std::string &line, int &noOfTime, bool &checkTime) {
+bool Timing::checkForTime (std::string &line, int &noOfTime, bool &checkTime) {
 	std::string str = line;
 	size_t index = 0;
 	size_t index2 = 0;
@@ -156,7 +156,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		else if (num == 1200) {
 			num = 0;
 		}
-		updateStr(originalStr, line, foundAM);
+		extractRemainingStr(originalStr, line, foundAM);
 		checkTime = true;
 	}
 	else if (foundAM2 != std::string::npos && ((foundAM2 - count) < 2)) {
@@ -166,7 +166,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		else if (count <= 2) {
 			num = num * 100;
 		}
-		updateStr(originalStr, line, foundAM2);
+		extractRemainingStr(originalStr, line, foundAM2);
 		checkTime = true;
 	}
 	else if (foundPM != std::string::npos && ((foundPM - count) < 2)) {
@@ -176,7 +176,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		else {
 			num = num + 1200;
 		}
-		updateStr(originalStr, line, foundPM);
+		extractRemainingStr(originalStr, line, foundPM);
 		checkTime = true;
 	}
 	else if (foundPM2 != std::string::npos && ((foundPM2 - count) < 2)) {
@@ -186,7 +186,7 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		else {
 			num = num + 1200;
 		}
-		updateStr(originalStr, line, foundPM2);
+		extractRemainingStr(originalStr, line, foundPM2);
 		checkTime = true;
 	}
 	//assume pm if not indicated
@@ -274,7 +274,7 @@ void Timing::changeToLower(std::string &str) {
 }
 
 //Cuts off 'am' and 'pm'
-void Timing::updateStr(std::string &originalStr, std::string &line, size_t found) {
+void Timing::extractRemainingStr(std::string &originalStr, std::string &line, size_t found) {
 	size_t space = line.find_first_of(" -", found + 2);
 
 	if (space == std::string::npos) {

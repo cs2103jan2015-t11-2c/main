@@ -384,26 +384,23 @@ namespace UnitTest1
 			bool isDelete = false;
 
 			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 MED";
+<<<<<<< HEAD
 			std::string input2 = "add running 7 apr 2015  1800-2000";
 			std::string input3 = "search CS project meeting";
 			std::string input4 = "edit 1 IE2130 meeting with prof";
 			std::string buffer = "buffer";
+=======
+			std::string input2 = "edit IE2130 meeting with prof";
+			//std::string buffer = "buffer";
+>>>>>>> 36265b72ac28e65cd6920601e082b137a37b0c1d
 
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			//data.getPastActionLog().push_back(buffer);
 	
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
-
-			parseF.init(input3);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
-
-			parseF.init(input4);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			//data.getPastActionLog().push_back(buffer);
 
 			std::string expectedSubject = "IE2130 meeting with prof";
 			std::string actualSubject = data.getData()[0].subject;
@@ -626,55 +623,6 @@ namespace UnitTest1
 
 			Assert::AreEqual(expectedStartTime, actualStartTime);
 			Assert::AreEqual(expectedEndTime, actualEndTime);		
-		}	
-		TEST_METHOD(SearchTest)
-		{
-			// TODO: Your test code here
-			DataStore data;
-			ParserFacade parseF;
-
-			std::ostringstream errMsg;
-			std::ostringstream floating;
-			std::ostringstream scheduled;
-			std::ostringstream deadline;
-
-			bool pastDate = false;
-			bool checkTime = false;
-			bool isTemp = false;
-			bool isDelete = false;
-
-			std::string input1 = "add 6 apr 2015 1200-1600 CS project meeting MED";
-			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
-			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
-			std::string input4 = "search visit grandma";
-			std::string buffer = "buffer";
-
-			parseF.init(input1);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
-
-			parseF.init(input2);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
-
-			parseF.init(input3);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
-
-			parseF.init(input4);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
-
-			std::string expectednewFirst = "visit grandma";
-			std::string actualnewFirst = data.getTempData()[0].subject;
-			int expectedStartTime = 1745;
-			int actualStartTime = data.getTempData()[0].startTime;
-			int expectedEndTime = 2135;
-			int actualEndTime = data.getTempData()[0].endTime;
-
-			Assert::AreEqual(expectedStartTime, actualStartTime);
-			Assert::AreEqual(expectedEndTime, actualEndTime);	
-			Assert::AreEqual(expectednewFirst, actualnewFirst);
-		}
+		}		
 	};
 }
