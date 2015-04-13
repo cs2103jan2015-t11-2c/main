@@ -1,0 +1,2876 @@
+//@author: a0116177e
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
+	 */
+
+
+	TEST_CLASS(ListFulAddTest) {
+	public:
+		//Test for adding a task with two timings
+		//Time: 1200-1600; 12 pm-4 pm; 12 - 4; 1200 - 1600; 12pm - 4pm; 12.00 pm-4.00 pm; 12:00 - 4:00; 12-4; 12 to 4; 12 - 4; 12pm to 4
+		//Date: 6 aug 2015; 6th aug; 6/8/15; 6/8/2015; 6/8; 6aug, aug6, 6aug2015, 6 August, 6 Aug
+		TEST_METHOD(AddScheduledTest) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			int actualOutputInt = 0;
+			int actualOutputInt2 = 0;
+			int actualOutputInt3 = 0;
+			int actualOutputInt4 = 0;
+			int actualOutputInt5 = 0;
+			int actualOutputInt6 = 0;
+			int actualOutputInt7 = 0;
+			int actualOutputInt8 = 0;
+			int actualOutputInt9 = 0;
+			int actualOutputInt10 = 0;
+
+			std::string buffer = "buffer";
+			std::string input1 = "add CS project meeting on 6 aug 2015 at 1200-1600 MED WORK";
+			std::string input2 = "add MED CS project meeting on 6th aug at 12 - 4 WORK";
+			std::string input3 = "add CS project meeting on at 12 pm-4 pm 6/8/15 MED WORK";
+			std::string input4 = "add on 6aug CS project meeting  at 1200 - 1600 MED WORK";
+			std::string input5 = "add at 12pm - 4pm MED CS project meeting 6/8 WORK";
+			std::string input6 = "add CS project meeting on at 12.00 pm-4.00 pm 6aug2015 MED WORK";
+			std::string input7 = "add WORK at 12:00 - 4:00 MED CS project meeting aug6";
+			std::string input8 = "add CS project meeting WORK at 12-4 6/8/2015 MED";
+			std::string input9 = "add WORK 6 August at 12 to 4 MED CS project meeting ";
+			std::string input10 = "add CS project meeting WORK at from 12pm to 4 6 Aug MED";
+			
+			parseF.init(input1);
+			actualOutputInt = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			actualOutputInt2 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			actualOutputInt3 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input4);
+			actualOutputInt4 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input5);
+			actualOutputInt5 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input6);
+			actualOutputInt6 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input7);
+			actualOutputInt7 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input8);
+			actualOutputInt8 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input9);
+			actualOutputInt9 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input10);
+			actualOutputInt10 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			
+			std::string expectedSubject1 = "CS project meeting";
+			std::string actualSubject1 = data.getData()[0].subject;
+			
+			int expectedDay1 = 6;
+			int actualDay1 = data.getData()[0].day;
+			int expectedMonth1 = 8;
+			int actualMonth1 = data.getData()[0].month;
+			int expectedYear1 = 2015;
+			int actualYear1 = data.getData()[0].year;
+			int expectedStartTime1 = 1200;
+			int actualStartTime1 = data.getData()[0].startTime;
+			int expectedEndTime1 = 1600;
+			int actualEndTime1 = data.getData()[0].endTime;
+			int extectedOutputInt = 0;
+			std::string expectedCategory1 = "WORK    ";
+			std::string actualCategory1 = data.getData()[0].category;
+			std::string expectedPriority1 = "MED ";
+			std::string actualPriority1 = data.getData()[0].priority;
+			
+			Assert::IsFalse(data.getData()[0].isFloat);
+			Assert::IsTrue(data.getData()[0].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt);
+			Assert::AreEqual(expectedSubject1, actualSubject1);
+			Assert::AreEqual(expectedDay1, actualDay1);
+			Assert::AreEqual(expectedMonth1, actualMonth1);
+			Assert::AreEqual(expectedYear1, actualYear1);
+			Assert::AreEqual(expectedStartTime1, actualStartTime1);
+			Assert::AreEqual(expectedEndTime1, actualEndTime1);
+			Assert::AreEqual(expectedCategory1, actualCategory1);
+			Assert::AreEqual(expectedPriority1, actualPriority1);
+
+			std::string actualSubject2 = data.getData()[1].subject;
+			
+			int actualDay2 = data.getData()[1].day;
+			int actualMonth2 = data.getData()[1].month;
+			int actualYear2 = data.getData()[1].year;
+			int actualStartTime2 = data.getData()[1].startTime;
+			int actualEndTime2 = data.getData()[1].endTime;
+			std::string actualCategory2 = data.getData()[1].category;
+			std::string actualPriority2 = data.getData()[1].priority;
+			
+			Assert::IsFalse(data.getData()[1].isFloat);
+			Assert::IsTrue(data.getData()[1].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt2);
+			Assert::AreEqual(expectedSubject1, actualSubject2);
+			Assert::AreEqual(expectedDay1, actualDay2);
+			Assert::AreEqual(expectedMonth1, actualMonth2);
+			Assert::AreEqual(expectedYear1, actualYear2);
+			Assert::AreEqual(expectedStartTime1, actualStartTime2);
+			Assert::AreEqual(expectedEndTime1, actualEndTime2);
+			Assert::AreEqual(expectedCategory1, actualCategory2);
+			Assert::AreEqual(expectedPriority1, actualPriority2);
+
+			std::string actualSubject3 = data.getData()[2].subject;
+			
+			int actualDay3 = data.getData()[2].day;
+			int actualMonth3 = data.getData()[2].month;
+			int actualYear3 = data.getData()[2].year;
+			int actualStartTime3 = data.getData()[2].startTime;
+			int actualEndTime3 = data.getData()[2].endTime;
+			std::string actualCategory3 = data.getData()[2].category;
+			std::string actualPriority3 = data.getData()[2].priority;
+			
+			Assert::IsFalse(data.getData()[2].isFloat);
+			Assert::IsTrue(data.getData()[2].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt3);
+			Assert::AreEqual(expectedSubject1, actualSubject3);
+			Assert::AreEqual(expectedDay1, actualDay3);
+			Assert::AreEqual(expectedMonth1, actualMonth3);
+			Assert::AreEqual(expectedYear1, actualYear3);
+			Assert::AreEqual(expectedStartTime1, actualStartTime3);
+			Assert::AreEqual(expectedEndTime1, actualEndTime3);
+			Assert::AreEqual(expectedCategory1, actualCategory3);
+			Assert::AreEqual(expectedPriority1, actualPriority3);
+
+			std::string actualSubject4 = data.getData()[3].subject;
+			
+			int actualDay4 = data.getData()[3].day;
+			int actualMonth4 = data.getData()[3].month;
+			int actualYear4 = data.getData()[3].year;
+			int actualStartTime4 = data.getData()[3].startTime;
+			int actualEndTime4 = data.getData()[3].endTime;
+			std::string actualCategory4 = data.getData()[3].category;
+			std::string actualPriority4 = data.getData()[3].priority;
+			
+			Assert::IsFalse(data.getData()[3].isFloat);
+			Assert::IsTrue(data.getData()[3].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt4);
+			Assert::AreEqual(expectedSubject1, actualSubject4);
+			Assert::AreEqual(expectedDay1, actualDay4);
+			Assert::AreEqual(expectedMonth1, actualMonth4);
+			Assert::AreEqual(expectedYear1, actualYear4);
+			Assert::AreEqual(expectedStartTime1, actualStartTime4);
+			Assert::AreEqual(expectedEndTime1, actualEndTime4);
+			Assert::AreEqual(expectedCategory1, actualCategory4);
+			Assert::AreEqual(expectedPriority1, actualPriority4);
+
+			std::string actualSubject5 = data.getData()[4].subject;
+			
+			int actualDay5 = data.getData()[4].day;
+			int actualMonth5 = data.getData()[4].month;
+			int actualYear5 = data.getData()[4].year;
+			int actualStartTime5 = data.getData()[2].startTime;
+			int actualEndTime5 = data.getData()[4].endTime;
+			std::string actualCategory5 = data.getData()[4].category;
+			std::string actualPriority5 = data.getData()[4].priority;
+			
+			Assert::IsFalse(data.getData()[4].isFloat);
+			Assert::IsTrue(data.getData()[4].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt5);
+			Assert::AreEqual(expectedSubject1, actualSubject5);
+			Assert::AreEqual(expectedDay1, actualDay5);
+			Assert::AreEqual(expectedMonth1, actualMonth5);
+			Assert::AreEqual(expectedYear1, actualYear5);
+			Assert::AreEqual(expectedStartTime1, actualStartTime5);
+			Assert::AreEqual(expectedEndTime1, actualEndTime5);
+			Assert::AreEqual(expectedCategory1, actualCategory5);
+			Assert::AreEqual(expectedPriority1, actualPriority5);
+
+			std::string actualSubject6 = data.getData()[5].subject;
+			
+			int actualDay6 = data.getData()[5].day;
+			int actualMonth6 = data.getData()[5].month;
+			int actualYear6 = data.getData()[5].year;
+			int actualStartTime6 = data.getData()[5].startTime;
+			int actualEndTime6 = data.getData()[5].endTime;
+			std::string actualCategory6 = data.getData()[5].category;
+			std::string actualPriority6 = data.getData()[5].priority;
+			
+			Assert::IsFalse(data.getData()[5].isFloat);
+			Assert::IsTrue(data.getData()[5].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt6);
+			Assert::AreEqual(expectedSubject1, actualSubject6);
+			Assert::AreEqual(expectedDay1, actualDay6);
+			Assert::AreEqual(expectedMonth1, actualMonth6);
+			Assert::AreEqual(expectedYear1, actualYear6);
+			Assert::AreEqual(expectedStartTime1, actualStartTime6);
+			Assert::AreEqual(expectedEndTime1, actualEndTime6);
+			Assert::AreEqual(expectedCategory1, actualCategory6);
+			Assert::AreEqual(expectedPriority1, actualPriority6);
+
+			std::string actualSubject7 = data.getData()[6].subject;
+			
+			int actualDay7 = data.getData()[6].day;
+			int actualMonth7 = data.getData()[6].month;
+			int actualYear7 = data.getData()[6].year;
+			int actualStartTime7 = data.getData()[6].startTime;
+			int actualEndTime7= data.getData()[6].endTime;
+			std::string actualCategory7 = data.getData()[6].category;
+			std::string actualPriority7 = data.getData()[6].priority;
+			
+			Assert::IsFalse(data.getData()[6].isFloat);
+			Assert::IsTrue(data.getData()[6].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt7);
+			Assert::AreEqual(expectedSubject1, actualSubject7);
+			Assert::AreEqual(expectedDay1, actualDay7);
+			Assert::AreEqual(expectedMonth1, actualMonth7);
+			Assert::AreEqual(expectedYear1, actualYear7);
+			Assert::AreEqual(expectedStartTime1, actualStartTime7);
+			Assert::AreEqual(expectedEndTime1, actualEndTime7);
+			Assert::AreEqual(expectedCategory1, actualCategory7);
+			Assert::AreEqual(expectedPriority1, actualPriority7);
+
+			std::string actualSubject8 = data.getData()[7].subject;
+			
+			int actualDay8 = data.getData()[7].day;
+			int actualMonth8 = data.getData()[7].month;
+			int actualYear8 = data.getData()[7].year;
+			int actualStartTime8 = data.getData()[7].startTime;
+			int actualEndTime8 = data.getData()[7].endTime;
+			std::string actualCategory8 = data.getData()[7].category;
+			std::string actualPriority8 = data.getData()[7].priority;
+			
+			Assert::IsFalse(data.getData()[7].isFloat);
+			Assert::IsTrue(data.getData()[7].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt8);
+			Assert::AreEqual(expectedSubject1, actualSubject8);
+			Assert::AreEqual(expectedDay1, actualDay8);
+			Assert::AreEqual(expectedMonth1, actualMonth8);
+			Assert::AreEqual(expectedYear1, actualYear8);
+			Assert::AreEqual(expectedStartTime1, actualStartTime8);
+			Assert::AreEqual(expectedEndTime1, actualEndTime8);
+			Assert::AreEqual(expectedCategory1, actualCategory8);
+			Assert::AreEqual(expectedPriority1, actualPriority8);
+
+			std::string actualSubject9 = data.getData()[8].subject;
+			
+			int actualDay9 = data.getData()[8].day;
+			int actualMonth9 = data.getData()[8].month;
+			int actualYear9 = data.getData()[8].year;
+			int actualStartTime9 = data.getData()[8].startTime;
+			int actualEndTime9 = data.getData()[8].endTime;
+			std::string actualCategory9 = data.getData()[8].category;
+			std::string actualPriority9 = data.getData()[8].priority;
+			
+			Assert::IsFalse(data.getData()[8].isFloat);
+			Assert::IsTrue(data.getData()[8].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt9);
+			Assert::AreEqual(expectedSubject1, actualSubject9);
+			Assert::AreEqual(expectedDay1, actualDay9);
+			Assert::AreEqual(expectedMonth1, actualMonth9);
+			Assert::AreEqual(expectedYear1, actualYear9);
+			Assert::AreEqual(expectedStartTime1, actualStartTime9);
+			Assert::AreEqual(expectedEndTime1, actualEndTime9);
+			Assert::AreEqual(expectedCategory1, actualCategory9);
+			Assert::AreEqual(expectedPriority1, actualPriority9);
+
+			std::string actualSubject10 = data.getData()[9].subject;
+			
+			int actualDay10 = data.getData()[9].day;
+			int actualMonth10 = data.getData()[9].month;
+			int actualYear10 = data.getData()[9].year;
+			int actualStartTime10 = data.getData()[9].startTime;
+			int actualEndTime10 = data.getData()[9].endTime;
+			std::string actualCategory10 = data.getData()[9].category;
+			std::string actualPriority10 = data.getData()[9].priority;
+			
+			Assert::IsFalse(data.getData()[9].isFloat);
+			Assert::IsTrue(data.getData()[9].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt10);
+			Assert::AreEqual(expectedSubject1, actualSubject10);
+			Assert::AreEqual(expectedDay1, actualDay10);
+			Assert::AreEqual(expectedMonth1, actualMonth10);
+			Assert::AreEqual(expectedYear1, actualYear10);
+			Assert::AreEqual(expectedStartTime1, actualStartTime10);
+			Assert::AreEqual(expectedEndTime1, actualEndTime10);
+			Assert::AreEqual(expectedCategory1, actualCategory10);
+			Assert::AreEqual(expectedPriority1, actualPriority10);
+
+			//Test for dataStore functionality
+			int ExpectedDataBaseSize = 10;
+			int actualDataBaseSize = data.getData().size();
+			Assert::AreEqual(ExpectedDataBaseSize, actualDataBaseSize);
+		}
+
+		//Test for adding a task with one timings with different formats
+		//Date: 'tmr'; 'tomoro'; 'tomorrow'
+		//Date: 'tdy'; 'today'; 'later'; 'tonight'
+		//Time: 6:00, 6pm, 6 pm
+		TEST_METHOD(AddDeadlineTest) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+			
+			time_t t = time(0);   
+			struct tm now;
+			localtime_s(&now, &t);
+			
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			int actualOutputInt = 0;
+			int actualOutputInt2 = 0;
+			int actualOutputInt3 = 0;
+			int actualOutputInt4 = 0;
+			int actualOutputInt5 = 0;
+			int actualOutputInt6 = 0;
+			int actualOutputInt7 = 0;
+
+			//tmr
+			std::string buffer = "buffer";
+			std::string input1 = "add MED PERSONAL play football with neighbours at 6pm tmr";
+			std::string input2 = "add PERSONAL tomoro play football with neighbours at 6:00  MED";
+			std::string input3 = "add tomorrow PERSONAL play football with neighbours MED at 6 pm";
+			//today
+			std::string input4 = "add MED PERSONAL play football with neighbours at 6pm tdy";
+			std::string input5 = "add PERSONAL today play football with neighbours at 6:00  MED";
+			std::string input6 = "add later PERSONAL play football with neighbours MED at 6 pm";
+			std::string input7 = "add PERSONAL play football with neighbours tonight MED at 6 pm";
+			
+			parseF.init(input1);
+			actualOutputInt = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			actualOutputInt2 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			actualOutputInt3 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input4);
+			actualOutputInt4 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input5);
+			actualOutputInt5 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input6);
+			actualOutputInt6 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input7);
+			actualOutputInt7 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			
+			std::string expectedSubject1 = "play football with neighbours";
+			std::string actualSubject1 = data.getData()[0].subject;
+			
+			int expectedDay1 = now.tm_mday + 1;
+			int expectedDay2 = now.tm_mday;
+
+			int actualDay1 = data.getData()[0].day;
+			int expectedMonth1 = (now.tm_mon + 1);
+			int actualMonth1 = data.getData()[0].month;
+			int expectedYear1 = (now.tm_year + 1900);
+			int actualYear1 = data.getData()[0].year;
+			int expectedStartTime1 = 1800;
+			int actualStartTime1 = data.getData()[0].startTime;
+			int expectedEndTime1 = 1800;
+			int actualEndTime1 = data.getData()[0].endTime;
+			int extectedOutputInt = 0;
+			std::string expectedCategory1 = "PERSONAL";
+			std::string actualCategory1 = data.getData()[0].category;
+			std::string expectedPriority1 = "MED ";
+			std::string actualPriority1 = data.getData()[0].priority;
+
+			Assert::IsFalse(data.getData()[0].isFloat);
+			Assert::IsFalse(data.getData()[0].isTimedTask);
+			Assert::AreEqual(expectedSubject1, actualSubject1);
+			Assert::AreEqual(expectedDay2, actualDay1);
+			Assert::AreEqual(expectedMonth1, actualMonth1);
+			Assert::AreEqual(expectedYear1, actualYear1);
+			Assert::AreEqual(expectedStartTime1, actualStartTime1);
+			Assert::AreEqual(expectedEndTime1, actualEndTime1);
+			Assert::AreEqual(expectedCategory1, actualCategory1);
+			Assert::AreEqual(expectedPriority1, actualPriority1);
+
+			std::string actualSubject2 = data.getData()[1].subject;
+			
+			int actualDay2 = data.getData()[1].day;
+			int actualMonth2 = data.getData()[1].month;
+			int actualYear2 = data.getData()[1].year;
+			int actualStartTime2 = data.getData()[1].startTime;
+			int actualEndTime2 = data.getData()[1].endTime;
+			std::string actualCategory2 = data.getData()[1].category;
+			std::string actualPriority2 = data.getData()[1].priority;
+			
+			Assert::IsFalse(data.getData()[1].isFloat);
+			Assert::IsFalse(data.getData()[1].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt2);
+			Assert::AreEqual(expectedSubject1, actualSubject2);
+			Assert::AreEqual(expectedDay2, actualDay2);
+			Assert::AreEqual(expectedMonth1, actualMonth2);
+			Assert::AreEqual(expectedYear1, actualYear2);
+			Assert::AreEqual(expectedStartTime1, actualStartTime2);
+			Assert::AreEqual(expectedEndTime1, actualEndTime2);
+			Assert::AreEqual(expectedCategory1, actualCategory2);
+			Assert::AreEqual(expectedPriority1, actualPriority2);
+
+			std::string actualSubject3 = data.getData()[2].subject;
+			
+			int actualDay3 = data.getData()[2].day;
+			int actualMonth3 = data.getData()[2].month;
+			int actualYear3 = data.getData()[2].year;
+			int actualStartTime3 = data.getData()[2].startTime;
+			int actualEndTime3 = data.getData()[2].endTime;
+			std::string actualCategory3 = data.getData()[2].category;
+			std::string actualPriority3 = data.getData()[2].priority;
+			
+			Assert::IsFalse(data.getData()[2].isFloat);
+			Assert::IsFalse(data.getData()[2].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt3);
+			Assert::AreEqual(expectedSubject1, actualSubject3);
+			Assert::AreEqual(expectedDay2, actualDay3);
+			Assert::AreEqual(expectedMonth1, actualMonth3);
+			Assert::AreEqual(expectedYear1, actualYear3);
+			Assert::AreEqual(expectedStartTime1, actualStartTime3);
+			Assert::AreEqual(expectedEndTime1, actualEndTime3);
+			Assert::AreEqual(expectedCategory1, actualCategory3);
+			Assert::AreEqual(expectedPriority1, actualPriority3);
+
+			std::string actualSubject4 = data.getData()[3].subject;
+			
+			int actualDay4 = data.getData()[3].day;
+			int actualMonth4 = data.getData()[3].month;
+			int actualYear4 = data.getData()[3].year;
+			int actualStartTime4 = data.getData()[3].startTime;
+			int actualEndTime4 = data.getData()[3].endTime;
+			std::string actualCategory4 = data.getData()[3].category;
+			std::string actualPriority4 = data.getData()[3].priority;
+			
+			Assert::IsFalse(data.getData()[3].isFloat);
+			Assert::IsFalse(data.getData()[3].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt4);
+			Assert::AreEqual(expectedSubject1, actualSubject4);
+			Assert::AreEqual(expectedDay2, actualDay4);
+			Assert::AreEqual(expectedMonth1, actualMonth4);
+			Assert::AreEqual(expectedYear1, actualYear4);
+			Assert::AreEqual(expectedStartTime1, actualStartTime4);
+			Assert::AreEqual(expectedEndTime1, actualEndTime4);
+			Assert::AreEqual(expectedCategory1, actualCategory4);
+			Assert::AreEqual(expectedPriority1, actualPriority4);
+
+			std::string actualSubject5 = data.getData()[4].subject;
+			
+			int actualDay5 = data.getData()[4].day;
+			int actualMonth5 = data.getData()[4].month;
+			int actualYear5 = data.getData()[4].year;
+			int actualStartTime5 = data.getData()[4].startTime;
+			int actualEndTime5 = data.getData()[4].endTime;
+			std::string actualCategory5 = data.getData()[4].category;
+			std::string actualPriority5 = data.getData()[4].priority;
+			
+			Assert::IsFalse(data.getData()[4].isFloat);
+			Assert::IsFalse(data.getData()[4].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt5);
+			Assert::AreEqual(expectedSubject1, actualSubject5);
+			Assert::AreEqual(expectedDay1, actualDay5);
+			Assert::AreEqual(expectedMonth1, actualMonth5);
+			Assert::AreEqual(expectedYear1, actualYear5);
+			Assert::AreEqual(expectedStartTime1, actualStartTime5);
+			Assert::AreEqual(expectedEndTime1, actualEndTime5);
+			Assert::AreEqual(expectedCategory1, actualCategory5);
+			Assert::AreEqual(expectedPriority1, actualPriority5);
+
+			std::string actualSubject6 = data.getData()[5].subject;
+			
+			int actualDay6 = data.getData()[5].day;
+			int actualMonth6 = data.getData()[5].month;
+			int actualYear6 = data.getData()[5].year;
+			int actualStartTime6 = data.getData()[5].startTime;
+			int actualEndTime6 = data.getData()[5].endTime;
+			std::string actualCategory6 = data.getData()[5].category;
+			std::string actualPriority6 = data.getData()[5].priority;
+			
+			Assert::IsFalse(data.getData()[5].isFloat);
+			Assert::IsFalse(data.getData()[5].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt6);
+			Assert::AreEqual(expectedSubject1, actualSubject6);
+			Assert::AreEqual(expectedDay1, actualDay6);
+			Assert::AreEqual(expectedMonth1, actualMonth6);
+			Assert::AreEqual(expectedYear1, actualYear6);
+			Assert::AreEqual(expectedStartTime1, actualStartTime6);
+			Assert::AreEqual(expectedEndTime1, actualEndTime6);
+			Assert::AreEqual(expectedCategory1, actualCategory6);
+			Assert::AreEqual(expectedPriority1, actualPriority6);
+
+			std::string actualSubject7 = data.getData()[6].subject;
+			
+			int actualDay7 = data.getData()[6].day;
+			int actualMonth7 = data.getData()[6].month;
+			int actualYear7 = data.getData()[6].year;
+			int actualStartTime7 = data.getData()[6].startTime;
+			int actualEndTime7= data.getData()[6].endTime;
+			std::string actualCategory7 = data.getData()[6].category;
+			std::string actualPriority7 = data.getData()[6].priority;
+			
+			Assert::IsFalse(data.getData()[6].isFloat);
+			Assert::IsFalse(data.getData()[6].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt7);
+			Assert::AreEqual(expectedSubject1, actualSubject7);
+			Assert::AreEqual(expectedDay1, actualDay7);
+			Assert::AreEqual(expectedMonth1, actualMonth7);
+			Assert::AreEqual(expectedYear1, actualYear7);
+			Assert::AreEqual(expectedStartTime1, actualStartTime7);
+			Assert::AreEqual(expectedEndTime1, actualEndTime7);
+			Assert::AreEqual(expectedCategory1, actualCategory7);
+			Assert::AreEqual(expectedPriority1, actualPriority7);
+
+			//Test for dataStore functionality
+			int ExpectedDataBaseSize = 7;
+			int actualDataBaseSize = data.getData().size();
+			Assert::AreEqual(ExpectedDataBaseSize, actualDataBaseSize);
+		}
+
+		//Test for adding floating tasks with different formats
+		//Time: 0630 am; 6.30am; 6:30 am
+		TEST_METHOD(AddFloatingTest) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+			
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			int actualOutputInt = 0;
+			int actualOutputInt2 = 0;
+			int actualOutputInt3 = 0;
+
+			std::string buffer = "buffer";
+			std::string input1 = "add LOW taiji session at 6.30am onwards PERSONAL";
+			std::string input2 = "add taiji session PERSONAL 0630 am LOW";
+			std::string input3 = "add 6:30 am LOW taiji session PERSONAL";
+			
+			parseF.init(input1);
+			actualOutputInt = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			actualOutputInt2 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			actualOutputInt3 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+		
+			std::string expectedSubject1 = "taiji session";
+			std::string actualSubject1 = data.getData()[0].subject;
+			
+			int expectedDay1 = 0;
+			int actualDay1 = data.getData()[0].day;
+			int expectedMonth1 = 0;
+			int actualMonth1 = data.getData()[0].month;
+			int expectedYear1 = 0;
+			int actualYear1 = data.getData()[0].year;
+			int expectedStartTime1 = 630;
+			int actualStartTime1 = data.getData()[0].startTime;
+			int expectedEndTime1 = 630;
+			int actualEndTime1 = data.getData()[0].endTime;
+			int extectedOutputInt = 0;
+			std::string expectedCategory1 = "PERSONAL";
+			std::string actualCategory1 = data.getData()[0].category;
+			std::string expectedPriority1 = "LOW ";
+			std::string actualPriority1 = data.getData()[0].priority;
+			
+			Assert::IsTrue(data.getData()[0].isFloat);
+			Assert::IsFalse(data.getData()[0].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt);
+			Assert::AreEqual(expectedSubject1, actualSubject1);
+			Assert::AreEqual(expectedDay1, actualDay1);
+			Assert::AreEqual(expectedMonth1, actualMonth1);
+			Assert::AreEqual(expectedYear1, actualYear1);
+			Assert::AreEqual(expectedStartTime1, actualStartTime1);
+			Assert::AreEqual(expectedEndTime1, actualEndTime1);
+			Assert::AreEqual(expectedCategory1, actualCategory1);
+			Assert::AreEqual(expectedPriority1, actualPriority1);
+	
+			std::string actualSubject2 = data.getData()[1].subject;
+			
+			int actualDay2 = data.getData()[1].day;
+			int actualMonth2 = data.getData()[1].month;
+			int actualYear2 = data.getData()[1].year;
+			int actualStartTime2 = data.getData()[1].startTime;
+			int actualEndTime2 = data.getData()[1].endTime;
+			std::string actualCategory2 = data.getData()[1].category;
+			std::string actualPriority2 = data.getData()[1].priority;
+			
+			Assert::IsTrue(data.getData()[1].isFloat);
+			Assert::IsFalse(data.getData()[1].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt2);
+			Assert::AreEqual(expectedSubject1, actualSubject2);
+			Assert::AreEqual(expectedDay1, actualDay2);
+			Assert::AreEqual(expectedMonth1, actualMonth2);
+			Assert::AreEqual(expectedYear1, actualYear2);
+			Assert::AreEqual(expectedStartTime1, actualStartTime2);
+			Assert::AreEqual(expectedEndTime1, actualEndTime2);
+			Assert::AreEqual(expectedCategory1, actualCategory2);
+			Assert::AreEqual(expectedPriority1, actualPriority2);
+
+			std::string actualSubject3 = data.getData()[2].subject;
+			
+			int actualDay3 = data.getData()[2].day;
+			int actualMonth3 = data.getData()[2].month;
+			int actualYear3 = data.getData()[2].year;
+			int actualStartTime3 = data.getData()[2].startTime;
+			int actualEndTime3 = data.getData()[2].endTime;
+			std::string actualCategory3 = data.getData()[2].category;
+			std::string actualPriority3 = data.getData()[2].priority;
+			
+			Assert::IsTrue(data.getData()[2].isFloat);
+			Assert::IsFalse(data.getData()[2].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt3);
+			Assert::AreEqual(expectedSubject1, actualSubject3);
+			Assert::AreEqual(expectedDay1, actualDay3);
+			Assert::AreEqual(expectedMonth1, actualMonth3);
+			Assert::AreEqual(expectedYear1, actualYear3);
+			Assert::AreEqual(expectedStartTime1, actualStartTime3);
+			Assert::AreEqual(expectedEndTime1, actualEndTime3);
+			Assert::AreEqual(expectedCategory1, actualCategory3);
+			Assert::AreEqual(expectedPriority1, actualPriority3);
+
+			//Test for dataStore functionality
+			int ExpectedDataBaseSize = 3;
+			int actualDataBaseSize = data.getData().size();
+			Assert::AreEqual(ExpectedDataBaseSize, actualDataBaseSize);
+		}
+
+		//Test for adding by weekdays with different formats to the next week
+		//Date: 'next Wed'; 'next Wednesday"; 'next wed'
+		//Time: 1-4; 1300 - 1600; from 1pm to 4pm
+		TEST_METHOD(AddNextWeekdayTest) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+			
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			int actualOutputInt = 0;
+			int actualOutputInt2 = 0;
+			int actualOutputInt3 = 0;
+			
+			time_t t = time(0);   
+			struct tm timeInfo;
+			localtime_s(&timeInfo, &t);
+			const char *weekday[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+			int count = 1;
+			int i = 0;
+			for (;;) {
+				mktime(&timeInfo);
+				if (weekday[timeInfo.tm_wday] == "Wednesday") {
+					if (count == 1 && i > 7) {
+						break;
+					}
+					else if (count == 0) {
+						break;
+					}
+				}
+				timeInfo.tm_mday = timeInfo.tm_mday + 1;
+				i++;
+			}
+
+			std::string buffer = "buffer";
+			std::string input1 = "add PERSONAL wedding at Raffles place next Wednesday HIGH from 1pm to 4pm";
+			std::string input2 = "add PERSONAL next Wed 1-4 wedding at Raffles place HIGH";
+			std::string input3 = "add next wed PERSONAL wedding at Raffles place from 1300 - 1600 HIGH ";
+			
+			parseF.init(input1);
+			actualOutputInt = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			actualOutputInt2 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			actualOutputInt3 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			
+			std::string expectedSubject1 = "wedding at Raffles place";
+			std::string actualSubject1 = data.getData()[0].subject;
+			
+			int expectedDay1 = timeInfo.tm_mday;
+			int actualDay1 = data.getData()[0].day;
+			int expectedMonth1 = timeInfo.tm_mon + 1;
+			int actualMonth1 = data.getData()[0].month;
+			int expectedYear1 = timeInfo.tm_year + 1900;
+			int actualYear1 = data.getData()[0].year;
+			int expectedStartTime1 = 1300;
+			int actualStartTime1 = data.getData()[0].startTime;
+			int expectedEndTime1 = 1600;
+			int actualEndTime1 = data.getData()[0].endTime;
+			int extectedOutputInt = 0;
+			std::string expectedCategory1 = "PERSONAL";
+			std::string actualCategory1 = data.getData()[0].category;
+			std::string expectedPriority1 = "HIGH";
+			std::string actualPriority1 = data.getData()[0].priority;
+			
+			Assert::IsFalse(data.getData()[0].isFloat);
+			Assert::IsTrue(data.getData()[0].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt);
+			Assert::AreEqual(expectedSubject1, actualSubject1);
+			Assert::AreEqual(expectedDay1, actualDay1);
+			Assert::AreEqual(expectedMonth1, actualMonth1);
+			Assert::AreEqual(expectedYear1, actualYear1);
+			Assert::AreEqual(expectedStartTime1, actualStartTime1);
+			Assert::AreEqual(expectedEndTime1, actualEndTime1);
+			Assert::AreEqual(expectedCategory1, actualCategory1);
+			Assert::AreEqual(expectedPriority1, actualPriority1);
+
+			std::string actualSubject2 = data.getData()[1].subject;
+			
+			int actualDay2 = data.getData()[1].day;
+			int actualMonth2 = data.getData()[1].month;
+			int actualYear2 = data.getData()[1].year;
+			int actualStartTime2 = data.getData()[1].startTime;
+			int actualEndTime2 = data.getData()[1].endTime;
+			std::string actualCategory2 = data.getData()[1].category;
+			std::string actualPriority2 = data.getData()[1].priority;
+			
+			Assert::IsFalse(data.getData()[1].isFloat);
+			Assert::IsTrue(data.getData()[1].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt);
+			Assert::AreEqual(expectedSubject1, actualSubject2);
+			Assert::AreEqual(expectedDay1, actualDay2);
+			Assert::AreEqual(expectedMonth1, actualMonth2);
+			Assert::AreEqual(expectedYear1, actualYear2);
+			Assert::AreEqual(expectedStartTime1, actualStartTime2);
+			Assert::AreEqual(expectedEndTime1, actualEndTime2);
+			Assert::AreEqual(expectedCategory1, actualCategory2);
+			Assert::AreEqual(expectedPriority1, actualPriority2);
+
+			std::string actualSubject3 = data.getData()[2].subject;
+			
+			int actualDay3 = data.getData()[2].day;
+			int actualMonth3 = data.getData()[2].month;
+			int actualYear3 = data.getData()[2].year;
+			int actualStartTime3 = data.getData()[2].startTime;
+			int actualEndTime3 = data.getData()[2].endTime;
+			std::string actualCategory3 = data.getData()[2].category;
+			std::string actualPriority3 = data.getData()[2].priority;
+			
+			Assert::IsFalse(data.getData()[2].isFloat);
+			Assert::IsTrue(data.getData()[2].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt3);
+			Assert::AreEqual(expectedSubject1, actualSubject3);
+			Assert::AreEqual(expectedDay1, actualDay3);
+			Assert::AreEqual(expectedMonth1, actualMonth3);
+			Assert::AreEqual(expectedYear1, actualYear3);
+			Assert::AreEqual(expectedStartTime1, actualStartTime3);
+			Assert::AreEqual(expectedEndTime1, actualEndTime3);
+			Assert::AreEqual(expectedCategory1, actualCategory3);
+			Assert::AreEqual(expectedPriority1, actualPriority3);
+
+			//Test for dataStore functionality
+			int ExpectedDataBaseSize = 3;
+			int actualDataBaseSize = data.getData().size();
+			Assert::AreEqual(ExpectedDataBaseSize, actualDataBaseSize);
+		}
+
+		//Test for adding by weekdays with different formats
+		//Date: 'Tue'; 'tue"; 'Tuesday'; 'tuesday'
+		//Time: 1-4; 1300 - 1600; from 1pm to 4pm
+		TEST_METHOD(AddWeekdayTest) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+			
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			int actualOutputInt = 0;
+			int actualOutputInt2 = 0;
+			int actualOutputInt3 = 0;
+			int actualOutputInt4 = 0;
+			
+			time_t t = time(0);   
+			struct tm timeInfo;
+			localtime_s(&timeInfo, &t);
+			const char *weekday[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+			int count = 0;
+			int i = 0;
+			for (;;) {
+				mktime(&timeInfo);
+				if (weekday[timeInfo.tm_wday] == "Tuesday") {
+					if (count == 1 && i > 7) {
+						break;
+					}
+					else if (count == 0) {
+						break;
+					}
+				}
+				timeInfo.tm_mday = timeInfo.tm_mday + 1;
+				i++;
+			}
+
+			std::string buffer = "buffer";
+			std::string input1 = "add PERSONAL wedding at Raffles place Tue HIGH from 1pm to 4pm";
+			std::string input2 = "add PERSONAL tue 1-4 wedding at Raffles place HIGH";
+			std::string input3 = "add Tuesday PERSONAL wedding at Raffles place from 1300 - 1600 HIGH ";
+			std::string input4 = "add wedding at Raffles place from 1300 - 1600 tuesday PERSONAL HIGH ";
+			
+			parseF.init(input1);
+			actualOutputInt = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			actualOutputInt2 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			actualOutputInt3 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input4);
+			actualOutputInt4 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			
+			std::string expectedSubject1 = "wedding at Raffles place";
+			std::string actualSubject1 = data.getData()[0].subject;
+			
+			int expectedDay1 = timeInfo.tm_mday;
+			int actualDay1 = data.getData()[0].day;
+			int expectedMonth1 = timeInfo.tm_mon + 1;
+			int actualMonth1 = data.getData()[0].month;
+			int expectedYear1 = timeInfo.tm_year + 1900;
+			int actualYear1 = data.getData()[0].year;
+			int expectedStartTime1 = 1300;
+			int actualStartTime1 = data.getData()[0].startTime;
+			int expectedEndTime1 = 1600;
+			int actualEndTime1 = data.getData()[0].endTime;
+			int extectedOutputInt = 0;
+			std::string expectedCategory1 = "PERSONAL";
+			std::string actualCategory1 = data.getData()[0].category;
+			std::string expectedPriority1 = "HIGH";
+			std::string actualPriority1 = data.getData()[0].priority;
+			
+			Assert::IsFalse(data.getData()[0].isFloat);
+			Assert::IsTrue(data.getData()[0].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt);
+			Assert::AreEqual(expectedSubject1, actualSubject1);
+			Assert::AreEqual(expectedDay1, actualDay1);
+			Assert::AreEqual(expectedMonth1, actualMonth1);
+			Assert::AreEqual(expectedYear1, actualYear1);
+			Assert::AreEqual(expectedStartTime1, actualStartTime1);
+			Assert::AreEqual(expectedEndTime1, actualEndTime1);
+			Assert::AreEqual(expectedCategory1, actualCategory1);
+			Assert::AreEqual(expectedPriority1, actualPriority1);
+
+			std::string actualSubject2 = data.getData()[1].subject;
+			
+			int actualDay2 = data.getData()[1].day;
+			int actualMonth2 = data.getData()[1].month;
+			int actualYear2 = data.getData()[1].year;
+			int actualStartTime2 = data.getData()[1].startTime;
+			int actualEndTime2 = data.getData()[1].endTime;
+			std::string actualCategory2 = data.getData()[1].category;
+			std::string actualPriority2 = data.getData()[1].priority;
+			
+			Assert::IsFalse(data.getData()[1].isFloat);
+			Assert::IsTrue(data.getData()[1].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt);
+			Assert::AreEqual(expectedSubject1, actualSubject2);
+			Assert::AreEqual(expectedDay1, actualDay2);
+			Assert::AreEqual(expectedMonth1, actualMonth2);
+			Assert::AreEqual(expectedYear1, actualYear2);
+			Assert::AreEqual(expectedStartTime1, actualStartTime2);
+			Assert::AreEqual(expectedEndTime1, actualEndTime2);
+			Assert::AreEqual(expectedCategory1, actualCategory2);
+			Assert::AreEqual(expectedPriority1, actualPriority2);
+
+			std::string actualSubject3 = data.getData()[2].subject;
+			
+			int actualDay3 = data.getData()[2].day;
+			int actualMonth3 = data.getData()[2].month;
+			int actualYear3 = data.getData()[2].year;
+			int actualStartTime3 = data.getData()[2].startTime;
+			int actualEndTime3 = data.getData()[2].endTime;
+			std::string actualCategory3 = data.getData()[2].category;
+			std::string actualPriority3 = data.getData()[2].priority;
+			
+			Assert::IsFalse(data.getData()[2].isFloat);
+			Assert::IsTrue(data.getData()[2].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt3);
+			Assert::AreEqual(expectedSubject1, actualSubject3);
+			Assert::AreEqual(expectedDay1, actualDay3);
+			Assert::AreEqual(expectedMonth1, actualMonth3);
+			Assert::AreEqual(expectedYear1, actualYear3);
+			Assert::AreEqual(expectedStartTime1, actualStartTime3);
+			Assert::AreEqual(expectedEndTime1, actualEndTime3);
+			Assert::AreEqual(expectedCategory1, actualCategory3);
+			Assert::AreEqual(expectedPriority1, actualPriority3);
+
+			std::string actualSubject4 = data.getData()[3].subject;
+			
+			int actualDay4 = data.getData()[3].day;
+			int actualMonth4 = data.getData()[3].month;
+			int actualYear4 = data.getData()[3].year;
+			int actualStartTime4 = data.getData()[3].startTime;
+			int actualEndTime4 = data.getData()[3].endTime;
+			std::string actualCategory4 = data.getData()[3].category;
+			std::string actualPriority4 = data.getData()[3].priority;
+			
+			Assert::IsFalse(data.getData()[3].isFloat);
+			Assert::IsTrue(data.getData()[3].isTimedTask);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt4);
+			Assert::AreEqual(expectedSubject1, actualSubject4);
+			Assert::AreEqual(expectedDay1, actualDay4);
+			Assert::AreEqual(expectedMonth1, actualMonth4);
+			Assert::AreEqual(expectedYear1, actualYear4);
+			Assert::AreEqual(expectedStartTime1, actualStartTime4);
+			Assert::AreEqual(expectedEndTime1, actualEndTime4);
+			Assert::AreEqual(expectedCategory1, actualCategory4);
+			Assert::AreEqual(expectedPriority1, actualPriority4);
+
+			//Test for dataStore functionality
+			int ExpectedDataBaseSize = 4;
+			int actualDataBaseSize = data.getData().size();
+			Assert::AreEqual(ExpectedDataBaseSize, actualDataBaseSize);
+		}
+
+		//Test for adding according to time
+		TEST_METHOD(AddAccordingToTime) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			int actualOutputInt = 0;
+			int actualOutputInt2 = 0;
+			int actualOutputInt3 = 0;
+			int actualOutputInt4 = 0;
+			int actualOutputInt5 = 0;
+			int actualOutputInt6 = 0;
+			int actualOutputInt7 = 0;
+			int actualOutputInt8 = 0;
+		
+			std::string buffer = "buffer";
+			std::string input1 = "add b 2.30pm";
+			std::string input2 = "add a 1600";
+			std::string input3 = "add c 3 pm";
+			std::string input4 = "add d 1pm";
+				
+			parseF.init(input1);
+			actualOutputInt = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			actualOutputInt2 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			actualOutputInt3 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input4);
+			actualOutputInt4 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+		
+			int extectedOutputInt = 0;
+
+			int expectedTime1 = 1300;
+			int expectedTime2 = 1430;
+			int expectedTime3 = 1500;
+			int expectedTime4 = 1600;
+
+			int actualTime1 = data.getData()[0].startTime;
+			int actualTime2 = data.getData()[1].startTime;
+			int actualTime3 = data.getData()[2].startTime;
+			int actualTime4 = data.getData()[3].startTime;
+
+			Assert::AreEqual(extectedOutputInt, actualOutputInt);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt2);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt3);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt4);
+	
+			Assert::AreEqual(expectedTime1, actualTime1);
+			Assert::AreEqual(expectedTime2, actualTime2);
+			Assert::AreEqual(expectedTime3, actualTime3);
+			Assert::AreEqual(expectedTime4, actualTime4);
+
+			//Test for dataStore functionality
+			int ExpectedDataBaseSize = 4;
+			int actualDataBaseSize = data.getData().size();
+			Assert::AreEqual(ExpectedDataBaseSize, actualDataBaseSize);
+		}
+
+		//Test for adding according to date
+		TEST_METHOD(AddAccordingToDate) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+			
+			time_t t = time(0);   
+			struct tm now;
+			localtime_s(&now, &t);
+			
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			int actualOutputInt = 0;
+			int actualOutputInt2 = 0;
+			int actualOutputInt3 = 0;
+			int actualOutputInt4 = 0;
+		
+			std::string buffer = "buffer";
+			std::string input1 = "add b tdy";
+			std::string input2 = "add a 10th apr";
+			std::string input3 = "add c tmr";
+			std::string input4 = "add d 16 November";
+				
+			parseF.init(input1);
+			actualOutputInt = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			actualOutputInt2 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			actualOutputInt3 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input4);
+			actualOutputInt4 = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+		
+			int extectedOutputInt = 0;
+
+			int expectedDay1 = 10;
+			int expectedMonth1 = 4;
+			int expectedDay2 = now.tm_mday;
+			int expectedMonth2 = (now.tm_mon + 1);
+			int expectedDay3 = (now.tm_mday + 1);
+			int expectedMonth3 = (now.tm_mon + 1);
+			int expectedDay4 = 16;
+			int expectedMonth4 = 11;
+
+
+			int actualDay1 = data.getData()[0].day;
+			int actualDay2 = data.getData()[1].day;
+			int actualDay3 = data.getData()[2].day;
+			int actualDay4 = data.getData()[3].day;
+			int actualMonth1 = data.getData()[0].month;
+			int actualMonth2 = data.getData()[1].month;
+			int actualMonth3 = data.getData()[2].month;
+			int actualMonth4 = data.getData()[3].month;
+
+			Assert::AreEqual(extectedOutputInt, actualOutputInt);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt2);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt3);
+			Assert::AreEqual(extectedOutputInt, actualOutputInt4);
+	
+			Assert::AreEqual(expectedDay1, actualDay1);
+			Assert::AreEqual(expectedDay2, actualDay2);
+			Assert::AreEqual(expectedDay3, actualDay3);
+			Assert::AreEqual(expectedDay4, actualDay4);
+			Assert::AreEqual(expectedMonth1, actualMonth1);
+			Assert::AreEqual(expectedMonth2, actualMonth2);
+			Assert::AreEqual(expectedMonth3, actualMonth3);
+			Assert::AreEqual(expectedMonth4, actualMonth4);
+
+			//Test for dataStore functionality
+			int ExpectedDataBaseSize = 4;
+			int actualDataBaseSize = data.getData().size();
+			Assert::AreEqual(ExpectedDataBaseSize, actualDataBaseSize);
+		}
+	};
+	
+	// End of segment: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\DataStore.cpp
+	 */
+
+#include "DataStore.h"
+#include "Search.h"
+
+void DataStore::init(std::string fileName) {
+	_fileName = fileName;
+}
+
+
+
+//To update the text file in the computer
+void DataStore::updateFile(DataStore &data) {
+	bool updateFile = true;
+	Search search;
+
+	std::ofstream writeFile(_fileName);
+	for (int index = 0; index != _dataBase.size(); index++) {
+		writeFile << (index + 1) << ". " << search.getDataString(data, index, updateFile) << " | ";
+		if (_dataBase[index].isComplete) {
+			writeFile << "yes\n\n";
+		}
+		else {
+			writeFile << "no\n\n";
+		}
+	}
+
+	//To create an empty file
+	if (_dataBase.size() == 0) {
+		writeFile << "";
+	}
+	writeFile.close();
+	return;
+}
+
+//Saves a previous version for undo and redo functionalities
+void DataStore::savePrevFile() {
+	_undoData.push_back(_dataBase);
+	_redoData.clear();
+	_redoActionLog.clear();
+
+	_undoTempData.push_back(_tempDataBase);
+	_redoTempData.clear();
+	return;
+}
+
+
+
+bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
+	if (_undoData.size() <= 1) {
+		return false;
+	}
+
+	errMsg << "\n\n" << _undoActionLog.back();
+	_redoActionLog.push_back(_undoActionLog.back());
+	_undoActionLog.pop_back();
+	
+	_redoData.push_back(_dataBase);
+	_undoData.pop_back();
+	_dataBase = _undoData.back();
+
+	_redoTempData.push_back(_undoTempData.back());
+	_tempDataBase = _undoTempData.back();
+	_undoTempData.pop_back();
+	updateFile(data);
+	return true;
+}
+
+bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
+	if (_redoData.empty()) {
+		return false;
+	}
+	
+	errMsg << "\n\n" << _redoActionLog.back();
+	_undoActionLog.push_back(_redoActionLog.back());
+	_redoActionLog.pop_back();
+
+	_dataBase = _redoData.back();
+	_redoData.pop_back();
+	_undoData.push_back(_dataBase);
+
+	_undoTempData.push_back(_redoTempData.back());
+	_tempDataBase = _redoTempData.back();
+	_redoTempData.pop_back();
+	updateFile(data);
+	return true;
+}
+
+void DataStore::savePrevAction(std::string msg) {
+	_undoActionLog.push_back(msg);
+	
+	if (_undoActionLog.size() > 12) {
+		_undoActionLog.erase(_undoActionLog.begin());
+	}
+	return;
+}
+
+void DataStore::clearData(std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	floating.str("");
+	floating.clear();
+	scheduled.str("");
+	scheduled.clear();
+	deadline.str("");
+	deadline.clear();
+	return;
+}
+
+
+
+std::vector <Entry> &DataStore::getData() {
+	return _dataBase;
+}
+
+std::vector <int> &DataStore::getTempIndexList() {
+	return _tempIndexList;
+}
+
+std::vector <Entry> &DataStore::getTempData() {
+	return _tempDataBase;
+}
+
+std::vector <std::string> &DataStore::getUndoActionLog() {
+	return _undoActionLog;
+}
+
+std::vector <std::string> &DataStore::getRedoActionLog() {
+	return _redoActionLog;
+}
+
+Entry &DataStore::getEntry(int index) {
+	return _dataBase[index];
+}
+	
+Entry &DataStore::get_tempEntry() {
+	return _tempEntry;
+}
+
+Entry &DataStore::get_emptyEntry() {
+	return _emptyEntry;
+}
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\DataStore.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\DataStore.h
+	 */
+
+#ifndef DATASTORE_H
+#define DATASTORE_H
+
+#include "Entry.h"
+
+class DataStore {
+	private:
+		std::vector <Entry> _dataBase;
+		std::vector <std::vector <Entry>> _undoData;
+		std::vector <std::vector <Entry>> _redoData;
+		std::vector <std::vector <Entry>> _undoTempData;
+		std::vector <std::vector <Entry>> _redoTempData;
+		std::vector <std::string> _undoActionLog;
+		std::vector <std::string> _redoActionLog;
+
+		std::vector <Entry> _tempDataBase;
+		std::vector <int> _tempIndexList;
+
+		Entry _tempEntry;
+		Entry _emptyEntry;
+		std::string _fileName;
+
+	public:
+		DataStore () {};
+		void init(std::string);
+
+		void updateFile(DataStore &);
+		void savePrevFile();
+		void savePrevAction(std::string);
+
+		bool undoData(DataStore &, std::ostringstream &);
+		bool redoData(DataStore &, std::ostringstream &);
+		void clearData(std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		
+		std::vector <Entry> &getData();
+		std::vector <Entry> &getTempData();
+		std::vector <int> &getTempIndexList();
+	
+		std::vector <std::string> &getUndoActionLog();
+		std::vector <std::string> &getRedoActionLog();
+
+		Entry &getEntry(int);
+		Entry &get_tempEntry();
+		Entry &get_emptyEntry();
+};
+
+#endif
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\DataStore.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Parser.cpp
+	 */
+
+#include "Parser.h"
+
+//Separates the user input to be the command string and information string and initialises private vector in parser
+void Parser::init(std::string info) {
+	extraFront.push_back("from");
+	extraFront.push_back("due");
+	extraFront.push_back("by"); 
+	extraFront.push_back("on");
+	extraFront.push_back("at");
+	extraFront.push_back("to");
+	extraFront.push_back("before");
+	extraFront.push_back("for");
+	extraFront.push_back("till");
+	extraFront.push_back("after");
+	extraFront.push_back("the");
+	extraFront.push_back("date");
+	extraFront.push_back("time");
+
+	extraFront2.push_back("from");
+	extraFront2.push_back("due");
+	extraFront2.push_back("by"); 
+	extraFront2.push_back("on");
+	extraFront2.push_back("at");
+	extraFront2.push_back("also");
+	extraFront2.push_back("to");
+	extraFront2.push_back("before");
+	extraFront2.push_back("till");
+	extraFront2.push_back("after");
+	extraFront2.push_back("the");
+	extraFront2.push_back("date");
+	extraFront2.push_back("time");
+	extraFront2.push_back("read");
+	extraFront2.push_back("remind");
+	extraFront.push_back("me");
+	extraFront2.push_back("check");
+	extraFront2.push_back("send");
+	extraFront.push_back("this");
+	extraFront2.push_back("update");
+	extraFront2.push_back("until");
+	extraFront2.push_back("in");
+	extraFront2.push_back("do");
+	extraFront2.push_back("submit");
+	extraFront2.push_back("complete");
+	extraFront2.push_back("hand");
+	extraFront2.push_back("up");
+
+	extraBack.push_back("onwards");
+	extraBack.push_back("hours");
+	extraBack.push_back("on");
+	
+	extraCatImpt.push_back("of");
+	extraCatImpt.push_back("category");
+	extraCatImpt.push_back("priority");
+	extraCatImpt.push_back("importance");
+	extraCatImpt.push_back("impt");
+	extraCatImpt.push_back("cat");
+
+	deadlineWord.push_back(" due ");
+	deadlineWord.push_back(" by ");
+	deadlineWord.push_back(" on ");
+	deadlineWord.push_back(" before ");
+
+	_information = info;
+	removeFrontChar(_information);
+	removeBackChar(_information);
+	return;
+}
+
+
+
+void Parser::separateWord(DataStore &data, bool &pastDate, bool & checkTime) {
+	date = false;
+	time = false;
+	cat = false;
+	priority = false;
+	complete = false;
+
+	retrieveDate(pastDate);
+	retrieveTime(checkTime);
+	retrievePriority();
+	retrieveCategory();
+	retrieveCompleteAndRefNo(data);
+	
+	if (time) {
+		data.get_tempEntry().startTime = listClass.time.getStart(); 
+		data.get_tempEntry().endTime = listClass.time.getEnd();
+		if (data.get_tempEntry().startTime == data.get_tempEntry().endTime) {
+			data.get_tempEntry().isTimedTask = false;
+		}
+		else {
+			data.get_tempEntry().isTimedTask = true;
+		}
+	}
+	else {
+		data.get_tempEntry().startTime = 0;
+		data.get_tempEntry().endTime = 0;
+		data.get_tempEntry().isTimedTask = false;
+	}
+	
+	if (date) {
+		data.get_tempEntry().day = listClass.date.getDay(); 
+		data.get_tempEntry().month = listClass.date.getMonth(); 
+		data.get_tempEntry().year = listClass.date.getYear();
+		data.get_tempEntry().isFloat = false;
+		if (!data.get_tempEntry().isTimedTask && data.get_tempEntry().startTime == 0 && data.get_tempEntry().endTime == 0) {
+			data.get_tempEntry().startTime == 2359;
+		}
+	}
+	else {
+		data.get_tempEntry().day = 0;
+		data.get_tempEntry().month = 0; 
+		data.get_tempEntry().year = 0;
+		data.get_tempEntry().isFloat = true;
+	}
+
+	if (priority) {
+		data.get_tempEntry().priority = listClass.priority.getPriority();
+	}
+	else {
+		data.get_tempEntry().priority = "LOW ";
+	}
+
+	if (cat) {
+		data.get_tempEntry().category = listClass.category.getCat();
+	}
+	else {
+		data.get_tempEntry().category = "GENERAL ";
+	}
+	
+	removeFrontChar(_information);
+	removeBackChar(_information);
+	data.get_tempEntry().subject = _information;
+	return;
+}
+
+
+
+bool Parser::getMonth(DataStore &data) {
+	int month = listClass.date.determineMonth(_information);
+	if (month < 13) {
+		data.get_tempEntry().month = month;
+		return true;
+	}
+	return false;
+}
+
+void Parser::retrieveDate(bool &pastDate) {
+	std::string dStr = _information;
+	size_t start = 0;
+	size_t end = 0;
+	int count = 0;
+	bool getNewDate = false;
+
+	do {
+		if (!listClass.date.checkForDate(dStr, pastDate, _information, start, getNewDate)) {
+			extractRemainingStr(dStr, start, end);
+		}
+		else {
+			joinStr(dStr, start);
+			if (start == 0) {
+				cutExtraWord(start, count, TIME_DATE);
+			}
+			else {
+				cutExtraWord(start - 1, count, TIME_DATE);
+			}
+			date = true;
+			return;
+		}
+	} while (end != std::string::npos);
+	return;
+}
+
+void Parser::retrieveTime(bool &checkTime) {
+	std::string tStr = _information;
+	int count = 0;
+	size_t start = 0;
+	size_t end = 0;
+	int i = 0;
+
+	do {
+		if (listClass.time.checkForTime(tStr, count, checkTime)) {
+			if (count == 1) {
+				listClass.time.updateTime();
+			}
+			joinStr(tStr, start);
+			i = 0;
+			if (start == 0) {
+				cutExtraWord(start, i, TIME_DATE);
+			}
+			else {
+				cutExtraWord(start - 1, i, TIME_DATE);
+			}
+			time = true;
+			return;
+		}
+		extractRemainingStr(tStr, start, end);
+	} while (end != std::string::npos);
+	return;
+}
+
+void Parser::retrievePriority() {
+	std::string pStr = _information;
+	std::string str = "";
+	size_t start = 0;
+	size_t end = 0;
+	int i = 0;
+	int impt = 0;
+	size_t found = 0;
+
+	do {
+		getFirstWord( str, pStr, start, found);
+		impt = listClass.determinePriority(str);
+		if (!listClass.priority.checkForPriority(impt, pStr, found)) {
+			extractRemainingStr(pStr, start, end);
+		}
+		else {
+			joinStr(pStr, start);
+			if (start == 0) {
+				cutExtraWord(start, i, CAT_IMPT);
+			}
+			else {
+				cutExtraWord(start - 1, i, CAT_IMPT);
+			}
+			priority = true;
+			return;
+			}	
+	} while (end != std::string::npos);
+	return;
+}
+
+void Parser::retrieveCategory() {
+	std::string pStr = _information;
+	std::string str = "";
+	size_t start = 0;
+	size_t end = 0;
+	size_t found = 0;
+	int word = 0;
+	int catNum = 0;
+
+	do {
+		getFirstWord(str, pStr, start, found);
+		catNum = listClass.determineCategory(str);
+		if (!listClass.category.checkForCat(catNum, pStr, found)) {
+			extractRemainingStr(pStr, start, end);
+		}
+		else {
+			joinStr(pStr, start);
+			if (start == 0) {
+				cutExtraWord(start, word, CAT_IMPT);
+			}
+			else {
+				cutExtraWord(start - 1, word, CAT_IMPT);
+			}
+			cat = true;
+			return;
+		}	
+	} while (end != std::string::npos);
+	return;
+}
+
+//To separate out the information into its time, date, category, priority and subject
+void Parser::retrieveCompleteAndRefNo(DataStore &data) {
+	size_t found = _information.find(" | yes");
+	if (found != std::string::npos) {
+		data.get_tempEntry().isComplete = true;
+		complete = true;
+	}
+	else {
+		data.get_tempEntry().isComplete = false;
+		complete = false;
+	}
+
+	data.get_tempEntry().referenceNo = data.getData().size() + 1;
+	return;
+}
+
+
+
+void Parser::getEditInfo(std::vector <int> &editCat, std::string originalStr) {
+	if (time) {
+		editCat.push_back(listClass.fieldType::TIME);
+	}
+	if (date) {
+		editCat.push_back(listClass.fieldType::DATE);
+	}
+	if (priority) {
+		editCat.push_back(listClass.fieldType::PRIORITY);
+	}
+	if (cat) {
+		editCat.push_back(listClass.fieldType::CATEGORY);
+	}
+	if (editCat.size() == 0 || (_information != originalStr && _information != "")) {
+		editCat.push_back(listClass.fieldType::SUBJECT);
+	}
+	return;
+}
+
+void Parser::assignCat(DataStore &data, int &category) {
+	if (time) {
+		category = listClass.fieldType::TIME;
+	}
+	else if (date) {
+		category = listClass.fieldType::DATE;
+	}
+	else if (priority) {
+		category = listClass.fieldType::PRIORITY;
+	}
+	else if (cat) {
+		category = listClass.fieldType::CATEGORY;
+	}
+	else {
+		category = listClass.fieldType::SUBJECT;
+	}
+	return;
+}
+
+
+
+//To remove words keyed in by the user that are not the subject
+//Checks the next word only and up to three previous words
+void Parser::cutExtraWord(size_t found, int count, int cat) {
+	std::string word = "";
+	size_t find = 0;
+	size_t check = _information.find_first_of(",.?!", found);
+	if (check == std::string::npos) {
+		check = _information.size();
+	}
+	
+	//Checks the next word only
+	if (count == 0) {
+		find = _information.find_first_not_of(" ", found);
+		if (find != std::string::npos && check > find) {
+			find = _information.find_first_of(" ", find);
+			if (find == std::string::npos) {
+				find = word.size() - 1;
+			}
+			word = _information.substr(found, find - found);
+			removeFrontChar(word);
+			removeBackChar(word);
+			isExtraWord(word, found, cat, BACK, count);
+		}
+	}
+	
+	//To ensure that removal is up to 3 words only
+	if (count > 3) {
+		return;
+	}
+
+	check = _information.find_last_not_of(",.?!", found);
+	if (check == std::string::npos) {
+		check = 0;
+	}
+	find = _information.find_last_not_of(" ", found);
+	if (find == std::string::npos) {
+		return;
+	}
+	find = _information.find_last_of(" ", find);
+	if (find == std::string::npos) {
+		find = 0;
+	}
+	word = _information.substr(find, found - find);
+	removeFrontChar(word);
+	removeBackChar(word);
+	
+	//Uses recursion to check up to three previous words
+	if (check > find && isExtraWord(word, find, cat, FRONT, count)) {
+		count++;
+		return cutExtraWord(find, count, cat);
+	}
+	return;
+}
+
+void Parser::getFirstWord(std::string &str, std::string pStr, size_t start, size_t &found) {
+	found = _information.find_first_of(" ", start);
+	removeBackChar(pStr);
+	if (found == std::string::npos) {
+		found = _information.size();
+	}
+	str = _information.substr(start, found - start);
+	found = pStr.find(str) + str.size();
+	return;
+}
+
+//Identifies if the words is an extra words, meaning a word to complement the other categories
+//which we won't want in our subject
+//3 different vector for three different cases since there are different extra words before and after 
+//for different types (time & date, category & importance) 
+bool Parser::isExtraWord(std::string word, size_t found, int cat, int frontOrBack, int count) {
+	changeToLower(word);
+	removeBackChar(word);
+
+	size_t find = 0;
+	std::vector <std::string>::iterator iter;
+	int size = 0;
+
+	if (cat == TIME_DATE && frontOrBack == FRONT) {
+		if (count == 0) {
+			iter = extraFront.begin();
+			size = extraFront.size();
+		}
+		else {
+			iter = extraFront2.begin();
+			size = extraFront2.size();
+		}
+	}
+	else if (TIME_DATE && frontOrBack == BACK) {
+		iter = extraBack.begin();
+		size = extraBack.size();
+	}
+	else {
+		iter = extraCatImpt.begin();
+		size = extraCatImpt.size();
+	}
+
+	while (size > 0) {
+		if (word == (*iter)) {
+			find = _information.find_first_of(" ", found + 1);
+			if (find == std::string::npos) {
+				_information = _information.substr(0, found);
+				return true;
+			}
+			word = _information.substr(find);
+			_information = _information.substr(0, found) + word;
+			return true;
+		}
+		iter++;
+		size--;
+	}
+	return false;
+}
+
+void Parser::changeToLower(std::string &str) {
+	int i;
+	for (i = 0; i < str.size(); i++) {
+		if (str[i] >= 'A' && str[i] <= 'Z') {
+			str[i] = 'a' + (str[i] - 'A');	
+		}
+	}
+	return;
+}
+
+void Parser::removeFrontChar(std::string &str) {
+	size_t found;
+	found = str.find_first_of(" ,.-?!:;");
+
+	while (found != std::string::npos && found == 0) {
+		str = str.substr(1);
+		found = str.find_first_of(" .,-?!:;");
+	}
+	return;
+}
+
+void Parser::removeBackChar(std::string &str) {
+	size_t found;
+	found = str.find_last_of(" ,.-?!:;");
+
+	while (found != std::string::npos && found == str.size() - 1) {
+		str = str.substr(0, str.size() - 1);
+		found = str.find_last_of(" ,.-?!:;");
+	}
+	return;
+}
+
+//Returns the index of the next word in the variable 'end'
+void Parser::getNextWord (std::string &tStr, size_t &start, size_t &end) {
+	end = tStr.find_first_of(" ", start);
+	if (end == std::string::npos) {
+		return;
+	}
+	end = tStr.find_first_not_of(" ", end);
+	return;
+}
+
+//Cuts out the first word so as to check the next word
+void Parser::extractRemainingStr(std::string &tStr, size_t &start, size_t &end) {
+	getNextWord(_information, start, end);
+	if (end != std::string::npos) {
+		tStr = _information.substr(end);
+		start = end;
+	}
+	return;
+}
+
+//Updates the information string once a time, date, category or priority is found
+void Parser::joinStr(std::string &tStr, size_t &start) {
+	_information = _information.substr(0, start);
+	_information = _information + tStr;
+	return;
+}
+
+
+
+bool &Parser::getDate() {
+	return date;
+}
+
+bool &Parser::getTime() {
+	return time;
+}
+
+bool &Parser::getCat() {
+	return cat;
+}
+
+bool &Parser::getPriority() {
+	return priority;
+}
+
+bool &Parser::getComplete() {
+	return complete;
+}
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Parser.h
+	 */
+
+#ifndef PARSER_H
+#define PARSER_H
+
+#include "DataStore.h"
+#include "Classes.h"
+
+#define TIME_DATE 1
+#define CAT_IMPT 2
+#define FRONT 1
+#define BACK 2
+
+class Parser {
+	private:
+		//List of possible extra words before where time/date was found
+		std::vector <std::string> extraFront;
+		std::vector <std::string> extraFront2;
+
+		//List of possible extra word after where time/date was found
+		std::vector <std::string> extraBack;
+
+		//List of possible extra word before/after category/priority was found
+		std::vector <std::string> extraCatImpt;
+
+		//List of words hinting at the entry is a deadline type, not timed type
+		std::vector <std::string> deadlineWord;
+
+		bool date;
+		bool time;
+		bool cat;
+		bool priority;
+		bool complete;
+
+		Classes listClass;
+		std::string _information;
+		
+	public:
+		Parser() {};
+		void init(std::string);
+		
+		void separateWord(DataStore &, bool &, bool &);
+		
+		void retrieveDate(bool &);
+		void retrieveTime(bool &);
+		void retrievePriority();
+		void retrieveCategory();
+		void retrieveCompleteAndRefNo(DataStore &);
+
+		bool getMonth(DataStore &);
+		void getEditInfo(std::vector <int> &, std::string);
+		void assignCat(DataStore &, int &);
+	
+		void takeFirstWord(int &, size_t &, std::string &);
+
+		void cutExtraWord(size_t, int, int);
+		bool isExtraWord(std::string, size_t, int, int, int);
+		void getFirstWord(std::string &, std::string , size_t, size_t &);
+		void changeToLower(std::string &);
+		void removeFrontChar(std::string &);
+		void removeBackChar(std::string &);
+		void getNextWord (std::string &, size_t &, size_t &);
+		void extractRemainingStr(std::string &, size_t &, size_t &);
+		void joinStr(std::string &, size_t &);
+		
+		bool &getDate();
+		bool &getTime();
+		bool &getCat();
+		bool &getPriority();
+		bool &getComplete();
+		//void testParser();
+};
+
+#endif
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Parser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\ParserFacade.cpp
+	 */
+
+#include "ParserFacade.h"
+
+ParserFacade::ParserFacade() {
+	_isRun = true;
+}
+
+//Separates the user input to be the command string and information string and initialises private vector in parser
+void ParserFacade::init(std::string command) {
+	size_t start = 0;
+	size_t end;
+
+	_parse.getNextWord(command, start, end);
+	if (end == std::string::npos) {
+		_userInput = command;
+		_parse.removeBackChar(_userInput);
+		_information = "";
+		return;
+	}
+	_userInput = command.substr(start, end - 1);
+	_information = command.substr(end);
+	_parse.removeFrontChar(_userInput);
+	_parse.removeBackChar(_userInput);
+	_parse.removeFrontChar(_information);
+	_parse.removeBackChar(_information);
+	_parse.init(_information);
+	return;
+}
+
+
+
+int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
+								  std::ostringstream &deadline) {
+	int command = listClass.determineCommand(_userInput);
+	
+	std::string logInputParseF = "Listful: " + _userInput + " passed to ParserFacade";
+	listClass.log.log(logInputParseF);
+	assert(!_userInput.empty());
+
+	int returnValue = 0;
+	std::string originalStr = "";
+	std::vector <int> editCat;
+	bool pastDate = false;
+	bool checkTime = false;
+	bool isTemp = false;
+	bool isDelete = false;
+	
+	switch(command) {
+		case listClass.ADD:
+			data.get_tempEntry() = data.get_emptyEntry();
+			_parse.separateWord(data, pastDate, checkTime);
+			listClass.add.checkDateTime(data, errMsg, pastDate, checkTime);
+			if (listClass.add.addContent(data, errMsg, floating, scheduled, deadline, isTemp)) {
+				listClass.log.log("Listful: ");
+				returnValue = listClass.commandType::ADD;
+			}
+			else {
+				returnValue = (listClass.commandType::ADD + 12);
+			}
+			break;
+
+		case listClass.SEARCH:
+			_parse.changeToLower(_information);
+			if (_information == "") {
+				if (listClass.search.isDisplayEmpty(data, errMsg, floating, scheduled, deadline)) {
+					return listClass.commandType::SEARCH;
+				}
+				return (listClass.commandType::SEARCH + 12);
+			}
+			else {
+				if (!listClass.search.displayContent(data, _information, errMsg, floating, scheduled, deadline)) {
+					defaultSearchFunc(data, errMsg, floating, scheduled, deadline);
+					if (data.getTempData().size() == 0) {
+						return (listClass.commandType::SEARCH + 12);
+					}
+				}
+				return listClass.commandType::SEARCH;
+			}
+
+		case listClass.CLEAR:
+			if (listClass.clearFile.clearFile(data)) {
+				returnValue = listClass.commandType::CLEAR;
+			}
+			else {
+				returnValue = (listClass.commandType::CLEAR + 12);
+			}
+			break;
+
+		case listClass.EDIT:
+			originalStr = _information;
+			_parse.separateWord (data, pastDate, checkTime);
+			_parse.getEditInfo(editCat, originalStr);
+			if (listClass.edit.editContent(data, editCat, data.get_tempEntry().subject, errMsg, floating, scheduled, deadline, _userInput)) {
+				returnValue = listClass.commandType::EDIT;
+			}
+			else {
+				returnValue = (listClass.commandType::EDIT + 12);
+			}
+			break;
+
+		case listClass.REMOVE:
+			if (listClass.remove.deleteContent(data, _information, errMsg, floating, scheduled, deadline, isDelete)) {
+				returnValue = listClass.commandType::REMOVE;
+			}
+			else if (!isDelete) {
+				returnValue = (listClass.commandType::REMOVE + 13);
+			}
+			else {
+				returnValue = (listClass.commandType::REMOVE + 12);
+			}
+			break;
+
+		case listClass.REDO:
+			if (data.redoData(data, errMsg)) {
+				listClass.search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
+				return listClass.commandType::REDO;
+			}
+			return (listClass.commandType::REDO + 12);
+
+		case listClass.UNDO:
+			if (data.undoData(data, errMsg)) {
+				listClass.search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
+				return listClass.commandType::UNDO;
+			}
+			return (listClass.commandType::UNDO + 12);
+
+		case listClass.SORT:
+			_parse.changeToLower(_information);
+			listClass.sortFile.getSortCat() = listClass.determineField(_information);
+			if (listClass.sortFile.sortContent(data)) {
+				returnValue = listClass.commandType::SORT;
+			}
+			else {
+				returnValue = (listClass.commandType::SORT + 12);
+			}
+			break;
+
+		case listClass.EXIT:
+			_isRun = false;
+			return (listClass.commandType::EXIT + 1); 
+			
+		case listClass.INVALID:
+			if (_userInput == "") {
+				return listClass.commandType::INVALID;
+			}
+			else {
+				_parse.init(_userInput);
+				defaultSearchFunc(data, errMsg, floating, scheduled, deadline);
+				if (data.getTempData().size() == 0) {
+					return (listClass.commandType::SEARCH + 12);
+				}
+				else {
+					return listClass.commandType::SEARCH;
+				}
+			}
+
+		default:
+			return listClass.commandType::INVALID;
+	}
+	data.updateFile(data);
+	data.savePrevFile();
+	return returnValue;
+}
+
+
+
+bool ParserFacade::isRunProgram() {
+	return _isRun;
+}
+
+bool ParserFacade::isHelp(std::string input) {
+	if (input == "?") {
+		return true;
+	}
+	return false;
+}
+
+
+
+void ParserFacade::defaultSearchFunc(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, 
+									 std::ostringstream &scheduled, std::ostringstream &deadline) {
+	bool pastDate = false;
+	bool checkTime = false;
+	_parse.separateWord(data, pastDate, checkTime);
+	_parse.getMonth(data);
+	if (_parse.getTime() && _parse.getDate()) {
+		listClass.search.getTime(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (_parse.getTime()) {
+		data.clearData(errMsg, errMsg, errMsg);
+		errMsg << "only time entered, date not entered";
+		data.getTempData().clear();
+	}	
+	else if (_parse.getDate()) {
+		listClass.search.getDay(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (_parse.getCat()) {
+		listClass.search.getCat(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (_parse.getPriority()) {
+		listClass.search.getPriority(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (_parse.getComplete()) {
+		listClass.search.getComplete(data, floating, scheduled, deadline, errMsg);
+	}
+	else if (data.get_tempEntry().month >= 1 && data.get_tempEntry().month <= 12) {
+		listClass.search.getMonth(data, floating, scheduled, deadline, errMsg);
+	}
+	else {
+		listClass.search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
+	}
+	return;
+}
+
+void ParserFacade::separateWord(DataStore &data, bool &i, bool &j) {
+	_parse.separateWord(data, i, j);
+	return;
+}
+	
+void ParserFacade::removeFrontChar(std::string &str) {
+	_parse.removeFrontChar(str);
+	return;
+}
+	
+void ParserFacade::removeBackChar(std::string &str) {
+	_parse.removeBackChar(str);
+	return;
+}
+
+void ParserFacade::readFile(std::string info) {
+	_parse.init(info);
+	return;
+}
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\ParserFacade.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\ParserFacade.h
+	 */
+
+#ifndef PARSERFACADE_H
+#define PARSERFACADE_H
+
+#include "Parser.h"
+
+class ParserFacade {
+	private:
+		bool _isRun;
+
+		std::string _userInput;
+		std::string _information;
+		
+		Classes listClass;
+		Parser _parse;
+
+	public:
+		ParserFacade();
+		void init(std::string);
+		
+		int carryOutCommand(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+
+		bool isHelp(std::string);
+		bool isRunProgram();
+	
+		void defaultSearchFunc(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void separateWord(DataStore &, bool &, bool &);
+		void removeFrontChar(std::string &);
+		void removeBackChar(std::string &);
+		void readFile(std::string);
+};
+
+#endif
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\ParserFacade.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\UserInterface.cpp
+	 */
+
+#include "UserInterface.h"
+
+void UserInterface::runProgram() {
+	std::string msg = "";
+	std::string extName = "";
+	_userInput = "";
+
+	int i = 0;
+	int output = 0;
+	bool isReminder = false;
+	bool isOver = false;
+	size_t found = 0;
+
+	quote = quoteOfTheDay();
+
+	while (parseF.isRunProgram()) {
+		clearData(data, errMsg, floating, scheduled, deadline);
+		homeScreen();
+		isReminder = false;
+		isOver = false;
+
+		std::string logInputUI = "User input: " + _userInput;
+		listClass.log.log(logInputUI);
+
+		found = _userInput.find_first_of(" ");
+
+		if (i == 0 || _userInput == "save" || _userInput == "save file") {
+			data.getData().clear();
+			i = 0;
+			startUpScreen(data, file, parseF, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
+		}
+
+		if (_userInput == "remind" || _userInput == "reminder" || _userInput == "due") {
+			showReminder(data, msg, floating, scheduled, deadline);
+		}
+		else if (_userInput == "over" || _userInput == "overdue") {
+			showOverDue(data, msg, floating, scheduled, deadline);
+		}
+		else if (i == 1) {
+			output = parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			
+			if (output == (listClass.commandType::EXIT)) {
+				errMsg << " [" << file.getName() << "]\n\n ";
+			}
+
+			msg = outputToUser.getCommandMsg()[output];
+			getOutputToUser(output, data, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
+		}
+		i = 1;
+		defaultScreen(parseF);
+	}
+	return;
+}
+
+
+
+void UserInterface::clearData(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
+							  std::ostringstream &deadline) {
+	errMsg.str("");
+	errMsg.clear();
+	floating.str("");
+	floating.clear();
+	scheduled.str("");
+	scheduled.clear();
+	deadline.str("");
+	deadline.clear();
+	data.get_tempEntry() = data.get_emptyEntry();
+	return;
+}
+
+void UserInterface::getStringToDisplay(std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	if (floating.str() != "") {
+		listClass.search.setColour(6);
+		std::cout << "\n"  << outputToUser.getDisplayMsg()[0];
+		listClass.search.setColour(7);
+		std::cout << floating.str();
+	}
+	if (scheduled.str() != "") {
+		listClass.search.setColour(6);
+		std::cout << "\n" << outputToUser.getDisplayMsg()[1];
+		listClass.search.setColour(7);
+		std::cout << scheduled.str();
+	}
+	if (deadline.str() != "") {
+		listClass.search.setColour(6);
+		std::cout << "\n" << outputToUser.getDisplayMsg()[2];
+		listClass.search.setColour(7);
+		std::cout << deadline.str();
+	}
+	return;
+}
+
+void UserInterface::getOutputToUser(int output, DataStore &data, std::string msg, std::string extName, std::ostringstream &errMsg, 
+									std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
+									bool isReminder, bool isOver) {
+	size_t count = std::count(msg.begin(), msg.end(), '%');
+	std::ostringstream oss;
+	std::string cutOff = "";
+	bool isFinal = false;
+
+	if (count > 3 || output == 18) {
+		remindAndDueHeader(isReminder, isOver, floating, scheduled, deadline, count, oss, msg);
+		if (!isOver && !isReminder && msg != outputToUser.getCommandMsg()[1] && output != 22) {
+			std::ostringstream empty;
+			data.clearData(empty, empty, empty);
+			sprintf_s(msgToUser, msg.c_str(), extName.c_str(), data.get_tempEntry().subject.c_str(), errMsg.str().c_str(), empty.str().c_str());
+			oss << msgToUser;
+			if (output != 7 && output != 8) {
+				oss << "\n";
+			}
+			std::cout << oss.str();
+		}
+		getStringToDisplay(floating, scheduled, deadline);
+
+		//To record the previous changes
+		if (output < 7 && output != 1) {
+			data.savePrevAction(oss.str());
+		}
+		return;
+	}
+	else if (count == 2) {
+		sprintf_s(msgToUser, msg.c_str(), extName.c_str(), errMsg.str().c_str());
+		if (output < 7 && output != 1) {
+			data.savePrevAction(msgToUser);
+		}
+		std::cout << "\n" << msgToUser;
+		return;
+	}
+	else if (count == 1) {
+		sprintf_s(msgToUser, msg.c_str(), extName.c_str());
+		if (output < 7 && output != 1) {
+			data.savePrevAction(msgToUser);
+		}
+		std::cout << "\n" << msgToUser;
+		return;
+	}
+	std::cout << "\n" << msg << "\n";
+	return;
+}
+
+
+
+void UserInterface::readFileName(std::string &fileName) {
+	std::cout << outputToUser.getProgMsg()[6];
+	
+	//If user does not key in .txt
+	getline(std::cin, fileName);
+	size_t found = fileName.find(".txt");
+	if (found == std::string::npos) {
+		fileName = fileName + ".txt";
+	}
+	return;
+}
+
+void UserInterface::extractFileName(std::string &fileName, std::string &name, FileLocation &file) {
+	size_t found = fileName.find_last_of("\\");
+	
+	if (found == std::string::npos) {
+		name = fileName;
+		fileName = getPath() + "\\" + fileName;
+	}
+	else {
+		name = fileName.substr(found + 1);
+	}
+	file.getName() = fileName; 
+	return;
+}
+
+//If user does not key in directory path
+std::string UserInterface::getPath() {
+    char buffer[MAX_PATH];
+    
+	GetModuleFileName(NULL, buffer, MAX_PATH);
+    std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+    return std::string(buffer).substr(0, pos);
+}
+
+
+
+void UserInterface::remindAndDueHeader(bool isReminder, bool isOver, std::ostringstream &floating, std::ostringstream &scheduled, 
+									   std::ostringstream &deadline, int count, std::ostringstream &oss, std::string msg) {
+		if (isReminder && !isOver && (floating.str() != "" || scheduled.str() != "" || deadline.str() != "")) {
+			count = msg.find_first_of("%");
+			oss << msg.substr(0, count);
+			listClass.search.setColour(14);
+			std::cout << "\n"  << oss.str();
+		}
+		else if (isOver && !isReminder && (floating.str() != "" || scheduled.str() != "" || deadline.str() != "")) {
+			count = msg.find_first_of("%");
+			oss << msg.substr(0, count);
+			listClass.search.setColour(12);
+			std::cout << oss.str();
+		}
+		else if (isReminder) {
+			oss << outputToUser.getFileMsg()[3] << "\n";
+			listClass.search.setColour(14);
+			std::cout << "\n"  << oss.str();
+			listClass.search.setColour(7);
+		}
+		else if (isOver) {
+			oss << outputToUser.getFileMsg()[5] << "\n";
+			listClass.search.setColour(12);
+			std::cout << oss.str();
+			listClass.search.setColour(7);
+		}
+		return;
+}
+
+void UserInterface::showOverDue(DataStore data, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, 
+								std::ostringstream &deadline) {
+	clearData(data, floating, floating, scheduled, deadline);
+	bool isReminder = false;
+	bool isOver = true;
+	listClass.search.getOverDue(data, floating, scheduled, deadline, errMsg);
+	msg = outputToUser.getFileMsg()[4];
+	getOutputToUser(10, data, msg, msg, floating, floating, scheduled, deadline, isReminder, isOver);
+	listClass.search.setColour(7);
+	return;
+}
+
+void UserInterface::showReminder(DataStore data, std::string &msg, std::ostringstream &floating, std::ostringstream &scheduled, 
+								 std::ostringstream &deadline) {
+	clearData(data, floating, floating, scheduled, deadline);
+	bool isReminder = true;
+	bool isOver = false;
+	listClass.search.getReminder(data, floating, scheduled, deadline, errMsg);
+	msg = outputToUser.getFileMsg()[2];
+	getOutputToUser(10, data, msg, msg, floating, floating, scheduled, deadline, isReminder, isOver);
+	listClass.search.setColour(7);
+	return;
+}
+
+
+
+void UserInterface::outputCommand() {
+	std::cout << outputToUser.getProgMsg()[0];
+	listClass.search.setColour(6);
+	std::cout << outputToUser.getProgMsg()[1];
+	listClass.search.setColour(7);
+}
+
+void UserInterface::defaultScreen(ParserFacade &parseF) {
+	listClass.search.setColour(6);
+	std::cout << "\n" << outputToUser.getProgMsg()[1] << " ";
+	listClass.search.setColour(7);
+	getline(std::cin, _userInput);
+	parseF.init(_userInput);
+		
+	if (parseF.isHelp(_userInput)) {
+		outputCommand();
+		std::cout << " ";
+		getline(std::cin, _userInput);
+		parseF.init(_userInput);
+	}
+	system("CLS");
+	return;
+}
+
+void UserInterface::startUpScreen(DataStore &data,  FileLocation &file, ParserFacade &parseF, std::string &msg, std::string &extName, 
+								  std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
+								  std::ostringstream &deadline, bool isReminder, bool isOver) {
+	std::string fileName = "";
+
+	outputCommand();
+	std::cout << outputToUser.getProgMsg()[5] << std::endl;
+
+	readFileName(fileName);
+	extractFileName(fileName, extName, file);
+	msg = outputToUser.getFileMsg()[file.openFile(data, parseF, listClass)];
+
+	//If the user did not enter any location, update fileName to to last access location
+	extractFileName(file.getName(), extName, file);
+	listClass.log.get_logFileName() = extName;
+	getOutputToUser(10, data, msg, extName, errMsg, floating, scheduled, deadline, isReminder, isOver);
+	std::cout << "\n\n";
+	data.init(file.getName());
+
+	showOverDue(data, msg, floating, scheduled, deadline);
+	showReminder(data, msg, floating, scheduled, deadline);
+	return;
+}
+
+void UserInterface::homeScreen() {
+	listClass.search.setColour(7);
+	for (i = 2; i < 5; i++) {
+		if (i == 3) {
+			sprintf_s(msgToUser, outputToUser.getProgMsg()[i].c_str(), getCurrent(1).c_str());
+			std::cout << msgToUser;
+		}
+		else if (i%2 == 0) {
+			listClass.search.setColour(6);
+			std::cout << outputToUser.getProgMsg()[i];
+			listClass.search.setColour(7);
+		}
+		else {
+			std::cout << outputToUser.getProgMsg()[i];
+		}
+	}
+	listClass.search.setColour(3);
+	std::cout << quote << "\n";
+	listClass.search.setColour(15);
+	sprintf_s(msgToUser, outputToUser.getTime().c_str(), getCurrent().c_str());
+	std::cout << msgToUser;
+	listClass.search.setColour(7);
+	return;
+}
+
+std::string UserInterface::quoteOfTheDay() {
+	int randNum = 0;
+	std::ostringstream printSpace;
+
+	srand(time(NULL));
+	randNum = rand() % outputToUser.getQuote().size();
+	centralizePrintToUser(outputToUser.getQuote()[randNum], printSpace);
+	return (printSpace.str() + outputToUser.getQuote()[randNum]);
+}
+
+std::string UserInterface::getCurrent(int dateOrTime) {
+	Timing timer;
+	time_t t = time(0);   
+	struct tm now;
+	localtime_s(&now, &t);
+	std::ostringstream oss;
+	Search search;
+	
+	if (dateOrTime == 1) {
+		search.printZero(search.countDigit(now.tm_mday), oss, 2);
+		oss << (now.tm_mday) << "-";
+		search.printZero(search.countDigit(now.tm_mon + 1), oss, 2);
+		oss << (now.tm_mon + 1) << "-" << (now.tm_year + 1900);
+	}
+	else {
+		search.printZero(search.countDigit(now.tm_hour), oss, 2);
+		oss << (now.tm_hour) << ":";
+		search.printZero(search.countDigit(now.tm_min), oss, 2);
+		oss << (now.tm_min);
+	}
+	return oss.str();
+}
+
+void UserInterface::centralizePrintToUser(std::string text, std::ostringstream &space) {
+	space.str("");
+	space.clear();
+
+	for (int i = 0; i < (80 - text.size())/2; i++) {
+		space << " ";
+	}
+	return;
+}
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\UserInterface.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\UserInterface.h
+	 */
+
+#ifndef USERINTERFACE_H
+#define USERINTERFACE_H
+
+#include "FileLocation.h"
+#include "UserMessage.h"
+
+#define MAX 1000
+
+class UserInterface {
+	private:
+		std::string _userInput;
+
+		int i;
+		char msgToUser[MAX];
+		std::string quote;
+		
+		Classes listClass;
+		ParserFacade parseF;
+		DataStore data;
+		UserMessage outputToUser;
+		FileLocation file;
+		
+		std::ostringstream errMsg;
+		std::ostringstream floating;
+		std::ostringstream scheduled;
+		std::ostringstream deadline;
+
+	public:
+		UserInterface() {};
+
+		void runProgram();
+		
+		void clearData(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getStringToDisplay(std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getOutputToUser(int, DataStore &, std::string, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, 
+						     std::ostringstream &, bool, bool);
+		
+		void readFileName(std::string &);
+		void extractFileName(std::string &, std::string &, FileLocation &);
+		std::string getPath();
+		
+		void remindAndDueHeader(bool, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, int, std::ostringstream &, 
+								std::string);
+		void showReminder(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void showOverDue(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		
+		void outputCommand();
+		void defaultScreen(ParserFacade &);
+		void startUpScreen(DataStore &, FileLocation &, ParserFacade &, std::string &, std::string &, std::ostringstream &, std::ostringstream &, 
+						   std::ostringstream &, std::ostringstream &, bool, bool);
+		void homeScreen();
+		std::string quoteOfTheDay();
+		std::string getCurrent(int = 0);
+		void centralizePrintToUser(std::string, std::ostringstream &);
+};
+
+#endif
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\UserInterface.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\UserMessage.cpp
+	 */
+
+#include "UserMessage.h"
+
+const std::string UserMessage::MESSAGE_COMMAND_LIST = "     1)Add    2)Search    3)Delete    4)Clear    5)Edit    6)Sort    8)Exit     ";
+const std::string UserMessage::MESSAGE_LINE = " ------------------------------------------------------------------------------ ";
+const std::string UserMessage::MESSAGE_STAR = "********************************************************************************";
+const std::string UserMessage::MESSAGE_WELCOME = "                           *** Listful %s ***                           ";
+const std::string UserMessage::MESSAGE_LOGIN = " ~ For help, enter [?] to search the above list of commands available             NOTE: you can [undo] and [redo] actions as well                               ";
+const std::string UserMessage::MESSAGE_LOGIN2 = " Please enter a file name (and location to save your file if you wish)           -> ";
+const std::string UserMessage::MESSAGE_DISPLAY_FLOATING = "  TO DO(s)                                       | Time      | Category |        ================================================|===========|==========|====== ";
+const std::string UserMessage::MESSAGE_DISPLAY_SCHEDULE = "  SCHEDULED TASK(s)                 | Date       | Time      | Category |        ===================================|============|===========|==========|====== ";
+const std::string UserMessage::MESSAGE_DISPLAY_DEADLINE = "  DEADLINE TASK(s)                  | Date       | Time      | Category |        ===================================|============|===========|==========|====== ";
+
+const std::string UserMessage::CURRENT_TIME = "                                                                      [ %s ] ";
+
+const std::string UserMessage::MESSAGE_FILE_CREATED = " loading... new %s created and ready for use";
+const std::string UserMessage::MESSAGE_FILE_OPENED = " loading... %s is open and ready for use";
+const std::string UserMessage::MESSAGE_REMINDER = "                    REMINDER(s) for today and the next 2 days                   %s%s%s%s";
+const std::string UserMessage::MESSAGE_OVERDUE = "                                    OVERDUE                                     %s%s%s%s";
+const std::string UserMessage::MESSAGE_NO_OVERDUE = " you have no overdue tasks ^^";
+const std::string UserMessage::MESSAGE_FREE = " you have no upcoming tasks due today and next 2 days :)";
+
+const std::string UserMessage::MESSAGE_ADD = " added to %s: [%s]%s%s";
+const std::string UserMessage::MESSAGE_SEARCH = "%s%s%s%s";
+const std::string UserMessage::MESSAGE_CLEAR = " all content deleted from %s";
+const std::string UserMessage::MESSAGE_EDIT = " changed %s: task [%s] %s%s";
+const std::string UserMessage::MESSAGE_SORT = " %s has been sorted";
+const std::string UserMessage::MESSAGE_DELETE = " task(s) deleted from %s: %s%s%s";
+const std::string UserMessage::MESSAGE_COMPLETE = " updating %s.. %s%s%s";
+const std::string UserMessage::MESSAGE_UNDO = " undid previous change for %s: %s%s%s";
+const std::string UserMessage::MESSAGE_REDO = " redid undo for %s:%s%s%s";
+const std::string UserMessage::ERROR_COMMAND = " invalid command entered";
+const std::string UserMessage::MESSAGE_CLOSE_FILE = " %s saved at%sListful bids you farewell...";
+const std::string UserMessage::MESSAGE_DO_NOTHING = "";
+const std::string UserMessage::ERROR_ADD = " invalid input entered (no subject found)";
+const std::string UserMessage::ERROR_SEARCH = " %s is unable to search (%s)";
+const std::string UserMessage::ERROR_CLEAR = " %s is already empty with no tasks to clear";
+const std::string UserMessage::ERROR_EDIT = " %s cannot be edited (%s)";
+const std::string UserMessage::ERROR_SORT = " %s does not contain the category specified: %s";
+const std::string UserMessage::ERROR_DELETE = " entry to delete not found in %s (%s)";
+const std::string UserMessage::ERROR_DELETE_2 = " multiple entries found, please select one (or more) to delete by its index";
+const std::string UserMessage::ERROR_UNDO = " no previous changes to undo";
+const std::string UserMessage::ERROR_REDO = " no previous undo to redo";
+
+const std::string UserMessage::ERROR_ADD_DATE = " date entered has already undo (undo/edit adviced)";
+const std::string UserMessage::ERROR_ADD_TIME = " end time entered earlier then start time (undo/edit adviced)";
+
+UserMessage::UserMessage() {
+	_commandMsg.push_back(MESSAGE_ADD);
+	_commandMsg.push_back(MESSAGE_SEARCH);
+	_commandMsg.push_back(MESSAGE_CLEAR);
+	_commandMsg.push_back(MESSAGE_EDIT);
+	_commandMsg.push_back(MESSAGE_SORT);
+	_commandMsg.push_back(MESSAGE_DELETE);
+	_commandMsg.push_back(MESSAGE_COMPLETE);
+	_commandMsg.push_back(MESSAGE_UNDO);
+	_commandMsg.push_back(MESSAGE_REDO);
+	_commandMsg.push_back(ERROR_COMMAND);
+	_commandMsg.push_back(MESSAGE_CLOSE_FILE);
+	_commandMsg.push_back(MESSAGE_DO_NOTHING);
+	_commandMsg.push_back(ERROR_ADD);
+	_commandMsg.push_back(ERROR_SEARCH);
+	_commandMsg.push_back(ERROR_CLEAR);
+	_commandMsg.push_back(ERROR_EDIT);
+	_commandMsg.push_back(ERROR_SORT);
+	_commandMsg.push_back(ERROR_DELETE);
+	_commandMsg.push_back(ERROR_DELETE_2);
+	_commandMsg.push_back(ERROR_UNDO);
+	_commandMsg.push_back(ERROR_REDO);
+											
+	_progMsg.push_back(MESSAGE_COMMAND_LIST);	
+	_progMsg.push_back(MESSAGE_LINE);				
+	_progMsg.push_back(MESSAGE_STAR);
+	_progMsg.push_back(MESSAGE_WELCOME);
+	_progMsg.push_back(MESSAGE_STAR);							
+	_progMsg.push_back(MESSAGE_LOGIN);				
+	_progMsg.push_back(MESSAGE_LOGIN2);
+	
+	_displayMsg.push_back(MESSAGE_DISPLAY_FLOATING);
+	_displayMsg.push_back(MESSAGE_DISPLAY_SCHEDULE);
+	_displayMsg.push_back(MESSAGE_DISPLAY_DEADLINE);
+
+	_fileMsg.push_back(MESSAGE_FILE_OPENED);
+	_fileMsg.push_back(MESSAGE_FILE_CREATED);
+	_fileMsg.push_back(MESSAGE_REMINDER);
+	_fileMsg.push_back(MESSAGE_FREE);
+	_fileMsg.push_back(MESSAGE_OVERDUE);
+	_fileMsg.push_back(MESSAGE_NO_OVERDUE);
+
+	_quotes.push_back("Mistakes are proof that you are trying.");
+	_quotes.push_back("Be kind, for everyone you meet is fighting a harder battle.");
+	_quotes.push_back("Never stop doing your best just because someone doesn't give you credit.");
+	_quotes.push_back("It's not who you are that holds you back, it's who you think you're not.");
+	_quotes.push_back("It does not matter how slowly you go as long as you do not stop.");
+	_quotes.push_back("You have to learn the rules of the game. And then you have to play better than anyone else.");
+	_quotes.push_back("With the new day comes new strength and new thoughts.");
+	_quotes.push_back("The secret of getting ahead is getting started.");
+	_quotes.push_back("Expect problems and eat them for breakfast.");
+	_quotes.push_back("Don't watch the clock; do what it does. Keep going.");
+	_quotes.push_back("Setting goals is the first step in turning the invisible into the visible.");
+	_quotes.push_back("Do not wait to strike till the iron is hot; but make it hot by striking.");
+	_quotes.push_back("Motivation will almost always beat mere talent.");
+	_quotes.push_back("What you do today can improve all your tomorrows.");
+	_quotes.push_back("The gift is the journey.");
+	_quotes.push_back("Everything that can happen will happen.");
+	_quotes.push_back("Step by step and the thing is done.");
+	_quotes.push_back("The will to succeed is important, but what's more important is the will to prepare.");
+}
+
+std::string UserMessage::getTime() {
+	std::string timer = CURRENT_TIME;
+	return timer;
+}
+
+std::vector <std::string> &UserMessage::getQuote() {
+	return _quotes;
+}
+
+std::vector <std::string> &UserMessage::getCommandMsg() {
+	return _commandMsg;
+}
+
+std::vector <std::string> &UserMessage::getFileMsg() {
+	return _fileMsg;
+}
+
+std::vector <std::string> &UserMessage::getProgMsg() {
+	return _progMsg;
+}
+
+std::vector <std::string> &UserMessage::getDisplayMsg() {
+	return _displayMsg;
+}
+
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\UserMessage.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\UserMessage.h
+	 */
+
+#ifndef USERMESSAGE_H
+#define USERMESSAGE_H
+
+#include "Entry.h"
+
+class UserMessage {
+	private:
+		static const std::string MESSAGE_STAR;
+		static const std::string MESSAGE_WELCOME;
+		static const std::string MESSAGE_LOGIN;
+		static const std::string MESSAGE_LOGIN2;
+		static const std::string MESSAGE_LINE;
+		static const std::string MESSAGE_DISPLAY_FLOATING;
+		static const std::string MESSAGE_DISPLAY_SCHEDULE;
+		static const std::string MESSAGE_DISPLAY_DEADLINE;
+		static const std::string MESSAGE_COMMAND_LIST;
+
+		static const std::string CURRENT_TIME;
+
+		static const std::string MESSAGE_FILE_OPENED;
+		static const std::string MESSAGE_FILE_CREATED;
+		static const std::string MESSAGE_REMINDER;
+		static const std::string MESSAGE_OVERDUE;
+		static const std::string MESSAGE_FREE;
+		static const std::string MESSAGE_TO_DELETE;
+		static const std::string MESSAGE_NO_OVERDUE;
+
+		static const std::string MESSAGE_ADD;
+		static const std::string MESSAGE_SEARCH;
+		static const std::string MESSAGE_CLEAR;
+		static const std::string MESSAGE_EDIT;
+		static const std::string MESSAGE_SORT;
+		static const std::string MESSAGE_UNDO;
+		static const std::string MESSAGE_REDO;
+		static const std::string MESSAGE_DELETE;
+		static const std::string ERROR_COMMAND;
+		static const std::string MESSAGE_DO_NOTHING;
+		static const std::string MESSAGE_CLOSE_FILE;
+		static const std::string ERROR_ADD;
+		static const std::string ERROR_SEARCH;
+		static const std::string ERROR_CLEAR;
+		static const std::string ERROR_EDIT;
+		static const std::string ERROR_SORT;
+		static const std::string ERROR_UNDO;
+		static const std::string ERROR_REDO;
+		static const std::string ERROR_DELETE;
+		static const std::string ERROR_DELETE_2;
+		static const std::string MESSAGE_COMPLETE;
+	
+		static const std::string ERROR_ADD_DATE;
+		static const std::string ERROR_ADD_TIME;
+		static const std::string ERROR_ADD_CLASH_SUBJECT;
+		static const std::string ERROR_ADD_CLASH_TIME;
+
+		std::vector <std::string> _commandMsg;
+
+		std::vector <std::string> _fileMsg;
+	
+		std::vector <std::string> _displayMsg;
+
+		std::vector <std::string> _progMsg;
+
+		std::vector <std::string> _quotes;
+
+	public:
+		UserMessage();
+
+		std::string getTime();
+		std::vector <std::string> &getQuote();
+		std::vector <std::string> &getCommandMsg();
+		std::vector <std::string> &getFileMsg();
+		std::vector <std::string> &getProgMsg();
+		std::vector <std::string> &getDisplayMsg();
+};
+
+#endif
+	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\UserMessage.h
+
+
+
+
+
