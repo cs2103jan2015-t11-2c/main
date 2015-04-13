@@ -31,7 +31,8 @@ void ParserFacade::init(std::string command) {
 int ParserFacade::carryOutCommand(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, 
 								  std::ostringstream &deadline) {
 	int command = listClass.determineCommand(_userInput);
-	
+	assert(!_userInput.empty());
+
 	int returnValue = 0;
 	std::string originalStr = "";
 	std::vector <int> editCat;

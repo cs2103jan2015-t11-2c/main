@@ -5,6 +5,7 @@ const int Search::NON_FLOAT_SUB_SIZE = 31;
 
 bool Search::displayContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, 
 							std::ostringstream &scheduled, std::ostringstream &deadline) {
+	assert(!info.empty());
 	data.clearData(floating, scheduled, deadline);
 	if (info == "today" || info == "tdy" || info == "tday" || info == "later" || info == "tonight") {
 		getToday(data, floating, scheduled, deadline, errMsg);
@@ -47,6 +48,7 @@ bool Search::displayContent(DataStore &data, std::string info, std::ostringstrea
 }
 
 bool Search::isAllNum(std::string info) {
+	assert(!info.empty());
 	while (info.size() != 0 && info[0] >= '0' && info[0] <= '9') {
 		info = info.substr(1);
 	}
