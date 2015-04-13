@@ -79,7 +79,7 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 	bool real = true;
 	bool isTemp = false;
 	int index = 0;
-
+	
 	if (!getEditIndex(info, index)) {
 		if (data.getTempData().size() != 1) {
 			errMsg << "no index entered";
@@ -97,11 +97,11 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 		index = 1;
 	}
 	
+	std::cout << "2" << index << std::endl;
+	std::cout << "2" << editCat[0] << std::endl;
 	data.getTempData().clear();
 	index--;
 	
-	std::cout << index << std::endl;
-	std::cout << editCat[0] << std::endl;
 	switch (editCat[0]) {
 		case 0:
 			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].subject << "\" to \"" << data.get_tempEntry().subject << "\"";
@@ -109,18 +109,20 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 			break;
 
 		case 1:
+			errMsg << " \"" << search.getDate(data, data.getTempIndexList()[index], isTemp) << "\" to \"";
 			data.getTempData().push_back(data.get_tempEntry());
-			errMsg << " \"" << search.getDate(data, data.getTempIndexList()[index], isTemp) << "\" to \"" << search.getDate(data, 0, real) << "\"";
+			errMsg << search.getDate(data, 0, real) << "\"";
 			editDate(data, data.getTempIndexList()[index]);
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
-			return true;
+			break;
 
 		case 2:
+			errMsg << " \"" << search.getTime(data, data.getTempIndexList()[index], isTemp) << "\" to \"";
 			data.getTempData().push_back(data.get_tempEntry());
-			errMsg << " \"" << search.getTime(data, data.getTempIndexList()[index], isTemp) << "\" to \"" << search.getTime(data, 0, real) << "\"";
+			errMsg << search.getTime(data, 0, real) << "\"";
 			editTime(data, data.getTempIndexList()[index]);
 			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
-			return true;
+			break;
 		    
 		case 3:
 			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].priority << "\" to \"" << data.get_tempEntry().priority << "\"";
@@ -136,6 +138,7 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 			return false;
 	}
 	data.get_tempEntry() = data.getData()[data.getTempIndexList()[index]];
+	std::cout << data.get_tempEntry().subject << std::endl;
 	data.clearData(floating, scheduled, deadline);
 	search.getEntry(data, floating, scheduled, deadline, errMsg);
 	data.get_tempEntry().subject = "";

@@ -278,18 +278,23 @@ void Parser::retrieveCompleteAndRefNo(DataStore &data) {
 
 void Parser::getEditInfo(std::vector <int> &editCat, std::string originalStr) {
 	if (time) {
+		std::cout << "1" << std::endl;
 		editCat.push_back(listClass.subCategory::TIME);
 	}
 	if (date) {
+		std::cout << "2" << std::endl;
 		editCat.push_back(listClass.subCategory::DATE);
 	}
 	if (priority) {
+		std::cout << "3" << std::endl;
 		editCat.push_back(listClass.subCategory::PRIORITY);
 	}
 	if (cat) {
+		std::cout << "4" << std::endl;
 		editCat.push_back(listClass.subCategory::CATEGORY);
 	}
-	if (editCat.size() == 0 || _information != originalStr) {
+	if (editCat.size() == 0 || (_information != originalStr && _information != "")) {
+		std::cout << "5" << std::endl;
 		editCat.push_back(listClass.subCategory::SUBJECT);
 	}
 	return;

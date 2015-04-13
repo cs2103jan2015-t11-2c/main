@@ -19,10 +19,6 @@ bool Timing::extractNum (std::string line, int &count, int &num) {
 	size_t end = 0;
 	int noOfMin = 0;
 
-	while (line[0] == ' ') {
-		line = line.substr(1);
-	}
-
 	//If time is in 7.00 or 7:00 format for example
 	size_t nonNum = line.find_first_of(".:");
 	if (nonNum != std::string::npos && nonNum > 2) {
@@ -81,7 +77,6 @@ bool Timing::extractTime (std::string &line, int &noOfTime, bool &checkTime) {
 		}
 		else {
 			int temp = noOfWord;
-			std::cout << str << std::endl;
 			while (index != std::string::npos && noOfWord > 0) {
 				index = str.find_first_of(" -", index);
 				if(str[index] == '-') {
@@ -139,7 +134,8 @@ bool Timing::takeTime(std::string &line, int &noOfTime, bool &checkTime) {
 }
 
 void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &checkTime, int noOfTime) {
-	std::string line = originalStr; 
+	std::string line = originalStr;
+	std::string remainingStr = originalStr.substr(count);
 	changeToLower(line);
 	size_t foundAM = line.find("am");
 	size_t foundAM2 = line.find("a.m");
@@ -199,6 +195,10 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 		}
 		else if (count <= 2) {
 			if (i != std::string::npos || j != std::string::npos || noOfTime == 1) {
+				while (remainingStr[0] == ' ') {
+					remainingStr = remainingStr.substr(1);
+					count++;
+				}
 				if ((i - count) <= 1 || (j - count) <= 1 || noOfTime == 1) {
 					if (num == 12) {
 						num = num * 100;
@@ -250,6 +250,9 @@ void Timing::countWord(std::string str, int &noOfWord) {
 				if (index < nextTime) {
 					noOfWord++;
 					index = str.find_first_of(" ", index + 1);
+					if (index != std::string::npos) {
+						index = str.find_first_not_of(" ", index);
+					}
 				}
 				else {
 					return;
