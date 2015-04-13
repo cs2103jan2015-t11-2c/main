@@ -49,13 +49,13 @@ namespace UnitTest1
 			
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			std::string input2 = "add visit grandma 5th april 5.45 to 10";
 
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 			
 			std::string expectedSubject1 = "visit grandma";
 			std::string actualSubject1 = data.getData()[0].subject;
@@ -132,7 +132,7 @@ namespace UnitTest1
 			
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			std::string expectedSubject1 = "call to change appointment";
 			std::string actualSubject1 = data.getData()[0].subject;
@@ -153,7 +153,7 @@ namespace UnitTest1
 
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 			
 			std::string expectedSubject2 = "play ball with friends";
 			std::string actualSubject2 = data.getData()[1].subject;
@@ -168,7 +168,7 @@ namespace UnitTest1
 
 			parseF.init(input3);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			std::string expectedSubject3 = "FUNRUN";
 			std::string actualSubject3 = data.getData()[2].subject;
@@ -208,7 +208,7 @@ namespace UnitTest1
 			
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			std::string expectedSubject1 = "CS project";
 			std::string actualSubject1 = data.getData()[0].subject;
@@ -229,7 +229,7 @@ namespace UnitTest1
 
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 			
 			std::string expectedSubject2 = "IE2130 Project";
 			std::string actualSubject2 = data.getData()[1].subject;
@@ -250,7 +250,7 @@ namespace UnitTest1
 
 			parseF.init(input3);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			std::string expectedSubject3 = "lose weight xp";
 			std::string actualSubject3 = data.getData()[2].subject;
@@ -294,23 +294,23 @@ namespace UnitTest1
 
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input3);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input4);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input5);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			std::string expectednewFirst = "CS project meeting";
 			std::string actualnewFirst = data.getData()[0].subject;
@@ -343,23 +343,23 @@ namespace UnitTest1
 
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input3);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input4);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input5);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			std::string expectednewFirst = "IE2100 homework 7";
 			std::string actualnewFirst = data.getData()[0].subject;
@@ -384,23 +384,18 @@ namespace UnitTest1
 			bool isDelete = false;
 
 			std::string input1 = "add CS project meeting 6 apr 2015  1200-1600 MED";
-<<<<<<< HEAD
 			std::string input2 = "add running 7 apr 2015  1800-2000";
 			std::string input3 = "search CS project meeting";
 			std::string input4 = "edit 1 IE2130 meeting with prof";
 			std::string buffer = "buffer";
-=======
-			std::string input2 = "edit IE2130 meeting with prof";
-			//std::string buffer = "buffer";
->>>>>>> 36265b72ac28e65cd6920601e082b137a37b0c1d
 
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			//data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 	
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			//data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			std::string expectedSubject = "IE2130 meeting with prof";
 			std::string actualSubject = data.getData()[0].subject;
@@ -507,19 +502,19 @@ namespace UnitTest1
 
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input3);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input4);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			Assert::IsTrue(data.getData().empty());
 		}
@@ -548,19 +543,19 @@ namespace UnitTest1
 
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input3);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input4);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 			
 			int actualSize = data.getData().size();
 			int expectedSize = 2;
@@ -593,23 +588,23 @@ namespace UnitTest1
 
 			parseF.init(input1);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input2);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input3);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			parseF.init(input4);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 			
 			parseF.init(input5);
 			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getPastActionLog().push_back(buffer);
+			data.getUndoActionLog().push_back(buffer);
 
 			int actualSize = data.getData().size();
 			int expectedSize = 3;
