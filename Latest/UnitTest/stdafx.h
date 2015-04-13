@@ -12,7 +12,6 @@
 
 // TODO: reference additional headers your program requires here
 #include "Classes.h"
-#include "Log.h"
 #include "Parser.h"
 #include "Date.h"
 #include "Edit.h"
