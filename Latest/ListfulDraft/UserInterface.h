@@ -1,4 +1,3 @@
-//@author A0116177E
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 
@@ -20,7 +19,6 @@ class UserInterface {
 		DataStore data;
 		UserMessage outputToUser;
 		FileLocation file;
-		Log log;
 		
 		std::ostringstream errMsg;
 		std::ostringstream floating;
@@ -43,9 +41,9 @@ class UserInterface {
 		
 		void remindAndDueHeader(bool, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, int, std::ostringstream &, 
 								std::string);
-		void showOverDue(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void showReminder(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-
+		void showOverDue(DataStore, std::string &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		
 		void outputCommand();
 		void defaultScreen(ParserFacade &);
 		void startUpScreen(DataStore &, FileLocation &, ParserFacade &, std::string &, std::string &, std::ostringstream &, std::ostringstream &, 

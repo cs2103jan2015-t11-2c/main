@@ -1,4 +1,3 @@
-//@author A0110670W
 #ifndef TIMING_H
 #define TIMING_H
 
@@ -13,12 +12,12 @@ class Timing {
 	public:
 		Timing();
 		
-		bool extractNum (std::string, int &, int &);
 		bool checkForTime (std::string &, int &, bool &);
 		
 		bool takeTime(std::string &, int &, bool &);
 		void checkAMPM (std::string &, int , int &, bool &, int);
-		bool isTimeValid(int);		
+		bool isTimeValid(int);
+		bool extractNum (std::string, int &, int &);
 		
 		void countWord(std::string, int &);
 		void changeToLower(std::string &);

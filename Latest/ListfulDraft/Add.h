@@ -1,4 +1,3 @@
-//@author A0116177E
 #ifndef ADD_H
 #define ADD_H
 
@@ -11,10 +10,10 @@ class Add {
 
 		bool addContent(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool);
 	
+		void checkDuplicate(DataStore, std::ostringstream &);
+		void checkDateTime(DataStore, std::ostringstream &, bool, bool);
 		bool isSameDate(DataStore, int);
 		bool isSameTime(DataStore, int);
-		void checkDateTime(DataStore, std::ostringstream &, bool, bool);
-		void checkDuplicate(DataStore, std::ostringstream &);
 
 		void addToDataBase(DataStore &, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		bool addScheduled(DataStore &, bool);
@@ -25,6 +24,7 @@ class Add {
 
 		void selectDataBase(DataStore &, std::vector <Entry> &, bool);
 		void revertDataBase(DataStore &, std::vector <Entry> &, bool);
+		void getIndex(DataStore &, std::vector <Entry> &, int);
 };
 
 #endif

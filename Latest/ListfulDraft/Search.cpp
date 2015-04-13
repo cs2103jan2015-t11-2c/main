@@ -1,10 +1,8 @@
-//@author A0116237L
 #include "Search.h"
 
 const int Search::FLOAT_SUB_SIZE = 44;
 const int Search::NON_FLOAT_SUB_SIZE = 31;
 
-//to display and to search
 bool Search::displayContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, 
 							std::ostringstream &scheduled, std::ostringstream &deadline) {
 	assert(!info.empty());
@@ -49,7 +47,6 @@ bool Search::displayContent(DataStore &data, std::string info, std::ostringstrea
 	return true;
 }
 
-//to check if entered input are all numbers 
 bool Search::isAllNum(std::string info) {
 	assert(!info.empty());
 	while (info.size() != 0 && info[0] >= '0' && info[0] <= '9') {
@@ -62,12 +59,15 @@ bool Search::isAllNum(std::string info) {
 	return false;
 }
 
+
+
 void Search::updateDisplayData(DataStore &data, int i) {
 	data.getTempData().push_back(data.getData()[i]);
 	data.getTempIndexList().push_back(i);
 }
 
-//to get floating task
+
+
 void Search::getFloat(DataStore &data, std::ostringstream &floating, std::ostringstream &errMsg) {
 	int i = 0;
 	std::ostringstream ignore;
@@ -88,7 +88,6 @@ void Search::getFloat(DataStore &data, std::ostringstream &floating, std::ostrin
 	return;
 }
 
-//to search scheduled task
 void Search::getScheduled(DataStore &data, std::ostringstream &scheduled, std::ostringstream &errMsg) {
 	int i = 0;
 	std::ostringstream ignore;
@@ -111,7 +110,6 @@ void Search::getScheduled(DataStore &data, std::ostringstream &scheduled, std::o
 	return;
 }
 
-//to search for deadline task
 void Search::getDeadline(DataStore &data, std::ostringstream &deadline, std::ostringstream &errMsg) {
 	int i = 0;
 	std::ostringstream ignore;
@@ -134,7 +132,8 @@ void Search::getDeadline(DataStore &data, std::ostringstream &deadline, std::ost
 	return;
 }
 
-//to search today
+
+
 void Search::getToday(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 					  std::ostringstream &errMsg) {
 	time_t t = time(0);   
@@ -184,7 +183,6 @@ void Search::getToday(DataStore &data, std::ostringstream &floating, std::ostrin
 	return;
 }
 
-//to search tomorrow
 void Search::getTmr(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 					std::ostringstream &errMsg) {
 	time_t t = time(0);   
@@ -232,7 +230,8 @@ void Search::getTmr(DataStore &data, std::ostringstream &floating, std::ostrings
 	return;
 }
 
-//to search completed
+
+
 void Search::getComplete(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 						 std::ostringstream &errMsg) {
 	int i = 0;
@@ -270,7 +269,6 @@ void Search::getComplete(DataStore &data, std::ostringstream &floating, std::ost
 	return;
 }
 
-//to get reminders
 void Search::getReminder(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline,
 						 std::ostringstream &errMsg) {
 	int i = 0;
@@ -314,7 +312,6 @@ void Search::getReminder(DataStore &data, std::ostringstream &floating, std::ost
 	return;
 }
 
-//to get overdue tasks
 void Search::getOverDue(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 						std::ostringstream &errMsg) {
 	time_t t = time(0);   
@@ -356,7 +353,7 @@ void Search::getOverDue(DataStore &data, std::ostringstream &floating, std::ostr
 }
 
 
-//to get the remaining string
+
 bool Search::getRemainingStr(std::string &cutOff, std::string &remaining, int count) {
 	if (remaining.size() > count) {
 		cutOff = remaining.substr(0, count);
@@ -503,6 +500,7 @@ void Search::getEntry(DataStore &data, std::ostringstream &floating, std::ostrin
 }
 
 
+
 void Search::getMonth(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 					  std::ostringstream &errMsg) {
 	int i = 0;
@@ -547,7 +545,6 @@ void Search::getMonth(DataStore &data, std::ostringstream &floating, std::ostrin
 	return;
 }
 
-//to get search subject
 void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 							  std::ostringstream &errMsg) {
 	int i = 0;
@@ -604,7 +601,6 @@ void Search::getSubjectSearch(DataStore &data, std::ostringstream &floating, std
 	return;
 }
 
-//to get priority
 void Search::getPriority(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 						 std::ostringstream &errMsg) {
 	int i = 0;
@@ -647,7 +643,6 @@ void Search::getPriority(DataStore &data, std::ostringstream &floating, std::ost
 	return;
 }
 
-//to get category
 void Search::getCat(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 					std::ostringstream &errMsg) {
 	int i = 0;
@@ -690,7 +685,6 @@ void Search::getCat(DataStore &data, std::ostringstream &floating, std::ostrings
 	return;
 }
 
-//to get time
 void Search::getTime(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 					 std::ostringstream &errMsg) {
 	int i = 0;
@@ -777,6 +771,7 @@ void Search::getDay(DataStore &data, std::ostringstream &floating, std::ostrings
 }
 
 
+
 void Search::getTempDisplay(DataStore &data, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, 
 							std::ostringstream &errMsg) {
 	int i = 0;
@@ -832,7 +827,8 @@ bool Search::isDisplayEmpty(DataStore &data, std::ostringstream &errMsg, std::os
 	return true;
 }
 
-//to get data as a string
+
+
 std::string Search::getDataString(DataStore &data, int index, bool updateFile, int index2) {
 	std::ostringstream dataString;
 	bool isTemp = false;
@@ -863,7 +859,7 @@ std::string Search::getDataString(DataStore &data, int index, bool updateFile, i
 	printPriority(data, dataString, index, isTemp);
 	return dataString.str();
 }
-//to get temporary data as a string
+
 std::string Search::getTempDataString(DataStore &data, int index, bool updateFile, int index2) {
 	std::ostringstream dataString;
 	bool isTemp = true;
@@ -928,7 +924,7 @@ void Search::stringGetter(DataStore &data, std::ostringstream &floating, std::os
 }
 
 
-//to print subject
+
 void Search::printSub(DataStore &data, std::ostringstream &dataString, int count, int index, bool updateFile, bool isTemp) {
 	int maxSize = 0;
 
@@ -969,7 +965,6 @@ void Search::printSub(DataStore &data, std::ostringstream &dataString, int count
 	return;
 }
 
-//to print date
 void Search::printDate(DataStore &data, std::ostringstream &dataString, int index, bool isTemp) {
 	if (!isTemp && !data.getData()[index].isFloat) {
 		int nDay = countDigit(data.getData()[index].day);
@@ -1001,7 +996,6 @@ void Search::printDate(DataStore &data, std::ostringstream &dataString, int inde
 	return;
 }
 
-//to print time
 void Search::printTime(DataStore &data, std::ostringstream &dataString, int index, bool isTemp) {
 	if (!isTemp) {
 		int sTime = countDigit(data.getData()[index].startTime);
@@ -1044,7 +1038,6 @@ void Search::printTime(DataStore &data, std::ostringstream &dataString, int inde
 	return;
 }
 
-//to print category
 void Search::printCat(DataStore &data, std::ostringstream &dataString, int index, bool isTemp) {
 	if (!isTemp) {
 		dataString << data.getData()[index].category;
@@ -1065,7 +1058,8 @@ void Search::printPriority(DataStore &data, std::ostringstream &dataString, int 
 	return;
 }
 
-//to get date
+
+
 std::string Search::getDate(DataStore &data, int index, bool isTemp) {
 	std::ostringstream dataString;
 	printDate(data, dataString, index, isTemp);
@@ -1077,6 +1071,7 @@ std::string Search::getTime(DataStore &data, int index, bool isTemp) {
 	printTime(data, dataString, index, isTemp);
 	return dataString.str();
 }
+
 
 
 int Search::countDigit(int num) {
@@ -1110,6 +1105,7 @@ void Search::printSpace(std::ostringstream &dataString, int count) {
 	}
 	return;
 }
+
 
 
 void Search::setColour(int value){

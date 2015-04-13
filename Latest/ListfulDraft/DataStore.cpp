@@ -1,10 +1,10 @@
-//@author A0110670W
 #include "DataStore.h"
 #include "Search.h"
 
 void DataStore::init(std::string fileName) {
 	_fileName = fileName;
 }
+
 
 
 //To update the text file in the computer
@@ -43,7 +43,7 @@ void DataStore::savePrevFile() {
 }
 
 
-//to undo data
+
 bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
 	if (_undoData.size() <= 1) {
 		return false;
@@ -64,7 +64,6 @@ bool DataStore::undoData(DataStore &data, std::ostringstream &errMsg) {
 	return true;
 }
 
-//to redo data
 bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
 	if (_redoData.empty()) {
 		return false;
@@ -85,7 +84,6 @@ bool DataStore::redoData(DataStore &data, std::ostringstream &errMsg) {
 	return true;
 }
 
-//to save the previous command entered
 void DataStore::savePrevAction(std::string msg) {
 	_undoActionLog.push_back(msg);
 	
@@ -104,6 +102,7 @@ void DataStore::clearData(std::ostringstream &floating, std::ostringstream &sche
 	deadline.clear();
 	return;
 }
+
 
 
 std::vector <Entry> &DataStore::getData() {

@@ -1,4 +1,3 @@
-//@author A0115871E
 #ifndef LOG_H
 #define LOG_H
 
@@ -16,6 +15,7 @@ public:
 	void clear();
 	void log(std::string);
 	void endLog();
+	std::string &get_logFileName();
 };
 
 #endif

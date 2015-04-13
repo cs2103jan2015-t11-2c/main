@@ -1,4 +1,3 @@
-//@author A0116177E
 #ifndef PARSERFACADE_H
 #define PARSERFACADE_H
 
@@ -13,7 +12,6 @@ class ParserFacade {
 		
 		Classes listClass;
 		Parser _parse;
-		Log log;
 
 	public:
 		ParserFacade();
@@ -21,8 +19,8 @@ class ParserFacade {
 		
 		int carryOutCommand(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 
+		bool isHelp(std::string);
 		bool isRunProgram();
-		bool isHelp(std::string);	
 	
 		void defaultSearchFunc(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void separateWord(DataStore &, bool &, bool &);

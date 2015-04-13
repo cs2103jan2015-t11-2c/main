@@ -1,4 +1,3 @@
-//@author A0115871E
 #include "Date.h"
 #include "Timing.h"
 

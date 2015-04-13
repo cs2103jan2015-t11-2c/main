@@ -1,4 +1,3 @@
-//@author A0110670W
 #include "Timing.h"
 
 Timing::Timing() {
@@ -13,6 +12,7 @@ Timing::Timing() {
 	_linkWord.push_back("up till");
 	_linkWord.push_back("up until");
 }
+
 
 
 bool Timing::extractNum (std::string line, int &count, int &num) {
@@ -104,7 +104,6 @@ bool Timing::checkForTime (std::string &line, int &noOfTime, bool &checkTime) {
 	}
 	return false;
 }
-
 
 bool Timing::takeTime(std::string &line, int &noOfTime, bool &checkTime) {
 	int count = 0;
@@ -227,18 +226,6 @@ void Timing::checkAMPM (std::string &originalStr, int count, int &num, bool &che
 	return;
 }
 
-bool Timing::isTimeValid(int num) {
-	assert(num>=0);
-
-	if (num/100 > 23) {
-		return false;
-	}
-	
-	if (num%100 > 59) {
-		return false;
-	}
-	return true;
-}
 
 
 //Count no. of words between two possible times
@@ -300,6 +287,19 @@ void Timing::extractRemainingStr(std::string &originalStr, std::string &line, si
 	return;
 }
 
+bool Timing::isTimeValid(int num) {
+	assert(num>=0);
+
+	if (num/100 > 23) {
+		return false;
+	}
+	
+	if (num%100 > 59) {
+		return false;
+	}
+	return true;
+}
+
 //Assume that the task will be adeadline task if only one time is entered
 void Timing::removeNonTimeChar(std::string &str) {
 	size_t found;
@@ -311,6 +311,7 @@ void Timing::removeNonTimeChar(std::string &str) {
 	}
 	return;
 }
+
 
 
 void Timing::updateTime() {
@@ -328,6 +329,7 @@ bool Timing::checkStartEnd() {
 	}
 	return false;
 }
+
 
 
 int &Timing::getStart() {

@@ -1,7 +1,5 @@
-//@author A0116237L
 #include "Edit.h"
 
-//to update entry to done status
 bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	int size = 0;
 	std::vector <Entry> holdTempTask;
@@ -23,7 +21,6 @@ bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstr
 	return true;
 }
 
-//to check if task is done
 bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
 	size_t found = info.find_first_of(" ");
 	int index = 0;
@@ -78,7 +75,7 @@ bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &
 }
 
 
-//to edit content
+
 bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input, int index) {
 	if (data.getData().size() == 0) {
 		errMsg << "file is empty";
@@ -171,7 +168,6 @@ bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string i
 	return true;
 }
 
-//to get the index of edited content
 bool Edit::getEditIndex(std::string &info, int &index) {
 	
 	size_t found = info.find_first_of("0123456789");
@@ -199,7 +195,6 @@ bool Edit::getEditIndex(std::string &info, int &index) {
 	}
 }
 
-//to edit time
 void Edit::editTime(DataStore &data, int index) {
 	_editEntry = data.getData()[index];
 	
@@ -217,7 +212,6 @@ void Edit::editTime(DataStore &data, int index) {
 	return;
 }
 
-//to edit date
 void Edit::editDate(DataStore &data, int index) {
 	_editEntry = data.getData()[index];
 	if (data.get_tempEntry().day == 0) {
@@ -234,7 +228,8 @@ void Edit::editDate(DataStore &data, int index) {
 	return;
 }
 
-//to update temporary storage 
+
+
 void Edit::updateTemp(DataStore &data, std::vector <int> list) {
 	data.getTempData().clear();
 	data.getTempIndexList().clear();
@@ -252,7 +247,7 @@ void Edit::updateTemp(DataStore &data, std::vector <int> list) {
 	}
 	return;
 }
-//to check if the index is repeated
+
 bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
 	for (int j = 0; j < list.size(); j++) {
 		if (list[j] == data.getData()[index].referenceNo) {

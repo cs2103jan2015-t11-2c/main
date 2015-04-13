@@ -1,4 +1,3 @@
-//@author A0116237L
 #ifndef SORT_H
 #define SORT_H
 
@@ -25,15 +24,17 @@ class Sort {
 	
 		void sortSub(DataStore &);
 		void compareLineSize(std::string &, std::string &, std::string &);
+		bool isLargerChar(std::string &, std::string &, std::string &);
 		bool isUpperCase(std::string, std::string, int, char &);
-		bool isLargerChar(std::string &, std::string &, std::string &);	
 	
-		void sortDate(DataStore &);
 		void sortComplete(DataStore &);
+
+		void sortDate(DataStore &);
+
 		void sortTime(DataStore &);
 
-		int determineCategory(std::string);
 		void sortCat(DataStore &);
+		int determineCategory(std::string);
 
 		void sortPriority(DataStore &);
 		int determinePriority(std::string);

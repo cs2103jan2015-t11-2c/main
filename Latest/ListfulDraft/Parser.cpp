@@ -1,4 +1,3 @@
-//@author A0116177E
 #include "Parser.h"
 
 //Separates the user input to be the command string and information string and initialises private vector in parser
@@ -68,6 +67,7 @@ void Parser::init(std::string info) {
 }
 
 
+
 void Parser::separateWord(DataStore &data, bool &pastDate, bool & checkTime) {
 	date = false;
 	time = false;
@@ -117,7 +117,7 @@ void Parser::separateWord(DataStore &data, bool &pastDate, bool & checkTime) {
 		data.get_tempEntry().priority = listClass.priority.getPriority();
 	}
 	else {
-		data.get_tempEntry().priority = "LOW";
+		data.get_tempEntry().priority = "LOW ";
 	}
 
 	if (cat) {
@@ -134,6 +134,15 @@ void Parser::separateWord(DataStore &data, bool &pastDate, bool & checkTime) {
 }
 
 
+
+bool Parser::getMonth(DataStore &data) {
+	int month = listClass.date.determineMonth(_information);
+	if (month < 13) {
+		data.get_tempEntry().month = month;
+		return true;
+	}
+	return false;
+}
 
 void Parser::retrieveDate(bool &pastDate) {
 	std::string dStr = _information;
@@ -266,14 +275,6 @@ void Parser::retrieveCompleteAndRefNo(DataStore &data) {
 }
 
 
-bool Parser::getMonth(DataStore &data) {
-	int month = listClass.date.determineMonth(_information);
-	if (month < 13) {
-		data.get_tempEntry().month = month;
-		return true;
-	}
-	return false;
-}
 
 void Parser::getEditInfo(std::vector <int> &editCat, std::string originalStr) {
 	if (time) {
@@ -312,6 +313,7 @@ void Parser::assignCat(DataStore &data, int &category) {
 	}
 	return;
 }
+
 
 
 //To remove words keyed in by the user that are not the subject

@@ -1,4 +1,4 @@
-﻿Build started 13/4/2015 10:06:50 PM.
+﻿Build started 14/4/2015 12:55:55 AM.
      1>Project "C:\Users\gerald\Desktop\main\Latest\UnitTest\UnitTest.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\Users\gerald\Desktop\main\Latest\ListfulDraft /IC:\Users\gerald\Desktop\main\Latest /I"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\UnitTest\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\UnitTest.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /FC /errorReport:prompt ListFulTest.cpp
@@ -69,13 +69,10 @@
      1>c:\users\gerald\desktop\main\latest\listfuldraft\delete.cpp(89): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\gerald\desktop\main\latest\listfuldraft\delete.cpp(108): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\gerald\desktop\main\latest\listfuldraft\delete.cpp(122): warning C4018: '<' : signed/unsigned mismatch
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\gerald\Desktop\main\Latest\ListfulDraft\Debug\UnitTest.dll" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\UnitTest\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\gerald\Desktop\main\Latest\ListfulDraft\Debug\UnitTest.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\gerald\Desktop\main\Latest\ListfulDraft\Debug\UnitTest.lib" /MACHINE:X86 /DLL Debug\stdafx.obj
-         Debug\ListFulTest.obj
-            Creating library C:\Users\gerald\Desktop\main\Latest\ListfulDraft\Debug\UnitTest.lib and object C:\Users\gerald\Desktop\main\Latest\ListfulDraft\Debug\UnitTest.exp
-         UnitTest.vcxproj -> C:\Users\gerald\Desktop\main\Latest\ListfulDraft\Debug\UnitTest.dll
-     1>Done Building Project "C:\Users\gerald\Desktop\main\Latest\UnitTest\UnitTest.vcxproj" (Build target(s)).
+     1>c:\users\gerald\desktop\main\latest\unittest\listfultest.cpp(1735): error C2011: 'ListFulTest::ListFulRemainingTest' : 'class' type redefinition
+                 c:\users\gerald\desktop\main\latest\unittest\listfultest.cpp(1667) : see declaration of 'ListFulTest::ListFulRemainingTest'
+     1>Done Building Project "C:\Users\gerald\Desktop\main\Latest\UnitTest\UnitTest.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:01.36
+Time Elapsed 00:00:00.40

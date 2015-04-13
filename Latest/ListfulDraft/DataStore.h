@@ -1,4 +1,3 @@
-//@author A0110670W
 #ifndef DATASTORE_H
 #define DATASTORE_H
 
@@ -26,16 +25,16 @@ class DataStore {
 		void init(std::string);
 
 		void updateFile(DataStore &);
-		void savePrevFile();		
+		void savePrevFile();
+		void savePrevAction(std::string);
 
 		bool undoData(DataStore &, std::ostringstream &);
 		bool redoData(DataStore &, std::ostringstream &);
-		void savePrevAction(std::string);
 		void clearData(std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		
 		std::vector <Entry> &getData();
+		std::vector <Entry> &getTempData();
 		std::vector <int> &getTempIndexList();
-		std::vector <Entry> &getTempData();		
 	
 		std::vector <std::string> &getUndoActionLog();
 		std::vector <std::string> &getRedoActionLog();

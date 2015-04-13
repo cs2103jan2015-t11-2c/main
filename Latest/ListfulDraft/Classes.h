@@ -1,4 +1,3 @@
-//@author A0110670W
 #ifndef CLASSES_H
 #define CLASSES_H
 
@@ -43,6 +42,7 @@ class Classes {
 		Date date;
 		Priority priority;
 		Category category;
+		Log log;
 
 		int determineCommand(std::string);
 		int determineField(std::string);

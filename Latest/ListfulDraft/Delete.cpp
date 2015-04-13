@@ -1,4 +1,3 @@
-//@author A0116237L
 #include "Delete.h"
 
 bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
@@ -80,6 +79,7 @@ bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstre
 	checkDataBaseEmpty(data, errMsg);
 	return false;
 }
+
 
 
 void Delete::deleteAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {

@@ -1,4 +1,3 @@
-//@author A0110670W
 #include "FileLocation.h"
 
 const std::string FileLocation::FILE_LOCATION_LIST = "Listful_FileLocationList.txt";
@@ -49,6 +48,7 @@ void FileLocation::saveFileLocation() {
 }
 
 
+
 //To write the locations back into open file
 void FileLocation::updateOpenFile(std::vector <std::string> fileList) {
 	std::ofstream writeFile(FILE_LOCATION_LIST.c_str());
@@ -61,6 +61,7 @@ void FileLocation::updateOpenFile(std::vector <std::string> fileList) {
 	}
 	return;
 }
+
 
 
 bool FileLocation::isFileFound(DataStore &data, bool isOpen) {
@@ -149,6 +150,7 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 	data.updateFile(data);
 	return fileMsg::CREATE;
 }
+
 
 
 std::string &FileLocation::getName() {

@@ -1,6 +1,5 @@
-//@author A0116237L
 #ifndef SEARCH_H
-#define SEARCH_H
+#define SEARCH_H 1
 
 #define MIN -1
 
@@ -32,17 +31,17 @@ class Search {
 		void getComplete(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getReminder(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getOverDue(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-			
+		
+		void getEntry(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);		
 		bool getRemainingStr(std::string &, std::string &, int);
 		void getFullString(std::string, DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getEntry(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);	
-
+		
 		void getMonth(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getSubjectSearch(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getPriority(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getCat(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		void getTime(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		void getDay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		void getTime(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		
 		void getTempDisplay(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
 		bool isDisplayEmpty(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);

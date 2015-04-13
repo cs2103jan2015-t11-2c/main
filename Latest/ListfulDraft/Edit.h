@@ -1,4 +1,3 @@
-//@author A0116237L
 #ifndef EDIT_H
 #define EDIT_H
 

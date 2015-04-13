@@ -1,4 +1,3 @@
-//@author A0115871E
 #ifndef CATEGORY_H
 #define CATEGORY_H
 

@@ -1,7 +1,5 @@
-//@author A0116237L
 #include "Sort.h"
 
-//to sort content
 bool Sort::sortContent(DataStore &data){
 	switch (_category) {
 		case 0:
@@ -24,6 +22,8 @@ bool Sort::sortContent(DataStore &data){
 	}
 	return true;
 }
+
+
 
 //To swap the entries
 void Sort::shiftPos(int &index, int &start, DataStore &data){
@@ -74,7 +74,6 @@ void Sort::sortSub(DataStore &data) {
 	return;
 }
 
-//to compare line size
 void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &lineSize) {
 	if (line1.size() <= line2.size()) {
 		lineSize = line1;
@@ -84,7 +83,6 @@ void Sort::compareLineSize(std::string &line1, std::string &line2, std::string &
 	}
 }
 
-//to check if its uper case
 bool Sort::isUpperCase(std::string line1, std::string line2, int index, char &word) {
 	if (line2[index] >= 'a' && line2[index] <= 'z') {
 		if (line1[index] > line2[index]) {
@@ -99,8 +97,7 @@ bool Sort::isUpperCase(std::string line1, std::string line2, int index, char &wo
 	}
 	return false;
 }
- 
-//to see if its a larger character
+
 bool Sort::isLargerChar(std::string &line1, std::string &line2, std::string &lineSize) {
 	for (int index = 0; index < lineSize.size(); index++) {
 		char word = ' ';
@@ -133,7 +130,8 @@ bool Sort::isLargerChar(std::string &line1, std::string &line2, std::string &lin
 	return false;
 }
 
-//to sort by date
+
+
 void Sort::sortDate(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
@@ -156,7 +154,8 @@ void Sort::sortDate(DataStore &data) {
 	return;
 }
 
-//to sort by completed status
+
+
 void Sort::sortComplete(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
@@ -171,7 +170,8 @@ void Sort::sortComplete(DataStore &data) {
 	return;
 }
 
-//to sort by time
+
+
 void Sort::sortTime(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
@@ -190,7 +190,7 @@ void Sort::sortTime(DataStore &data) {
 }
 
 
-//to determine category to be sorted
+
 int Sort::determineCategory(std::string word) {
 	if (word == "WORK    ") {
 		return catType::WORK;
@@ -208,7 +208,7 @@ int Sort::determineCategory(std::string word) {
 		return catType::CINVALID;
 	}
 }
-//to sort by category
+
 void Sort::sortCat(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
@@ -223,15 +223,15 @@ void Sort::sortCat(DataStore &data) {
 }
 
 
-//to determine priority entered
+
 int Sort::determinePriority(std::string word) {
-	if (word == "LOW  ") {
+	if (word == "LOW ") {
 		return priorityType::LOW;
 	}
-	else if (word == "MED  ") {
+	else if (word == "MED ") {
 		return priorityType::MEDIUM;
 	}
-	else if (word == "HIGH ") {
+	else if (word == "HIGH") {
 		return priorityType::HIGH;
 	}
 	else {
@@ -239,12 +239,11 @@ int Sort::determinePriority(std::string word) {
 	}
 }
 
-//to sort by priority
 void Sort::sortPriority(DataStore &data) {
 	for (int iter = 1; iter < data.getData().size(); ++iter) {
 		for (int start = 0; start < iter; ++start) {
 			if (cmpSame(data, start, iter)) {
-				if (determinePriority(data.getData()[start].priority) > determinePriority(data.getData()[iter].priority)) {	
+				if (determinePriority(data.getData()[start].priority) < determinePriority(data.getData()[iter].priority)) {	
 					shiftPos(iter, start, data);
 				}
 			}
@@ -254,7 +253,7 @@ void Sort::sortPriority(DataStore &data) {
 }
 
 
-//to compare the tasks
+
 bool Sort::cmpSame(DataStore &data, int start, int iter) {
 	if (data.getData()[start].isFloat == data.getData()[iter].isFloat) {
 		if (data.getData()[iter].isTimedTask == data.getData()[start].isTimedTask) {
@@ -266,7 +265,8 @@ bool Sort::cmpSame(DataStore &data, int start, int iter) {
 	return false;
 }
 
-//getter function for category
+
+
 int &Sort::getSortCat() {
 	return _category;
 }
