@@ -30,6 +30,7 @@ class Classes {
 			WORK, PERSONAL, ERRAND, GENERAL, CINVALID
 		};
 
+		Classes () {};
 		Add add;
 		Delete remove;
 		Search search;

@@ -5,17 +5,20 @@
 #include <string>
 #include <iostream>
 
-class Log {
+#pragma once
+
+class Log
+{
 private:
-	std::string _logFileName;
+	std::ofstream file;
 
 public:
-	Log() {};
+	Log(void);
+	~Log(void);
 
 	void clear();
 	void log(std::string);
 	void endLog();
-	std::string &get_logFileName();
 };
 
 #endif

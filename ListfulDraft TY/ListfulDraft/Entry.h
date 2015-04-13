@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <sstream>
+#include <stdio.h>
 #include <fstream>
 #include <assert.h>
 #include <time.h>
