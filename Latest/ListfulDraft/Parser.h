@@ -52,13 +52,13 @@ class Parser {
 		void takeFirstWord(int &, size_t &, std::string &);
 
 		void cutExtraWord(size_t, int, int);
-		bool isExtraWord(std::string, size_t, int, int, int);
+		bool extraWord(std::string, size_t, int, int, int);
 		void getFirstWord(std::string &, std::string , size_t, size_t &);
 		void changeToLower(std::string &);
 		void removeFrontChar(std::string &);
 		void removeBackChar(std::string &);
 		void getNextWord (std::string &, size_t &, size_t &);
-		void extractRemainingStr(std::string &, size_t &, size_t &);
+		void updateStr(std::string &, size_t &, size_t &);
 		void joinStr(std::string &, size_t &);
 		
 		bool &getDate();

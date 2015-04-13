@@ -15,15 +15,13 @@ class Add {
 		bool isSameDate(DataStore, int);
 		bool isSameTime(DataStore, int);
 
-		void addToDataBase(DataStore &, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		bool addScheduled(DataStore &, bool);
-		bool addDeadline(DataStore &, bool);
-		void addFloat(DataStore &, bool);
-
-		bool isAdded(DataStore &, std::vector <Entry> &, std::vector <Entry>::iterator, int, bool);
-
-		void selectDataBase(DataStore &, std::vector <Entry> &, bool);
-		void revertDataBase(DataStore &, std::vector <Entry> &, bool);
+		void insertionAdd(DataStore &, bool, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		bool scheduledAdd(DataStore &, bool);
+		bool deadlineAdd(DataStore &, bool);
+		void floatAdd(DataStore &, bool);
+		bool pushData(DataStore &, std::vector <Entry> &, std::vector <Entry>::iterator, int, bool);
+		void setData(DataStore &, std::vector <Entry> &, bool);
+		void setDataBack(DataStore &, std::vector <Entry> &, bool);
 		void getIndex(DataStore &, std::vector <Entry> &, int);
 };
 

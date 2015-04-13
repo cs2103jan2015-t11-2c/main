@@ -6,12 +6,12 @@
 class DataStore {
 	private:
 		std::vector <Entry> _dataBase;
-		std::vector <std::vector <Entry>> _undoData;
-		std::vector <std::vector <Entry>> _redoData;
-		std::vector <std::vector <Entry>> _undoTempData;
-		std::vector <std::vector <Entry>> _redoTempData;
-		std::vector <std::string> _undoActionLog;
-		std::vector <std::string> _redoActionLog;
+		std::vector <std::vector <Entry>> _pastData;
+		std::vector <std::vector <Entry>> _futureData;
+		std::vector <std::vector <Entry>> _pastTempData;
+		std::vector <std::vector <Entry>> _futureTempData;
+		std::vector <std::string> _pastActionLog;
+		std::vector <std::string> _futureActionLog;
 
 		std::vector <Entry> _tempDataBase;
 		std::vector <int> _tempIndexList;
@@ -36,8 +36,8 @@ class DataStore {
 		std::vector <Entry> &getTempData();
 		std::vector <int> &getTempIndexList();
 	
-		std::vector <std::string> &getUndoActionLog();
-		std::vector <std::string> &getRedoActionLog();
+		std::vector <std::string> &getPastActionLog();
+		std::vector <std::string> &getFutureActionLog();
 
 		Entry &getEntry(int);
 		Entry &get_tempEntry();

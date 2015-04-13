@@ -41,7 +41,7 @@ const std::string UserMessage::ERROR_DELETE_2 = " multiple entries found, please
 const std::string UserMessage::ERROR_UNDO = " no previous changes to undo";
 const std::string UserMessage::ERROR_REDO = " no previous undo to redo";
 
-const std::string UserMessage::ERROR_ADD_DATE = " date entered has already undo (undo/edit adviced)";
+const std::string UserMessage::ERROR_ADD_DATE = " date entered has already past (undo/edit adviced)";
 const std::string UserMessage::ERROR_ADD_TIME = " end time entered earlier then start time (undo/edit adviced)";
 
 UserMessage::UserMessage() {

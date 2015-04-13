@@ -1,7 +1,7 @@
 #include "Category.h"
 
 //Identifies category from the input and cuts them out from the string
-bool Category::checkForCat(int cat, std::string &cStr, size_t found) {
+bool Category::extractCat(int cat, std::string &cStr, size_t found) {
 	_cat = "";
 	
 	switch(cat) {
@@ -20,12 +20,12 @@ bool Category::checkForCat(int cat, std::string &cStr, size_t found) {
 		default:
 			return false;
 	}
-	extractRemainingStr(cStr, found);
+	updateStr(cStr, found);
 	return true;
 }
 
 //Cuts out the identified category
-void Category::extractRemainingStr(std::string &cStr, size_t found) {
+void Category::updateStr(std::string &cStr, size_t found) {
 	if (found == cStr.size()) {
 		cStr = "";
 		return;

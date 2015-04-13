@@ -20,12 +20,12 @@ class Sort {
 
 		bool sortContent(DataStore &);
 	
-		void shiftPos(int &, int &, DataStore &);
+		void sortSwitch(int &, int &, DataStore &);
 	
 		void sortSub(DataStore &);
 		void compareLineSize(std::string &, std::string &, std::string &);
-		bool isLargerChar(std::string &, std::string &, std::string &);
-		bool isUpperCase(std::string, std::string, int, char &);
+		bool compareWord(std::string &, std::string &, std::string &);
+		bool convertAndCmp(std::string, std::string, int, char &);
 	
 		void sortComplete(DataStore &);
 
@@ -34,10 +34,10 @@ class Sort {
 		void sortTime(DataStore &);
 
 		void sortCat(DataStore &);
-		int determineCategory(std::string);
+		int determineC(std::string);
 
 		void sortPriority(DataStore &);
-		int determinePriority(std::string);
+		int determineP(std::string);
 
 		bool cmpSame(DataStore & ,int, int);
 

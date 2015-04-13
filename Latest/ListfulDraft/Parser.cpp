@@ -152,8 +152,8 @@ void Parser::retrieveDate(bool &pastDate) {
 	bool getNewDate = false;
 
 	do {
-		if (!listClass.date.checkForDate(dStr, pastDate, _information, start, getNewDate)) {
-			extractRemainingStr(dStr, start, end);
+		if (!listClass.date.extractDate(dStr, pastDate, _information, start, getNewDate)) {
+			updateStr(dStr, start, end);
 		}
 		else {
 			joinStr(dStr, start);
@@ -178,7 +178,7 @@ void Parser::retrieveTime(bool &checkTime) {
 	int i = 0;
 
 	do {
-		if (listClass.time.checkForTime(tStr, count, checkTime)) {
+		if (listClass.time.extractTime(tStr, count, checkTime)) {
 			if (count == 1) {
 				listClass.time.updateTime();
 			}
@@ -193,7 +193,7 @@ void Parser::retrieveTime(bool &checkTime) {
 			time = true;
 			return;
 		}
-		extractRemainingStr(tStr, start, end);
+		updateStr(tStr, start, end);
 	} while (end != std::string::npos);
 	return;
 }
@@ -209,9 +209,9 @@ void Parser::retrievePriority() {
 
 	do {
 		getFirstWord( str, pStr, start, found);
-		impt = listClass.determinePriority(str);
-		if (!listClass.priority.checkForPriority(impt, pStr, found)) {
-			extractRemainingStr(pStr, start, end);
+		impt = listClass.determineP(str);
+		if (!listClass.priority.extractPriority(impt, pStr, found)) {
+			updateStr(pStr, start, end);
 		}
 		else {
 			joinStr(pStr, start);
@@ -239,9 +239,9 @@ void Parser::retrieveCategory() {
 
 	do {
 		getFirstWord(str, pStr, start, found);
-		catNum = listClass.determineCategory(str);
-		if (!listClass.category.checkForCat(catNum, pStr, found)) {
-			extractRemainingStr(pStr, start, end);
+		catNum = listClass.determineC(str);
+		if (!listClass.category.extractCat(catNum, pStr, found)) {
+			updateStr(pStr, start, end);
 		}
 		else {
 			joinStr(pStr, start);
@@ -278,38 +278,38 @@ void Parser::retrieveCompleteAndRefNo(DataStore &data) {
 
 void Parser::getEditInfo(std::vector <int> &editCat, std::string originalStr) {
 	if (time) {
-		editCat.push_back(listClass.fieldType::TIME);
+		editCat.push_back(listClass.subCategory::TIME);
 	}
 	if (date) {
-		editCat.push_back(listClass.fieldType::DATE);
+		editCat.push_back(listClass.subCategory::DATE);
 	}
 	if (priority) {
-		editCat.push_back(listClass.fieldType::PRIORITY);
+		editCat.push_back(listClass.subCategory::PRIORITY);
 	}
 	if (cat) {
-		editCat.push_back(listClass.fieldType::CATEGORY);
+		editCat.push_back(listClass.subCategory::CATEGORY);
 	}
 	if (editCat.size() == 0 || (_information != originalStr && _information != "")) {
-		editCat.push_back(listClass.fieldType::SUBJECT);
+		editCat.push_back(listClass.subCategory::SUBJECT);
 	}
 	return;
 }
 
 void Parser::assignCat(DataStore &data, int &category) {
 	if (time) {
-		category = listClass.fieldType::TIME;
+		category = listClass.subCategory::TIME;
 	}
 	else if (date) {
-		category = listClass.fieldType::DATE;
+		category = listClass.subCategory::DATE;
 	}
 	else if (priority) {
-		category = listClass.fieldType::PRIORITY;
+		category = listClass.subCategory::PRIORITY;
 	}
 	else if (cat) {
-		category = listClass.fieldType::CATEGORY;
+		category = listClass.subCategory::CATEGORY;
 	}
 	else {
-		category = listClass.fieldType::SUBJECT;
+		category = listClass.subCategory::SUBJECT;
 	}
 	return;
 }
@@ -337,7 +337,7 @@ void Parser::cutExtraWord(size_t found, int count, int cat) {
 			word = _information.substr(found, find - found);
 			removeFrontChar(word);
 			removeBackChar(word);
-			isExtraWord(word, found, cat, BACK, count);
+			extraWord(word, found, cat, BACK, count);
 		}
 	}
 	
@@ -363,7 +363,7 @@ void Parser::cutExtraWord(size_t found, int count, int cat) {
 	removeBackChar(word);
 	
 	//Uses recursion to check up to three previous words
-	if (check > find && isExtraWord(word, find, cat, FRONT, count)) {
+	if (check > find && extraWord(word, find, cat, FRONT, count)) {
 		count++;
 		return cutExtraWord(find, count, cat);
 	}
@@ -385,7 +385,7 @@ void Parser::getFirstWord(std::string &str, std::string pStr, size_t start, size
 //which we won't want in our subject
 //3 different vector for three different cases since there are different extra words before and after 
 //for different types (time & date, category & importance) 
-bool Parser::isExtraWord(std::string word, size_t found, int cat, int frontOrBack, int count) {
+bool Parser::extraWord(std::string word, size_t found, int cat, int frontOrBack, int count) {
 	changeToLower(word);
 	removeBackChar(word);
 
@@ -472,7 +472,7 @@ void Parser::getNextWord (std::string &tStr, size_t &start, size_t &end) {
 }
 
 //Cuts out the first word so as to check the next word
-void Parser::extractRemainingStr(std::string &tStr, size_t &start, size_t &end) {
+void Parser::updateStr(std::string &tStr, size_t &start, size_t &end) {
 	getNextWord(_information, start, end);
 	if (end != std::string::npos) {
 		tStr = _information.substr(end);
