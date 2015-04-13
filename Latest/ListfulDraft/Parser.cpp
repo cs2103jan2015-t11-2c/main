@@ -274,8 +274,6 @@ void Parser::retrieveCompleteAndRefNo(DataStore &data) {
 	return;
 }
 
-
-
 void Parser::getEditInfo(std::vector <int> &editCat, std::string originalStr) {
 	if (time) {
 		editCat.push_back(listClass.fieldType::TIME);
@@ -313,8 +311,6 @@ void Parser::assignCat(DataStore &data, int &category) {
 	}
 	return;
 }
-
-
 
 //To remove words keyed in by the user that are not the subject
 //Checks the next word only and up to three previous words

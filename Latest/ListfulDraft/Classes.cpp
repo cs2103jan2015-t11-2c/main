@@ -1,5 +1,5 @@
 #include "Classes.h"
-
+// to determine command
 int Classes::determineCommand(std::string _userInput) {
 	if (_userInput == "add" || _userInput == "1" || _userInput == "addto" || _userInput == "-") {
 		return commandType::ADD;
@@ -32,7 +32,7 @@ int Classes::determineCommand(std::string _userInput) {
 		return commandType::INVALID;
 	}
 }
-
+//to determine field
 int Classes::determineField(std::string info) {
 	if (info == "date") {
 		return fieldType::DATE;
@@ -53,7 +53,7 @@ int Classes::determineField(std::string info) {
 		return fieldType::INVALIDFIELD;
 	}
 }
-
+// to determine priority
 int Classes::determinePriority(std::string str) {
 	if (str == "LOW" || str == "L") {
 		return priorityType::LOW;
@@ -68,7 +68,7 @@ int Classes::determinePriority(std::string str) {
 		return priorityType::PINVALID;
 	}
 }
-
+//to determine category
 int Classes::determineCategory(std::string word) {
 	if (word == "WORK     " || word == "WORK") {
 		return catType::WORK;
