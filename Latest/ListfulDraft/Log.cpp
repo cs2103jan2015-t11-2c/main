@@ -1,4 +1,4 @@
-//@author A0115871E
+//@author A0115871E-reused
 #include "Log.h"
 
 void Log::clear() {

@@ -3,7 +3,725 @@
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Category.cpp
+	 */
+
+#include "Category.h"
+
+//Identifies category from the input and cuts them out from the string
+bool Category::checkForCat(int cat, std::string &cStr, size_t found) {
+	_cat = "";
+	
+	switch(cat) {
+		case 0:
+			_cat = "WORK    ";
+			break;
+		case 1:
+			_cat = "PERSONAL";
+			break;
+		case 2:
+			_cat = "ERRAND  ";
+			break;
+		case 3:
+			_cat = "GENERAL ";
+			break;
+		default:
+			return false;
+	}
+	extractRemainingStr(cStr, found);
+	return true;
+}
+
+//Cuts out the identified category
+void Category::extractRemainingStr(std::string &cStr, size_t found) {
+	if (found == cStr.size()) {
+		cStr = "";
+		return;
+	}
+	found = cStr.find_first_not_of(" ", found);
+	if (found == std::string::npos) {
+		cStr = "";
+	}
+	else {
+		cStr = cStr.substr(found);
+	}
+	return;
+}
+
+std::string &Category::getCat() {
+	return _cat;
+}
+
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Category.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Category.h
+	 */
+
+#ifndef CATEGORY_H
+#define CATEGORY_H
+
+#include "DataStore.h"
+
+class Category {
+	private:
+		std::string _cat;
+
+	public:
+		Category() {};
+
+		bool checkForCat(int, std::string &, size_t);
+		void extractRemainingStr(std::string &, size_t);
+
+		std::string &getCat();
+};
+
+#endif
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Category.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Delete.cpp
+	 */
+
+#include "Delete.h"
+
+bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
+	if (info[0] >= '0' && info[0] <= '9') {
+		isDelete = true;
+		return deleteByIndex(data, info, errMsg, floating, scheduled, deadline);
+	}
+	
+	return deleteBySubject(data, info, errMsg, floating, scheduled, deadline, isDelete);
+}
+
+bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
+	size_t found = info.find_first_of(" ");
+	int index = 0;
+	bool isTemp = true;
+	std::vector <int> checkList;
+	data.getTempData().clear();
+
+	while (!info.empty()) {
+		if (found == std::string::npos) {
+			found = info.size();
+		}
+		index = atoi(info.substr(0, found).c_str());
+		if (index > data.getTempIndexList().size()) {
+			errMsg << "index out of range";
+			return false;
+		}
+		else if (!checkList.empty()) {
+			if (isRepeat(data, checkList, index)) {
+				errMsg << data.get_tempEntry().subject;
+				return false;
+			}
+		}
+		data.get_tempEntry() = data.getData()[data.getTempIndexList()[index - 1]];
+		add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
+		checkList.push_back(data.getData()[data.getTempIndexList()[index - 1]].referenceNo);
+		if (found == info.size()) {
+			info = "";
+		}
+		else {
+			info = info.substr(found + 1);
+			found = info.find_first_of(" ");
+		}
+	}
+	remove(data, checkList);
+	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
+	checkDataBaseEmpty(data, errMsg);
+	return true;
+}
+
+bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
+	size_t found = 0;
+	bool isTemp = true;
+	std::vector <int> checkList;
+	data.getTempData().clear();
+
+	if (info == "all") {
+		deleteAll(data, errMsg, floating, scheduled, deadline, isDelete);
+		return true;
+	}
+	
+	data.get_tempEntry().subject = info;
+	search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
+	data.get_tempEntry() = data.get_emptyEntry();
+
+
+	if (data.getTempData().empty()) {
+		isDelete = true;
+		errMsg << "no same/similar subject found in file";
+		return false;
+	}
+	else if (data.getTempData().size() == 1) {
+		checkList.push_back(data.getData()[data.getTempIndexList()[0]].referenceNo);
+		remove(data, checkList);
+		isDelete = true;
+		checkDataBaseEmpty(data, errMsg);
+		return true;
+	}
+	checkDataBaseEmpty(data, errMsg);
+	return false;
+}
+
+
+
+void Delete::deleteAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
+	bool isTemp = true;
+	std::vector <int> checkList;
+
+	for (int i = 0; i < data.getTempIndexList().size(); i++) {
+		checkList.push_back(data.getData()[data.getTempIndexList()[i]].referenceNo);
+		data.get_tempEntry() = data.getData()[data.getTempIndexList()[i]];
+		add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
+	}
+	remove(data, checkList);
+	data.clearData(floating, scheduled, deadline);
+	data.get_tempEntry() = data.get_emptyEntry();
+	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
+	checkDataBaseEmpty(data, errMsg);
+	isDelete = true;
+	return;
+}
+
+void Delete::remove(DataStore &data, std::vector <int> list) {
+	data.getTempIndexList().clear();
+	bool isTemp = true;
+	
+	for (int i = 0; !list.empty(); i++) {
+		if (i < data.getData().size() && data.getData()[i].referenceNo == list.back()) {
+			data.getTempIndexList().push_back(i);
+			data.getData().erase(data.getData().begin() + i);
+			list.pop_back();
+		}
+		
+		if (i == data.getData().size()) {
+			i = -1;
+		}
+	}
+	return;
+}
+
+bool Delete::isRepeat(DataStore &data, std::vector <int> list, int index) {
+	for (int j = 0; j < list.size(); j++) {
+		if (list[j] == data.getData()[index - 1].referenceNo) {
+			data.get_tempEntry().subject = "repeated index to delete found";
+			return true;
+		}
+	}
+	return false;
+}
+
+void Delete::checkDataBaseEmpty(DataStore &data, std::ostringstream &errMsg) {
+	if (data.getData().empty()) {
+		errMsg << std::endl << std::endl << " last entry has been cleared";
+	}
+	return;
+}
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Delete.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Delete.h
+	 */
+
+#ifndef DELETE_H
+#define DELETE_H
+
+#include "DataStore.h"
+#include "Search.h"
+#include "Add.h"
+
+class Delete {
+	private:
+		Add add;
+		Search search;
+
+	public:
+		Delete() {};
+
+		bool deleteContent(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);
+		
+		bool deleteByIndex(DataStore &, std::string, std::ostringstream &,std::ostringstream &, std::ostringstream &, std::ostringstream &);
+		bool deleteBySubject(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);
+		
+		void deleteAll(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);
+		void remove(DataStore &, std::vector <int>);
+		
+		bool isRepeat(DataStore &, std::vector <int>, int);
+		void checkDataBaseEmpty(DataStore &, std::ostringstream &);
+
+		int &getIndex();
+};
+
+#endif
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Delete.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Edit.cpp
+	 */
+
+#include "Edit.h"
+
+bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
+	int size = 0;
+	std::vector <Entry> holdTempTask;
+
+	while (size < data.getTempData().size()) {
+		if (input == "uncheck" || input == "uncomplete") {
+			data.getData()[data.getTempIndexList()[size]].isComplete = false;
+			data.get_tempEntry().subject = "uncompleted all of the below";
+		}
+		else {
+			data.getData()[data.getTempIndexList()[size]].isComplete = true;
+			data.get_tempEntry().subject = "completed all of the below";
+		}
+		size++;
+	}
+	data.clearData(errMsg, floating, scheduled);
+	data.clearData(floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
+	return true;
+}
+
+bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
+	size_t found = info.find_first_of(" ");
+	int index = 0;
+	std::vector <int> checkList;
+	std::vector <Entry> holdTempTask;
+
+	//To complete all tasks shown
+	if (info == "all") {
+		return checkAll(data, errMsg, floating, scheduled, deadline, input);
+	}
+
+	std::cout << "size: " << data.getTempIndexList().size()<<std::endl;
+	while (!info.empty()) {
+		if (found == std::string::npos) {
+			found = info.size();
+		}
+		index = atoi(info.substr(0, found).c_str());
+		if (index > data.getTempData().size()) {
+			errMsg << "index out of range";
+			return false;
+		}
+		else if (!checkList.empty()) {
+			if (isRepeat(data, checkList, index - 1)) {
+				errMsg << data.get_tempEntry().subject;
+				return false;
+			}
+		}
+		if (input == "uncheck" || input == "uncomplete") {
+			data.getData()[data.getTempIndexList()[index - 1]].isComplete = false;
+		}
+		else {
+			data.getData()[data.getTempIndexList()[index - 1]].isComplete = true;
+		}
+		checkList.push_back(data.getData()[data.getTempIndexList()[index - 1]].referenceNo);
+		if (found == info.size()) {
+			info = "";
+		}
+		else {
+			info = info.substr(found + 1);
+			found = info.find_first_of(" ");
+		}
+	}
+	updateTemp(data, checkList);
+	holdTempTask = data.getTempData();
+	sort.sortComplete(data);
+	data.getTempData() = holdTempTask;
+	std::cout << data.getTempData().size() << std::endl;
+	data.clearData(floating, scheduled, deadline);
+	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
+	data.get_tempEntry().subject = "completed";
+	return true;
+}
+
+
+
+bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input, int index) {
+	if (data.getData().size() == 0) {
+		errMsg << "file is empty";
+		return false;
+	}
+	
+	bool real = true;
+	bool isTemp = false;
+	
+	if (input == "check" || input == "done" || input == "complete" || input == "completed" || input == "uncheck" || input == "uncomplete") {
+		return checkComplete(data, info, errMsg, floating, scheduled, deadline, input);
+	}
+
+	if (index < 0 && !getEditIndex(info, index) && data.getTempData().size() != 1) {
+		errMsg << "no index entered";
+		return false;
+	}
+	
+	if (index < 0 && data.getTempData().size() == 1) {
+		index = 1;
+	}
+	
+	if (errMsg != "") {
+		errMsg << "\n";
+	}
+	
+	data.get_tempEntry().subject = info;
+	data.getTempData().clear();
+	data.getTempData().push_back(data.get_tempEntry());
+	
+	switch (editCat[0]) {
+		case 0:
+			if (data.get_tempEntry().subject == "") {
+				break;
+			}
+			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].subject << "\" to \"";
+			errMsg << data.get_tempEntry().subject << "\"";
+			data.getData()[data.getTempIndexList()[index]].subject = data.get_tempEntry().subject;
+			_editEntry = data.get_tempEntry();
+			break;
+
+		case 1:
+			errMsg << " \"" << search.getDate(data, data.getTempIndexList()[index], isTemp) << "\" to \"";
+			errMsg << search.getDate(data, 0, real) << "\"";
+			editDate(data, data.getTempIndexList()[index]);
+			_editEntry = data.getTempData().front();
+			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
+			index = 0;
+			break;
+
+		case 2:
+			errMsg << " \"" << search.getTime(data, data.getTempIndexList()[index], isTemp) << "\" to \"";
+			errMsg << search.getTime(data, 0, real) << "\"";
+			editTime(data, data.getTempIndexList()[index]);
+			_editEntry = data.getTempData().front();
+			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
+			index = 0;
+			break;
+		    
+		case 3:
+			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].priority << "\" to \"";
+			errMsg << data.get_tempEntry().priority << "\"";
+			data.getData()[data.getTempIndexList()[index]].priority = data.get_tempEntry().priority;
+			_editEntry = data.get_tempEntry();
+			break;
+			
+		case 4:
+			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].category << "\" to \"";
+			errMsg << data.get_tempEntry().category << "\"";
+			data.getData()[data.getTempIndexList()[index]].category = data.get_tempEntry().category;
+			_editEntry = data.get_tempEntry();
+			break;
+
+		default:
+			return false;
+	}
+
+	data.get_tempEntry() = data.getData()[data.getTempIndexList()[index]];
+	data.clearData(floating, scheduled, deadline);
+	search.getEntry(data, floating, scheduled, deadline, errMsg);
+	data.get_tempEntry().subject = "";
+
+	if (editCat.size() > 1) {
+		index = 0;
+		data.get_tempEntry() = _editEntry;
+		_editEntry = data.getTempData().front();
+		editCat.erase(editCat.begin());
+		editContent(data, editCat, info, errMsg, floating, scheduled, deadline, input, index);
+	}
+	return true;
+}
+
+bool Edit::getEditIndex(std::string &info, int &index) {
+	
+	size_t found = info.find_first_of("0123456789");
+	std::string checkNum = info;
+	index = 0;
+	while (found != std::string::npos && found < checkNum.size() && checkNum[found] >= '0' && checkNum[found] <= '9') {
+		index = (index * 10) + (checkNum[found] - '0');
+		checkNum = checkNum.substr(found + 1);
+	}
+	
+	if (index != 0) {
+		found = info.find_first_of("0123456789");
+		info = info.substr(0, found) + checkNum;
+		while (info.size() != 0 && info[0] == ' ') {
+			info = info.substr(1);
+		}
+		while (info.size() != 0 && info.back() == ' ') {
+			info = info.substr(0, info.size() - 1);
+		}
+		index--;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+void Edit::editTime(DataStore &data, int index) {
+	_editEntry = data.getData()[index];
+	
+	if (data.get_tempEntry().startTime != data.get_tempEntry().endTime && !_editEntry.isFloat) {
+		_editEntry.isTimedTask = true;
+	}
+	else {
+		_editEntry.isTimedTask = false;
+	}
+			
+	_editEntry.startTime = data.get_tempEntry().startTime;
+	_editEntry.endTime = data.get_tempEntry().endTime;
+	data.getData().erase(data.getData().begin() + index);
+	data.get_tempEntry() = _editEntry;
+	return;
+}
+
+void Edit::editDate(DataStore &data, int index) {
+	_editEntry = data.getData()[index];
+	if (data.get_tempEntry().day == 0) {
+		_editEntry.isFloat = true;
+	}
+	else {
+		_editEntry.isFloat = false;
+	}
+	_editEntry.day = data.get_tempEntry().day;
+	_editEntry.month = data.get_tempEntry().month;
+	_editEntry.year = data.get_tempEntry().year;
+	data.getData().erase(data.getData().begin() + index);
+	data.get_tempEntry() = _editEntry;
+	return;
+}
+
+
+
+void Edit::updateTemp(DataStore &data, std::vector <int> list) {
+	data.getTempData().clear();
+	data.getTempIndexList().clear();
+		
+	for (int i = 0; !list.empty(); i++) {
+		if (i < data.getData().size() && data.getData()[i].referenceNo == list.back()) {
+			data.getTempIndexList().push_back(i);
+			data.getTempData().push_back(data.getData()[i]);
+			list.pop_back();
+		}
+		
+		if (i == data.getData().size()) {
+			i = -1;
+		}
+	}
+	return;
+}
+
+bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
+	for (int j = 0; j < list.size(); j++) {
+		if (list[j] == data.getData()[index].referenceNo) {
+			data.get_tempEntry().subject = "repeated index to check complete found";
+			return true;
+		}
+	}
+	return false;
+}
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Edit.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Edit.h
+	 */
+
+#ifndef EDIT_H
+#define EDIT_H
+
+#define MIN -1
+
+#include "DataStore.h"
+#include "Add.h"
+#include "Search.h"
+#include "Sort.h"
+
+class Edit {
+	private:
+		Entry _editEntry;
+
+		Add add;
+		Search search;
+		Sort sort;
+
+	public:
+		Edit() {};
+		
+		bool checkAll(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
+		bool checkComplete(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
+		
+		bool editContent(DataStore &, std::vector <int>, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string, int = MIN);
+		bool getEditIndex(std::string &, int &);
+		void editTime(DataStore &, int);
+		void editDate(DataStore &, int);
+		
+		void updateTemp(DataStore &, std::vector <int>);
+		bool isRepeat(DataStore &, std::vector <int>, int);
+		
+
+};
+
+#endif
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Edit.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Entry.h
+	 */
+
+#ifndef ENTRY_H
+#define ENTRY_H
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <iomanip>
+#include <algorithm>
+#include <sstream>
+#include <stdio.h>
+#include <fstream>
+#include <assert.h>
+#include <time.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <windows.h>
+#include <wchar.h>
+
+class Entry {
+	public:
+		int referenceNo;
+
+		std::string subject;
+		int day;
+		int month;
+		int year;
+		int startTime;
+		int endTime;
+		std::string priority;
+		std::string category;
+		bool isTimedTask;
+		bool isComplete;
+		bool isFloat;
+};
+
+#endif
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Entry.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Priority.cpp
+	 */
+
+#include "Priority.h"
+
+//Identifies category from the input and cuts them out from the string
+bool Priority::checkForPriority(int impt, std::string &pStr, size_t found) {
+	_priority = "";
+
+	switch (impt) {
+		case 0:
+			_priority = "LOW ";
+			break;
+		case 1:
+			_priority = "MED ";
+			break;
+		case 2:
+			_priority = "HIGH";
+			break;
+		default:
+			return false;
+	}
+	extractRemainingStr(pStr, found);
+	return true;
+}
+
+
+
+//Cuts out if priority is identified
+void Priority::extractRemainingStr(std::string &pStr, size_t found) {
+	if (found == pStr.size()) {
+		pStr = "";
+		return;
+	}
+	found = pStr.find_first_not_of(" ", found);
+	if (found == std::string::npos) {
+		pStr = "";
+	}
+	else {
+		pStr = pStr.substr(found);
+	}
+	return;
+}
+
+
+
+std::string &Priority::getPriority() {
+	return _priority;
+}
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Priority.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Priority.h
+	 */
+
+#ifndef PRIORITY_H
+#define PRIORITY_H
+
+#include "DataStore.h"
+
+class Priority {
+	private:
+		std::string _priority;
+
+	public:
+		Priority() {};
+
+		bool checkForPriority(int, std::string &, size_t);
+		
+		void extractRemainingStr(std::string &, size_t);
+
+		std::string &getPriority();
+};
+
+#endif
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Priority.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
 	 */
 
 #include "Parser.cpp"
@@ -28,14 +746,14 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace ListFulTest {		
-	// End of segment: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
 	 */
 
 	TEST_CLASS(ListFulSortTest) {
@@ -418,14 +1136,14 @@ namespace ListFulTest {
 		
 	};
 	
-	// End of segment: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
 	 */
 
 	TEST_CLASS(ListFulClearTest) {
@@ -574,799 +1292,7 @@ namespace ListFulTest {
 		}
 	};
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Category.cpp
-	 */
-
-#include "Category.h"
-
-//Identifies category from the input and cuts them out from the string
-bool Category::checkForCat(int cat, std::string &cStr, size_t found) {
-	_cat = "";
-	
-	switch(cat) {
-		case 0:
-			_cat = "WORK    ";
-			break;
-		case 1:
-			_cat = "PERSONAL";
-			break;
-		case 2:
-			_cat = "ERRAND  ";
-			break;
-		case 3:
-			_cat = "GENERAL ";
-			break;
-		default:
-			return false;
-	}
-	extractRemainingStr(cStr, found);
-	return true;
-}
-
-//Cuts out the identified category
-void Category::extractRemainingStr(std::string &cStr, size_t found) {
-	if (found == cStr.size()) {
-		cStr = "";
-		return;
-	}
-	found = cStr.find_first_not_of(" ", found);
-	if (found == std::string::npos) {
-		cStr = "";
-	}
-	else {
-		cStr = cStr.substr(found);
-	}
-	return;
-}
-
-std::string &Category::getCat() {
-	return _cat;
-}
-
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Category.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Category.h
-	 */
-
-#ifndef CATEGORY_H
-#define CATEGORY_H
-
-#include "DataStore.h"
-
-class Category {
-	private:
-		std::string _cat;
-
-	public:
-		Category() {};
-
-		bool checkForCat(int, std::string &, size_t);
-		void extractRemainingStr(std::string &, size_t);
-
-		std::string &getCat();
-};
-
-#endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Category.h
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Delete.cpp
-	 */
-
-#include "Delete.h"
-
-bool Delete::deleteContent(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
-	if (info[0] >= '0' && info[0] <= '9') {
-		isDelete = true;
-		return deleteByIndex(data, info, errMsg, floating, scheduled, deadline);
-	}
-	
-	return deleteBySubject(data, info, errMsg, floating, scheduled, deadline, isDelete);
-}
-
-bool Delete::deleteByIndex(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline) {
-	size_t found = info.find_first_of(" ");
-	int index = 0;
-	bool isTemp = true;
-	std::vector <int> checkList;
-	data.getTempData().clear();
-
-	while (!info.empty()) {
-		if (found == std::string::npos) {
-			found = info.size();
-		}
-		index = atoi(info.substr(0, found).c_str());
-		if (index > data.getTempIndexList().size()) {
-			errMsg << "index out of range";
-			return false;
-		}
-		else if (!checkList.empty()) {
-			if (isRepeat(data, checkList, index)) {
-				errMsg << data.get_tempEntry().subject;
-				return false;
-			}
-		}
-		data.get_tempEntry() = data.getData()[data.getTempIndexList()[index - 1]];
-		add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
-		checkList.push_back(data.getData()[data.getTempIndexList()[index - 1]].referenceNo);
-		if (found == info.size()) {
-			info = "";
-		}
-		else {
-			info = info.substr(found + 1);
-			found = info.find_first_of(" ");
-		}
-	}
-	remove(data, checkList);
-	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
-	checkDataBaseEmpty(data, errMsg);
-	return true;
-}
-
-bool Delete::deleteBySubject(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
-	size_t found = 0;
-	bool isTemp = true;
-	std::vector <int> checkList;
-	data.getTempData().clear();
-
-	if (info == "all") {
-		deleteAll(data, errMsg, floating, scheduled, deadline, isDelete);
-		return true;
-	}
-	
-	data.get_tempEntry().subject = info;
-	search.getSubjectSearch(data, floating, scheduled, deadline, errMsg);
-	data.get_tempEntry() = data.get_emptyEntry();
-
-
-	if (data.getTempData().empty()) {
-		isDelete = true;
-		errMsg << "no same/similar subject found in file";
-		return false;
-	}
-	else if (data.getTempData().size() == 1) {
-		checkList.push_back(data.getData()[data.getTempIndexList()[0]].referenceNo);
-		remove(data, checkList);
-		isDelete = true;
-		checkDataBaseEmpty(data, errMsg);
-		return true;
-	}
-	checkDataBaseEmpty(data, errMsg);
-	return false;
-}
-
-
-
-void Delete::deleteAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, bool &isDelete) {
-	bool isTemp = true;
-	std::vector <int> checkList;
-
-	for (int i = 0; i < data.getTempIndexList().size(); i++) {
-		checkList.push_back(data.getData()[data.getTempIndexList()[i]].referenceNo);
-		data.get_tempEntry() = data.getData()[data.getTempIndexList()[i]];
-		add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
-	}
-	remove(data, checkList);
-	data.clearData(floating, scheduled, deadline);
-	data.get_tempEntry() = data.get_emptyEntry();
-	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
-	checkDataBaseEmpty(data, errMsg);
-	isDelete = true;
-	return;
-}
-
-void Delete::remove(DataStore &data, std::vector <int> list) {
-	data.getTempIndexList().clear();
-	bool isTemp = true;
-	
-	for (int i = 0; !list.empty(); i++) {
-		if (i < data.getData().size() && data.getData()[i].referenceNo == list.back()) {
-			data.getTempIndexList().push_back(i);
-			data.getData().erase(data.getData().begin() + i);
-			list.pop_back();
-		}
-		
-		if (i == data.getData().size()) {
-			i = -1;
-		}
-	}
-	return;
-}
-
-bool Delete::isRepeat(DataStore &data, std::vector <int> list, int index) {
-	for (int j = 0; j < list.size(); j++) {
-		if (list[j] == data.getData()[index - 1].referenceNo) {
-			data.get_tempEntry().subject = "repeated index to delete found";
-			return true;
-		}
-	}
-	return false;
-}
-
-void Delete::checkDataBaseEmpty(DataStore &data, std::ostringstream &errMsg) {
-	if (data.getData().empty()) {
-		errMsg << std::endl << std::endl << " last entry has been cleared";
-	}
-	return;
-}
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Delete.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Delete.h
-	 */
-
-#ifndef DELETE_H
-#define DELETE_H
-
-#include "DataStore.h"
-#include "Search.h"
-#include "Add.h"
-
-class Delete {
-	private:
-		Add add;
-		Search search;
-
-	public:
-		Delete() {};
-
-		bool deleteContent(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);
-		
-		bool deleteByIndex(DataStore &, std::string, std::ostringstream &,std::ostringstream &, std::ostringstream &, std::ostringstream &);
-		bool deleteBySubject(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);
-		
-		void deleteAll(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, bool &);
-		void remove(DataStore &, std::vector <int>);
-		
-		bool isRepeat(DataStore &, std::vector <int>, int);
-		void checkDataBaseEmpty(DataStore &, std::ostringstream &);
-
-		int &getIndex();
-};
-
-#endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Delete.h
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Edit.cpp
-	 */
-
-#include "Edit.h"
-
-bool Edit::checkAll(DataStore &data, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
-	int size = 0;
-	std::vector <Entry> holdTempTask;
-
-	while (size < data.getTempData().size()) {
-		if (input == "uncheck" || input == "uncomplete") {
-			data.getData()[data.getTempIndexList()[size]].isComplete = false;
-			data.get_tempEntry().subject = "uncompleted all of the below";
-		}
-		else {
-			data.getData()[data.getTempIndexList()[size]].isComplete = true;
-			data.get_tempEntry().subject = "completed all of the below";
-		}
-		size++;
-	}
-	data.clearData(errMsg, floating, scheduled);
-	data.clearData(floating, scheduled, deadline);
-	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
-	return true;
-}
-
-bool Edit::checkComplete(DataStore &data, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input) {
-	size_t found = info.find_first_of(" ");
-	int index = 0;
-	std::vector <int> checkList;
-	std::vector <Entry> holdTempTask;
-
-	//To complete all tasks shown
-	if (info == "all") {
-		return checkAll(data, errMsg, floating, scheduled, deadline, input);
-	}
-
-	std::cout << "size: " << data.getTempIndexList().size()<<std::endl;
-	while (!info.empty()) {
-		if (found == std::string::npos) {
-			found = info.size();
-		}
-		index = atoi(info.substr(0, found).c_str());
-		if (index > data.getTempData().size()) {
-			errMsg << "index out of range";
-			return false;
-		}
-		else if (!checkList.empty()) {
-			if (isRepeat(data, checkList, index - 1)) {
-				errMsg << data.get_tempEntry().subject;
-				return false;
-			}
-		}
-		if (input == "uncheck" || input == "uncomplete") {
-			data.getData()[data.getTempIndexList()[index - 1]].isComplete = false;
-		}
-		else {
-			data.getData()[data.getTempIndexList()[index - 1]].isComplete = true;
-		}
-		checkList.push_back(data.getData()[data.getTempIndexList()[index - 1]].referenceNo);
-		if (found == info.size()) {
-			info = "";
-		}
-		else {
-			info = info.substr(found + 1);
-			found = info.find_first_of(" ");
-		}
-	}
-	updateTemp(data, checkList);
-	holdTempTask = data.getTempData();
-	sort.sortComplete(data);
-	data.getTempData() = holdTempTask;
-	std::cout << data.getTempData().size() << std::endl;
-	data.clearData(floating, scheduled, deadline);
-	search.getTempDisplay(data, floating, scheduled, deadline, errMsg);
-	data.get_tempEntry().subject = "completed";
-	return true;
-}
-
-
-
-bool Edit::editContent(DataStore &data, std::vector <int> editCat, std::string info, std::ostringstream &errMsg, std::ostringstream &floating, std::ostringstream &scheduled, std::ostringstream &deadline, std::string input, int index) {
-	if (data.getData().size() == 0) {
-		errMsg << "file is empty";
-		return false;
-	}
-	
-	bool real = true;
-	bool isTemp = false;
-	
-	if (input == "check" || input == "done" || input == "complete" || input == "completed" || input == "uncheck" || input == "uncomplete") {
-		return checkComplete(data, info, errMsg, floating, scheduled, deadline, input);
-	}
-
-	if (index < 0 && !getEditIndex(info, index) && data.getTempData().size() != 1) {
-		errMsg << "no index entered";
-		return false;
-	}
-	
-	if (index < 0 && data.getTempData().size() == 1) {
-		index = 1;
-	}
-	
-	if (errMsg != "") {
-		errMsg << "\n";
-	}
-	
-	data.get_tempEntry().subject = info;
-	data.getTempData().clear();
-	data.getTempData().push_back(data.get_tempEntry());
-	
-	switch (editCat[0]) {
-		case 0:
-			if (data.get_tempEntry().subject == "") {
-				break;
-			}
-			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].subject << "\" to \"";
-			errMsg << data.get_tempEntry().subject << "\"";
-			data.getData()[data.getTempIndexList()[index]].subject = data.get_tempEntry().subject;
-			_editEntry = data.get_tempEntry();
-			break;
-
-		case 1:
-			errMsg << " \"" << search.getDate(data, data.getTempIndexList()[index], isTemp) << "\" to \"";
-			errMsg << search.getDate(data, 0, real) << "\"";
-			editDate(data, data.getTempIndexList()[index]);
-			_editEntry = data.getTempData().front();
-			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
-			index = 0;
-			break;
-
-		case 2:
-			errMsg << " \"" << search.getTime(data, data.getTempIndexList()[index], isTemp) << "\" to \"";
-			errMsg << search.getTime(data, 0, real) << "\"";
-			editTime(data, data.getTempIndexList()[index]);
-			_editEntry = data.getTempData().front();
-			add.addContent(data, errMsg, floating, scheduled, deadline, isTemp);
-			index = 0;
-			break;
-		    
-		case 3:
-			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].priority << "\" to \"";
-			errMsg << data.get_tempEntry().priority << "\"";
-			data.getData()[data.getTempIndexList()[index]].priority = data.get_tempEntry().priority;
-			_editEntry = data.get_tempEntry();
-			break;
-			
-		case 4:
-			errMsg << " \"" << data.getData()[data.getTempIndexList()[index]].category << "\" to \"";
-			errMsg << data.get_tempEntry().category << "\"";
-			data.getData()[data.getTempIndexList()[index]].category = data.get_tempEntry().category;
-			_editEntry = data.get_tempEntry();
-			break;
-
-		default:
-			return false;
-	}
-
-	data.get_tempEntry() = data.getData()[data.getTempIndexList()[index]];
-	data.clearData(floating, scheduled, deadline);
-	search.getEntry(data, floating, scheduled, deadline, errMsg);
-	data.get_tempEntry().subject = "";
-
-	if (editCat.size() > 1) {
-		index = 0;
-		data.get_tempEntry() = _editEntry;
-		_editEntry = data.getTempData().front();
-		editCat.erase(editCat.begin());
-		editContent(data, editCat, info, errMsg, floating, scheduled, deadline, input, index);
-	}
-	return true;
-}
-
-bool Edit::getEditIndex(std::string &info, int &index) {
-	
-	size_t found = info.find_first_of("0123456789");
-	std::string checkNum = info;
-	index = 0;
-	while (found != std::string::npos && found < checkNum.size() && checkNum[found] >= '0' && checkNum[found] <= '9') {
-		index = (index * 10) + (checkNum[found] - '0');
-		checkNum = checkNum.substr(found + 1);
-	}
-	
-	if (index != 0) {
-		found = info.find_first_of("0123456789");
-		info = info.substr(0, found) + checkNum;
-		while (info.size() != 0 && info[0] == ' ') {
-			info = info.substr(1);
-		}
-		while (info.size() != 0 && info.back() == ' ') {
-			info = info.substr(0, info.size() - 1);
-		}
-		index--;
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-void Edit::editTime(DataStore &data, int index) {
-	_editEntry = data.getData()[index];
-	
-	if (data.get_tempEntry().startTime != data.get_tempEntry().endTime && !_editEntry.isFloat) {
-		_editEntry.isTimedTask = true;
-	}
-	else {
-		_editEntry.isTimedTask = false;
-	}
-			
-	_editEntry.startTime = data.get_tempEntry().startTime;
-	_editEntry.endTime = data.get_tempEntry().endTime;
-	data.getData().erase(data.getData().begin() + index);
-	data.get_tempEntry() = _editEntry;
-	return;
-}
-
-void Edit::editDate(DataStore &data, int index) {
-	_editEntry = data.getData()[index];
-	if (data.get_tempEntry().day == 0) {
-		_editEntry.isFloat = true;
-	}
-	else {
-		_editEntry.isFloat = false;
-	}
-	_editEntry.day = data.get_tempEntry().day;
-	_editEntry.month = data.get_tempEntry().month;
-	_editEntry.year = data.get_tempEntry().year;
-	data.getData().erase(data.getData().begin() + index);
-	data.get_tempEntry() = _editEntry;
-	return;
-}
-
-
-
-void Edit::updateTemp(DataStore &data, std::vector <int> list) {
-	data.getTempData().clear();
-	data.getTempIndexList().clear();
-		
-	for (int i = 0; !list.empty(); i++) {
-		if (i < data.getData().size() && data.getData()[i].referenceNo == list.back()) {
-			data.getTempIndexList().push_back(i);
-			data.getTempData().push_back(data.getData()[i]);
-			list.pop_back();
-		}
-		
-		if (i == data.getData().size()) {
-			i = -1;
-		}
-	}
-	return;
-}
-
-bool Edit::isRepeat(DataStore &data, std::vector <int> list, int index) {
-	for (int j = 0; j < list.size(); j++) {
-		if (list[j] == data.getData()[index].referenceNo) {
-			data.get_tempEntry().subject = "repeated index to check complete found";
-			return true;
-		}
-	}
-	return false;
-}
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Edit.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Edit.h
-	 */
-
-#ifndef EDIT_H
-#define EDIT_H
-
-#define MIN -1
-
-#include "DataStore.h"
-#include "Add.h"
-#include "Search.h"
-#include "Sort.h"
-
-class Edit {
-	private:
-		Entry _editEntry;
-
-		Add add;
-		Search search;
-		Sort sort;
-
-	public:
-		Edit() {};
-		
-		bool checkAll(DataStore &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
-		bool checkComplete(DataStore &, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string);
-		
-		bool editContent(DataStore &, std::vector <int>, std::string, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::ostringstream &, std::string, int = MIN);
-		bool getEditIndex(std::string &, int &);
-		void editTime(DataStore &, int);
-		void editDate(DataStore &, int);
-		
-		void updateTemp(DataStore &, std::vector <int>);
-		bool isRepeat(DataStore &, std::vector <int>, int);
-		
-
-};
-
-#endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Edit.h
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Entry.h
-	 */
-
-#ifndef ENTRY_H
-#define ENTRY_H
-
-#include <iostream>
-#include <vector>
-#include <string>
-#include <iomanip>
-#include <algorithm>
-#include <sstream>
-#include <stdio.h>
-#include <fstream>
-#include <assert.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <windows.h>
-#include <wchar.h>
-
-class Entry {
-	public:
-		int referenceNo;
-
-		std::string subject;
-		int day;
-		int month;
-		int year;
-		int startTime;
-		int endTime;
-		std::string priority;
-		std::string category;
-		bool isTimedTask;
-		bool isComplete;
-		bool isFloat;
-};
-
-#endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Entry.h
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Log.cpp
-	 */
-
-#include "Log.h"
-
-void Log::clear() {
-	std::ofstream file;
-	std::string actualLogFileName = "log_" +_logFileName;
-	file.open(actualLogFileName, std::ios::trunc);
-	file << "Log sequence: \n";
-	file.close();
-}
-
-void Log::log(std::string input) {
-	std::ofstream file;
-	std::string actualLogFileName = "log_" +_logFileName;
-	file.open(actualLogFileName, std::ios::app);
-
-	file << input << "\n";
-
-	file.close();
-}
-
-void Log::endLog() {
-	std::ofstream file;
-	std::string actualLogFileName = "log_" +_logFileName;
-	file.open(actualLogFileName, std::ios::app);
-
-	file << "\n";
-
-	file.close();
-}
-
-std::string &Log::get_logFileName() {
-	return _logFileName;
-}
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Log.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Log.h
-	 */
-
-#ifndef LOG_H
-#define LOG_H
-
-#include <fstream>
-#include <string>
-#include <iostream>
-
-class Log {
-private:
-	std::string _logFileName;
-
-public:
-	Log() {};
-
-	void clear();
-	void log(std::string);
-	void endLog();
-	std::string &get_logFileName();
-};
-
-#endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Log.h
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Priority.cpp
-	 */
-
-#include "Priority.h"
-
-//Identifies category from the input and cuts them out from the string
-bool Priority::checkForPriority(int impt, std::string &pStr, size_t found) {
-	_priority = "";
-
-	switch (impt) {
-		case 0:
-			_priority = "LOW ";
-			break;
-		case 1:
-			_priority = "MED ";
-			break;
-		case 2:
-			_priority = "HIGH";
-			break;
-		default:
-			return false;
-	}
-	extractRemainingStr(pStr, found);
-	return true;
-}
-
-
-
-//Cuts out if priority is identified
-void Priority::extractRemainingStr(std::string &pStr, size_t found) {
-	if (found == pStr.size()) {
-		pStr = "";
-		return;
-	}
-	found = pStr.find_first_not_of(" ", found);
-	if (found == std::string::npos) {
-		pStr = "";
-	}
-	else {
-		pStr = pStr.substr(found);
-	}
-	return;
-}
-
-
-
-std::string &Priority::getPriority() {
-	return _priority;
-}
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Priority.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Priority.h
-	 */
-
-#ifndef PRIORITY_H
-#define PRIORITY_H
-
-#include "DataStore.h"
-
-class Priority {
-	private:
-		std::string _priority;
-
-	public:
-		Priority() {};
-
-		bool checkForPriority(int, std::string &, size_t);
-		
-		void extractRemainingStr(std::string &, size_t);
-
-		std::string &getPriority();
-};
-
-#endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Priority.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
 
 
 

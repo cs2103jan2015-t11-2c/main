@@ -3,158 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
-	 */
-
-	TEST_CLASS(ListFulDeleteTest) {
-	public:
-
-		//Test delete by a single index
-		TEST_METHOD(DeleteSingleTest) {
-			DataStore data;
-			ParserFacade parseF;
-
-			std::ostringstream errMsg;
-			std::ostringstream floating;
-			std::ostringstream scheduled;
-			std::ostringstream deadline;
-
-			bool pastDate = false;
-			bool checkTime = false;
-			bool isTemp = false;
-			bool isDelete = false;
-
-			std::string input1 = "add 6 apr 2015 1200-1600 CS project meeting MED";
-			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
-			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
-			std::string input4 = "display";
-			std::string input5 = "delete 1";
-			std::string buffer = "buffer";
-
-			parseF.init(input1);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input2);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input3);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input4);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input5);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-
-			std::string expectednewFirst = "CS project meeting";
-			std::string actualnewFirst = data.getData()[0].subject;
-
-			Assert::AreEqual(expectednewFirst, actualnewFirst);
-		}
-
-		//Test delete by multiple indexes
-		TEST_METHOD(DeleteMultipleTest) {
-			DataStore data;
-			ParserFacade parseF;
-
-			std::ostringstream errMsg;
-			std::ostringstream floating;
-			std::ostringstream scheduled;
-			std::ostringstream deadline;
-
-			bool pastDate = false;
-			bool checkTime = false;
-			bool isTemp = false;
-			bool isDelete = false;
-
-			std::string input1 = "add 6 apr 2015 1200-1600 CS project meeting MED";
-			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
-			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
-			std::string input4 = "display";
-			std::string input5 = "delete 1 2";
-			std::string buffer = "buffer";
-
-			parseF.init(input1);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input2);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input3);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input4);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input5);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-
-			std::string expectednewFirst = "IE2100 homework 7";
-			std::string actualnewFirst = data.getData()[0].subject;
-
-			Assert::AreEqual(expectednewFirst, actualnewFirst);
-		}
-
-		//Test delete all
-		TEST_METHOD(DeleteAllTest) {
-			DataStore data;
-			ParserFacade parseF;
-
-			std::ostringstream errMsg;
-			std::ostringstream floating;
-			std::ostringstream scheduled;
-			std::ostringstream deadline;
-
-			bool pastDate = false;
-			bool checkTime = false;
-			bool isTemp = false;
-			bool isDelete = false;
-
-			std::string input1 = "add 6 apr 2015 1200-1600 CS project meeting MED";
-			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
-			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
-			std::string input4 = "display";
-			std::string input5 = "delete all";
-			std::string buffer = "buffer";
-
-			parseF.init(input1);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input2);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input3);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			parseF.init(input4);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-			
-			int actualDataSize = data.getData().size();
-			int expectedDataSize = 3;
-			Assert::AreEqual(expectedDataSize, actualDataSize);
-			
-			parseF.init(input5);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			data.getUndoActionLog().push_back(buffer);
-
-			int actualDataSize2 = data.getData().size();
-			int expectedDataSize2 = 0;
-			Assert::AreEqual(expectedDataSize2, actualDataSize2);
-		}
-
-	};
-	
-	// End of segment: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Clear.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Clear.cpp
 	 */
 
 #include "Clear.h"
@@ -166,14 +15,14 @@ bool Clear::clearFile(DataStore &data) {
 	data.getData().clear();
 	return true;
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Clear.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Clear.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Clear.h
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Clear.h
 	 */
 
 #ifndef CLEAR_H
@@ -189,14 +38,14 @@ class Clear {
 };
 
 #endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Clear.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Clear.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\MAIN.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\MAIN.cpp
 	 */
 
 #include "UserInterface.h"
@@ -206,14 +55,14 @@ int main() {
 	listful.runProgram();
 	return 0;
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\MAIN.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\MAIN.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Search.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Search.cpp
 	 */
 
 #include "Search.h"
@@ -1329,14 +1178,14 @@ void Search::printSpace(std::ostringstream &dataString, int count) {
 void Search::setColour(int value){
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Search.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Search.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Search.h
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Search.h
 	 */
 
 #ifndef SEARCH_H
@@ -1408,14 +1257,14 @@ class Search {
 };
 
 #endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Search.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Search.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Sort.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Sort.cpp
 	 */
 
 #include "Sort.h"
@@ -1690,14 +1539,14 @@ bool Sort::cmpSame(DataStore &data, int start, int iter) {
 int &Sort::getSortCat() {
 	return _category;
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Sort.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Sort.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Sort.h
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Sort.h
 	 */
 
 #ifndef SORT_H
@@ -1747,7 +1596,158 @@ class Sort {
 };
 
 #endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Sort.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Sort.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
+	 */
+
+	TEST_CLASS(ListFulDeleteTest) {
+	public:
+
+		//Test delete by a single index
+		TEST_METHOD(DeleteSingleTest) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 6 apr 2015 1200-1600 CS project meeting MED";
+			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
+			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
+			std::string input4 = "display";
+			std::string input5 = "delete 1";
+			std::string buffer = "buffer";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input4);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input5);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+
+			std::string expectednewFirst = "CS project meeting";
+			std::string actualnewFirst = data.getData()[0].subject;
+
+			Assert::AreEqual(expectednewFirst, actualnewFirst);
+		}
+
+		//Test delete by multiple indexes
+		TEST_METHOD(DeleteMultipleTest) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 6 apr 2015 1200-1600 CS project meeting MED";
+			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
+			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
+			std::string input4 = "display";
+			std::string input5 = "delete 1 2";
+			std::string buffer = "buffer";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input4);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input5);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+
+			std::string expectednewFirst = "IE2100 homework 7";
+			std::string actualnewFirst = data.getData()[0].subject;
+
+			Assert::AreEqual(expectednewFirst, actualnewFirst);
+		}
+
+		//Test delete all
+		TEST_METHOD(DeleteAllTest) {
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 6 apr 2015 1200-1600 CS project meeting MED";
+			std::string input2 = "add 5/4/2015 visit grandma 1745-2135";
+			std::string input3 = "add IE2100 homework 7 08/04/2015 1900-1300 HIGH";
+			std::string input4 = "display";
+			std::string input5 = "delete all";
+			std::string buffer = "buffer";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input2);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input3);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			parseF.init(input4);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+			
+			int actualDataSize = data.getData().size();
+			int expectedDataSize = 3;
+			Assert::AreEqual(expectedDataSize, actualDataSize);
+			
+			parseF.init(input5);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			data.getUndoActionLog().push_back(buffer);
+
+			int actualDataSize2 = data.getData().size();
+			int expectedDataSize2 = 0;
+			Assert::AreEqual(expectedDataSize2, actualDataSize2);
+		}
+
+	};
+	
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
 
 
 

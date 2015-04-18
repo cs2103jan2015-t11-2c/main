@@ -1,4 +1,4 @@
-//@author A0115871E
+//@author A0115871E-reused
 #ifndef LOG_H
 #define LOG_H
 

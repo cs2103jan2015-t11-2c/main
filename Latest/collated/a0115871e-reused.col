@@ -1,0 +1,78 @@
+//@author: a0115871e-reused
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Log.cpp
+	 */
+
+#include "Log.h"
+
+void Log::clear() {
+	std::ofstream file;
+	std::string actualLogFileName = "log_" +_logFileName;
+	file.open(actualLogFileName, std::ios::trunc);
+	file << "Log sequence: \n";
+	file.close();
+}
+
+void Log::log(std::string input) {
+	std::ofstream file;
+	std::string actualLogFileName = "log_" +_logFileName;
+	file.open(actualLogFileName, std::ios::app);
+
+	file << input << "\n";
+
+	file.close();
+}
+
+void Log::endLog() {
+	std::ofstream file;
+	std::string actualLogFileName = "log_" +_logFileName;
+	file.open(actualLogFileName, std::ios::app);
+
+	file << "\n";
+
+	file.close();
+}
+
+std::string &Log::get_logFileName() {
+	return _logFileName;
+}
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Log.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Log.h
+	 */
+
+#ifndef LOG_H
+#define LOG_H
+
+#include <fstream>
+#include <string>
+#include <iostream>
+
+class Log {
+private:
+	std::string _logFileName;
+
+public:
+	Log() {};
+
+	void clear();
+	void log(std::string);
+	void endLog();
+	std::string &get_logFileName();
+};
+
+#endif
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Log.h
+
+
+
+
+

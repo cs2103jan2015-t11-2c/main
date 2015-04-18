@@ -3,84 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
-	 */
-
-	TEST_CLASS(ListFulRemainingTest) {
-	public:
-		
-		TEST_METHOD(TimeBoundaryTest)
-		{
-			// TODO: Your test code here
-			DataStore data;
-			ParserFacade parseF;
-
-			std::ostringstream errMsg;
-			std::ostringstream floating;
-			std::ostringstream scheduled;
-			std::ostringstream deadline;
-
-			bool pastDate = false;
-			bool checkTime = false;
-			bool isTemp = false;
-			bool isDelete = false;
-
-			std::string input1 = "add 0000-2359 TY's bday 1st apr 2015";
-
-			parseF.init(input1);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-
-			int expectedStartTime = 0;
-			int actualStartTime = data.getData()[0].startTime;
-			int expectedEndTime = 2359;
-			int actualEndTime = data.getData()[0].endTime;
-
-			Assert::AreEqual(expectedStartTime, actualStartTime);
-			Assert::AreEqual(expectedEndTime, actualEndTime);
-		}
-
-		TEST_METHOD(TimeExtremeTest)
-		{
-			// TODO: Your test code here
-			DataStore data;
-			ParserFacade parseF;
-
-			std::ostringstream errMsg;
-			std::ostringstream floating;
-			std::ostringstream scheduled;
-			std::ostringstream deadline;
-
-			bool pastDate = false;
-			bool checkTime = false;
-			bool isTemp = false;
-			bool isDelete = false;
-
-			std::string input1 = "add 2000-2400 FUNRUN";
-
-			parseF.init(input1);
-			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
-			
-
-			int expectedStartTime = 2000;
-			int actualStartTime = data.getData()[0].startTime;
-			int expectedEndTime = 2000;
-			int actualEndTime = data.getData()[0].endTime;
-
-			Assert::AreEqual(expectedStartTime, actualStartTime);
-			Assert::AreEqual(expectedEndTime, actualEndTime);
-			Assert::IsTrue(data.getData()[0].isFloat);
-		}
-
-	};
-	
-	// End of segment: C:\Users\gerald\Documents\main\Latest\UnitTest\ListFulTest.cpp
-
-
-
-
-
-	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Add.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Add.cpp
 	 */
 
 #include "Add.h"
@@ -362,14 +285,14 @@ void Add::revertDataBase(DataStore &data, std::vector <Entry> &check, bool isTem
 	}
 	return;
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Add.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Add.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Add.h
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Add.h
 	 */
 
 #ifndef ADD_H
@@ -402,14 +325,14 @@ class Add {
 };
 
 #endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Add.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Add.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Classes.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Classes.cpp
 	 */
 
 #include "Classes.h"
@@ -500,14 +423,14 @@ int Classes::determineCategory(std::string word) {
 		return catType::CINVALID;
 	}
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Classes.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Classes.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Classes.h
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Classes.h
 	 */
 
 #ifndef CLASSES_H
@@ -563,14 +486,14 @@ class Classes {
 };
 
 #endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Classes.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Classes.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Date.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Date.cpp
 	 */
 
 #include "Date.h"
@@ -1094,14 +1017,14 @@ int &Date::getMonth() {
 int &Date::getYear() {
 	return _year;
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Date.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Date.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Date.h
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Date.h
 	 */
 
 #ifndef DATE_H
@@ -1151,14 +1074,14 @@ class Date {
 };
 
 #endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Date.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Date.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\FileLocation.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\FileLocation.cpp
 	 */
 
 #include "FileLocation.h"
@@ -1319,14 +1242,14 @@ int FileLocation::openFile(DataStore &data, ParserFacade parse, Classes &listCla
 std::string &FileLocation::getName() {
 	return _fileName;
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\FileLocation.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\FileLocation.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\FileLocation.h
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\FileLocation.h
 	 */
 
 #ifndef FILELOCATION_H
@@ -1359,14 +1282,14 @@ class FileLocation {
 };
 
 #endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\FileLocation.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\FileLocation.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Timing.cpp
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Timing.cpp
 	 */
 
 #include "Timing.h"
@@ -1710,14 +1633,14 @@ int &Timing::getStart() {
 int &Timing::getEnd() {
 	return _endTime;
 }
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Timing.cpp
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Timing.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Timing.h
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Timing.h
 	 */
 
 #ifndef TIMING_H
@@ -1754,7 +1677,84 @@ class Timing {
 };
 
 #endif
-	// End of segment: C:\Users\gerald\Documents\main\Latest\ListfulDraft\Timing.h
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\ListfulDraft\Timing.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
+	 */
+
+	TEST_CLASS(ListFulRemainingTest) {
+	public:
+		
+		TEST_METHOD(TimeBoundaryTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 0000-2359 TY's bday 1st apr 2015";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+
+			int expectedStartTime = 0;
+			int actualStartTime = data.getData()[0].startTime;
+			int expectedEndTime = 2359;
+			int actualEndTime = data.getData()[0].endTime;
+
+			Assert::AreEqual(expectedStartTime, actualStartTime);
+			Assert::AreEqual(expectedEndTime, actualEndTime);
+		}
+
+		TEST_METHOD(TimeExtremeTest)
+		{
+			// TODO: Your test code here
+			DataStore data;
+			ParserFacade parseF;
+
+			std::ostringstream errMsg;
+			std::ostringstream floating;
+			std::ostringstream scheduled;
+			std::ostringstream deadline;
+
+			bool pastDate = false;
+			bool checkTime = false;
+			bool isTemp = false;
+			bool isDelete = false;
+
+			std::string input1 = "add 2000-2400 FUNRUN";
+
+			parseF.init(input1);
+			parseF.carryOutCommand(data, errMsg, floating, scheduled, deadline);
+			
+
+			int expectedStartTime = 2000;
+			int actualStartTime = data.getData()[0].startTime;
+			int expectedEndTime = 2000;
+			int actualEndTime = data.getData()[0].endTime;
+
+			Assert::AreEqual(expectedStartTime, actualStartTime);
+			Assert::AreEqual(expectedEndTime, actualEndTime);
+			Assert::IsTrue(data.getData()[0].isFloat);
+		}
+
+	};
+	
+	// End of segment: C:\Users\yyyueying\Documents\Visual Studio 2012\Projects\Listful\Latest\UnitTest\ListFulTest.cpp
 
 
 
